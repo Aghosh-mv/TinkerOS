@@ -1,0 +1,48 @@
+Previous backup already exists: /home/tinkerspace/.tinker/ai/models/rnn-model-prev.json
+========================================================
+TinkerAI RNN Trainer (Adam base + GaLore fine-tune)
+========================================================
+Tokenizer: vocab=48
+
+--- Stage 1: base training (Adam, 40 epochs) ---
+[base] training examples: 16198, seq_len=64 stride=32 batch=32 lr=0.003 opt=adam
+  epoch 0: loss = 1.3608
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11779250 bytes)
+  [checkpoint] saved at epoch 10 (loss 0.2661)
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11730981 bytes)
+  [checkpoint] saved at epoch 20 (loss 0.2549)
+  epoch 25: loss = 0.2601
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11705178 bytes)
+  [checkpoint] saved at epoch 30 (loss 0.2584)
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11687732 bytes)
+  [checkpoint] saved at epoch 40 (loss 0.2578)
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11687732 bytes)
+Base model saved: /home/tinkerspace/.tinker/ai/models/rnn-model.json
+
+--- Stage 2: GaLore fine-tune (25 epochs, lr=0.0005, rank=64) ---
+[galore] training examples: 16198, seq_len=64 stride=32 batch=32 lr=0.0005 opt=galore
+  epoch 0: loss = 0.3105
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11685784 bytes)
+  [checkpoint] saved at epoch 10 (loss 0.2577)
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11683984 bytes)
+  [checkpoint] saved at epoch 20 (loss 0.2583)
+Model saved to /home/tinkerspace/.tinker/ai/models/rnn-model.json (11684154 bytes)
+Final model saved: /home/tinkerspace/.tinker/ai/models/rnn-model.json
+
+=== Inference samples ===
+  Q: do this launch text editor
+  A(train): Opening text editor now.
+  A(gen):   eropening text editor now. app
+  Q: how can i set an alarm
+  A(train): To set an alarm, you can open the clock app and create a new alarm.
+  A(gen):   oning system settingsopening s
+  Q: go ahead and whats up
+  A(train): I am doing great, thanks for asking!
+  A(gen):    and create check the cpu or t
+  Q: please best fps settings
+  A(train): Gaming mode is on. GPU boosted, notifications minimized.
+  A(gen):   gaming mode is on. gpu boosted
+
+========================================================
+Done. TinkerAI model ready.
+========================================================
