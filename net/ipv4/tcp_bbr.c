@@ -84,6 +84,7 @@ enum bbr_mode {
 	BBR_DRAIN,	/* drain any queue created during startup */
 	BBR_PROBE_BW,	/* discover, share bw: pace around estimated bw */
 	BBR_PROBE_RTT,	/* cut inflight to min to probe min_rtt */
+	BBR_PROBE_RATE, /* rate-based probing for optimal throughput */
 };
 
 /* BBR congestion control block */
@@ -126,6 +127,11 @@ struct bbr {
 		extra_acked_win_rtts:5,	/* age of extra_acked, in round trips */
 		extra_acked_win_idx:1,	/* current index in extra_acked array */
 		unused_c:6;
+
+	/* For rate-based probing: */
+	u32	rate_probe_bw;	/* estimated bw for rate probing */
+	u32	rate_probe_cnt;	/* count of rate probing rounds */
+	u64	rate_probe_stamp; /* timestamp of rate probe start */
 };
 
 #define CYCLE_LEN	8	/* number of phases in a pacing gain cycle */

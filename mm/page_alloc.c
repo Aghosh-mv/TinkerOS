@@ -4103,14 +4103,18 @@ __alloc_pages_may_oom(gfp_t gfp_mask, unsigned int order,
 	if (pm_suspended_storage())
 		goto out;
 	/*
-	 * XXX: GFP_NOFS allocations should rather fail than rely on
-	 * other request to make a forward progress.
-	 * We are in an unfortunate situation where out_of_memory cannot
-	 * do much for this context but let's try it to at least get
-	 * access to memory reserved if the current task is killed (see
-	 * out_of_memory). Once filesystems are ready to handle allocation
-	 * failures more gracefully we should just bail out here.
+	 * GFP_NOFS allocations should fail rather than rely on other requests
+	 * to make forward progress. This prevents potential deadlocks from
+	 * filesystem recursion. Once filesystems are ready to handle allocation
+	 * failures more gracefully, we should just bail out here.
 	 */
+	if (gfp_mask & __GFP_NOFS) {
+		/*
+		 * For GFP_NOFS, we don't want to invoke OOM killer as it
+		 * might trigger filesystem operations. Just fail the allocation.
+		 */
+		goto out;
+	}
 
 	/* Exhausted what can be done so it's blame time */
 	if (out_of_memory(&oc) ||

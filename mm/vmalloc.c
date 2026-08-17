@@ -836,8 +836,8 @@ struct page *vmalloc_to_page(const void *vmalloc_addr)
 
 	if (pgd_none(*pgd))
 		return NULL;
-	if (WARN_ON_ONCE(pgd_leaf(*pgd)))
-		return NULL; /* XXX: no allowance for huge pgd */
+	if (pgd_leaf(*pgd))
+		return pgd_page(*pgd) + ((addr & ~PGDIR_MASK) >> PAGE_SHIFT);
 	if (WARN_ON_ONCE(pgd_bad(*pgd)))
 		return NULL;
 

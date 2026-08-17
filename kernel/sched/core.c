@@ -2663,17 +2663,20 @@ static int migration_cpu_stop(void *data)
 
 		if (task_on_rq_queued(p)) {
 			update_rq_clock(rq);
-			rq = __migrate_task(rq, &rf, p, arg->dest_cpu);
+			struct rq *new_rq = __migrate_task(rq, &rf, p, arg->dest_cpu);
+			/*
+			 * Handle migration failure: if __migrate_task() fails
+			 * (returns same rq), the task remains on the current CPU.
+			 * During CPU hotplug, we'll get pushed out anyway.
+			 * Log a warning for debugging purposes.
+			 */
+			if (new_rq == rq) {
+				pr_warn("sched: migration failed for task %d on CPU %d\n",
+					p->pid, task_cpu(p));
+			}
 		} else {
 			p->wake_cpu = arg->dest_cpu;
 		}
-
-		/*
-		 * XXX __migrate_task() can fail, at which point we might end
-		 * up running on a dodgy CPU, AFAICT this can only happen
-		 * during CPU hotplug, at which point we'll get pushed out
-		 * anyway, so it's probably not a big deal.
-		 */
 
 	} else if (pending) {
 		/*
@@ -8356,7 +8359,8 @@ int migrate_task_to(struct task_struct *p, int target_cpu)
 		return -EINVAL;
 
 	/* TODO: This is not properly updating schedstats */
-
+	/* Update schedstats for NUMA migration */
+	__schedstat_inc(p->stats.nr_wakeups_migrate);
 	trace_sched_move_numa(p, curr_cpu, target_cpu);
 	return stop_one_cpu(curr_cpu, migration_cpu_stop, &arg);
 }

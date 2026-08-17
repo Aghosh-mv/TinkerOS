@@ -12722,8 +12722,24 @@ static inline void calculate_imbalance(struct lb_env *env, struct sd_lb_stats *s
 			return;
 		}
 
-		sds->avg_load = (sds->total_load * SCHED_CAPACITY_SCALE) /
-				sds->total_capacity;
+		/*
+		 * Fix for overlapping NUMA groups: compute average load
+		 * directly from domain CPU span to avoid double-counting.
+		 */
+		if (env->sd->flags & SD_NUMA) {
+			unsigned long total_load = 0, total_capacity = 0;
+			int cpu;
+
+			for_each_cpu(cpu, sched_domain_span(env->sd)) {
+				total_load += cpu_load(cpu_rq(cpu));
+				total_capacity += capacity_of(cpu);
+			}
+			sds->avg_load = (total_load * SCHED_CAPACITY_SCALE) /
+					total_capacity;
+		} else {
+			sds->avg_load = (sds->total_load * SCHED_CAPACITY_SCALE) /
+					sds->total_capacity;
+		}
 
 		/*
 		 * If the local group is more loaded than the average system
@@ -12842,9 +12858,26 @@ static struct sched_group *sched_balance_find_src_group(struct lb_env *env)
 		if (local->avg_load >= busiest->avg_load)
 			goto out_balanced;
 
-		/* XXX broken for overlapping NUMA groups */
-		sds.avg_load = (sds.total_load * SCHED_CAPACITY_SCALE) /
-				sds.total_capacity;
+		/*
+		 * Fix for overlapping NUMA groups: overlapping NUMA groups
+		 * cause total_load and total_capacity to double-count CPUs
+		 * that appear in multiple groups. Compute the average load
+		 * directly from the domain's CPU span instead.
+		 */
+		if (env->sd->flags & SD_NUMA) {
+			unsigned long total_load = 0, total_capacity = 0;
+			int cpu;
+
+			for_each_cpu(cpu, sched_domain_span(env->sd)) {
+				total_load += cpu_load(cpu_rq(cpu));
+				total_capacity += capacity_of(cpu);
+			}
+			sds.avg_load = (total_load * SCHED_CAPACITY_SCALE) /
+				       total_capacity;
+		} else {
+			sds.avg_load = (sds.total_load * SCHED_CAPACITY_SCALE) /
+				       sds.total_capacity;
+		}
 
 		/*
 		 * Don't pull any tasks if this group is already above the
