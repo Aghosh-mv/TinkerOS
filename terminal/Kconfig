@@ -1,0 +1,43 @@
+# SPDX-License-Identifier: GPL-2.0
+config TERMINAL_TYPO_CORRECTOR
+	tristate "Terminal Typo Correction support"
+	help
+	  This module provides automatic typo correction for terminal commands.
+	  It uses a simple edit distance algorithm to suggest corrections
+	  for commonly mistyped commands.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called typo_corrector.
+
+	  If unsure, say N.
+
+config TERMINAL_ERROR_EXPLAINER
+	tristate "Terminal Error Explanation support"
+	help
+	  This module provides detailed explanations for common kernel errors
+	  and system messages. It intercepts kernel messages and adds helpful
+	  explanations and fix suggestions.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called error_explainer.
+
+	  If unsure, say N.
+
+config SMART_INPUT
+	tristate "Smart Input System support"
+	depends on PROC_FS
+	help
+	  This module provides global smart input features for all Linux
+	  applications:
+	  - Accent character picker (long-press to see variants)
+	  - Smart autocorrect with ghost text + Tab accept
+	  - Timestamp converter (Unix → human readable)
+	  - Unit converter (km↔miles, kg↔lbs, etc.)
+	  - Clipboard history
+
+	  Features are accessible via /proc/smart_input/ and netlink.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called smart_input.
+
+	  If unsure, say N.

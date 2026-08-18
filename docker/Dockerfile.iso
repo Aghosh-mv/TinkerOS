@@ -1,0 +1,42 @@
+# TinkerOS ISO Build Image
+FROM ubuntu:24.04
+
+LABEL maintainer="TinkerOS Team <team@tinkeros.dev>"
+LABEL description="TinkerOS ISO Builder"
+LABEL version="7.2.0"
+
+USER root
+
+# Install ISO build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    debootstrap \
+    squashfs-tools \
+    xorriso \
+    grub-pc-bin \
+    grub-efi-amd64-bin \
+    mtools \
+    dosfstools \
+    e2fsprogs \
+    qemu-system-x86 \
+    qemu-utils \
+    ovmf \
+    wget \
+    curl \
+    git \
+    python3 \
+    python3-pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python deps
+RUN pip3 install --no-cache-dir pyyaml
+
+# Create build user
+RUN useradd -m -s /bin/bash builder && \
+    echo "builder ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/builder
+
+USER builder
+WORKDIR /home/builder
+
+# Default command
+CMD ["/bin/bash"]

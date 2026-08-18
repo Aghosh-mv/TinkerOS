@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # Base development environment
+  dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    image: ghcr.io/tinkeros/tinkeros/dev:latest
+    container_name: tinkeros-dev
+    hostname: tinkeros-dev
+    volumes:
+      - ../:/workspace:cached
+      - ~/.gitconfig:/home/tinkerer/.gitconfig:ro
+      - ~/.ssh:/home/tinkerer/.ssh:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /workspace
+    environment:
+      - TERM=xterm-256color
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - seccomp=unconfined
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+  # CI environment
+  ci:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ci
+    image: ghcr.io/tinkeros/tinkeros/ci:latest
+    container_name: tinkeros-ci
+    volumes:
+      - ../:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /workspace
+    environment:
+      - CI=true
+      - GITHUB_ACTIONS=true
+    command: /bin/bash
+
+  # ISO builder
+  iso-builder:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.iso
+    image: ghcr.io/tinkeros/tinkeros/iso-builder:latest
+    container_name: tinkeros-iso-builder
+    volumes:
+      - ../:/workspace:cached
+      - iso-output:/output
+    working_dir: /workspace
+    privileged: true
+    command: /bin/bash
+
+  # QEMU for testing
+  qemu:
+    image: ubuntu:24.04
+    container_name: tinkeros-qemu
+    volumes:
+      - ../:/workspace:cached
+      - iso-output:/iso
+    privileged: true
+    command: sleep infinity
+
+volumes:
+  iso-output:
+    driver: local
+
+networks:
+  default:
+    name: tinkeros-network

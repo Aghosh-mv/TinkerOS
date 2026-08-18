@@ -1,0 +1,157 @@
+# TinkerOS Development Image
+FROM ghcr.io/tinkeros/tinkeros/base:latest
+
+LABEL maintainer="TinkerOS Team <team@tinkeros.dev>"
+LABEL description="TinkerOS Development Environment"
+LABEL version="7.2.0"
+
+USER root
+
+# Install development tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    meson \
+    pkg-config \
+    autoconf \
+    automake \
+    libtool \
+    \
+    # Languages
+    python3-dev \
+    python3-pip \
+    python3-setuptools \
+    python3-wheel \
+    python3-venv \
+    nodejs \
+    npm \
+    golang-go \
+    rustc \
+    cargo \
+    default-jdk \
+    maven \
+    gradle \
+    \
+    # Version control
+    git \
+    git-lfs \
+    tig \
+    \
+    # Containers
+    docker.io \
+    docker-compose \
+    podman \
+    buildah \
+    skopeo \
+    \
+    # Editors
+    code \
+    vim \
+    neovim \
+    \
+    # Debugging
+    gdb \
+    lldb \
+    valgrind \
+    strace \
+    ltrace \
+    \
+    # Database
+    postgresql-client \
+    redis-tools \
+    sqlite3 \
+    \
+    # Network
+    curl \
+    wget \
+    httpie \
+    jq \
+    yq \
+    \
+    # Monitoring
+    htop \
+    btop \
+    iotop \
+    iftop \
+    nethogs \
+    \
+    # Documentation
+    man-db \
+    manpages \
+    manpages-dev \
+    \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python tools
+RUN pip3 install --no-cache-dir \
+    black \
+    flake8 \
+    mypy \
+    pylint \
+    pytest \
+    pytest-cov \
+    pytest-mock \
+    pre-commit \
+    poetry \
+    pipx \
+    ipython \
+    jupyter \
+    notebook \
+    jupyterlab
+
+# Install Node tools
+RUN npm install -g \
+    typescript \
+    ts-node \
+    eslint \
+    prettier \
+    @angular/cli \
+    @vue/cli \
+    create-react-app \
+    next \
+    vite \
+    pnpm \
+    yarn
+
+# Install Rust tools
+RUN cargo install --locked \
+    cargo-watch \
+    cargo-edit \
+    cargo-expand \
+    cargo-outdated \
+    cargo-tree \
+    flamegraph \
+    cargo-audit \
+    cargo-deny
+
+# Install Go tools
+RUN go install \
+    golang.org/x/tools/gopls@latest \
+    golang.org/x/tools/cmd/goimports@latest \
+    golang.org/x/lint/golint@latest \
+    github.com/golangci/golangci-lint/cmd/golangci-lint@latest \
+    github.com/air-verse/air@latest \
+    github.com/pressly/goose/v3/cmd/goose@latest
+
+# Install Java tools
+RUN sdk install java 21.0.2-tem || true && \
+    sdk install maven 3.9.6 || true && \
+    sdk install gradle 8.5 || true
+
+# Configure user
+USER tinkerer
+WORKDIR /home/tinkerer
+
+# Set up git
+RUN git config --global user.name "TinkerOS Developer" && \
+    git config --global user.email "dev@tinkeros.dev" && \
+    git config --global init.defaultBranch main
+
+# Set up shell
+RUN echo 'export PATH=$PATH:/home/tinkerer/go/bin:/home/tinkerer/.cargo/bin:/home/tinkerer/.local/bin' >> ~/.bashrc && \
+    echo 'export EDITOR=nvim' >> ~/.bashrc
+
+# Default command
+CMD ["/bin/bash"]
