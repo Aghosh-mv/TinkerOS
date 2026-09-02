@@ -23,6 +23,14 @@ from `bin/` with `sudo` for raw access.
                     /sys/class/thermal zones. Supports --continuous 1000Hz polling.
 - `fan_control`   - PWM/tach control via hwmon sysfs (+ThinkPad ACPI fallback).
                     `set`, `ramped`, `pulse` (for dust-dislodger), `auto`, `read`.
+- `display_control` - Backlight/DPMS control (oled-shield, adaptive-display).
+                    Reads/writes real /sys/class/backlight brightness with max
+                    scaling; `dim <frac>` applies OLED wear compensation.
+- `battery_control` - Charge/health management (lifespan-doubler). Reads
+                    status/capacity/voltage/current/temp/health from
+                    /sys/class/power_supply; sets `charge_control_end_threshold`
+                    (20-100% envelope) and `input_current_limit`/`charge_control_limit`
+                    for trickle charging. Safe no-op when unsupported.
 
 ## Design guarantees
 - No kernel-header dependency: MSR ioctls defined locally.

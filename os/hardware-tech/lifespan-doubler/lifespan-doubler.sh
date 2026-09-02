@@ -114,8 +114,10 @@ PYEOF
 }
 
 # ── The Charging Daemon ─────────────────────────────────────────────────
-run_daemon(){
-  echo "=== Lifespan Doubler Daemon ==="
+ run_daemon(){
+   echo "=== Lifespan Doubler Daemon ==="
+   BAT_BIN="$(backend_bin_path battery_control)"
+   export TINKER_BATTERY_BACKEND="$BAT_BIN"
   python3 - << 'PYEOF'
 #!/usr/bin/env python3
 """TinkerOS Lifespan Doubler - micro-current charging daemon"""
@@ -151,9 +153,18 @@ def get_battery():
     except:
         return None
 
-def set_charge_current(ma):
-    """Write to battery current limit via sysfs/EC"""
-    # Try sysfs first
+ def set_charge_current(ma):
+     """Write to battery current limit via sysfs/EC"""
+     # ── Prefer the compiled battery_control C backend ──
+     cb = os.environ.get("TINKER_BATTERY_BACKEND", "")
+     if cb and os.access(cb, os.X_OK):
+         try:
+             r = subprocess.run([cb, "current", str(ma)],
+                                capture_output=True, text=True, timeout=3)
+             if "ok=" in r.stdout:
+                 return True
+         except: pass
+     # Try sysfs first
     for path in glob.glob("/sys/class/power_supply/BAT*/input_current_limit"):
         try:
             with open(path, "w") as f:

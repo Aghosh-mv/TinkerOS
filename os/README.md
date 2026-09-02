@@ -214,15 +214,19 @@ make -C os/hardware-tech/backend   # builds bin/ with gcc (libc only, no network
 | `cat_control` | Intel CAT L2/L3 cache-bit-mask partitioning | resctrl sysfs |
 | `thermal_control` | per-core heat map (1000Hz capable) | /sys/class/thermal zones |
 | `fan_control` | PWM speed + tach, `pulse` mode (resonant shaking) | ThinkPad ACPI / hwmon |
+| `display_control` | backlight dim/brightness (OLED wear compensation) | DRM/backlight sysfs |
+| `battery_control` | charge-limit/current + health (trickle charging) | power_supply sysfs |
 
 **Self-contained** MSR ioctls (no kernel headers), PIE-safe CPUID. Run with
 `sudo` for raw access; binaries probe and fail gracefully at all times.
 
 These backends are **preferred paths** wired into the shell features
 (thermal-scheduler uses `thermal_control` for heat maps, cache-tiering uses
-`cat_control` for L3 masks, dvfs-shaver uses `msr_control` for voltage, and
-dust-dislodger uses `fan_control pulse` for resonant fan shaking), each
-falling back to the prior Python/sysfs implementation.
+`cat_control` for L3 masks, dvfs-shaver uses `msr_control` for voltage,
+dust-dislodger uses `fan_control pulse` for resonant fan shaking, oled-shield
+uses `display_control dim` for wear compensation, and lifespan-doubler uses
+`battery_control` for trickle charging), each falling back to the prior
+Python/sysfs implementation.
 
 ---
 

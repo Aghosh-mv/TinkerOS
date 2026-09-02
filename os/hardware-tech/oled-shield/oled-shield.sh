@@ -284,9 +284,30 @@ PYEOF
 }
 
 # ── Apply Compensation (idle screen) ────────────────────────────────────
-apply_compensation(){
-  echo "=== Applying OLED Compensation Mask ==="
-  python3 - << 'PYEOF'
+ apply_compensation(){
+   echo "=== Applying OLED Compensation Mask ==="
+
+   # ── C backend fast path: dim via real backlight (preferred) ─────────
+   # Uses display_control dim to reduce panel brightness, protecting OLED
+   # pixels from burn-in. Falls back to the Python button-mask overlay below.
+   if backend_available "display_control"; then
+     local d_ok d_out
+     d_out="$(backend_run display_control probe 2>/dev/null | grep -oP 'backlights=\K[0-9]+' | head -1)"
+     if [[ -n "$d_out" ]] && [[ "$d_out" != "0" ]]; then
+       echo "  [C-backend display_control] $(backend_run display_control probe 2>/dev/null | grep backlights)"
+       d_out="$(backend_run display_control dim 0.80 2>/dev/null)"
+       if [[ "$d_out" == *"ok=backlight"* ]]; then
+         echo "  Acquired compensation dim: $d_out"
+         echo "  Wear-balanced panel brightness via real backlight driver"
+       else
+         echo "  display_control dim: $d_out  (falling back to mask overlay)"
+       fi
+     else
+       echo "  [C-backend display_control] present but no backlight device"
+     fi
+   fi
+
+   python3 - << 'PYEOF'
 import numpy as np
 import json, os, subprocess, time
 
