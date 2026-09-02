@@ -50,6 +50,12 @@ from `bin/` with `sudo` for raw access.
                     from meminfo, zone count, PCI slots, backlight max). JSON
                     output consumed by the other backends so "what am I
                     targeting" is real, never guessed.
+- `usb_control`    - Real USB power/autosuspend backend (usb-tuning). Probes
+                    /sys/bus/usb for real devices, reads bInterfaceClass for
+                    classification (mass-storage, human-input, video, audio,
+                    hub/root). `list` prints device tree + class; `autosuspend`
+                    sets delay; `power` sets max_power. Honest "no-usb-device"
+                    when absent; never fabricates.
 
 ## Design guarantees
 - No kernel-header dependency: MSR ioctls defined locally.

@@ -7,7 +7,7 @@ CFLAGS  ?= -O2 -Wall -Wextra -std=gnu11
 SRCDIR  := src
 BINDIR  := bin
 
-BINS := msr_control cat_control thermal_control fan_control display_control battery_control fpga_control audio_control device_weights
+BINS := msr_control cat_control thermal_control fan_control display_control battery_control fpga_control audio_control usb_control device_weights
 
 all: $(BINS)
 

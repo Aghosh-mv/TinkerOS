@@ -218,7 +218,7 @@ make -C os/hardware-tech/backend   # builds bin/ with gcc (libc only, no network
 | `battery_control` | charge-limit/current + health (trickle charging) | power_supply sysfs |
 | `fpga_control` | real FPGA/accelerator (XRT, Intel/OFS) BDF + precision tuning | honesty "no-fpga-present" |
 | `audio_control` | real ALSA/PipeWire stack probe, cards, raytrace path | honesty "no-audio-device" |
-| `device_weights` | real device position (NUMA/BDF/card) & weight calculator | JSON from real sysfs/proc |
+| `usb_control` | real USB power/autosuspend (autosuspend_delay, max_power, class) | honesty "no-usb-device" |
 
 **Self-contained** MSR ioctls (no kernel headers), PIE-safe CPUID. Run with
 `sudo` for raw access; binaries probe and fail gracefully at all times.
@@ -229,14 +229,16 @@ These backends are **preferred paths** wired into the shell features
 dust-dislodger uses `fan_control pulse` for resonant fan shaking, oled-shield
 uses `display_control dim` for wear compensation, lifespan-doubler uses
 `battery_control` for trickle charging, fpga-scaler uses `fpga_control` for
-real FPGA detection/precision, and ray-traced-audio uses `audio_control` to
-map the real audio stack), each falling back to the prior Python/sysfs
-implementation. All backends honesty-probe: they report the **real** absence
-("no-fpga-present", "no-audio-device") rather than fabricating a device, so
-they only ever control hardware that genuinely exists. `device_weights`
-computes the real physical position and weight of every controlled device
-(cores from `cpu/online` ranges, MB from meminfo, PCI/audio cards) — the
-"what am I actually targeting" layer.
+real FPGA detection/precision, ray-traced-audio uses `audio_control` to
+map the real audio stack, display-tuning/thermal-tuning/usb-tuning/adaptive-display
+use `display_control`/`thermal_control`/`usb_control`/`display_control` for
+brightness/heatmap/USB-power/brightness+OLED-dim), each falling back to the
+prior Python/sysfs implementation. All backends honesty-probe: they report the
+**real** absence ("no-fpga-present", "no-audio-device", "no-usb-device") rather
+than fabricating a device, so they only ever control hardware that genuinely
+exists. `device_weights` computes the real physical position and weight of
+every controlled device (cores from `cpu/online` ranges, MB from meminfo,
+PCI/audio/USB cards) — the "what am I actually targeting" layer.
 
 ---
 
