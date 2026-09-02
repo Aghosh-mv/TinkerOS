@@ -121,6 +121,22 @@ A local-only, offline indexing engine that connects ALL your data:
 - **SQLite database** — fast, local, no cloud dependency
 - **Privacy guarantee:** 100% local, zero network, zero cloud
 
+### Data Shredder (Nuclear Privacy Button)
+One-click privacy wipe that scrubs your entire digital footprint:
+- **8-step shred process:** backup → randomize MAC → obfuscate HW ID → deploy dummy telemetry → clear caches → flush DNS → clear swap → truncate logs
+- **Preserves active sessions** — browsers, documents, running apps stay open
+- **Restore command** — undo everything if needed
+- **Audit logged** — every shred is recorded
+- **Why it exists:** Major OS creators rely on telemetry. TinkerOS gives you the nuclear option they won't.
+
+### GPU Phone Toggle
+Turn your GPU on/off from your phone with a single tap:
+- **API key in Settings** — generate a unique key for GPU control
+- **Phone app sends command** — toggle GPU via WebSocket
+- **Runtime PM** — suspends GPU at PCI level (not just driver)
+- **NVIDIA + AMD** — works with both via `nvidia-smi -pm` and PCI power control
+- **Why it matters:** No other OS lets you remotely toggle GPU power from your phone
+
 ---
 
 ## 14 Hardware Tuning Categories
