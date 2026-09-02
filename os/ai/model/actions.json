@@ -1,0 +1,12 @@
+{
+  "open_browser": 0,
+  "open_terminal": 1,
+  "open_files": 2,
+  "open_settings": 3,
+  "screenshot": 4,
+  "lock_screen": 5,
+  "volume_up": 6,
+  "volume_down": 7,
+  "mute": 8,
+  "what_time": 9
+}

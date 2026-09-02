@@ -1,0 +1,12 @@
+[Unit]
+Description=TinkerOS Self-Healing System
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/tinker/system/self-healing.sh auto
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

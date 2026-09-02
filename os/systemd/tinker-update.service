@@ -1,0 +1,10 @@
+[Unit]
+Description=TinkerOS Automatic Update Check
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/tinker/system/auto-updates.sh check
+
+[Install]
+WantedBy=multi-user.target

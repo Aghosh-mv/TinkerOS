@@ -1,0 +1,160 @@
+site_name: TinkerOS Documentation
+site_description: Official documentation for TinkerOS
+site_url: https://docs.tinkeros.dev
+site_author: TinkerOS Team
+copyright: Copyright &copy; 2024 TinkerOS Team
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+plugins:
+  - search
+  - glightbox
+  - mermaid2
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - First Boot: getting-started/first-boot.md
+      - System Requirements: getting-started/requirements.md
+      - Dual Boot: getting-started/dual-boot.md
+  - User Guide:
+      - Desktop Overview: user-guide/desktop.md
+      - File Manager: user-guide/file-manager.md
+      - Settings: user-guide/settings.md
+      - Keyboard Shortcuts: user-guide/shortcuts.md
+      - Applications: user-guide/applications.md
+  - Features:
+      - Control Center: features/control-center.md
+      - Gaming Mode: features/gaming.md
+      - Predictive Intelligence: features/predictive.md
+      - Digital Twin: features/digital-twin.md
+      - Self Healing: features/self-healing.md
+      - Adaptive Power: features/power-grid.md
+      - Game Console: features/game-console.md
+      - Mobile Companion: features/mobile.md
+  - System:
+      - Package Manager: system/package-manager.md
+      - Updates: system/updates.md
+      - Backup & Restore: system/backup.md
+      - Rollback Recovery: system/rollback.md
+      - System Cleaner: system/cleaner.md
+  - Hardware:
+      - GPU Configuration: hardware/gpu.md
+      - Fingerprint: hardware/fingerprint.md
+      - Webcam: hardware/webcam.md
+      - Touchscreen: hardware/touchscreen.md
+      - Thunderbolt: hardware/thunderbolt.md
+      - Docking Station: hardware/docking.md
+  - Network:
+      - VPN: network/vpn.md
+      - Firewall: network/firewall.md
+      - DNS: network/dns.md
+      - WiFi: network/wifi.md
+      - Hotspot: network/hotspot.md
+      - Mesh Network: network/mesh.md
+  - Customization:
+      - Themes: customization/themes.md
+      - Icons: customization/icons.md
+      - Cursors: customization/cursors.md
+      - GRUB: customization/grub.md
+      - Animations: customization/animations.md
+      - Wallpapers: customization/wallpapers.md
+  - Advanced:
+      - TinkerAI: advanced/tinkerai.md
+      - Digital Twin: advanced/digital-twin.md
+      - Self Healing: advanced/self-healing.md
+      - Predictive Caching: advanced/predictive-caching.md
+      - Adaptive Power Grid: advanced/power-grid.md
+      - Command Palette: advanced/command-palette.md
+      - Global Search: advanced/global-search.md
+      - Regex Tool: advanced/regex.md
+      - JSON Formatter: advanced/json.md
+      - Markdown Editor: advanced/markdown.md
+      - File Versioning: advanced/versioning.md
+      - Disk Visualizer: advanced/disk-viz.md
+      - Duplicate Finder: advanced/dedup.md
+  - Development:
+      - Building ISO: development/iso-builder.md
+      - Kernel Development: development/kernel.md
+      - Creating Apps: development/apps.md
+      - Marketplace: development/marketplace.md
+      - TinkerAI: development/tinkerai.md
+  - Troubleshooting:
+      - Common Issues: troubleshooting/common.md
+      - Boot Problems: troubleshooting/boot.md
+      - Driver Issues: troubleshooting/drivers.md
+      - Network Issues: troubleshooting/network.md
+      - Performance: troubleshooting/performance.md
+  - Reference:
+      - Commands: reference/commands.md
+      - Config Files: reference/config.md
+      - Logs: reference/logs.md
+      - API: reference/api.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/tinkeros
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/tinkeros
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/tinkeros
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+  version:
+    provider: mike
+

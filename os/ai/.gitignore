@@ -1,0 +1,5 @@
+# Generated artifacts - not source, regenerable, too large for git
+model/model.pkl
+model/tokenizer.pkl
+training-data/dataset.jsonl
+training-data/dataset.json

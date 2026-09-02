@@ -1,0 +1,12 @@
+[Unit]
+Description=TinkerOS Adaptive Power Grid
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/tinker/system/adaptive-power-grid.sh monitor
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
