@@ -2,6 +2,11 @@
 # TinkerOS Neural Audio Engine - AI-powered real-time audio enhancement
 # Noise cancellation, de-reverb, spatial audio, speaker protection
 NAE_CONFIG="$HOME/.tinker/neural-audio.json"; mkdir -p "$HOME/.tinker"
+
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
 init(){ cat > "$NAE_CONFIG" << 'EOF'
 {"enabled":false,"noise_cancel":true,"dereverb":true,"spatial_audio":true,"eq_mode":"adaptive","bass_boost":0,"treble_boost":0,"compressor":true,"limiter":true,"sample_rate":48000,"buffer_size":256}
 EOF

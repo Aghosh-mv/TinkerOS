@@ -6,6 +6,11 @@ OLED_DIR="$HOME/.tinker/oled-shield"; OLED_CONFIG="$OLED_DIR/config.json"
 OLED_LOG="$OLED_DIR/shield.log"; OLED_STATE="$OLED_DIR/state.json"
 mkdir -p "$OLED_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$OLED_CONFIG" << 'EOF'
 {
@@ -423,6 +428,7 @@ case "${1:-help}" in
   apply) apply_compensation ;;
   shift) pixel_shift ;;
   on)
+    hardware_write_gate "oled-shield" "$2" || exit 1
     python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/oled-shield/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/oled-shield/config.json'),'w'),indent=2); print('  ✅ OLED Shield: ON')"
     ;;
   off)

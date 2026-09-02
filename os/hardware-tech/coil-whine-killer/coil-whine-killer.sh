@@ -5,6 +5,11 @@
 CW_DIR="$HOME/.tinker/coil-whine-killer"; CW_CONFIG="$CW_DIR/config.json"
 CW_LOG="$CW_DIR/killer.log"; mkdir -p "$CW_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$CW_CONFIG" << 'EOF'
 {

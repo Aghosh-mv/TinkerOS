@@ -6,6 +6,11 @@ CT_DIR="$HOME/.tinker/cache-tiering"; CT_CONFIG="$CT_DIR/config.json"
 CT_LOG="$CT_DIR/tiering.log"; CT_STATE="$CT_DIR/state.json"
 mkdir -p "$CT_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$CT_CONFIG" << 'EOF'
 {
@@ -498,6 +503,7 @@ case "${1:-help}" in
   optimize) optimize_for "$2" ;;
   monitor) monitor_cache ;;
   on)
+    hardware_write_gate "cache-tiering" "$2" || exit 1
     python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=True; c['gaming_mode']=False; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('  ✅ Cache Tiering: ON')"
     apply_tiering ;;
   off)

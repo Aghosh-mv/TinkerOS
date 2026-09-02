@@ -5,6 +5,11 @@
 DUST_DIR="$HOME/.tinker/dust-dislodger"; DUST_CONFIG="$DUST_DIR/config.json"
 DUST_LOG="$DUST_DIR/dislodger.log"; mkdir -p "$DUST_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$DUST_CONFIG" << 'EOF'
 {
@@ -349,6 +354,7 @@ case "${1:-help}" in
   find|fans) find_fans ;;
   resonance) find_resonance ;;
   dislodge)
+    hardware_write_gate "dust-dislodger" "$2" || exit 1
     safety=$(safety_check | tail -1)
     if [[ "$safety" != *"Safe"* ]]; then
       echo "  ⛔ Safety check failed. Aborting."

@@ -2,6 +2,11 @@
 # TinkerOS Zero-Latency Input Pipeline - bypass display server, read evdev directly
 # Reduces input latency from ~16ms (X11) to ~1ms (direct evdev)
 ZLI_CONFIG="$HOME/.tinker/zero-latency.json"; mkdir -p "$HOME/.tinker"
+
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
 init(){ cat > "$ZLI_CONFIG" << 'EOF'
 {"enabled":false,"method":"direct-evdev","target_latency_ms":1,"poll_rate_hz":1000,"bypass_x11":true,"grab_device":false,"mouse_sensitivity":1.0,"keyboard_repeat_ms":30,"touchpad_tap":true,"raw_input":true}
 EOF

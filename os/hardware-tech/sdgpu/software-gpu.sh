@@ -1,6 +1,11 @@
 #!/bin/bash
 # TinkerOS Software-Defined GPU (SDGPU) - CPU vector rendering + LD_PRELOAD interceptor
 SDGPU_CONFIG="$HOME/.tinker/sdgpu.json"; mkdir -p "$HOME/.tinker" /tmp/sdgpu_cache
+
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
 init(){ cat > "$SDGPU_CONFIG" << 'EOF'
 {"enabled":false,"mode":"adaptive","cpu_cores":4,"sim_vram_mb":512,"render_api":"vulkan-compute","upscaler":"neural","frame_gen":false,"cache_shaders":true,"display_scaler":true,"use_npu":false}
 EOF

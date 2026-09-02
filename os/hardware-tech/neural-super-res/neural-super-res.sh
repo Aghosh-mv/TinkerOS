@@ -1,6 +1,11 @@
 #!/bin/bash
 # TinkerOS Neural Super Resolution - AI upscaling any window in real-time
 NSR_CONFIG="$HOME/.tinker/neural-super-res.json"; mkdir -p "$HOME/.tinker"
+
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
 init(){ cat > "$NSR_CONFIG" << 'EOF'
 {"enabled":false,"scale":2,"model":"fast-bilinear","target_window":"active","interpolate_frames":false,"sharpen":0.5,"denoise":0.3,"edge_enhance":true,"latency_budget_ms":16}
 EOF

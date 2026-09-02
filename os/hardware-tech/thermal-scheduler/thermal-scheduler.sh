@@ -5,6 +5,11 @@ TSS_DIR="$HOME/.tinker/thermal-scheduler"; TSS_CONFIG="$TSS_DIR/config.json"
 TSS_LOG="$TSS_DIR/scheduler.log"; TSS_STATE="$TSS_DIR/state.json"
 mkdir -p "$TSS_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$TSS_CONFIG" << 'EOF'
 {

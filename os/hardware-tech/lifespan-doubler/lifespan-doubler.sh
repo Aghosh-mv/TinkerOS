@@ -6,6 +6,11 @@ LIFE_DIR="$HOME/.tinker/lifespan-doubler"; LIFE_CONFIG="$LIFE_DIR/config.json"
 LIFE_LOG="$LIFE_DIR/charger.log"; LIFE_STATE="$LIFE_DIR/state.json"
 mkdir -p "$LIFE_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$LIFE_CONFIG" << 'EOF'
 {
@@ -384,6 +389,7 @@ case "${1:-help}" in
   alarm) set_alarm "$2" ;;
   health) health_report ;;
   on)
+    hardware_write_gate "lifespan-doubler" "$2" || exit 1
     python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'),'w'),indent=2); print('  ✅ Lifespan Doubler: ON')"
     ;;
   off)

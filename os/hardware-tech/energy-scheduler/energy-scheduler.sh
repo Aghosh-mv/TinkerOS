@@ -6,6 +6,11 @@ ES_DIR="$HOME/.tinker/energy-scheduler"; ES_CONFIG="$ES_DIR/config.json"
 ES_LOG="$ES_DIR/scheduler.log"; ES_STATE="$ES_DIR/state.json"
 mkdir -p "$ES_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$ES_CONFIG" << 'EOF'
 {

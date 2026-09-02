@@ -6,6 +6,11 @@ CXL_DIR="$HOME/.tinker/cxl-memory"; CXL_CONFIG="$CXL_DIR/config.json"
 CXL_LOG="$CXL_DIR/cxl.log"; CXL_STATE="$CXL_DIR/state.json"
 mkdir -p "$CXL_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
+
 init(){
   cat > "$CXL_CONFIG" << 'EOF'
 {
