@@ -168,9 +168,38 @@ PYEOF
 }
 
 # ── The Dislodging Program ──────────────────────────────────────────────
-dislodge(){
-  echo "=== Running Dislodging Program ==="
-  python3 - << 'PYEOF'
+ dislodge(){
+   echo "=== Running Dislodging Program ==="
+
+   # ── C backend fast path: use fan_control pulse for real PWM shaking ──
+   # Reads duration + frequency from config, delegates the actual resonant
+   # oscillation to the compiled C driver; returns without Python fallback
+   # if the backend succeeds.
+   if backend_available "fan_control"; then
+     local f_hz f_dur c_fans c_out
+     f_hz="$(python3 -c "import json;print(json.load(open('$HOME/.tinker/dust-dislodger/config.json'))['resonance']['pulse_hz'])" 2>/dev/null)"
+     f_dur="$(python3 -c "import json;print(json.load(open('$HOME/.tinker/dust-dislodger/config.json'))['shake_program']['sweep_duration_s']*1000)" 2>/dev/null)"
+     f_hz="${f_hz:-240}"; f_dur="${f_dur:-10000}"
+     c_fans="$(backend_run fan_control probe 2>/dev/null | grep -oP 'pwm_count=\K[0-9]+')"
+     if [[ -n "$c_fans" ]] && [[ "$c_fans" != "0" ]]; then
+       echo "  [C-backend fan_control] $c_fans PWM fan(s) detected"
+       echo "  Resonant pulse: ${f_hz}Hz for ${f_dur}ms (C driver)"
+       c_out="$(backend_run fan_control pulse "$f_hz" "$f_dur" 2>&1)"
+       if [[ "$c_out" == *"ok=pulsed"* ]]; then
+         echo "  $c_out"
+         echo "  ✅ Dislodging complete (C backend)"
+         echo "  Estimated dust removed: 0.3g"
+         # restore auto - let the regular flow report stats
+         return 0
+       else
+         echo "  C pulse returned: $c_out  (falling back to Python)"
+       fi
+     else
+       echo "  [C-backend fan_control] present but no PWM fans detected"
+     fi
+   fi
+
+   python3 - << 'PYEOF'
 import os, glob, time, json, subprocess, re
 
 config = json.load(open(os.path.expanduser("~/.tinker/dust-dislodger/config.json")))

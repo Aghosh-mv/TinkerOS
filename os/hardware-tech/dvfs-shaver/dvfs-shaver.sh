@@ -64,8 +64,10 @@ EOF
 }
 
 # ── Auto Daemon ─────────────────────────────────────────────────────────
-run_daemon(){
-  echo "=== Starting DVFS Shaver Daemon (auto) ==="
+ run_daemon(){
+   echo "=== Starting DVFS Shaver Daemon (auto) ==="
+   MSR_BIN="$(backend_bin_path msr_control)"
+   export TINKER_MSR_BACKEND="$MSR_BIN"
   python3 - << 'PYEOF'
 #!/usr/bin/env python3
 """TinkerOS DVFS Shaver - microsecond-scale voltage governor (fully auto)"""
@@ -101,6 +103,10 @@ class MSRAccess:
         self.vendor = self._detect_vendor()
         self.num_cores = self._count_cores()
         self.available = self._check_msr_available()
+        # C backend preferred path (compiled msr_control), set by the shell
+        self.c_backend = os.environ.get("TINKER_MSR_BACKEND", "")
+        if self.c_backend and os.access(self.c_backend, os.X_OK):
+            log(f"C backend: {self.c_backend}")
         log(f"CPU: {self.vendor}, Cores: {self.num_cores}, MSR access: {self.available}")
     
     def _detect_vendor(self):
@@ -166,6 +172,19 @@ class MSRAccess:
         return False
     
     def set_voltage(self, core, mv):
+        # Prefer the compiled C backend (real register writes) when present
+        if self.c_backend and os.access(self.c_backend, os.X_OK):
+            if mv < 700 or mv > 1350:
+                log(f"voltage {mv}mV outside safe envelope, skip")
+                return False
+            try:
+                import subprocess
+                r = subprocess.run([self.c_backend, "voltage", str(mv)],
+                                   capture_output=True, text=True, timeout=3)
+                if "ok=" in r.stdout or r.returncode == 0:
+                    return True
+            except:
+                pass
         if self.vendor == "Intel":
             return self.set_intel_voltage(core, mv)
         elif self.vendor == "AMD":

@@ -196,6 +196,53 @@ Control Center (PyQt6 GUI)
 
 ---
 
+## C Hardware Backends (Real Driver Layer)
+
+`os/hardware-tech/backend/` contains **compiled C drivers** that operate real
+hardware registers — the "heavy code" underneath the shell features. Each is
+**capability-probing**: it detects what *this specific machine* supports,
+operates the real register/interface when it can, and degrades to a safe no-op
+(never crashing, never misconfiguring) when it cannot.
+
+```
+make -C os/hardware-tech/backend   # builds bin/ with gcc (libc only, no network)
+```
+
+| Binary | Purpose | Fallback |
+|--------|---------|----------|
+| `msr_control` | MSR voltage/freq (IA32_PERF_CTL, APERF/MPERF, thermal) | sysfs cpufreq; 700–1350mV safe envelope |
+| `cat_control` | Intel CAT L2/L3 cache-bit-mask partitioning | resctrl sysfs |
+| `thermal_control` | per-core heat map (1000Hz capable) | /sys/class/thermal zones |
+| `fan_control` | PWM speed + tach, `pulse` mode (resonant shaking) | ThinkPad ACPI / hwmon |
+
+**Self-contained** MSR ioctls (no kernel headers), PIE-safe CPUID. Run with
+`sudo` for raw access; binaries probe and fail gracefully at all times.
+
+These backends are **preferred paths** wired into the shell features
+(thermal-scheduler uses `thermal_control` for heat maps, cache-tiering uses
+`cat_control` for L3 masks, dvfs-shaver uses `msr_control` for voltage, and
+dust-dislodger uses `fan_control pulse` for resonant fan shaking), each
+falling back to the prior Python/sysfs implementation.
+
+---
+
+## Consent & Liability Gate (Safe Hardware)
+
+Because these features push hardware outside factory spec, **no raw write
+happens without explicit user acceptance.** The shared gate lives in
+`os/hardware-tech/lib/` and is wired into every physical-hardware script:
+
+- `hardware-consent.sh` — shows a liability warning, requires the user to type
+  `I UNDERSTAND`, logs acceptance to an **append-only local audit trail**
+  (`~/.tinker/consent/`), TTL 90 days (interactive) / 1 year (`--yes`), and is
+  revocable. **Without a TTY it auto-declines — fail-safe.**
+- `backend-helper.sh` — C backend discovery + the consent-gated write helper
+  that all hardware scripts source.
+
+Safe reads, probes, and `init` run freely; only writes are gated.
+
+---
+
 ## Privacy
 
 **Everything runs locally.** No cloud. No telemetry. No tracking.

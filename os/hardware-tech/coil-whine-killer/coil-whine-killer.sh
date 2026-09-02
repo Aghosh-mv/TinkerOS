@@ -182,10 +182,25 @@ PYEOF
 }
 
 # ── Shift PWM Frequency ─────────────────────────────────────────────────
-shift_pwm(){
-  local profile=${1:-"silent"}
-  echo "=== Shifting PWM Frequency ==="
-  python3 - << PYEOF
+ shift_pwm(){
+   local profile=${1:-"silent"}
+   echo "=== Shifting PWM Frequency ==="
+
+   # ── C backend guard: refuse shift if package temp is unsafe ─────────
+   if backend_available "thermal_control"; then
+     local c_t
+     c_t="$(backend_run thermal_control 2>/dev/null | grep -oP 'max_c=\K[0-9.]+' | head -1)"
+     if [[ -n "$c_t" ]]; then
+       if awk -v t="$c_t" 'BEGIN { exit !(t >= 85) }'; then
+         echo "  ⛔ [C-backend] max ${c_t}°C too hot to shift PWM. Aborting for safety."
+         return 1
+       else
+         echo "  [C-backend] thermal OK (max ${c_t}°C), proceeding"
+       fi
+     fi
+   fi
+
+   python3 - << PYEOF
 import json, os, glob, subprocess, time
 
 config = json.load(open(os.path.expanduser("~/.tinker/coil-whine-killer/config.json")))
@@ -338,11 +353,11 @@ PYEOF
 case "${1:-help}" in
   init) init ;;
   status|read) read_pwm ;;
-  shift|silent) shift_pwm "silent" ;;
-  ultra) shift_pwm "ultra_silent" ;;
-  normal) shift_pwm "normal" ;;
-  off) shift_pwm "off" ;;
-  auto|detect) auto_kill ;;
+  shift|silent) hardware_write_gate "coil-whine-killer" "$2" || exit 1; shift_pwm "silent" ;;
+  ultra) hardware_write_gate "coil-whine-killer" "$2" || exit 1; shift_pwm "ultra_silent" ;;
+  normal) hardware_write_gate "coil-whine-killer" "$2" || exit 1; shift_pwm "normal" ;;
+  off) hardware_write_gate "coil-whine-killer" "$2" || exit 1; shift_pwm "off" ;;
+  auto|detect) hardware_write_gate "coil-whine-killer" "$2" || exit 1; auto_kill ;;
   popup) show_popup "${2:-Coil-Whine Killer}" "${3:-Adjusting PWM to eliminate coil whine}" "${4:-5}" ;;
   dashboard) read_pwm; echo ""; auto_kill ;;
   *) echo "Usage: $0 {init|status|shift|ultra|normal|off|auto|popup|dashboard}"

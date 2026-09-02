@@ -229,9 +229,30 @@ PYEOF
 }
 
 # ── Build Silicon Heat Map ─────────────────────────────────────────────
-heatmap(){
-  echo "=== Silicon Thermal Map ==="
-  python3 - << 'PYEOF'
+ heatmap(){
+   echo "=== Silicon Thermal Map ==="
+
+   # ── C backend fast path (preferred) ──────────────────────────────
+   # If the compiled thermal_control binary exists, use it for a true
+   # per-core MSR-based heat map; fall back to the Python sysfs reader.
+   if backend_available "thermal_control"; then
+     local c_out c_ok
+     c_out="$(backend_run thermal_control 2>/dev/null)"
+     if [[ "$c_out" == *"mean_c="* ]] && [[ "$c_out" == *"source=msr"* ]]; then
+       echo "  [C-backend thermal_control]"
+       echo "$c_out" | grep -E "mean_c|max_c|max_core|cores|heatmap" | sed 's/^/  /'
+       echo ""
+       echo "  Using MSR digital thermal sensor (1000x capable)"
+       echo "  Per-core classification: 'H'=hot 'M'=mid 'L'=cool"
+       return 0
+     elif [[ "$c_out" == *"mean_c="* ]]; then
+       echo "  [C-backend thermal_control (sysfs fallback)]"
+       echo "$c_out" | grep -E "mean_c|max_c|source" | sed 's/^/  /'
+       echo ""
+     fi
+   fi
+
+   python3 - << 'PYEOF'
 import os, json, glob
 
 zones_data = json.loads(open(os.devnull).read() if False else '{}')
@@ -345,9 +366,22 @@ PYEOF
 }
 
 # ── Thermal-Aware Task Migration ───────────────────────────────────────
-migrate(){
-  echo "=== Thermal-Aware Task Migration ==="
-  python3 - << 'PYEOF'
+ migrate(){
+   echo "=== Thermal-Aware Task Migration ==="
+
+   # ── C backend: identify hottest core via MSR heat map ────────────
+   if backend_available "thermal_control"; then
+     local c_out
+     c_out="$(backend_run thermal_control 2>/dev/null)"
+     if [[ "$c_out" == *"max_core="* ]]; then
+       local mc maxc
+       mc="$(echo "$c_out" | grep -oP 'max_core=\K[0-9]+')"
+       echo "  [C-backend] hottest core index: $mc"
+       echo ""
+     fi
+   fi
+
+   python3 - << 'PYEOF'
 import os, json, glob, subprocess
 
 def get_core_temps():

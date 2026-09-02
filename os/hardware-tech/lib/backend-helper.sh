@@ -16,6 +16,26 @@ backend_available() {
   [[ -x "$HBE_BIN/$tool" ]]
 }
 
+# ── Full path to a built backend binary (or empty) ─────────────────────
+backend_bin_path() {
+  local tool="$1"
+  if backend_available "$tool"; then
+    printf '%s' "$HBE_BIN/$tool"
+  fi
+}
+
+# ── Pair: prefer C backend, fall back to a shell/python fallback cmd ───
+# Usage: backend_prefer <tool> <fallback_cmd...>
+# Runs the C backend; if unavailable, runs the fallback command.
+backend_prefer() {
+  local tool="$1"; shift
+  if backend_available "$tool"; then
+    "$HBE_BIN/$tool" "$@"
+  else
+    return 127
+  fi
+}
+
 # ── Run a C backend command, returning nonzero if unavailable/build-skipped
 backend_run() {
   local tool="$1"; shift

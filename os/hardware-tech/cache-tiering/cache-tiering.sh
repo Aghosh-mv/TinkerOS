@@ -326,9 +326,10 @@ PYEOF
 }
 
 # ── Apply Cache Tiering ─────────────────────────────────────────────────
-apply_tiering(){
-  echo "=== Applying Cache Tiering ==="
-  python3 - << 'PYEOF'
+ apply_tiering(){
+   echo "=== Applying Cache Tiering ==="
+   CAT_BIN="$(backend_bin_path cat_control)"
+   TINKER_CAT_BACKEND="$CAT_BIN" python3 - << 'PYEOF'
 import subprocess, json, os
 
 config = json.load(open(os.path.expanduser("~/.tinker/cache-tiering/config.json")))
@@ -348,8 +349,14 @@ total_ways = config["cache_architecture"].get("L3_ways", 16)
 intel_cat = config["intel_cat"]["supported"]
 
 if intel_cat:
-    print("  Using Intel CAT (MSR-based partitioning)")
-    
+    # ── Prefer the compiled cat_control C backend over wrmsr-tools ──
+    import shutil
+    CAT_BACKEND = os.environ.get("TINKER_CAT_BACKEND", "")
+    if CAT_BACKEND and os.access(CAT_BACKEND, os.X_OK):
+        print("  Using Intel CAT (C backend cat_control)")
+    else:
+        print("  Using Intel CAT (MSR-based partitioning, wrmsr-tools)")
+
     # Each tier gets a bit mask for its ways
     way_masks = {}
     offset = 0
@@ -361,16 +368,30 @@ if intel_cat:
             offset += ways
         else:
             way_masks[tier_name] = 0
-    
+
     # Write MSR registers
+    def write_cat_mask(clos, mask):
+        if CAT_BACKEND and os.access(CAT_BACKEND, os.X_OK):
+            try:
+                r = subprocess.run([CAT_BACKEND, "l3", hex(mask)],
+                                   capture_output=True, text=True, timeout=3)
+                return (r.returncode == 0) or ("ok=" in r.stdout)
+            except:
+                return False
+        try:
+            msr = 0xC90 + clos
+            subprocess.run(["sudo", "wrmsr", hex(msr), hex(mask)],
+                           capture_output=True, timeout=2)
+            return True
+        except:
+            return False
+
     for tier_name, mask in way_masks.items():
         if mask > 0:
-            print(f"  {tier_name}: mask=0x{mask:X} ({tiers[tier_name]['l3_ways']} ways)")
+            clos = list(way_masks.keys()).index(tier_name)
+            print(f"  {tier_name}: mask=0x{mask:X} ({tiers[tier_name]['l3_ways']} ways) [CLOS {clos}]")
             try:
-                # IA32_L3_MASK_n MSRs (0xC90 + n)
-                msr = 0xC90 + list(way_masks.keys()).index(tier_name)
-                subprocess.run(["sudo", "wrmsr", hex(msr), hex(mask)], 
-                             capture_output=True, timeout=2)
+                write_cat_mask(clos, mask)
             except:
                 pass
 else:
