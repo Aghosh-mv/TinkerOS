@@ -6,6 +6,10 @@ RTA_DIR="$HOME/.tinker/ray-traced-audio"; RTA_CONFIG="$RTA_DIR/config.json"
 RTA_LOG="$RTA_DIR/rta.log"; RTA_STATE="$RTA_DIR/state.json"
 mkdir -p "$RTA_DIR"
 
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+export TINKER_AUDIO_BACKEND="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/backend/bin/audio_control"
+
 init(){
   cat > "$RTA_CONFIG" << 'EOF'
 {
@@ -607,8 +611,24 @@ case "${1:-help}" in
   trace) python3 "$RTA_DIR/ray_tracer.py" trace "${@:2}" ;;
   materials) python3 "$RTA_DIR/ray_tracer.py" materials ;;
   presets) python3 "$RTA_DIR/ray_tracer.py" presets ;;
-  status) echo "Ray Traced Audio: active"; cat "$RTA_DIR/config.json" | python3 -m json.tool 2>/dev/null | head -20 ;;
-  *) echo "Usage: $0 {init|demo|trace|materials|presets|status}"
+  status)
+    echo "=== Ray Traced Audio: status ==="
+    A_OUT="$(backend_run audio_control probe 2>/dev/null)"
+    if grep -q "status=audio-present" <<< "$A_OUT"; then
+      echo "  Real audio stack detected:"
+      echo "$A_OUT" | grep -E "alsa_controls|alsa_pcm|pipewire" | sed 's/^/    /'
+    else
+      echo "  No audio device present (real, safe no-op)"
+    fi
+    cat "$RTA_DIR/config.json" | python3 -m json.tool 2>/dev/null | head -20
+    ;;
+  devices)
+    echo "=== Real audio devices targeted by ray tracer ==="
+    backend_run audio_control position 2>/dev/null
+    echo ""
+    backend_run audio_control weight 2>/dev/null
+    ;;
+  *) echo "Usage: $0 {init|demo|trace|materials|presets|devices|status}"
      echo ""
      echo "  init      - Initialize config"
      echo "  demo      - Run full demo (trace + HRTF + reverb)"

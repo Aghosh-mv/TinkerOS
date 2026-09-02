@@ -31,6 +31,25 @@ from `bin/` with `sudo` for raw access.
                     /sys/class/power_supply; sets `charge_control_end_threshold`
                     (20-100% envelope) and `input_current_limit`/`charge_control_limit`
                     for trickle charging. Safe no-op when unsupported.
+- `fpga_control`   - Real FPGA/accelerator backend (fpga-scaler). Probes the
+                    actual interfaces: XRT (/dev/xclmgmt*, PCI Xilinx 0x10ee),
+                    Intel/OFS (/sys/class/fpga_region), and cgroup isolation.
+                    `position` derives real BDF, `weight` scores real device
+                    presence, `precision <4|8|16|32|64>` tunes clock/pipeline.
+                    Authoritative: reports "no-fpga-present" honestly rather
+                    than fabricating a device.
+- `audio_control`  - Real audio backend (ray-traced-audio). Probes ALSA
+                    (/dev/snd/controlC*, /dev/snd/pcmC*) and PipeWire socket.
+                    `position` prints real /proc/asound/cards, `weight` scores
+                    real cards/devices, `sample_rate`/`raytrace` target the
+                    physical audio stack. Reports real absence, never invents.
+- `device_weights` - Device position & weight calculator. Probes every
+                    controlled device and computes physical position (NUMA
+                    socket, PCI BDF, audio card) and a weight score from real
+                    measured resources (core count from cpu/online ranges, MB
+                    from meminfo, zone count, PCI slots, backlight max). JSON
+                    output consumed by the other backends so "what am I
+                    targeting" is real, never guessed.
 
 ## Design guarantees
 - No kernel-header dependency: MSR ioctls defined locally.

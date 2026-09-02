@@ -5,6 +5,10 @@
 FPGA_DIR="$HOME/.tinker/fpga-scaler"; FPGA_CONFIG="$FPGA_DIR/config.json"
 FPGA_LOG="$FPGA_DIR/scaler.log"; mkdir -p "$FPGA_DIR"
 
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+export TINKER_FPGA_BACKEND="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/backend/bin/fpga_control"
+
 init(){
   cat > "$FPGA_CONFIG" << 'EOF'
 {
@@ -83,6 +87,25 @@ except:
 # Method 5: Intel OpenFPGA
 for qsf in glob.glob("/opt/intelFPGA/*"):
     fpga_devices.append({"source": "intel", "device": "Intel FPGA SDK found"})
+
+# Method 6 (primary): compiled fpga_control C backend - real PCI/XRT probe.
+# This is authoritative: it reads the real PCI/XRT/Intel interfaces and never
+# fabricates a device. Its result overrides lspci text-scan false positives
+# (e.g. "Intel" matching host bridges).
+fpga_bin = os.environ.get("TINKER_FPGA_BACKEND", "")
+if fpga_bin and os.access(fpga_bin, os.X_OK):
+    try:
+        pr = subprocess.run([fpga_bin, "probe"], capture_output=True, text=True, timeout=3)
+        if "status=fpga-present" in pr.stdout:
+            fpga_devices.append({"source": "fpga_control(C)", "info": "real FPGA present"})
+            for line in pr.stdout.splitlines():
+                if line.startswith("fpga_"):
+                    fpga_devices.append({"source": "fpga_control(C)", "info": line})
+        else:
+            fpga_devices = [{"source": "fpga_control(C)", "info": "no real FPGA present (honest capability probe)"}]
+            print(f"  fpga_control(C) probe: real device check = no FPGA present")
+    except Exception as e:
+        print(f"  fpga_control(C) unavailable: {e}")
 
 if fpga_devices:
     print(f"  Found {len(fpga_devices)} FPGA device(s):")
@@ -189,8 +212,15 @@ apply_precision(){
     echo "  Usage: $0 apply <pid> <bits:4|8|16|32|64>"
     return
   fi
-  echo "=== Applying ${bits}-bit precision to PID $pid ==="
-  python3 - << PYEOF
+ echo "=== Applying ${bits}-bit precision to PID $pid ==="
+ # ── Real FPGA path: compiled fpga_control C backend ────────────────
+ FPGA_BIN="$(backend_bin_path fpga_control)"
+ if [[ -n "$FPGA_BIN" ]] && [[ "$(backend_run fpga_control probe 2>/dev/null | grep -c 'status=fpga-present')" == "1" ]]; then
+   echo "  [C-backend fpga_control] real FPGA detected - tuning hardware pipeline"
+   backend_run fpga_control precision "$bits" 2>/dev/null | sed 's/^/  /'
+   echo "  Also isolating compute via cgroup (belt + suspenders):"
+ fi
+ python3 - << PYEOF
 import json, os
 
 config = json.load(open(os.path.expanduser("~/.tinker/fpga-scaler/config.json")))
