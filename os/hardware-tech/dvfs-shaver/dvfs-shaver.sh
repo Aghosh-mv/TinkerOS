@@ -6,6 +6,10 @@ DVFS_DIR="$HOME/.tinker/dvfs-shaver"; DVFS_CONFIG="$DVFS_DIR/config.json"
 DVFS_LOG="$DVFS_DIR/shaver.log"; DVFS_STATE="$DVFS_DIR/state.json"
 mkdir -p "$DVFS_DIR"
 
+# Shared liability/consent gate + C backend integration
+BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
+if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
+
 init(){
   cat > "$DVFS_CONFIG" << 'EOF'
 {
@@ -441,6 +445,7 @@ case "${1:-help}" in
   status) status ;;
   start)
     init
+    hardware_write_gate "dvfs-shaver" "$2" || exit 1
     run_daemon ;;
   stop)
     python3 -c "
