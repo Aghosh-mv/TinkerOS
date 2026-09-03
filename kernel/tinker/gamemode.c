@@ -53,6 +53,36 @@ static void gamemode_apply(void)
 	rcu_read_unlock();
 }
 
+/*
+ * Kernel-internal hook: set the boosted process group and (re)apply the
+ * realtime priority. Called from the scheduler/fair integration when a
+ * game process is detected, so no user-space involvement is required.
+ */
+void tinker_gamemode_request_boost(pid_t tgid, int on)
+{
+	mutex_lock(&gamemode_lock);
+	gamemode_enabled = on ? 1 : 0;
+	if (on)
+		gamemode_tgid = tgid;
+	else
+		gamemode_tgid = 0;
+	gamemode_apply();
+	mutex_unlock(&gamemode_lock);
+}
+EXPORT_SYMBOL_GPL(tinker_gamemode_request_boost);
+
+/* Query used by the scheduler/cpufreq thread to detect an active boost. */
+bool tinker_gamemode_enabled(void)
+{
+	bool en;
+
+	mutex_lock(&gamemode_lock);
+	en = gamemode_enabled && gamemode_tgid > 0;
+	mutex_unlock(&gamemode_lock);
+	return en;
+}
+EXPORT_SYMBOL_GPL(tinker_gamemode_enabled);
+
 static int gamemode_show(struct seq_file *m, void *v)
 {
 	mutex_lock(&gamemode_lock);

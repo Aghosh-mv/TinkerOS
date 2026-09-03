@@ -28,6 +28,30 @@ static int charge_min = CHARGE_MIN_DEFAULT;
 static int charge_max = CHARGE_MAX_DEFAULT;
 static bool lifespan_mode;
 
+/* Query used by the power_supply layer: is lifespan charging on? */
+bool tinker_battery_lifespan(void)
+{
+	bool on;
+
+	mutex_lock(&battery_lock);
+	on = lifespan_mode;
+	mutex_unlock(&battery_lock);
+	return on;
+}
+EXPORT_SYMBOL_GPL(tinker_battery_lifespan);
+
+/* Charge envelope getters (percent). */
+void tinker_battery_envelope(int *lo, int *hi)
+{
+	mutex_lock(&battery_lock);
+	if (lo)
+		*lo = charge_min;
+	if (hi)
+		*hi = charge_max;
+	mutex_unlock(&battery_lock);
+}
+EXPORT_SYMBOL_GPL(tinker_battery_envelope);
+
 static int battery_show(struct seq_file *m, void *v)
 {
 	mutex_lock(&battery_lock);

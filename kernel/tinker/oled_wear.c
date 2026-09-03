@@ -26,6 +26,19 @@ static DEFINE_MUTEX(oled_lock);
 static unsigned int oled_dim_pct = 100;	/* 100 = no dimming */
 static unsigned long long oled_wear_seconds;
 
+/* Query used by the backlight driver to apply proportional wear dimming.
+ * Returns a percentage (100 = no dim). */
+unsigned int tinker_oled_get_dim(void)
+{
+	unsigned int dim;
+
+	mutex_lock(&oled_lock);
+	dim = oled_dim_pct;
+	mutex_unlock(&oled_lock);
+	return dim;
+}
+EXPORT_SYMBOL_GPL(tinker_oled_get_dim);
+
 static int oled_show(struct seq_file *m, void *v)
 {
 	mutex_lock(&oled_lock);

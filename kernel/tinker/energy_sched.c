@@ -38,6 +38,20 @@ void tinker_energy_account(u64 idle, u64 busy)
 }
 EXPORT_SYMBOL_GPL(tinker_energy_account);
 
+/* Query used by the cpufreq governor to pick a V/F target.
+ * Returns ENERGY_MODE_AUTO / PEAK / SAVER as int.
+ */
+int tinker_energy_mode(void)
+{
+	int mode;
+
+	mutex_lock(&energy_lock);
+	mode = energy_mode;
+	mutex_unlock(&energy_lock);
+	return mode;
+}
+EXPORT_SYMBOL_GPL(tinker_energy_mode);
+
 static int energy_show(struct seq_file *m, void *v)
 {
 	static const char * const modes[] = {
