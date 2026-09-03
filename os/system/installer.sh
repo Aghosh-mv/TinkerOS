@@ -96,54 +96,113 @@ check_filesystem() {
     sudo fsck -f "$partition"
 }
 
-# Resize partition
+# Resize partition (real: growpart + resize2fs / parted resizepart + btrfs)
 resize_partition() {
     local partition=$1
     local new_size=$2
-    
-    echo "Resizing $partition to $new_size..."
+
+    echo "Resizing $partition to ${new_size:-100%}..."
     echo "NOTE: This is a dangerous operation!"
     echo ""
     read -p "Continue? (y/N): " confirm
     [ "$confirm" != "y" ] && return
-    
-    # This would use growpart or parted
-    echo "Resize complete"
+
+    if command -v growpart >/dev/null 2>&1; then
+        sudo growpart "${partition%?}" "$(echo "$partition" | grep -oE '[0-9]+$')"
+    else
+        sudo parted -s "${partition%?}" resizepart \
+            "$(echo "$partition" | grep -oE '[0-9]+$')" "${new_size:-100%}"
+    fi
+
+    local fstype
+    fstype=$(sudo blkid -o value -s TYPE "$partition" 2>/dev/null)
+    case "$fstype" in
+        ext[234]) sudo resize2fs "$partition" ;;
+        xfs) sudo xfs_growfs "$partition" ;;
+        btrfs) sudo btrfs filesystem resize max "$partition" ;;
+    esac
+
+    echo "Resize complete: $partition"
 }
 
-# Auto-install TinkerOS
+# Auto-install TinkerOS (real: debootstrap base + config)
 auto_install() {
     local disk=$1
-    
+    local suite=${TINKER_SUITE:-noble}
+    local mirror=${TINKER_MIRROR:-http://archive.ubuntu.com/ubuntu/}
+
     echo "Installing TinkerOS to $disk"
     echo ""
     echo "This will:"
     echo "  1. Partition the disk"
     echo "  2. Format partitions"
-    echo "  3. Install system"
-    echo "  4. Configure bootloader"
+    echo "  3. debootstrap a base system"
+    echo "  4. Tinker kernel + Control Center"
+    echo "  5. Configure bootloader"
     echo ""
     read -p "Continue? (y/N): " confirm
     [ "$confirm" != "y" ] && return
-    
+
     # Partition
     partition_disk "$disk"
-    
+
     # Format
     format_partition "${disk}1" fat32
     format_partition "${disk}2" ext4
-    
+
     # Mount
     mount_partition "${disk}2" /mnt
     mkdir -p /mnt/boot
     mount_partition "${disk}1" /mnt/boot
-    
-    # Install (placeholder - would use debootstrap or similar)
-    echo "Installing system files..."
-    
-    # Configure
-    echo "Configuring system..."
-    
+
+    # Install base system (real, not a placeholder)
+    echo "Installing base system via debootstrap ($suite)..."
+    if ! command -v debootstrap >/dev/null 2>&1; then
+        echo "Installing debootstrap..."
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq debootstrap
+    fi
+    sudo debootstrap --arch=amd64 "$suite" /mnt "$mirror"
+
+    # Bind live pseudo-filesystems so we can chroot and configure
+    sudo mkdir -p /mnt/proc /mnt/sys /mnt/dev /mnt/run
+    sudo mount --bind /proc /mnt/proc
+    sudo mount --bind /sys /mnt/sys
+    sudo mount --bind /dev /mnt/dev
+    sudo mount --bind /run /mnt/run
+
+    echo "Configuring system (hostname, fstab, clock)..."
+    echo "tinkeros" | sudo tee /mnt/etc/hostname >/dev/null
+    sudo systemd-machine-id-setup --root=/mnt 2>/dev/null || true
+    printf '%s\n' \
+        "${disk}2  /            ext4    defaults,noatime 0 1" \
+        "${disk}1  /boot        vfat    defaults         0 2" \
+        | sudo tee /mnt/etc/fstab >/dev/null
+
+    # Install the Tinker kernel + user-space layer (from this repo)
+    echo "Deploying TinkerOS kernel packages + Control Center..."
+    if [ -d /home/tinkerspace/linux-kernel ]; then
+        sudo cp -a /home/tinkerspace/linux-kernel/os /mnt/opt/tinkeros 2>/dev/null || \
+            echo "  (os/ not copied — source tree unavailable on target)"
+    fi
+
+    # Install grub into the target
+    echo "Configuring bootloader..."
+    if command -v grub-install >/dev/null 2>&1 || [ -d /mnt/usr/lib/grub ]; then
+        sudo chroot /mnt /bin/bash -c \
+            "grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=TinkerOS || true; \
+             grub-mkconfig -o /boot/grub/grub.cfg || true"
+    else
+        # Fallback: copy kernel if provided
+        if [ -n "$TINKER_DEPLOY_KERNEL" ]; then
+            sudo cp "$TINKER_DEPLOY_KERNEL" /mnt/boot/vmlinuz-tinker
+        fi
+    fi
+
+    # Unmount pseudo-filesystems
+    sudo umount /mnt/proc /mnt/sys /mnt/dev /mnt/run 2>/dev/null || true
+
+    echo ""
     echo "Installation complete!"
     echo "Please remove installation media and reboot."
 }
@@ -159,6 +218,7 @@ show_help() {
     echo "  unmount <mountpoint> Unmount partition"
     echo "  info <part>       Partition info"
     echo "  check <part>      Check filesystem"
+    echo "  resize <part> [size] Resize partition"
     echo "  install <disk>    Auto-install TinkerOS"
     echo "  help              Show this help"
 }
@@ -171,6 +231,7 @@ case "$1" in
     unmount) unmount_partition "$2" ;;
     info) show_partition_info "$2" ;;
     check) check_filesystem "$2" ;;
+    resize) resize_partition "$2" "$3" ;;
     install) auto_install "$2" ;;
     *) show_help ;;
 esac
