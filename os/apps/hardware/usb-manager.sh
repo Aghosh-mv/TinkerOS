@@ -10,7 +10,8 @@ USB_DIR="$HOME/.tinker/usb"
 mkdir -p "$USB_DIR"
 
 # Use the C backend binary if available
-USB_BIN="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hardware-tech/hardware-tuning/usb_control"
+USB_BIN="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hardware-tech/backend/bin/usb_control"
+[ -x "$USB_BIN" ] || USB_BIN="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/hardware-tech/hardware-tuning/usb_control"
 
 # List USB devices
 list() {
