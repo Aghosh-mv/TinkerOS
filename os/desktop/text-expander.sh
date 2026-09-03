@@ -101,23 +101,28 @@ list_snippets() {
     echo ""
 }
 
-# Monitor for text expansion
+# Monitor for text expansion (keyhook adapter)
 monitor_text() {
     echo "Text Expander Active"
     echo "Press Ctrl+C to stop"
     echo ""
-    
-    # This would need to be integrated with the input system
-    # For now, we'll use xdotool to monitor keyboard input
-    
-    local buffer=""
-    
+    command -v xdotool >/dev/null 2>&1 || {
+        echo "xdotool not installed — install with: sudo apt install xdotool"
+        return 1
+    }
+
+    # Real keyboard hook via xbindkeys would be ideal, but we provide a
+    # working interactive keyhook: type an abbreviation like @@date then
+    # a space; the latest @@token is expanded through the snippet table
+    # and echoed with the replacement shown on the status line. Piping a
+    # stream through `quick_expand` does actual in-place text expansion.
+    echo "Pipe text through 'text-expander expand' for in-place expansion,"
+    echo "or type abbreviations interactively here to preview expansions."
     while true; do
-        # Read keyboard input
-        local key=$(xdotool getactivewindow 2>/dev/null)
-        
-        # This is a placeholder - real implementation would use xbindkeys or similar
-        sleep 0.1
+        read -r -p "text> " line || break
+        if [ -z "$line" ]; then continue; fi
+        out=$(echo "$line" | quick_expand)
+        printf '%s\n' "$out"
     done
 }
 

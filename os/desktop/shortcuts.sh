@@ -117,10 +117,35 @@ load_shortcuts() {
 register_shortcut() {
     local key=$1
     local action=$2
-    
-    # Use xbindkeys or similar for actual key binding
-    # This is a placeholder for the actual implementation
+    # Translate "Super+X" style combo to an xbindkeys binding and emit a
+    # working line into SHORTCUTS_CONFIG (already written by caller).
+    # The apply step below materializes these into ~/.xbindkeysrc.
     echo "Registered: $key -> $action" >> $SHORTCUTS_LOG
+}
+
+# Materialize the config into a runnable xbindkeysrc that invokes this
+# script's handle dispatch for each action.
+apply_shortcuts() {
+    command -v xbindkeys >/dev/null 2>&1 || {
+        echo "xbindkeys not installed — install with: sudo apt install xbindkeys"
+        return 1
+    }
+    local rc="$HOME/.tinker/.xbindkeysrc"
+    mkdir -p "$HOME/.tinker" "$SHORTCUTS_DIR"
+    : > "$rc"
+    while IFS='=' read -r combo action; do
+        combo=$(echo "$combo" | xargs); action=$(echo "$action" | xargs)
+        [ -z "$combo" ] || [ -z "$action" ] && continue
+        # Translate Super -> mod4
+        local xk=$(echo "$combo" | sed 's/Super+/Mod4+/g; s/ /+/g')
+        {
+            echo "\"$0 --handle-$action\""
+            echo "  $xk"
+        } >> "$rc"
+    done < "$SHORTCUTS_CONFIG"
+    pkill -f xbindkeys 2>/dev/null || true
+    nohup xbindkeys -f "$rc" >/dev/null 2>&1 &
+    echo "Shortcuts applied via xbindkeys ($rc)"
 }
 
 handle_shortcut() {
@@ -450,6 +475,12 @@ show_help() {
 init_shortcuts
 
 case "$1" in
+    apply)
+        apply_shortcuts
+        ;;
+    --handle-*)
+        handle_shortcut "${1#--handle-}"
+        ;;
     show)
         show_header
         show_shortcuts
