@@ -34,12 +34,91 @@ install_lutris() {
 }
 
 install_proton() {
-    echo "Installing Proton (Windows compatibility)..."
+    echo "=== Proton Installation (Windows game compatibility) ==="
+    echo ""
+    echo "Proton is Valve's compatibility layer (based on Wine) for running"
+    echo "Windows games on Linux via Steam Play."
+    echo ""
     
-    # Proton is installed via Steam
-    echo "Proton is included with Steam"
-    echo "To use: Steam > Settings > Compatibility > Enable Steam Play"
+    # Ensure Steam is installed (Proton ships with Steam)
+    if ! command -v steam >/dev/null 2>&1; then
+        echo "  Steam not installed. Installing Steam first..."
+        install_steam
+    fi
+    
+    # Enable Steam Play globally via Steam config
+    local config_dir="$HOME/.local/share/Steam"
+    echo "  Configuring Steam Play..."
+    
+    # Steam installs Proton-Wine (default) and Proton-Experimental (bleeding edge)
+    echo "  Steam bundles these Proton versions (launch Steam to download):"
+    echo "    - Proton (stable, recommended)"
+    echo "    - Proton Experimental (latest fixes)"
+    echo "    - Proton Hotfix (temporary fixes)"
+    echo ""
+    echo "  Enable in Steam: Settings > Compatibility >"
+    echo "    ['Enable Steam Play for all other titles']"
+    echo ""
+    
+    # Optionally install ProTOn GE (community builds with extra codecs)
+    echo "  Optional: install GE-Proton (community version with extra media"
+    echo "  codecs and patches)? [y/N]"
+    read -r answer
+    if [ "${answer,,}" = "y" ]; then
+        install_ge_proton
+    else
+        echo "  Skipping GE-Proton (can always run: $0 install-ge-proton)"
+    fi
+    
+    # Gaming-mode extras that help Proton
+    echo ""
+    echo "  Recommended companions for Proton:"
+    echo "    - gamescope  (compositor for games)"
+    echo "    - gamemode   (performance boost)"
+    echo "    - mangohud   (FPS overlay)"
+    echo "    - vkd3d      (DirectX 12 -> Vulkan)"
+    echo "  Install these with: tinker-gaming install-mangohud / install-gamemode"
 }
+
+install_ge_proton() {
+    echo "Installing GE-Proton (community Proton build)..."
+    echo ""
+    
+    local ge_dir="$HOME/.steam/compatibilitytools.d"
+    mkdir -p "$ge_dir"
+    
+    # Fetch latest GE-Proton release from GloriousEggroll's repo
+    echo "  Fetching latest GE-Proton release info..."
+    local latest_url=""
+    if command -v curl >/dev/null 2>&1; then
+        latest_url=$(curl -s "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest" \
+                     | grep -o '"browser_download_url": *"[^"]*\.tar\.gz"' | head -1 | cut -d'"' -f4)
+    fi
+    
+    if [ -z "$latest_url" ]; then
+        echo "  Could not fetch GE-Proton release (offline or rate-limited)."
+        echo "  Manual install:"
+        echo "    https://github.com/GloriousEggroll/proton-ge-custom/releases"
+        echo "    Download .tar.gz, extract to: $ge_dir"
+        echo ""
+        echo "  Also consider 'protonup-qt': sudo apt install protonup-qt"
+        return 0
+    fi
+    
+    echo "  Downloading latest GE-Proton..."
+    local archive="/tmp/ge-proton.tar.gz"
+    curl -sL -o "$archive" "$latest_url"
+    
+    if [ -f "$archive" ]; then
+        cd "$ge_dir" && tar xzf "$archive"
+        rm -f "$archive"
+        echo "  ✓ Installed GE-Proton to: $ge_dir"
+        echo "  Restart Steam, then select GE-Proton under Compatibility tools."
+    else
+        echo "  Download failed."
+    fi
+}
+
 
 install_mangohud() {
     echo "Installing MangoHUD (FPS overlay)..."
@@ -220,6 +299,7 @@ install_all_gaming() {
     echo "Installing all gaming tools (including NVIDIA driver)..."
     install_nvidia
     install_steam
+    install_proton
     install_lutris
     install_wine
     install_mangohud
@@ -235,6 +315,8 @@ show_help() {
     echo "Commands:"
     echo "  install-all     Install all gaming tools"
     echo "  install-steam   Install Steam"
+    echo "  install-proton  Configure/install Proton (Steam Play)"
+    echo "  install-ge-proton Install GE-Proton community build"
     echo "  install-lutris  Install Lutris"
     echo "  install-wine    Install Wine"
     echo "  install-mangohud Install MangoHUD"
@@ -251,6 +333,8 @@ show_help() {
 case "$1" in
     install-all) install_all_gaming ;;
     install-steam) install_steam ;;
+    install-proton) install_proton ;;
+    install-ge-proton) install_ge_proton ;;
     install-lutris) install_lutris ;;
     install-wine) install_wine ;;
     install-mangohud) install_mangohud ;;
