@@ -1,0 +1,221 @@
+# SPDX-License-Identifier: GPL-2.0
+#
+# TinkerOS core kernel features
+#
+# Hardware-throughput-code desktop OS features implemented as real
+# kernel C code, inside the Linux kernel. See AGENTS.md in the repo root
+# for the project origin and mission.
+
+menuconfig TINKER_FEATURES
+	bool "TinkerOS core kernel features"
+	help
+	  TinkerOS hardware-throughput-code features: thermal-aware
+	  scheduling hints, game-mode boost knob, energy/DVFS governor
+	  hinting, and battery/backlight lifespan management.
+
+	  These are experimental kernel enhancements, enabled by default
+	  when the menu is activated. They are safe to disable entirely.
+
+if TINKER_FEATURES
+
+config TINKER_CORE
+	bool "TinkerOS core interface (/proc/tinker)"
+	default y
+	help
+	  Core TinkerOS procfs interface and sysctls. Provides
+	  /proc/tinker/{thermal,gamemode,energy,battery,oled,status}.
+
+config TINKER_THERMAL_SCHED
+	bool "Thermal-aware scheduling hints"
+	depends on TINKER_CORE && SMP
+	default y
+	help
+	  Maintains a per-CPU thermal heat map from the kernel's thermal
+	  zones and exposes/spreads load hints to avoid saturating hot
+	  cores, mimicking silicon thermal-mapping schedulers without
+	  touching the core scheduler data structures.
+
+config TINKER_GAMEMODE
+	bool "GameMode scheduling boost"
+	depends on TINKER_CORE
+	default y
+	help
+	  Allows boosting a process group (by TGID) to a high realtime
+	  priority, mirroring the Feral GameMode background service as a
+	  first-class kernel interface.
+
+config TINKER_ENERGY_SCHED
+	bool "Energy / DVFS hint governor"
+	depends on TINKER_CORE
+	default y
+	help
+	  Exposes a microsecond-scale energy hinting interface (peak and
+	  idle voltage/frequency profiles) that the cpufreq governors can
+	  consume, plus runtime energy accounting.
+
+config TINKER_BATTERY_LIFE
+	bool "Battery lifespan manager"
+	depends on TINKER_CORE
+	default y
+	help
+	  Tracks power_supply charge limits and exposes a safe charge
+	  envelope (trickle charge + top-off) to prolong battery life.
+
+config TINKER_OLED_WEAR
+	bool "OLED burn-in wear compensation"
+	depends on TINKER_CORE && BACKLIGHT_CLASS_DEVICE
+	default y
+	help
+	  Exposes a proportional backlight dimming path used by the
+	  display layer to balance sub-pixel wear on OLED panels.
+
+config TINKER_CACHE_TIERING
+	bool "Software-defined cache tiering (CAT/MPAM)"
+	depends on TINKER_CORE
+	default y
+	help
+	  Cache-partitioning ways profile (Intel CAT / ARM MPAM).
+
+config TINKER_COIL_WHINE
+	bool "Coil-whine killer (PWM frequency shifter)"
+	depends on TINKER_CORE
+	default y
+	help
+	  VRM PWM switching-frequency hint, consent-gated, with popup flag.
+
+config TINKER_SHREDDER
+	bool "Kernel data shredder (privacy wipe)"
+	depends on TINKER_CORE && SWAP
+	default y
+	help
+	  Kernel privacy helpers: swap-scrub policy, HW-id scramble intent.
+
+config TINKER_DUST_DISLODGER
+	bool "Acoustic dust dislodger (fan pulse)"
+	depends on TINKER_CORE
+	default y
+	help
+	  Resonant fan pulse program, idle-gated and consent-gated.
+
+config TINKER_FPGA_SCALER
+	bool "Dynamic FPGA precision scaler"
+	depends on TINKER_CORE
+	default y
+	help
+	  Precision-width profile for FPGA datapaths (energy-hint fallback).
+
+config TINKER_ZERO_LATENCY
+	bool "Zero-latency input path"
+	depends on TINKER_CORE
+	default y
+	help
+	  Low-latency input scheduling boost interface.
+
+config TINKER_CXL_MEMORY
+	bool "Unified memory over CXL"
+	depends on TINKER_CORE
+	default y
+	help
+	  Memory-pool registry (DRAM/VRAM/CXL/net) — opt-in only.
+
+config TINKER_DVFS_SHAVER
+	bool "DVFS shaver (micro V/F hint)"
+	depends on TINKER_CORE
+	default y
+	help
+	  Microsecond-scale voltage/frequency profile hints plus energy
+	  accounting, fully software-driven.
+
+config TINKER_HW_DNA
+	bool "Hardware DNA (fingerprinting)"
+	depends on TINKER_CORE
+	default y
+	help
+	  Stable hashed hardware identity, obfuscatable.
+
+config TINKER_RAY_AUDIO
+	bool "Ray-traced audio DSP"
+	depends on TINKER_CORE
+	default y
+	help
+	  Geometric sound-propagation DSP (ray-cast reverb/occlusion).
+
+config TINKER_NEURAL_AUDIO
+	bool "Neural audio enhancement DSP"
+	depends on TINKER_CORE
+	default y
+	help
+	  Audio enhancement chain (gain/noise/EQ) DSP frontend.
+
+config TINKER_PREWARM
+	bool "Predictive pre-warm"
+	depends on TINKER_CORE
+	default y
+	help
+	  Predictive next-process memory/process prewarm with hit/miss
+	  learning feedback.
+
+config TINKER_POWER_GRID
+	bool "Smart power grid"
+	depends on TINKER_CORE
+	default y
+	help
+	  Load/value-aware energy scheduling profile manager.
+
+config TINKER_ADAPTIVE_DISPLAY
+	bool "Adaptive display"
+	depends on TINKER_CORE && BACKLIGHT_CLASS_DEVICE
+	default y
+	help
+	  Adaptive refresh/brightness profile interface.
+
+config TINKER_UNIFIED_MEM
+	bool "Unified heterogeneous memory pool"
+	depends on TINKER_CORE
+	default y
+	help
+	  Software-defined memory tier placement registry (opt-in).
+
+config TINKER_HW_TUNING
+	bool "Low-level hardware tuning"
+	depends on TINKER_CORE
+	default y
+	help
+	  Governor/overclock/fan-curve tuning farm, consent-gated.
+
+config TINKER_NEURAL_SUPERRES
+	bool "Neural super-resolution DSP"
+	depends on TINKER_CORE
+	default y
+	help
+	  Upscale profile frontend (scale/sharpness/model).
+
+config TINKER_PREDICT_RENDER
+	bool "Predictive rendering"
+	depends on TINKER_CORE
+	default y
+	help
+	  Ahead-of-time frame pre-render with hit/miss feedback.
+
+config TINKER_REMOTE_HW
+	bool "Remote hardware API"
+	depends on TINKER_CORE
+	default y
+	help
+	  Opt-in, armed-token-gated remote h/w control slots.
+
+config TINKER_SDGPU
+	bool "Software-defined GPU control plane"
+	depends on TINKER_CORE
+	default y
+	help
+	  SD-GPU policy (compute share / latency / power cap) hints.
+
+config TINKER_FINANCE_AUDIT
+	bool "Local finance/subscription audit hooks"
+	depends on TINKER_CORE
+	default y
+	help
+	  Unused-subscription ledger hooks for the user-space auditor.
+
+endif # TINKER_FEATURES

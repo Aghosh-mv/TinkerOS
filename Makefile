@@ -832,6 +832,9 @@ endif # KBUILD_EXTMOD
 # Terminal typo corrector module
 core-y		+= terminal/
 
+# TinkerOS core kernel features
+core-y		+= kernel/tinker/
+
 # The all: target is the default when no target is given on the
 # command line.
 # This allow a user to issue only 'make' to build a kernel including modules

@@ -34,3 +34,5 @@ source "Documentation/Kconfig"
 source "io_uring/Kconfig"
 
 source "terminal/Kconfig"
+
+source "kernel/tinker/Kconfig"
