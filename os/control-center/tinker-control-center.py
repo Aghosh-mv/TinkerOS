@@ -416,6 +416,12 @@ class TinkerOSControlCenter(QMainWindow):
                 f"/home/tinkerspace/linux-kernel/os/apps/security/{cmd}.sh",
                 f"/home/tinkerspace/linux-kernel/os/system/{cmd}.sh",
                 f"/home/tinkerspace/linux-kernel/os/desktop/{cmd}.sh",
+                f"/home/tinkerspace/linux-kernel/os/ai/{cmd}.sh",
+                f"/home/tinkerspace/linux-kernel/os/security/{cmd}.sh",
+                f"/home/tinkerspace/linux-kernel/os/data/{cmd}.sh",
+                f"/home/tinkerspace/linux-kernel/os/drivers/{cmd}.sh",
+                f"/home/tinkerspace/linux-kernel/os/hardware-tech/{cmd}/{cmd}.sh",
+                f"/home/tinkerspace/linux-kernel/os/hardware-tech/{cmd}.sh",
             ]
             
             script = None

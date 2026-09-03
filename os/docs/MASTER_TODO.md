@@ -34,6 +34,38 @@ Status legend:
 - [D] Community site (mkdocs)
 - [D] Brand tooling (tinker-brand)
 - [P] Kernel-backed control interface (/proc/tinker -> Control Center status)
+- [D] GUI search paths expanded to reach ai/, security/, data/, drivers/,
+      hardware-tech/ (hidden features now launchable)
+
+## A2. Newly-added tools (from completeness audit, section B tools) (8)
+- [D] unit-converter.sh (os/apps/system)
+- [D] timestamp-converter.sh (os/apps/system)
+- [D] terminal-error-explainer.sh (os/apps/system)
+- [D] accent-picker.sh (os/apps/system) — long-press diacritics
+- [D] cognitive-load.sh (os/apps/system) — context-aware Do Not Disturb
+- [D] intent-launcher.sh (os/apps/system) — intent-driven tool assembly
+- [D] drag-to-install.sh (os/apps/system) — one-step deb/rpm/AppImage
+
+## A3. Cross-stack additions found in audit (DONE / added) (6)
+- [D] Browser extension — Password Manager (Chrome MV3, os/browser-extension)
+- [D] Driver manager (os/drivers/driver-manager.sh)
+- [D] Mobile companion (os/mobile-companion, WebSocket protocol)
+- [D] Hardware consent/liability gate (os/hardware-tech/lib/hardware-consent.sh)
+- [D] C hardware backends (os/hardware-tech/backend/bin: 10 compiled)
+- [D] Hardware compatibility DB (os/data/hardware-db.sh + hardware.conf)
+
+## A4. Prompt/system tools (DONE in os/system) (extra, not in prior counts)
+- [D] gpu-config.sh, bluetooth-manager.sh, audio-clarity.sh,
+      feature-manager.sh, optimization-toggles.sh, password-monitor.sh,
+      predictive-pre-caching.sh, temporal-resource-mapping.sh,
+      context-aware-adaptation.sh, update-system.sh, init.sh
+
+## A5. System "Tools/Advanced" sub-features (14) — itemized
+- [D] focus-mode.sh, pomodoro-timer.sh, time-tracker.sh, screen-time.sh,
+      parental-controls.sh, disk-visualizer.sh, duplicate-finder.sh,
+      file-versioning.sh, regex-tool.sh, json-formatter.sh,
+      markdown-editor.sh, global-search.sh, command-palette.sh,
+      quick-actions.sh  (all in os/apps/system/)
 
 ## B. System category (27)
 - [D] adaptive-power-grid.sh
@@ -221,11 +253,13 @@ P = pending kernel C implementation.
 - [K] cross-app-automation -> user-space (OS abstraction layer; kernel proc interface available)
 - [P] AI workload scheduling -- predictive AI-native scheduler (deep core-scheduler rewrite)
 
-## K. AI & Intelligence (5)
+## K. AI & Intelligence (5 + tinkerai subsystem)
 - [D] voice-assistant.sh (os/ai)
 - [D] voice-engine.sh (os/ai)
-- [D] train.py / inference.py / generate-dataset.py (os/ai)
+- [D] train.py / inference.py / generate-dataset.py (os/ai) + trained model
 - [D] predictive-intelligence.sh
+- [D] tinkerai/ subsystem: tinker_ai, tinker_search_ai, small_rnn_model,
+      computer_use, taskbar_ai, tinker_ui, data_generator, system-agent.sh
 - [P] AI-native kernel scheduler (predictive)
 
 ## L. Installer / ISO / Packaging (10+)
@@ -259,9 +293,16 @@ P = pending kernel C implementation.
 ---
 
 ## TOTALS
-- User-space done: ~217 shell scripts + 24 Python tools
-- Kernel C done: 27 modules (all hardware-tech targets + core infra),
+- User-space done: 217 shell scripts + 24 Python tools + 7 newly-added
+  tools (unit-converter, timestamp-converter, terminal-error-explainer,
+  accent-picker, cognitive-load, intent-launcher, drag-to-install)
+- Kernel C done: 27 modules (all 29 hardware-tech targets + core infra),
   all compiling into built-in.a
 - Pending kernel C: AI-native scheduler (deep core rewrite) + supporting
   wirings into scheduler/cpufreq/backlight/power_supply
+- Incomplete user-space placeholders to complete: installer.sh real
+  install, settings-gui.sh panels, text-expander keyhook, multi-monitor
+  brightness, shortcuts key binding, mobile-companion WebSocket daemon,
+  taskbar_ai screen context, remote-api GPU toggle, cross-app-automation
+  executor, subscription-audit transaction blocking, duplicate-finder
 - Pending packaging: ISO build + GitHub ship
