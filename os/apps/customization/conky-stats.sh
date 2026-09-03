@@ -24,7 +24,14 @@ ${color cyan}Up:${color white} ${upspeed eth0}
 ]];
 CONF
 
-start() { command -v conky >/dev/null 2>&1 && conky -d -c "$CONKYRC" & || echo "Install conky: sudo apt install conky-all"; }
+start() {
+    if command -v conky >/dev/null 2>&1; then
+        conky -d -c "$CONKYRC" &
+        echo "Conky started"
+    else
+        echo "Install conky: sudo apt install conky-all"
+    fi
+}
 stop() { pkill conky 2>/dev/null && echo "Conky stopped"; }
 edit() { nano "$CONKYRC"; }
 

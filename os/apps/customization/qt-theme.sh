@@ -17,7 +17,11 @@ set_theme() {
 }
 
 configure_qt5ct() {
-    command -v qt5ct >/dev/null 2>&1 && qt5ct & || echo "Install qt5ct: sudo apt install qt5ct"
+    if command -v qt5ct >/dev/null 2>&1; then
+        qt5ct &
+    else
+        echo "Install qt5ct: sudo apt install qt5ct"
+    fi
 }
 
 show_help() { echo "Usage: tinker-qt-theme [list|set|configure]"; }
