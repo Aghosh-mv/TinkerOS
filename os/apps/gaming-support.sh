@@ -99,6 +99,63 @@ install_wine() {
     echo "Wine installed"
 }
 
+install_nvidia() {
+    echo "=== NVIDIA Driver Installation ==="
+    echo ""
+    
+    # Detect NVIDIA GPU
+    local nvidia_device=""
+    if command -v lspci >/dev/null 2>&1; then
+        nvidia_device=$(lspci 2>/dev/null | grep -i "3D controller: NVIDIA\|VGA compatible controller: NVIDIA")
+    elif [ -d /sys/bus/pci/drivers/nvidia ]; then
+        nvidia_device="nvidia-driver-present"
+    fi
+    
+    # Also check for existing driver
+    local already_installed=0
+    command -v nvidia-smi >/dev/null 2>&1 && already_installed=1
+    
+    if [ -z "$nvidia_device" ] && [ $already_installed -eq 0 ]; then
+        echo "  No NVIDIA GPU detected on this system."
+        echo "  If you DO have an NVIDIA GPU but no NVIDIA-branded PCI device:"
+        echo "    - Check: lspci | grep -i nvidia"
+        echo "    - This system may be using Intel/AMD integrated graphics."
+        echo ""
+        echo "  Skipping proprietary driver install (nothing NVIDIA to drive)."
+        return 0
+    fi
+    
+    echo "  Detected NVIDIA hardware: $(echo "$nvidia_device" | head -1 | cut -d: -f3-)"
+    echo ""
+    
+    if [ $already_installed -eq 1 ]; then
+        local ver=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -1)
+        echo "  NVIDIA driver already installed (version: ${ver:-present})."
+        echo "  Ensuring gaming extras (Vulkan, 32-bit)..."
+    else
+        echo "  Installing proprietary NVIDIA driver..."
+    fi
+    
+    # Install driver + gaming deps by package manager
+    if command -v apt >/dev/null 2>&1; then
+        sudo apt update
+        sudo apt install -y nvidia-driver vulkan-tools libvulkan1 libvulkan1:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 2>&1 | tail -3
+        echo "  Enabled Vulkan (with 32-bit support for Proton/Steam)."
+    elif command -v dnf >/dev/null 2>&1; then
+        sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda vulkan-loader vulkan-loader.i686 2>&1 | tail -3
+        echo "  Note: run 'sudo grub2-mkconfig' or reboot to build akmod module."
+    elif command -v pacman >/dev/null 2>&1; then
+        sudo pacman -S --noconfirm nvidia nvidia-utils lib32-nvidia-utils vulkan-icd-loader lib32-vulkan-icd-loader 2>&1 | tail -3
+    else
+        echo "  Unsupported package manager. Install NVIDIA driver manually."
+        return 1
+    fi
+    
+    echo ""
+    echo "  ✓ NVIDIA driver install requested."
+    echo "  ⚠️  A reboot is REQUIRED for the driver to load. After reboot, verify: nvidia-smi"
+}
+
 enable_gaming_mode() {
     echo "Enabling Gaming Mode..."
     
@@ -160,7 +217,8 @@ show_gaming_status() {
 }
 
 install_all_gaming() {
-    echo "Installing all gaming tools..."
+    echo "Installing all gaming tools (including NVIDIA driver)..."
+    install_nvidia
     install_steam
     install_lutris
     install_wine
@@ -182,6 +240,7 @@ show_help() {
     echo "  install-mangohud Install MangoHUD"
     echo "  install-gamemode Install GameMode"
     echo "  install-gamescope Install Gamescope"
+    echo "  install-nvidia   Install/edit NVIDIA driver + Vulkan"
     echo "  on              Enable gaming mode"
     echo "  off             Disable gaming mode"
     echo "  optimize <game> Optimize for game"
@@ -197,6 +256,7 @@ case "$1" in
     install-mangohud) install_mangohud ;;
     install-gamemode) install_gamemode ;;
     install-gamescope) install_gamescope ;;
+    install-nvidia) install_nvidia ;;
     on|enable) enable_gaming_mode ;;
     off|disable) disable_gaming_mode ;;
     optimize) optimize_for_game "$2" ;;
