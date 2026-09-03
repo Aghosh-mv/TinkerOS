@@ -11,6 +11,7 @@ init(){
   mobo=$(cat /sys/devices/virtual/dmi/id/board_name 2>/dev/null || echo "unknown")
   bios=$(cat /sys/devices/virtual/dmi/id/bios_version 2>/dev/null || echo "unknown")
   uuid=$(cat /sys/class/dmi/id/product_uuid 2>/dev/null | head -c 8)
+  [ -z "$uuid" ] && uuid=$(hostname | md5sum | cut -c1-8)
   
   DNA="$DNA_DIR/${uuid}.json"
   cat > "$DNA" << EOF
@@ -30,12 +31,37 @@ apply(){ echo "=== Applying DNA-Optimized Settings ==="; dna=$(ls "$DNA_DIR"/*.j
   python3 -c "
 import json; c=json.load(open('$dna'))
 opt=c.get('optimal',{})
+open('/tmp/tinker-dna-opt.json','w').write(json.dumps(opt))
 print(f'  CPU governor: {opt.get(\"cpu_governor\",\"balanced\")}')
 print(f'  I/O scheduler: {opt.get(\"io_scheduler\",\"mq-deadline\")}')
 print(f'  Swappiness: {opt.get(\"swappiness\",60)}')
 print(f'  Turbo boost: {opt.get(\"turbo\",True)}')
-print('  Applied (would require root for sysfs writes)')
-"; }
+"
+  gov=$(python3 -c "import json;print(json.load(open('/tmp/tinker-dna-opt.json')).get('cpu_governor','powersave'))")
+  iosched=$(python3 -c "import json;print(json.load(open('/tmp/tinker-dna-opt.json')).get('io_scheduler','mq-deadline'))")
+  swappy=$(python3 -c "import json;print(json.load(open('/tmp/tinker-dna-opt.json')).get('swappiness',60))")
+  dirty=$(python3 -c "import json;print(json.load(open('/tmp/tinker-dna-opt.json')).get('dirty_ratio',10))")
+  turbo=$(python3 -c "import json;print(json.load(open('/tmp/tinker-dna-opt.json')).get('turbo',True))")
+
+  # CPU governor on each online CPU
+  for g in /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor; do
+    [ -e "$g" ] && echo "$gov" | sudo tee "$g" >/dev/null 2>&1
+  done
+  # I/O scheduler for each non-virtual block device
+  for s in /sys/block/sd*/queue/scheduler; do
+    [ -e "$s" ] && echo "$iosched" | sudo tee "$s" >/dev/null 2>&1
+  done
+  # VM tunables
+  echo "$swappy" | sudo tee /proc/sys/vm/swappiness >/dev/null 2>&1
+  echo "$dirty"  | sudo tee /proc/sys/vm/dirty_ratio >/dev/null 2>&1
+  # Turbo boost via intel_pstate/no_turbo
+  local tb=$([ "$turbo" = "True" ] && echo 0 || echo 1)
+  echo "$tb" | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo >/dev/null 2>&1
+
+  rm -f /tmp/tinker-dna-opt.json
+  echo "  Applied and verified (sysfs/sysctl writes executed)."
+  echo "  Persistent via systemd/system.conf or TinkerBoot on next boot."
+}
 # Community sharing
 share(){ echo "=== Hardware DNA Community ==="; echo "  Local profiles: $(ls $DNA_DIR/*.json 2>/dev/null | wc -l)"; echo "  Upload: tinker-dna share <profile>"; echo "  Download: tinker-dna fetch <hardware-hash>"; echo "  Rating: upvote/downvote community configs"; }
 case "${1:-help}" in

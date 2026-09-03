@@ -276,8 +276,39 @@ suspend_system() {
 
 tile_window() {
     local direction=$1
-    # Use wmctrl or xdotool for window management
-    echo "Tiling window: $direction"
+    # Real tiling via wmctrl/xdotool against active window + primary screen size
+    if ! command -v xdotool >/dev/null 2>&1; then
+        echo "xdotool not installed — install with: sudo apt install xdotool"
+        return 1
+    fi
+    local win res W H w h gx gy gw gh
+    win=$(xdotool getactivewindow 2>/dev/null) || { echo "No active window"; return 1; }
+    res=$(xrandr 2>/dev/null | grep '\*' | head -1)
+    W=$(echo "$res" | grep -oE '[0-9]+x[0-9]+' | head -1 | cut -dx -f1)
+    H=$(echo "$res" | grep -oE '[0-9]+x[0-9]+' | head -1 | cut -dx -f2)
+    [ -z "$W" ] && eval "$(xdotool getdisplaygeometry | awk '{print "W="$1" H="$2}')"
+    read gx gy <<< "$(xdotool getwindowgeometry --shell "$win" 2>/dev/null | awk -F= '/^X=/ {print $2} /^Y=/ {print $2}')"
+
+    case "$direction" in
+        left)   w=$((W/2)); h=$H; x=0;            y=0 ;;
+        right)  w=$((W/2)); h=$H; x=$((W/2));     y=0 ;;
+        top)    w=$W; h=$((H/2)); x=0;            y=0 ;;
+        bottom) w=$W; h=$((H/2)); x=0;            y=$((H/2)) ;;
+        maximize) w=$W; h=$H; x=0; y=0 ;;
+        minimize)
+            xdotool windowminimize "$win"; return ;;
+        restore)
+            xdotool windowmove "$win" "$gx" "$gy"; return ;;
+        *) echo "Unknown direction: $direction"; return 1 ;;
+    esac
+
+    if command -v wmctrl >/dev/null 2>&1; then
+        wmctrl -i -r "$win" -e 0,"$x","$y","$w","$h"
+    else
+        xdotool windowmove "$win" "$x" "$y"
+        xdotool windowsize "$win" "$w" "$h"
+    fi
+    echo "Tiled window $direction -> ${w}x${h} @ ($x,$y)"
 }
 
 show_app_launcher() {

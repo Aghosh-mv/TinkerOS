@@ -46,14 +46,57 @@ find_images() {
     find "$dir" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.gif" \) -exec md5sum {} \; 2>/dev/null | sort | uniq -w32 -d
 }
 
-# Remove duplicates
+# Remove duplicates (real: keep first copy per content hash, trash the rest)
 remove_dups() {
-    echo "Removing duplicates..."
+    local dir=${1:-$HOME}
+    local dry=${2:-0}
+
+    echo "Removing duplicates in $dir..."
     echo ""
     echo "CAUTION: This will delete duplicate files!"
-    echo "Only keep one copy of each duplicate"
+    echo "Only one copy of each duplicate content hash is kept."
     echo ""
-    echo "Not implemented - use with caution"
+
+    local trash="$HOME/.local/share/Trash/files"
+    mkdir -p "$trash"
+
+    local seen="" removed=0 candidates=""
+
+    while read -r hash file; do
+        [ -z "$hash" ] && continue
+        if echo "$seen" | grep -q "^$hash$"; then
+            candidates="$candidates
+$file"
+        else
+            seen="$seen
+$hash"
+        fi
+    done < <(find "$dir" -type f -exec md5sum {} \; 2>/dev/null)
+
+    if [ -z "$candidates" ]; then
+        echo "No duplicate files found."
+        return
+    fi
+
+    echo "Found duplicates (will remove):"
+    echo "$candidates" | sed '/^$/d' | sed 's/^/  /'
+    echo ""
+    if [ "$dry" = "1" ]; then
+        echo "DRY RUN: nothing deleted."
+        return
+    fi
+    read -p "Move these to trash and continue? (y/N): " confirm
+    [ "$confirm" != "y" ] && { echo "Aborted."; return; }
+
+    echo "$candidates" | sed '/^$/d' | while read -r file; do
+        if command -v trash-put >/dev/null 2>&1; then
+            trash-put "$file" && echo "Trashed: $file"
+        else
+            mv "$file" "$trash/" 2>/dev/null && echo "Moved to trash: $file"
+        fi
+    done
+    echo ""
+    echo "Done. Restorable from $trash"
 }
 
 show_help() {
@@ -63,7 +106,8 @@ show_help() {
     echo "  name [dir]        Find duplicates by name"
     echo "  content [dir]     Find duplicates by content"
     echo "  images [dir]      Find duplicate images"
-    echo "  remove            Remove duplicates (careful!)"
+    echo "  remove [dir]      Remove duplicates (careful!)"
+    echo "  dryrun [dir]      Show what would be removed without deleting"
     echo "  help              Show this help"
 }
 
@@ -71,6 +115,7 @@ case "$1" in
     name) find_by_name "$2" ;;
     content|md5) find_by_content "$2" ;;
     images|img) find_images "$2" ;;
-    remove|delete) remove_dups ;;
+    remove|delete) remove_dups "$2" ;;
+    dryrun|dry) remove_dups "$2" 1 ;;
     *) show_help ;;
 esac

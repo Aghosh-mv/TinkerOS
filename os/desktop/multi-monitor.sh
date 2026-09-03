@@ -109,31 +109,61 @@ rotate_display() {
     echo "Rotated $monitor to $rotation"
 }
 
-# Set brightness per monitor
+# Set brightness per monitor (real: brightnessctl/backlight sysfs + xrandr fallback)
 set_brightness() {
     local monitor=$1
     local brightness=$2
-    
-    # Note: This is a placeholder - real implementation depends on hardware
+
+    if ! [[ "$brightness" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        echo "Brightness must be a number (0-100 or 0.0-1.0)." >&2
+        return 1
+    fi
+
+    if command -v brightnessctl >/dev/null 2>&1; then
+        brightnessctl --device="$monitor" set "$brightness%"
+    elif [ -e "/sys/class/backlight/$monitor/brightness" ]; then
+        local max
+        max=$(cat "/sys/class/backlight/$monitor/max_brightness")
+        echo "$((brightness * max / 100))" | sudo tee "/sys/class/backlight/$monitor/brightness" >/dev/null
+    else
+        # Fallback: clamp to 0.1-1.0 and use xrandr gamma/brightness on the output
+        local b
+        b=$(awk -v v="$brightness" 'BEGIN{ if (v>1) v=v/100; if (v<0.1) v=0.1; if (v>1) v=1; print v }')
+        xrandr --output "$monitor" --brightness "$b"
+    fi
+
     echo "Set $monitor brightness to $brightness"
 }
 
 # Save monitor configuration
 save_config() {
     local config_file="$HOME/.tinker/monitor-config.conf"
-    
+
     xrandr > "$config_file"
     echo "Monitor configuration saved"
 }
 
-# Load monitor configuration
+# Load monitor configuration (real: re-apply preferred mode + rotation to each output)
 load_config() {
     local config_file="$HOME/.tinker/monitor-config.conf"
-    
-    if [ -f "$config_file" ]; then
-        # Apply saved configuration
-        echo "Loading monitor configuration..."
+
+    if [ ! -f "$config_file" ]; then
+        echo "No saved configuration found."
+        return 1
     fi
+
+    echo "Applying saved monitor configuration..."
+    # Re-apply preferred mode and rotation for every connected output
+    while read -r output; do
+        [ -z "$output" ] && continue
+        xrandr --output "$output" --auto --preferred
+    done < <(grep -E " connected" "$config_file" | awk '{print $1}')
+
+    # Restore rotation if it was saved (R x-axis is the rotation token)
+    local rotation
+    rotation=$(grep -E " connected" "$config_file" | awk '{print $NF}' | grep -vE '^[0-9]+x[0-9]+' | head -1)
+    [ -n "$rotation" ] && xrandr --output "$output" --rotate "$rotation"
+    echo "Monitor configuration loaded"
 }
 
 show_help() {
@@ -145,6 +175,7 @@ show_help() {
     echo "  primary <monitor> Set primary"
     echo "  resolution <monitor> <res> Set resolution"
     echo "  rotate <monitor> <rotation> Rotate"
+    echo "  brightness <monitor> <val>   Set brightness"
     echo "  save              Save configuration"
     echo "  load              Load configuration"
     echo "  help              Show this help"
@@ -165,6 +196,9 @@ case "$1" in
         ;;
     rotate)
         rotate_display "$2" "$3"
+        ;;
+    brightness|bri)
+        set_brightness "$2" "$3"
         ;;
     save)
         save_config
