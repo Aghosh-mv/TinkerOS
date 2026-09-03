@@ -24,17 +24,26 @@ Key commitment the user insists on (this keeps being forgotten):
 ## Important divergence / current honest status (as of 2026-09-03)
 - This repo IS a full Linux kernel source tree (downloaded from GitHub).
 - To date, the bulk of completed work lives in the `os/` directory:
-  a user-space "Control Center" with 99+ tool scripts (System, Gaming,
+  a user-space "Control Center" with 224+ tool scripts (System, Gaming,
   Hardware, Network, Customization, Security, Apps, Advanced), plus
   installer-level modules (hardware-detect, gaming-meta, gamemode-setup,
-  flatpak-support, NVIDIA/Proton).
-- There are CURRENTLY ZERO real modifications inside the kernel source
-  dirs (kernel/mm/fs/drivers/net/arch). `git status` is clean there.
-- The user considers this the gap: the real goal is kernel-internal code.
+  flatpak-support, NVIDIA/Proton), an AI subsystem (tinkerai/), and a
+  hardware-tech layer (29 feature dirs + C backends).
+- Real kernel work is now well underway: `kernel/tinker/` contains 27 real
+  kernel C modules (thermal_sched, gamemode, energy_sched, battery_life,
+  oled_wear, cache_tiering, coil_whine, data_shredder, dust_dislodger,
+  fpga_scaler, zero_latency_input, cxl_memory, dvfs_shaver, hardware_dna,
+  ray_traced_audio, neural_audio, predictive_prewarm, smart_power_grid,
+  adaptive_display, unified_memory, hardware_tuning, neural_super_res,
+  predictive_render, remote_hardware_api, sdgpu, finance_audit + tinker.c
+  core). All wired via Kconfig + Makefile (core-y), compile into
+  kernel/tinker/built-in.a.
+- Master feature list: os/docs/MASTER_TODO.md (~232 items, exhaustive).
 
 ## Direction going forward
 1. Keep the user-space `os/` layer (it is a usable product).
-2. START the real kernel work: pick features users want and implement
-   them INSIDE the kernel source (Kconfig, Makefile, kernel/ or fs/ etc.).
+2. Continue the real kernel work: wire the kernel/tinker hint modules
+   (gamemode/thermal/energy/oled/battery) into the actual scheduler,
+   cpufreq governor, backlight driver, and power_supply paths.
 3. Build a genuine TinkerOS `.iso` from this tree.
 4. Ship to GitHub at the end.
