@@ -1,116 +1,76 @@
 #!/bin/bash
 # TinkerOS Mobile Companion Daemon
-# WebSocket server for mobile companion protocol
+# WebSocket server for mobile companion protocol (stdlib Python RFC 6455)
 
 DAEMON_PORT=8766
 DAEMON_TOKEN="tinkeros-default"
 DAEMON_WS_DIR="$HOME/.tinker/mobile-companion"
 DAEMON_LOG="$HOME/.tinker/mobile-companion.log"
+SERVER="$HOME/.tinker/mobile-companion/mobile-companion-server.py"
+PIDFILE="$DAEMON_WS_DIR/daemon.pid"
 
-mkdir -p "$DAEMON_WS_DIR" "$DAEMON_LOG"
+mkdir -p "$DAEMON_WS_DIR"
 
-# Check if websocat or ws available
-check_ws_tool() {
-    if command -v websocat &>/dev/null; then
-        echo "websocat"
-    elif command -v ws &>/dev/null; then
-        echo "ws"
-    elif command -v python3 &>/dev/null; then
-        echo "python3"
-    else
-        echo "none"
-    fi
+# Install the server script into the per-user runtime dir
+install_server() {
+    cp "$(dirname "$0")/mobile-companion-server.py" "$SERVER"
+    chmod +x "$SERVER"
 }
 
-# Generate QR code for pairing
+# Generate QR/pairing code
 generate_qr() {
     local code="$1"
-    echo "QR Code: $code"
+    echo "Pairing code: $code"
     echo "Scan with: mobile companion app"
-    echo "Or enter code: $code"
 }
 
-# Handle incoming WebSocket message
-handle_ws_message() {
-    local message="$1"
-    
-    python3 -c "
-import json, sys
-message = json.loads('''$message''')
-msg_type = message.get('type', 'command')
-data = message.get('data', {})
-
-type msg_type
-
-# Remote control actions
-if msg_type == 'command':
-    action = data.get('action', '')
-    params = data.get('params', {})
-    print(f'Remote control: {action} {params}')
-    
-    # Example actions
-    case \$action in
-        media_play) print('Play') ;;
-        media_pause) print('Pause') ;;
-        volume_up) print('Volume up') ;;
-        volume_down) print('Volume down') ;;
-        lock_screen) print('Lock screen') ;;
-        sleep) print('Sleep') ;;
-        shutdown) print('Shutdown') ;;
-        reboot) print('Reboot') ;;
-    esac
-    
-# File transfer initiation
-elif msg_type == 'file_start':
-    filename = data.get('filename', '')
-    filesize = data.get('filesize', 0)
-    print(f'File transfer start: {filename} ({filesize} bytes)')
-    
-# Notification mirroring
-elif msg_type == 'notification':
-    title = data.get('title', '')
-    body = data.get('body', '')
-    print(f'Notification: {title} - {body}')
-    
-# Status request
-elif msg_type == 'status':
-    print('Sending status: CPU, RAM, battery, network')
-    
-# Second screen request
-elif msg_type == 'second_screen':
-    layout = data.get('layout', 'extend')
-    print(f'Second screen setup: {layout} layout')
-"
+start_server() {
+    install_server
+    TINKER_WS_PORT="$DAEMON_PORT" \
+    TINKER_WS_TOKEN="$DAEMON_TOKEN" \
+    nohup python3 "$SERVER" >> "$DAEMON_LOG" 2>&1 &
+    echo $! > "$PIDFILE"
 }
 
-# Main daemon loop (simplified - would use actual WebSocket server)
 case "${1:-}" in
     start)
         echo "Starting Mobile Companion Daemon..."
         echo "Port: $DAEMON_PORT"
         echo "Token: $DAEMON_TOKEN"
-        echo "QR Code: "
-        CODE=$(head -c 6 /dev/urandom | base64 | tr -d '=' | cut -c1-6)
-        generate_qr "$CODE"
-        echo "Pair by entering code: $CODE"
-        echo "WebSocket: ws://$(hostname -I | awk '{print $1}'):$DAEMON_PORT/ws?device_id=\$CODE&token=$DAEMON_TOKEN"
-        echo ""
-        echo "Press Ctrl+C to stop"
-        # In production, would start actual WebSocket server here
-        while true; do
-            sleep 60
-        done
+        if command -v python3 >/dev/null 2>&1; then
+            start_server
+            echo "WebSocket: ws://$(hostname -I 2>/dev/null | awk '{print $1}'):$DAEMON_PORT/ws?token=$DAEMON_TOKEN"
+            sleep 1
+            echo "Daemon log: $DAEMON_LOG"
+            echo "Status: $(grep -q listening "$DAEMON_LOG" && echo RUNNING || echo STARTING)"
+        else
+            echo "ERROR: python3 not installed — required for the WebSocket server"
+            exit 1
+        fi
         ;;
     stop)
-        echo "Stopping Mobile Companion Daemon"
+        if [ -f "$PIDFILE" ]; then
+            kill "$(cat "$PIDFILE")" 2>/dev/null && echo "Stopped"
+            rm -f "$PIDFILE"
+        else
+            pkill -f "mobile-companion-server.py" 2>/dev/null && echo "Stopped" || echo "Not running"
+        fi
+        ;;
+    status)
+        if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
+            echo "RUNNING (pid $(cat "$PIDFILE"))"
+        else
+            echo "STOPPED"
+        fi
         ;;
     pair)
         generate_qr "$2"
         ;;
     *)
-        echo "Usage: $0 {start|stop|pair [code]}"
-        echo "  start   - Start the mobile companion daemon"
+        echo "Usage: $0 {start|stop|status|pair [code]}"
+        echo "  start   - Start the mobile companion WebSocket daemon"
         echo "  stop    - Stop the daemon"
-        echo "  pair    - Generate QR code/pairing code"
+        echo "  status  - Check daemon status"
+        echo "  pair    - Generate QR/pairing code"
         ;;
-    esac
+esac

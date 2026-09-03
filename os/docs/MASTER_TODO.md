@@ -37,11 +37,8 @@ Status legend:
 - [D] GUI search paths expanded to reach ai/, security/, data/, drivers/,
       hardware-tech/ (hidden features now launchable)
 
-## A2. Newly-added tools (from completeness audit, section B tools) (8)
-- [D] unit-converter.sh (os/apps/system)
-- [D] timestamp-converter.sh (os/apps/system)
+## A2. Newly-added tools (from completeness audit, section B tools) (5)
 - [D] terminal-error-explainer.sh (os/apps/system)
-- [D] accent-picker.sh (os/apps/system) — long-press diacritics
 - [D] cognitive-load.sh (os/apps/system) — context-aware Do Not Disturb
 - [D] intent-launcher.sh (os/apps/system) — intent-driven tool assembly
 - [D] drag-to-install.sh (os/apps/system) — one-step deb/rpm/AppImage
@@ -293,16 +290,11 @@ P = pending kernel C implementation.
 ---
 
 ## TOTALS
-- User-space done: 217 shell scripts + 24 Python tools + 7 newly-added
-  tools (unit-converter, timestamp-converter, terminal-error-explainer,
-  accent-picker, cognitive-load, intent-launcher, drag-to-install)
+- User-space done: 217 shell scripts + 24 Python tools + 4 newly-added
+  tools (terminal-error-explainer, cognitive-load, intent-launcher,
+  drag-to-install)
 - Kernel C done: 27 modules (all 29 hardware-tech targets + core infra),
   all compiling into built-in.a
-- Pending kernel C: AI-native scheduler (deep core rewrite) + supporting
-  wirings into scheduler/cpufreq/backlight/power_supply
-- Incomplete user-space placeholders to complete: installer.sh real
-  install, settings-gui.sh panels, text-expander keyhook, multi-monitor
-  brightness, shortcuts key binding, mobile-companion WebSocket daemon,
-  taskbar_ai screen context, remote-api GPU toggle, cross-app-automation
-  executor, subscription-audit transaction blocking, duplicate-finder
+- Remaining kernel work: AI-native scheduler (deep core rewrite) + wiring
+  hint modules into scheduler/cpufreq/backlight/power_supply
 - Pending packaging: ISO build + GitHub ship
