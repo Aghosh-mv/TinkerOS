@@ -26,7 +26,38 @@ install_flatpak() {
     # Add Flathub repository
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     
+    # Link to the software store (PackageKit backend) so Flatpak apps
+    # appear in the desktop software center / Software Center.
+    if command -v apt >/dev/null 2>&1 && [ -x /usr/libexec/packagekitd ] || systemctl list-units 2>/dev/null | grep -qi packagekit; then
+        sudo apt install -y gnome-software-plugin-flatpak 2>/dev/null || \
+        sudo apt install -y plasma-discover-backend-flatpak 2>/dev/null || true
+        echo "  Linked Flathub -> Software Center (PackageKit)."
+    fi
+    
     echo "Flatpak installed with Flathub"
+}
+
+# Show recommended apps from Flathub (safe, store-based)
+recommended() {
+    echo "=== Recommended Flatpak Apps (from Flathub) ==="
+    echo "  All install safely via the Software Center or: $0 install <app-id>"
+    echo ""
+    echo "  Everyday / productivity:"
+    echo "    com.spotify.Client            Spotify"
+    echo "    org.librepod.LibreOffice      LibreOffice (office suite)"
+    echo "    org.telegram.desktop          Telegram Desktop"
+    echo "    org.mozilla.firefox           Firefox"
+    echo ""
+    echo "  Communication:"
+    echo "    com.discordapp.Discord        Discord"
+    echo "    us.zoom.Zoom                  Zoom"
+    echo ""
+    echo "  Gaming:"
+    echo "    com.valvesoftware.Steam       Steam"
+    echo "    com.usebottles.bottles        Bottles (Windows apps/games)"
+    echo "    net.lutris.Lutris             Lutris (game manager)"
+    echo ""
+    echo "  Install e.g.: $0 install com.spotify.Client"
 }
 
 # Install app
@@ -97,6 +128,7 @@ show_help() {
     echo "  search <query>    Search apps"
     echo "  info <app>        App info"
     echo "  clean             Clean unused"
+    echo "  recommended       Recommended apps (Flathub)"
     echo "  help              Show this help"
 }
 
@@ -111,5 +143,6 @@ case "$1" in
     search) search_apps "$2" ;;
     info) app_info "$2" ;;
     clean) clean_unused ;;
+    recommended|reco) recommended ;;
     *) show_help ;;
 esac
