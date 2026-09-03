@@ -414,7 +414,6 @@ class TinkerOSControlCenter(QMainWindow):
                 f"/home/tinkerspace/linux-kernel/os/apps/network/{cmd}.sh",
                 f"/home/tinkerspace/linux-kernel/os/apps/customization/{cmd}.sh",
                 f"/home/tinkerspace/linux-kernel/os/apps/security/{cmd}.sh",
-                f"/home/tinkerspace/linux-kernel/os/apps/apps/{cmd}.sh",
                 f"/home/tinkerspace/linux-kernel/os/system/{cmd}.sh",
                 f"/home/tinkerspace/linux-kernel/os/desktop/{cmd}.sh",
             ]
