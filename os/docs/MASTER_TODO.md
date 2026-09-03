@@ -64,6 +64,13 @@ Status legend:
       markdown-editor.sh, global-search.sh, command-palette.sh,
       quick-actions.sh  (all in os/apps/system/)
 
+## A6. System "Invisible sandboxing" (portals vs. prompts) (1)
+- [I] If a user explicitly interacts with a system dialog (file picker, print
+  menu, etc.), that action grants implicit permission for that specific item only;
+  no broad folder/device access prompts are shown. Applications only ever see
+  the exact file/interaction the user selected, eliminating the need for
+  separate "Folder Access"/"Camera"/"Microphone" authorization prompts.
+
 ## B. System category (27)
 - [D] adaptive-power-grid.sh
 - [D] audio-clarity.sh
@@ -290,11 +297,42 @@ P = pending kernel C implementation.
 ---
 
 ## TOTALS
-- User-space done: 217 shell scripts + 24 Python tools + 4 newly-added
+- User-space done: 217 shell scripts + 24 Python tools + 5 newly-added
   tools (terminal-error-explainer, cognitive-load, intent-launcher,
-  drag-to-install)
+  drag-to-install, sandbox isolation-decision gate)
 - Kernel C done: 27 modules (all 29 hardware-tech targets + core infra),
   all compiling into built-in.a
 - Remaining kernel work: AI-native scheduler (deep core rewrite) + wiring
   hint modules into scheduler/cpufreq/backlight/power_supply
 - Pending packaging: ISO build + GitHub ship
+- [I] Evaluate systems languages for future rewrite: Rust (memory safety + Cargo
+  ecosystem, requires rustc/llvm in build pipeline, good for user-space
+  tools and gradual kernel migration) and Zig (C-interop seamless, single-bin
+  binaries, easy cross-compilation, can link into built-in.a, good for
+  systems scripting replacements). Decision: track as "possible future" — no
+  immediate action given verified C build and kernel mission priority.
+
+## A7. Hack Mode / Kali-aesthetic toggle (1)
+- [I] Fun-mode toggle that thems the OS into a Kali-linux-inspired aesthetic
+  when enabled: Guy Fawkes ASCII art on login, dark terminal color scheme,
+  selective feature blocking (email/send-gated by default, requir e explicit
+  permission to re-enable), and a "hack code" scrolling display. When disabled,
+  all features restore to normal mode. Feature blocking is per-application via
+  a permissions file (~/.tinker/hack-perms.conf), not a true security
+  mechanism (research confirms OS UI toggles cannot make a system
+  unhackable). This is a themed fun-mode / educational exercise in
+  feature-gating, not real OS hardening.
+
+- [I] Optional containerized feature set: when hack mode is active, a
+  sub-shell scoped environment limits access to certain user-space tools
+  (mail clients, send-file scripts) unless explicitly permitted in the
+  permissions file. This is a sandbox-like effect using shell profile
+  switching, not a full container (Docker-level virtualization would be
+  separate infrastructure).
+
+- [I] Gaming / Standard / Hack mode quick-switch: the Control Center
+  quick-actions panel will include a "Mode" entry that cycles Normal -->
+  Hack --> Standard --> Normal, applying themed colour schemes, prompt
+  strings, and feature-gate state for each.
+
+## B. System category (27)
