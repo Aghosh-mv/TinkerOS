@@ -50,11 +50,17 @@ enter() {
   # Layer the defense stack so YOUR box is much harder to hack while you work
   echo "Applying hacker-defense hardening..."
   "$TERR_ROOT/hack/hack-defense.sh" apply 2>/dev/null || echo "  defense stack skipped (needs root)"
+  # HACK world rule: the ONLY browser that works here is Tor Browser.
+  # We enforce it by making non-Tor browsers fail-to-launch in this world
+  # via a world-scoped PATH/bin shim (mode-scoped, like apps).
+  "$TERR_ROOT/hack/browser-gate.sh" enforce
+  echo ""
   # fail-open toggle of amnesia firewall on entry if a NIC is specified
   local fw="${1:-}"
   [ -n "$fw" ] && "$TERR_ROOT/hack/amnesia-firewall.sh" on
   echo ""
   echo "Defenses + gating active. HACK WORLD READY."
+  echo "Browser: ONLY Tor Browser is permitted in this world."
   echo "Run 'threat-monitor.sh threats' for a live snapshot; 'code' to scan your scripts for bugs."
 }
 

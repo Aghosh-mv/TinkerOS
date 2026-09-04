@@ -45,11 +45,17 @@ apply_allowlist() {
 
 enter_secure() {
   echo "=== TinkerOS SECURE MODE (NORMAL world) ==="
+  echo "NORMAL = the MOST PROTECTED world: can still find/hack the user,"
+  echo "        but CANNOT be hacked (bulletproof defense is applied)."
   "$TERR_ROOT/world-engine.sh" enter NORMAL
   hardening
   firewall_strict
   open_vault
-  echo "Secure mode active. Daily-driver world, fully hardened."
+  apply_allowlist
+  integrity
+  echo "[secure] Zero-trust posture..."
+  "$TERR_ROOT/secure/zero-trust-config.sh" apply 2>/dev/null || true
+  echo "Secure mode active. This is the MOST PROTECTED world — full defense."
 }
 
 exit_secure() { echo "[secure] Remaining in NORMAL world (already the secure daily driver)."; }

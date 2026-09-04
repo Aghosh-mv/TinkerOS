@@ -1,0 +1,14 @@
+# Plymouth theme for TinkerOS
+# Boot / reboot / restart / shutdown intro: TinkerOS logo on dark background
+# with a subtle animated progress bar. This is the Linux-native, most
+# effective way to show the branded intro at every boot.
+
+Name=TinkerOS
+
+Description=TinkerOS branded boot/shutdown intro (dark, 3 left-slanting line logo)
+
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/tinkeros
+ScriptFile=/usr/share/plymouth/themes/tinkeros/tinkeros.script

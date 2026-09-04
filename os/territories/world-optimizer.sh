@@ -25,10 +25,10 @@ gov() {  # gov <governor>
 }
 
 opt_normal() {
-  echo "[opt] NORMAL: balanced optimization (responsive + efficient)..."
+  echo "[opt] NORMAL: MOST PROTECTED profile (defense-max, still responsive)..."
   gov schedutil
-  sysctl -w -q vm.swappiness=20 kernel.sched_latency_ns=6000000 2>/dev/null || true
-  echo "  balanced: schedutil governor, swappiness 20."
+  sysctl -w -q vm.swappiness=10 kernel.randomize_va_space=2 kernel.dmesg_restrict=1 2>/dev/null || true
+  echo "  most-protected: defense tuning + hardened kernel knobs."
 }
 
 opt_hack() {

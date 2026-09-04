@@ -62,6 +62,13 @@ matrix() {
   echo "TinkerOS mode containment matrix:"
   engine matrix
   echo ""
+  echo "World definitions:"
+  printf '  HACK   = max work PROTECTING the hacker AND HELPING them hack more\n'
+  printf '           (offensive + defensive, both maximized)\n'
+  printf '  NORMAL = the MOST PROTECTED world: can still FIND/hack the user,\n'
+  printf '           but CANNOT be hacked (bulletproof defense)\n'
+  printf '  GAME   = the MAXIMUM-optimized world (best gaming performance)\n'
+  echo ""
   echo "Keybind map:"
   printf '  Space+Shift+1 / Ctrl+Arrow-Left  -> HACK      (left)\n'
   printf '  Space+Shift+2 / Ctrl+Arrow-Up    -> NORMAL/secure (center)\n'

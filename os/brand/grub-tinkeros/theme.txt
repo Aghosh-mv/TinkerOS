@@ -1,0 +1,37 @@
+# TinkerOS GRUB theme — branded boot menu on a dark background.
+# Builds on the real GRUB bootloader (modifies it with our theme).
+# Compile with: grub-mkfont for the font, or reuse an existing GRUB font.
+
+desktop-image: "tinkeros_boot.png"
+desktop-color: "#0D0D12"
+title-text: "TinkerOS" "7.2.0-rc6"
+title-color: "#00D4AA"
+title-font: "DejaVu Bold 16"
+
+message-color: "#888888"
+message-font: "DejaVu Sans Regular 12"
+
+# boot menu
++ boot_menu {
+    left = 25%
+    top = 40%
+    width = 50%
+    height = 30%
+    item_font = "DejaVu Sans Regular 14"
+    item_color = "#E0E0E0"
+    selected_item_color = "#FFFFFF"
+    item_height = 26
+    item_spacing = 8
+    selected_item_pixmap_style = "select_*.png"
+    menu_pixmap_style = "menu_*.png"
+}
+
++ label {
+    left = 25%
+    top = 72%
+    width = 50%
+    align = "center"
+    text = "Your Computer. Your Rules."
+    color = "#00D4AA"
+    font = "DejaVu Sans Regular 12"
+}

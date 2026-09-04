@@ -1,0 +1,68 @@
+# TinkerOS Plymouth theme script
+# Draws the TinkerOS logo (3 left-slanting lines) centered on the dark
+# background with a teal progress bar, on boot and shutdown.
+
+Image logo = Image("tinkeros_logo.png");
+
+# ---- dark background ----
+Window.SetBackgroundTopColor (0.05, 0.05, 0.07);
+Window.SetBackgroundBottomColor (0.05, 0.05, 0.07);
+
+# ---- logo sprite, centered ----
+Sprite.SetImage (logo);
+window_width  = Window.GetWidth ();
+window_height = Window.GetHeight ();
+logo_w = Sprite.GetWidth (logo);
+logo_h = Sprite.GetHeight (logo);
+Sprite.SetPosition (logo, (window_width - logo_w) / 2, (window_height - logo_h) / 2 - 30, 0);
+
+# ---- progress bar ----
+bar_w = 320;
+bar_h = 6;
+bar_x = (window_width - bar_w) / 2;
+bar_y = (window_height - logo_h) / 2 + 120;
+
+float progress = 0.0;
+
+fun update_bar (bar_pct) {
+    int fill_w = bar_pct * bar_w / 100;
+    if (fill_w > bar_w) { fill_w = bar_w; }
+    if (fill_w < 0) { fill_w = 0; }
+    Rectangle.SetFillColor (0.0, 0.83, 0.67, 1.0);   # tinkeros teal
+    Rectangle.Draw (bar_x, bar_y, fill_w, bar_h);
+    # glow
+    Rectangle.SetFillColor (0.0, 0.83, 0.67, 0.15);
+    Rectangle.Draw (bar_x, bar_y - 2, bar_w, bar_h + 4);
+}
+
+fun refresh_callback () {
+    update_bar (progress);
+}
+
+# ---- text helpers ----
+fun show_status (city) {
+    Text.SetColor (0.55, 0.55, 0.6, 1.0);
+    Text.SetFontName ("DejaVu Sans");
+    Text.SetFontSize (18);
+    Text.SetPosition (20, window_height - 60, 0);
+}
+
+# ---- progress updates from plymouthd ----
+fun progress_callback (new_pct) {
+    if (new_pct > progress) {
+        progress = new_pct;
+        refresh_callback ();
+    }
+}
+
+Splash.EnableTimeoutCallback (refresh_callback);
+Plymouth.SetUpdateProgressFunction (progress_callback);
+
+fun message_callback (message) {
+    show_status (message);
+}
+Plymouth.SetUpdateStatusFunction (message_callback);
+
+# ---- startup ----
+Plymouth.SetBootProgressUpdate (0.0);
+refresh_callback ();

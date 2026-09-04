@@ -13,8 +13,23 @@
 - If you realize you stalled (didn't produce work), resume immediately
   with the next concrete build step — do not apologize at length.
 
-This file exists so the project's true origin and goal survive context
-compaction. If you are an agent resuming work here, READ THIS FIRST.
+## BUILD ON REAL LINUX (READ EVERY SESSION)
+- TinkerOS is BUILT ON TOP OF REAL LINUX, a real running Linux system. We
+  do NOT re-invent the wheel.
+- Use Linux's native mechanisms as the DEFAULT and skin/theme/extend them:
+  * Login page  = the real display manager greeter (GDM3/SDDM/LightDM).
+    Do not build a brand-new login system; THEME the existing greeter.
+  * Boot intro  = real Plymouth theme (boot/reboot/restart/shutdown splash)
+    + GRUB theme for the boot menu. These are the standard, most effective.
+  * Everything user-space that Linux already provides (login, splash, init,
+    packaging, graphics/Wayland/X11, drivers) is leveraged, not replaced.
+- Custom branded work supplements Linux (a themed GDM greeter, a branded
+  Plymouth + GRUB theme, a custom alternative greeter) — but the REAL Linux
+  substrate is always the foundation and remains functional.
+- This commitment is a standing rule: never forget we are building on a
+  real, booting Linux distribution.
+
+## The one true mission (verbatim, from the founding session)
 
 ## The one true mission (verbatim, from the founding session)
 Session: `Improving Linux with user features from GitHub`
