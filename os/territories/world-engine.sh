@@ -26,6 +26,7 @@ WORLDS_DIR="$TERR_ROOT"
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/tinker/worlds"
 CURRENT="$STATE_DIR/current-world"
 HISTORY="$STATE_DIR/world-history.log"
+mkdir -p "$STATE_DIR"
 
 WORLD_CODES=(NORMAL HACK GAME)
 WORLD_KEYBINDS=("Space+Shift+2" "Space+Shift+1" "Space+Shift+3")
