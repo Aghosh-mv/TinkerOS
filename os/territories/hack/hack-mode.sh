@@ -54,6 +54,9 @@ enter() {
   # We enforce it by making non-Tor browsers fail-to-launch in this world
   # via a world-scoped PATH/bin shim (mode-scoped, like apps).
   "$TERR_ROOT/hack/browser-gate.sh" enforce
+  # HACK world rule: ONLY safe apps you explicitly approve may run here.
+  # Nothing else launches — an unapproved/unknown app could expose you.
+  "$TERR_ROOT/hack/app-guard.sh" enforce
   echo ""
   # fail-open toggle of amnesia firewall on entry if a NIC is specified
   local fw="${1:-}"
