@@ -354,6 +354,18 @@ P = pending kernel C implementation.
   Noted for future when kernel modularity allows. Research indicates this
   needs kernel CAP_SYS_RAWIO, ACS/ATS support, and is distribution-specific.
 
+## A8c. Novel brainstormed ideas (new-gen, not found tech) (2)
+- [I] Consent-as-a-syscall: a native kernel interface (tie-in to A6 portal
+  sandbox) where access grants are first-class ephemeral capability TOKENS
+  created by an explicit UI intent (file picker / device chooser) and
+  requested via a syscall. Most OSes use DAC/ACL/caps; scoped ephemeral
+  intent-token capabilities as a native construct is the novel angle.
+- [I] Thermal pre-scheduling (self-heating prediction): predict CPU load
+  spikes from app telemetry + historical phase patterns, then PRE-cool /
+  downshift / pre-fetch AHEAD of the spike (proactive, not reactive —
+  different from current thermal_sched which reacts to heat). Ties into
+  kernel/tinker thermal_sched.c + predictive_prewarm.c.
+
 ## A9. Advanced Security Architecture (10 ideas captured for future)
 - [I] Ephemeral RAM Disks: feature noted — running hack workspace entirely
   in tmpfs so all traces vanish on mode switch or power loss

@@ -30,6 +30,15 @@ HISTORY="$STATE_DIR/world-history.log"
 WORLD_CODES=(NORMAL HACK GAME)
 WORLD_KEYBINDS=("Space+Shift+2" "Space+Shift+1" "Space+Shift+3")
 
+# return keybind index for a world code
+keybind_idx() {
+  local w="$1" i
+  for i in "${!WORLD_CODES[@]}"; do
+    [ "${WORLD_CODES[$i]}" = "$w" ] && echo "$i" && return 0
+  done
+  echo 0
+}
+
 # ---- world registry ---------------------------------------------------------
 world_dirs() {  # returns the three world directory names
   for w in "${WORLD_CODES[@]}"; do
@@ -147,9 +156,10 @@ keyboard_switch() {
 # ---- introspection -----------------------------------------------------------
 debug_matrix() {
   echo "World containment matrix:"
-  local w app; for w in "${WORLD_CODES[@]}"; do
-    printf '  %-6s (bind %s): ' "$w" "${WORLD_KEYBINDS[@]:-}"
-    app="$(current_world)"
+  local w idx
+  for w in "${WORLD_CODES[@]}"; do
+    idx="$(keybind_idx "$w")"
+    printf '  %-6s (bind %s): ' "$w" "${WORLD_KEYBINDS[$idx]}"
     list_apps "$w" | tail -n +2 | tr '\n' ' '; echo ""
   done
 }

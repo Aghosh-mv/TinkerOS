@@ -8,7 +8,7 @@ TERR_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # ---- paths ------------------------------------------------------------------
 TINKER_CFG="${TINKER_CFG:-$HOME/.config/tinker}"
-TINKER_STATE="${TINKER_STATE:-$XDG_STATE_HOME/tinker}"
+TINKER_STATE="${TINKER_STATE:-${XDG_STATE_HOME:-$HOME/.local/state}/tinker}"
 mkdir -p "$TINKER_CFG" "$TINKER_STATE"
 
 world_state() { printf '%s' "$TINKER_STATE/worlds/$(printf '%s' "${1:-NORMAL}" | tr '[:upper:]' '[:lower:]')"; }
