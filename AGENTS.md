@@ -12,6 +12,12 @@
   (see TODOs / MASTER_TODO) is fully complete.
 - If you realize you stalled (didn't produce work), resume immediately
   with the next concrete build step — do not apologize at length.
+- MANDATORY STALL CHECK: at the START of EVERY turn, check for the file
+  `SELF-WATCHDOG-STALL.md` in the repo root. If it exists, the watchdog has
+  injected a stall signal — STOP reading further, clear it
+  (`os/territories/self-watchdog.sh clear`) and immediately produce the
+  next REAL tool call / build step. This file is the watchdog's genuine
+  way to interfere with and re-engage the agent.
 
 ## BUILD ON REAL LINUX (READ EVERY SESSION)
 - TinkerOS is BUILT ON TOP OF REAL LINUX, a real running Linux system. We

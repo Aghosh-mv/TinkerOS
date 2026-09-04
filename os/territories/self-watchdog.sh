@@ -21,6 +21,8 @@ IDLE_SECS="${IDLE_SECS:-60}"
 POLL_SECS="${POLL_SECS:-5}"
 PIDFILE="${TINKER_STATE:-$HOME/.local/state/tinker}/self-watchdog.pid"
 LOGFILE="${TINKER_STATE:-$HOME/.local/state/tinker}/self-watchdog.log"
+AGENTS_FILE="$WATCH_DIR/AGENTS.md"
+STALL_MARKER="$WATCH_DIR/SELF-WATCHDOG-STALL.md"
 mkdir -p "$(dirname "$PIDFILE")"
 
 # newest mtime of any file under WATCH_DIR (excluding our own log/pid)
@@ -34,17 +36,48 @@ newest_mtime() {
 log() { echo "$(date -Iseconds) $*" >> "$LOGFILE"; }
 
 alert() {
-  local i
+  local i now
+  now="$(date -Iseconds)"
   for _ in 1 2 3; do printf '\a'; done          # terminal bell
+
+  # === REAL INTERFERENCE ===
+  # 1) Injected STALL marker at repo root that the agent MUST read each turn.
+  cat > "$STALL_MARKER" <<EOF
+# 🚨 SELF-WATCHDOG STALL INJECTION — READ THIS NOW 🚨
+Injected at: $now
+No agent work output for > ${IDLE_SECS}s (as of $(date -d "@$(newest_mtime)" '+%F %T' 2>/dev/null)).
+
+STOP stalling. CUE ON and produce the next REAL tool call / build step
+IMMEDIATELY. Do not reply with filler. Do not loop words. Take one concrete
+action (write a file, run a build, commit) right now.
+
+Last build state: $(git -C "$WATCH_DIR" log --oneline -1 2>/dev/null)
+EOF
+
+  # 2) If AGENTS.md exists, stamp the reminder block so every future session
+  #    re-read re-surfaces the stall (agent is contractually bound to it).
+  if [ -f "$AGENTS_FILE" ]; then
+    sed -i 's/^## SELF-WATCHDOG (READ THIS EVERY SESSION)/## SELF-WATCHDOG (READ THIS EVERY SESSION)  <-- STALL INJECTED '\''THIS IS YOUR CUE: RE-CHECK WORK NOW'\'' at '"$now"'/' "$AGENTS_FILE" 2>/dev/null || true
+  fi
+
+  # console blast
   i=0
-  # blast the reminder repeatedly so the agent/user cannot miss it
   while [ "$i" -lt 5 ]; do
     echo ""
-    echo "!!! SELF-WATCHDOG: NO WORK OUTPUT FOR > ${IDLE_SECS}s — CUE ON / KEEP BUILDING !!!"
-    echo "    Latest file change was: $(date -d "@$(newest_mtime)" '+%F %T' 2>/dev/null)"
+    echo "!!! SELF-WATCHDOG: NO WORK OUTPUT FOR > ${IDLE_SECS}s — CUE ON / KEEP BUILDING !!!  ($now)"
+    echo "    Latest file change: $(date -d "@$(newest_mtime)" '+%F %T' 2>/dev/null)"
+    echo "    STALL injected -> $STALL_MARKER"
     sleep 1
     i=$((i+1))
   done
+}
+
+clear_stall() {
+  rm -f "$STALL_MARKER"
+  if [ -f "$AGENTS_FILE" ]; then
+    sed -i 's/  <-- STALL INJECTED .*$/  /' "$AGENTS_FILE" 2>/dev/null || true
+  fi
+  echo "stall marker cleared."
 }
 
 watch() {
@@ -107,8 +140,11 @@ case "${1:-}" in
   start) start ;;
   stop) stop ;;
   status) status ;;
+  clear) clear_stall ;;
   run) watch ;;
   *) echo "TinkerOS Self-Watchdog
-Usage: ${0##*/} <start|stop|status>
-+  Monitors the repo for agent work output; alerts if idle > ${IDLE_SECS}s." ;;
+Usage: ${0##*/} <start|stop|status|clear>
++  Monitors the repo for agent work output; alerts if idle > ${IDLE_SECS}s.
++  On a stall it INJECTS a SELF-WATCHDOG-STALL.md marker + stamps AGENTS.md
++  so the agent is forced to see it and resume." ;;
 esac
