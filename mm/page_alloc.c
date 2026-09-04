@@ -4108,7 +4108,8 @@ __alloc_pages_may_oom(gfp_t gfp_mask, unsigned int order,
 	 * filesystem recursion. Once filesystems are ready to handle allocation
 	 * failures more gracefully, we should just bail out here.
 	 */
-	if (gfp_mask & __GFP_NOFS) {
+	if ((gfp_mask & (__GFP_RECLAIM | __GFP_IO)) &&
+	    !(gfp_mask & __GFP_FS)) {
 		/*
 		 * For GFP_NOFS, we don't want to invoke OOM killer as it
 		 * might trigger filesystem operations. Just fail the allocation.
