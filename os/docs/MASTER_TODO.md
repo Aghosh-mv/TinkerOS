@@ -327,6 +327,26 @@ P = pending kernel C implementation.
   applying themed colour schemes, prompt strings, and feature-gate state
   for each.
 
+## A8b. In-OS Software GPU Mimicry (brainstorm — no GPU, no cloud) (1)
+- [I] Ideas to mimic GPU functionality using only CPU + OS, in-system
+  (not restreaming cloud GPUs). HONEST bound: any "GPU without a GPU"
+  ultimately = CPU-parallel compute + vectorization + software
+  rendering; the novel, buildable contribution is a SOFTWARE-DEFINED GPU
+  abstraction INSIDE the OS that imitates the GPU *interface/architecture*
+  on CPU resources, not GPU speed:
+    - /dev/tinker-gpu device exposing a GPU-like command-buffer/compute API
+    - a software "warp/wavefront" scheduler that packs small tasks into
+      wide SIMD (AVX-512/Neon) batches and distributes across cores as if
+      they were GPU SMs, with memory-bandwidth-aware dispatch
+    - a "unified VRAM" pool in RAM (ties into sdgpu.c software-defined GPU
+      plane already in kernel/tinker)
+    - a tiny "compute shader" DSL compiled to vectorized CPU loops
+  REALITY: enables GPU-style programming/API on machines with no GPU
+  (headless/systems without acceleration) and a reference implementation
+  for testing — but it is CPU compute with a GPU-shaped interface, never
+  faster than real GPUs. Marked [I] concept; requires kernel sdgpu.c
+  extension + user-space front-end.
+
 ## A8. Hardware Passthrough Toggles (1)
 - [R] Documented idea: Real hardware passthrough (PCIe/USB/devices directly
   to a user-space offensive workspace) requires kernel-level driver

@@ -1,5 +1,18 @@
 # TinkerOS — PROJECT MEMORY (do not delete; read at session start)
 
+## SELF-WATCHDOG (READ THIS EVERY SESSION)
+- This is a very long-running autonomous build. The user will NOT prompt or
+  "cue on" repeatedly — they expect the agent to keep working until every
+  task is DONE.
+- STDIN/console loads constantly. If there is a steady stream of user
+  messages, keep pumping out real work (create/fix files, run builds,
+  commit) with ZERO gaps.
+- NEVER stop mid-task waiting for a prompt. If you finish a chunk, keep
+  going to the next chunk. Only stop when the current explicit task list
+  (see TODOs / MASTER_TODO) is fully complete.
+- If you realize you stalled (didn't produce work), resume immediately
+  with the next concrete build step — do not apologize at length.
+
 This file exists so the project's true origin and goal survive context
 compaction. If you are an agent resuming work here, READ THIS FIRST.
 
