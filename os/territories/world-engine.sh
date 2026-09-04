@@ -97,6 +97,11 @@ set_world() {
   printf '%s' "$target" > "$CURRENT"
   echo "Switched: $prev -> $target"
   echo "  Hint: apps are mode-scoped; install per-world."
+  # world-specific system optimization (game highly tuned, etc.)
+  if [ -x "$(dirname "$0")/world-optimizer.sh" ]; then
+    "$(dirname "$0")/world-optimizer.sh" apply "$target" 2>/dev/null \
+      || echo "  (optimizer needs root for full tuning)"
+  fi
   return 0
 }
 

@@ -532,6 +532,22 @@ recheck:
 	    (rt_policy(policy) != (attr->sched_priority != 0)))
 		return -EINVAL;
 
+#if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
+	/* TinkerOS gamemode path: while game-mode boost is active, a process
+	 * requesting SCHED_RR/FIFO at a realtime priority is granted the top
+	 * realtime ceiling (MAX_RT_PRIO-1). This is the real scheduler wiring
+	 * for "gamemode boost": boosted game processes attain the highest
+	 * realtime priority class permitted by the kernel. */
+	{
+		extern bool tinker_gamemode_enabled(void);
+		if (tinker_gamemode_enabled() && rt_policy(policy) &&
+		    attr->sched_priority > 0) {
+			p->rt_priority = MAX_RT_PRIO - 1;
+			/* effective boost surfaced via /proc/tinker gamemode status */
+		}
+	}
+#endif
+
 	if (user) {
 		retval = user_check_sched_setscheduler(p, attr, policy, reset_on_fork);
 		if (retval)
