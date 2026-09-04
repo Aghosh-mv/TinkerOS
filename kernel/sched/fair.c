@@ -9601,6 +9601,19 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
 	if (unlikely(sd))
 		return sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
 
+#if IS_ENABLED(CONFIG_TINKER_THERMAL_SCHED)
+	/* TinkerOS: avoid waking a task on a thermally-hot CPU when a cool
+	 * affine CPU (prev_cpu) is available. Only ever moves the task back
+	 * to its previous, valid CPU — never overrides affinity. */
+	{
+		extern bool tinker_thermal_is_hot(int cpu);
+		if (tinker_thermal_is_hot(new_cpu) &&
+		    cpumask_test_cpu(prev_cpu, p->cpus_ptr) &&
+		    !tinker_thermal_is_hot(prev_cpu))
+			new_cpu = prev_cpu;
+	}
+#endif
+
 	/* Fast path */
 	if (wake_flags & WF_TTWU)
 		return select_idle_sibling(p, prev_cpu, new_cpu);

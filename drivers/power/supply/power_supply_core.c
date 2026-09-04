@@ -1320,6 +1320,25 @@ static int __power_supply_set_property(struct power_supply *psy, enum power_supp
 	if (!psy->desc->set_property)
 		return -ENODEV;
 
+#if IS_ENABLED(CONFIG_TINKER_BATTERY_LIFE)
+	/* TinkerOS battery lifespan: clamp the end-of-charge threshold to
+	 * the configured top-off cap when lifespan mode is active. */
+	if (psp == POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD) {
+		extern bool tinker_battery_lifespan(void);
+		extern void tinker_battery_envelope(int *lo, int *hi);
+		union power_supply_propval clamped = *val;
+		if (tinker_battery_lifespan()) {
+			int lo, hi;
+			tinker_battery_envelope(&lo, &hi);
+			if (clamped.intval > hi)
+				clamped.intval = hi;
+			else if (clamped.intval < lo)
+				clamped.intval = lo;
+			val = &clamped;
+		}
+	}
+#endif
+
 	return psy->desc->set_property(psy, psp, val);
 }
 

@@ -199,6 +199,21 @@ static unsigned int get_next_freq(struct sugov_policy *sg_policy,
 	freq = get_capacity_ref_freq(policy);
 	freq = map_util_freq(util, freq, max);
 
+#if IS_ENABLED(CONFIG_TINKER_ENERGY_SCHED)
+	/* TinkerOS energy mode: SAVER caps the target frequency to save
+	 * power, PEAK adds DVFS headroom for heavy/bursty workloads. */
+	{
+		extern int tinker_energy_mode(void);
+		int mode = tinker_energy_mode();
+		if (mode == 1)			/* PEAK */
+			freq = mult_frac(freq, 125, 100);
+		else if (mode == 2)		/* SAVER */
+			freq = mult_frac(freq, 70, 100);
+		freq = clamp_t(unsigned int, freq, policy->cpuinfo.min_freq,
+			       policy->cpuinfo.max_freq);
+	}
+#endif
+
 	if (freq == sg_policy->cached_raw_freq && !sg_policy->need_freq_update)
 		return sg_policy->next_freq;
 

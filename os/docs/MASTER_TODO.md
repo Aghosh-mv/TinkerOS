@@ -305,17 +305,9 @@ P = pending kernel C implementation.
 - Remaining kernel work: AI-native scheduler (deep core rewrite) + wiring
   hint modules into scheduler/cpufreq/backlight/power_supply
 - Pending packaging: ISO build + GitHub ship
-- [I] Evaluate systems languages for future rewrite: Rust (memory safety + Cargo
-  ecosystem, requires rustc/llvm in build pipeline, good for user-space
-  tools and gradual kernel migration) and Zig (C-interop seamless, single-bin
-  binaries, easy cross-compilation, can link into built-in.a, good for
-  systems scripting replacements). Decision: track as "possible future" — no
-  immediate action given verified C build and kernel mission priority.
-
-## A7. Hack Mode / Kali-aesthetic toggle (1)
 - [I] Fun-mode toggle that thems the OS into a Kali-linux-inspired aesthetic
-  when enabled: Guy Fawkes ASCII art on login, dark terminal color scheme,
-  selective feature blocking (email/send-gated by default, requir e explicit
+  when enabled: Guy Fawkes ASCII art on login, dark terminal colour scheme,
+  selective feature blocking (email/send-gated by default, requires explicit
   permission to re-enable), and a "hack code" scrolling display. When disabled,
   all features restore to normal mode. Feature blocking is per-application via
   a permissions file (~/.tinker/hack-perms.conf), not a true security
@@ -323,16 +315,49 @@ P = pending kernel C implementation.
   unhackable). This is a themed fun-mode / educational exercise in
   feature-gating, not real OS hardening.
 
-- [I] Optional containerized feature set: when hack mode is active, a
+- [I] Optional container-like feature set: when hack mode is active, a
   sub-shell scoped environment limits access to certain user-space tools
   (mail clients, send-file scripts) unless explicitly permitted in the
   permissions file. This is a sandbox-like effect using shell profile
   switching, not a full container (Docker-level virtualization would be
   separate infrastructure).
 
-- [I] Gaming / Standard / Hack mode quick-switch: the Control Center
-  quick-actions panel will include a "Mode" entry that cycles Normal -->
-  Hack --> Standard --> Normal, applying themed colour schemes, prompt
-  strings, and feature-gate state for each.
+- [I] Mode quick-switch: the Control Center quick-actions panel will include
+  a "Mode" entry that cycles Normal --> Hack --> Standard --> Normal,
+  applying themed colour schemes, prompt strings, and feature-gate state
+  for each.
 
-## B. System category (27)
+## A8. Hardware Passthrough Toggles (1)
+- [R] Documented idea: Real hardware passthrough (PCIe/USB/devices directly
+  to a user-space offensive workspace) requires kernel-level driver
+  reconfiguration, IOMMU grouping, and is outside this session's scope.
+  Noted for future when kernel modularity allows. Research indicates this
+  needs kernel CAP_SYS_RAWIO, ACS/ATS support, and is distribution-specific.
+
+## A9. Advanced Security Architecture (10 ideas captured for future)
+- [I] Ephemeral RAM Disks: feature noted — running hack workspace entirely
+  in tmpfs so all traces vanish on mode switch or power loss
+- [I] Built-in Dual GUI Console: noted — Wayland workspace switching
+  between secure daily driver and offensive hacking command center
+- [I] Hardware-Enforced Network Kill-Switches: noted — microkernel hard-coded
+  network policy at driver level + MAC spoofing on hack mode flip
+- [I] Multi-Tenant Cryptographic Split-Personality: noted — secondary
+  duress boot password + hidden encrypted container on SSD
+- [I] Intent-Driven Hardware Toggles: noted — kernel-level camera/mic power
+  cut; hack mode activates hardware loopback (simulated webcam/mic input)
+- [I] Direct Kernel-to-GPU Memory Pipelines: noted — RAM disk → GPU compute
+  for hashcat at bare-metal speeds
+- [I] Automated "Canary" Honeypots: noted — offensive-mode canaries deployed
+  to target networks, tracking defender response
+- [I] Sub-OS Level Supply Chain Verification: noted — deterministic compile
+  from source + hash consensus ledger before package touch
+- [I] Ephemeral Bluetooth/SDR Isolation: noted — Bluetooth stack in user-space
+  silo; hack mode unlocks raw SDR/Bluetooth dongle access
+- [I] Kernel-Level Reverse-Proxying: noted — forced multi-hop proxy chain
+  (Tor/WireGuard) at routing layer when hack mode active
+- [I] Cryptographically Masked Process Trees: noted — encrypted/randomized
+  PIDs/names in memory; hack mode runs with chameleon PIDs
+- [I] The Nuclear Panic Keystroke: noted — shortcut cuts power to volatile
+  RAM sectors instantly, zero forensic trace
+
+- Pending packaging: ISO build + GitHub ship

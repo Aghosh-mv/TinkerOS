@@ -190,6 +190,16 @@ int backlight_device_set_brightness(struct backlight_device *bd,
 
 	mutex_lock(&bd->ops_lock);
 	if (bd->ops) {
+#if IS_ENABLED(CONFIG_TINKER_OLED_WEAR)
+		extern unsigned int tinker_oled_get_dim(void);
+		{
+			/* TinkerOS OLED wear compensation: scale the requested
+			 * brightness by the wear dim factor (100 = no dim). */
+			unsigned int dim = tinker_oled_get_dim();
+			if (dim > 0 && dim < 100)
+				brightness = (brightness * dim) / 100;
+		}
+#endif
 		if (brightness > bd->props.max_brightness)
 			rc = -EINVAL;
 		else {
