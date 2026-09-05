@@ -16,7 +16,7 @@ set -euo pipefail
 
 ARCH="${ARCH:-amd64}"
 SUITE="${SUITE:-jammy}"                       # Ubuntu 22.04 (Pop base)
-MIRROR="${MIRROR:-http://archive.ubuntu.com/ubuntu/}"
+MIRROR="${MIRROR:-http://in.archive.ubuntu.com/ubuntu/}"
 BUILD="${BUILD:-/tmp/opencode/tinkeros-build}"
 ROOTFS="$BUILD/rootfs"
 IMAGE="$BUILD/image"
@@ -36,6 +36,8 @@ stage1() {
   "$SUDO" rm -rf "$ROOTFS"
   "$SUDO" debootstrap --arch="$ARCH" --variant=minbase \
     "$SUITE" "$ROOTFS" "$MIRROR"
+  # give the chroot working DNS so apt/in-chroot fetch works
+  [ -f /etc/resolv.conf ] && "$SUDO" cp /etc/resolv.conf "$ROOTFS/etc/resolv.conf"
   echo "   base bootstrap done."
 }
 
