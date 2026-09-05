@@ -60,10 +60,29 @@ apt-get install -y xfce4 xfce4-terminal lightdm lightdm-gtk-greeter \
   xorg xserver-xorg-input-all xserver-xorg-video-all \
   pulseaudio pavucontrol network-manager dbus \
   || echo "desktop group had issues"
-# ---- applications / package base ----
+# ---- applications / package base (REAL full desktop) ----
 apt-get install -y firefox vim nano less file htop curl wget git \
   openssh-client fonts-dejavu-fonts-extra xdg-utils tree \
-  ca-certificates gnupg || echo "apps group had issues"
+  ca-certificates gnupg \
+  libreoffice-core libreoffice-writer libreoffice-calc libreoffice-impress \
+  gimp vlc \
+  build-essential python3 python3-pip gcc make cmake \
+  || echo "apps group had issues"
+# ---- SECURE / NORMAL world (macos-like desktop security) ----
+apt-get install -y ufw apparmor firejail keepassxc cryptsetup \
+  fail2ban gnome-screensaver tor torbrowser-launcher \
+  || echo "secure group had issues"
+# ---- GAME world (steam = game mode) ----
+dpkg --add-architecture i386
+apt-get update -y
+apt-get install -y steam steam-devices lutris wine \
+  wine32:i386 wine64 vulkan-tools mesa-vulkan-drivers mangohud \
+  || echo "game group had issues"
+# ---- HACK world (kali = hack mode) — Ubuntu-resolvable Kali-style tools ----
+apt-get install -y nmap sqlmap hydra john hashcat gobuster nikto \
+  wireshark-common wireshark netcat-openbsd ncat dsniff macchanger tcpdump \
+  dirb wfuzz masscan recon-ng enum4linux smbclient ldap-utils \
+  || echo "hack group had issues"
 EOF
   "$SUDO" cp "$BUILD/apt.sh" "$ROOTFS/apt-setup.sh"
   "$SUDO" chroot "$ROOTFS" bash /apt-setup.sh || echo "   apt install had warnings (continuing)"
@@ -90,10 +109,7 @@ stage4_live() {
   echo "### [4/6] Preparing live image (casper layout)..."
   "$SUDO" rm -rf "$IMAGE"
   "$SUDO" mkdir -p "$IMAGE"/{casper,isolinux,install}
-  # bind-mounted copy for squashfs (so chroot changes apply)
-  "$SUDO" cp -a "$ROOTFS" "$BUILD/casper-rootfs" 2>/dev/null || \
-    "$SUDO" cp -a "$ROOTFS/." "$IMAGE/casper/rootfs" 2>/dev/null || true
-  echo "   staged."
+  echo "   staged ($(du -sh "$ROOTFS" | cut -f1) rootfs ready for squashfs)."
 }
 
 stage5_squashfs() {
