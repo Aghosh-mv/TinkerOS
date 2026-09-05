@@ -22,13 +22,41 @@ cost-proof, un-ban-able redundancy.
             full analytics)
 ```
 
-## 1. GitHub (community — NO large ISO here)
+## 1. GitHub (community + primary code — NO large ISO here)
 - Keep SOURCE CODE, scripts, docs, issues, text files on GitHub.
 - Do NOT upload the large .iso to GitHub Releases (2GB limit, storage
   warnings, no analytics).
 - README.md is the beautiful "front door" landing page.
+- **Create the place:** https://github.com/new  ->  repo will live at
+  https://github.com/<your-username>/TinkerOS
 
-## 2. SourceForge (the actual ISO — primary download)
+## 1b. SourceForge (the actual ISO — primary download)
+- SourceForge hosts the large ISO file (multi-GB welcome, global mirror
+  network, elite analytics). Publish the full, uncompressed
+  TinkerOS-v1.0.iso here — "non-quantised", a real exact binary.
+- **Create the place:** https://sourceforge.net/create/  (or
+  https://sourceforge.net/projects/create.php)  ->  project lives at
+  https://sourceforge.net/projects/tinkeros/
+- Uploads: https://sourceforge.net/projects/tinkeros/files/
+
+## Hosting layout (canonical — v1.0)
+```
+[ TinkerOS source CODE ]  ->  GitHub (community, stars, issues)
+                                    |
+                                    |   (README links to ISO)
+                                    v
+                   [ TinkerOS ISO (326 MB, non-quantised) ]
+                                    |
+                       SourceForge (primary) + Internet Archive + torrent
+```
+Why: GitHub has the biggest audience/popularity, so its README is where
+everyone first finds TinkerOS. The large ISO lives on SourceForge (no size
+caps, CDN, analytics) and is linked from the GitHub README so GitHub's
+popularity drives people straight to the download.
+```
+Git remotes:
+  - git remote add origin  https://github.com/<user>/TinkerOS.git   (code)
+  - (ISO is NOT in git; it is uploaded to SourceForge only)
 - Free project hosting; multi-gigabyte ISO welcome (4GB/6GB+ no caps).
 - Massive global mirror network — handles viral traffic without throttling.
 - Elite analytics: download counts, countries, OS, browser. Use these to

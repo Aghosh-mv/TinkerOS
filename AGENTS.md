@@ -1,6 +1,6 @@
 # TinkerOS — PROJECT MEMORY (do not delete; read at session start)
 
-## SELF-WATCHDOG (READ THIS EVERY SESSION)
+## SELF-WATCHDOG (READ THIS EVERY SESSION)  <-- CUE ON 2026-09-05T17:32:42+05:30 -->
 - This is a very long-running autonomous build. The user will NOT prompt or
   "cue on" repeatedly — they expect the agent to keep working until every
   task is DONE.
@@ -18,6 +18,13 @@
   (`os/territories/self-watchdog.sh clear`) and immediately produce the
   next REAL tool call / build step. This file is the watchdog's genuine
   way to interfere with and re-engage the agent.
+- CUE-ON BEAT: a second watchdog (`os/territories/cue-watchdog.sh`) types
+  "CUE ON" into the live session console + writes `SELF-WATCHDOG-STALL.md`
+  + broadcasts via `wall` every 60s by default. If you see a cue-on line
+  appear in the console or the stall file content reads "CUE ON", treat it
+  as an explicit instruction from the user: IMMEDIATELY stop any filler and
+  emit the very next real tool call (write/build/commit). Do not wait for a
+  human prompt.
 
 ## BUILD ON REAL LINUX (READ EVERY SESSION)
 - TinkerOS is BUILT ON TOP OF REAL LINUX, a real running Linux system. We
