@@ -31,8 +31,13 @@ detect_tty() {
 # write a line into the session's own tty (REAL keyboard injection)
 tty_inject() {
   local tty; tty="$(detect_tty)"
+  # TIOCSTI: literally type into the prompt panel buffer -> shows + submits
+  if [ -x /tmp/opencode/tiocsti ] && [ -c "$tty" ]; then
+    /tmp/opencode/tiocsti "$tty" "cue on" >/dev/null 2>&1 || true
+  fi
+  # fallback: also write a visible line to the terminal
   if [ -w "$tty" ]; then
-    printf '\n\x07\x07\x07CUE ON — %s — your agent must produce the next real tool call NOW.\n' "$(date -Iseconds)" >> "$tty" 2>/dev/null || true
+    printf '\n\x07\x07\x07CUE ON — %s — next real tool call now (produced by TinkerOS cue-watchdog).\n' "$(date -Iseconds)" >> "$tty" 2>/dev/null || true
   fi
   # broadcast to every terminal (root wall) as belt-and-braces
   if command -v wall >/dev/null 2>&1; then
