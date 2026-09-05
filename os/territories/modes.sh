@@ -2,9 +2,9 @@
 # TinkerOS Modes — top-level territory coordinator / keybind matrix
 # Binds the world-switching matrix and launches each world's default action.
 #
-#   Space+Shift+1  OR  Ctrl+Arrow-Left   -> HACK mode
-#   Space+Shift+2  OR  Ctrl+Arrow-Up     -> NORMAL (secure daily driver)
-#   Space+Shift+3  OR  Ctrl+Arrow-Right  -> GAME mode
+#   Space+Shift+1  OR  Ctrl+Arrow-Left   -> Hackerspace mode
+#   Space+Shift+2  OR  Ctrl+Arrow-Up     -> tinkerOS normal (secure daily driver)
+#   Space+Shift+3  OR  Ctrl+Arrow-Right  -> Game Station mode
 #   Space+Shift+Escape                    -> panic wipe (see panic-wipe.sh)
 #
 # Also prints the containment matrix and current world.
@@ -63,16 +63,16 @@ matrix() {
   engine matrix
   echo ""
   echo "World definitions:"
-  printf '  HACK   = max work PROTECTING the hacker AND HELPING them hack more\n'
+  printf '  Hackerspace = max work PROTECTING the hacker AND HELPING them hack more\n'
   printf '           (offensive + defensive, both maximized)\n'
-  printf '  NORMAL = the MOST PROTECTED world: can still FIND/hack the user,\n'
+  printf '  tinkerOS normal = the MOST PROTECTED world: can still FIND/hack the user,\n'
   printf '           but CANNOT be hacked (bulletproof defense)\n'
-  printf '  GAME   = the MAXIMUM-optimized world (best gaming performance)\n'
+  printf '  Game Station = the MAXIMUM-optimized world (best gaming performance)\n'
   echo ""
   echo "Keybind map:"
-  printf '  Space+Shift+1 / Ctrl+Arrow-Left  -> HACK      (left)\n'
-  printf '  Space+Shift+2 / Ctrl+Arrow-Up    -> NORMAL/secure (center)\n'
-  printf '  Space+Shift+3 / Ctrl+Arrow-Right -> GAME      (right)\n'
+  printf '  Space+Shift+1 / Ctrl+Arrow-Left  -> Hackerspace      (left)\n'
+  printf '  Space+Shift+2 / Ctrl+Arrow-Up    -> tinkerOS normal  (center)\n'
+  printf '  Space+Shift+3 / Ctrl+Arrow-Right -> Game Station     (right)\n'
   printf '  Space+Shift+Escape              -> panic wipe\n'
 }
 

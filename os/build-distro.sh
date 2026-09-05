@@ -69,7 +69,7 @@ apt-get install -y xfce4 xfce4-terminal lightdm lightdm-gtk-greeter \
   || echo "desktop group had issues"
 # ---- applications / package base (REAL full desktop) ----
 apt-get install -y firefox vim nano less file htop curl wget git \
-  openssh-client fonts-dejavu-fonts-extra xdg-utils tree \
+  openssh-client fonts-dejavu xdg-utils tree \
   ca-certificates gnupg \
   libreoffice-core libreoffice-writer libreoffice-calc libreoffice-impress \
   gimp vlc thunderbird inkscape blender \
@@ -85,12 +85,12 @@ dpkg --add-architecture i386
 apt-get update -y
 apt-get install -y steam steam-devices lutris wine \
   wine32:i386 wine64 vulkan-tools mesa-vulkan-drivers mangohud \
-  0ad supertuxkart warzone2100 xonotic \
+  0ad supertuxkart warzone2100 minetest game-data-packager \
   || echo "game group had issues"
 # ---- HACK world (kali = hack mode) — Ubuntu-resolvable Kali-style tools ----
 apt-get install -y nmap sqlmap hydra john hashcat gobuster nikto \
   wireshark-common wireshark netcat-openbsd ncat dsniff macchanger tcpdump \
-  dirb wfuzz masscan recon-ng enum4linux smbclient ldap-utils \
+  dirb wfuzz masscan recon-ng smbmap smbclient ldap-utils \
   || echo "hack group had issues"
 EOF
   "$SUDO" cp "$BUILD/apt.sh" "$ROOTFS/apt-setup.sh"
@@ -144,11 +144,11 @@ stage6_iso() {
   echo "### [6/6] Building final bootable ISO..."
   cat > "$IMAGE/isolinux/grub.cfg" <<EOF
 set timeout=10
-menuentry "TinkerOS (full desktop)" {
+menuentry "TinkerOS — tinkerOS normal" {
   linux /casper/vmlinuz boot=casper quiet splash verbose
   initrd /casper/initrd
 }
-menuentry "TinkerOS (safe graphics)" {
+menuentry "TinkerOS — tinkerOS normal (safe graphics)" {
   linux /casper/vmlinuz boot=casper quiet splash nomodeset
   initrd /casper/initrd
 }
@@ -164,12 +164,20 @@ run() {
   echo "DONE: TinkerOS full distribution ISO ready."
 }
 
+rebuild() {
+  test -d "$ROOTFS/etc" || { echo "no rootfs yet — run full first"; exit 1; }
+  stage2_install && stage3_worlds && stage4_live \
+    && stage5_squashfs && stage6_iso
+  echo "DONE: TinkerOS rebuild (kept base rootfs)."
+}
+
 case "${1:-}" in
   full|build|run) run ;;
+  rebuild) rebuild ;;
   base|stage1) stage1 ;;
   *) echo "TinkerOS Distribution Builder
-Usage: ${0##*/} <build|base>
+Usage: ${0##*/} <build|rebuild|base>
 Builds a real, full desktop Linux distribution ISO (Ubuntu/Kali-style) with
 Xorg/Wayland + desktop + apps + package base + the 3 worlds baked in.
-WARNING: large download + build; needs sudo + internet." ;;
+rebuild=keep rootfs, redo apt+worlds+ISO (fast iteration)." ;;
 esac
