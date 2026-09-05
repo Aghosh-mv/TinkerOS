@@ -20,7 +20,7 @@ MIRROR="${MIRROR:-http://in.archive.ubuntu.com/ubuntu/}"
 BUILD="${BUILD:-/tmp/opencode/tinkeros-build}"
 ROOTFS="$BUILD/rootfs"
 IMAGE="$BUILD/image"
-OUT="${OUT:-/home/tinkerspace/linux-kernel/TinkerOS-v1.1.iso}"
+OUT="${OUT:-/home/tinkerspace/linux-kernel/TinkerOS-v1.2.iso}"
 SUDO="${SUDO:-sudo}"
 
 NEED="debootstrap mksquashfs xorriso chroot"
@@ -50,6 +50,13 @@ deb $MIRROR $SUITE-updates main restricted universe multiverse
 deb $MIRROR $SUITE-security main restricted universe multiverse
 deb-src $MIRROR $SUITE main restricted universe multiverse
 SRC"
+  # bind-mount /proc /sys /dev so apt postinst scripts work inside chroot
+  "$SUDO" mkdir -p "$ROOTFS"/{proc,sys,dev,dev/pts}
+  "$SUDO" mount --bind /proc  "$ROOTFS/proc"  2>/dev/null || true
+  "$SUDO" mount --bind /sys   "$ROOTFS/sys"   2>/dev/null || true
+  "$SUDO" mount --bind /dev   "$ROOTFS/dev"   2>/dev/null || true
+  mountpoint -q "$ROOTFS/dev/pts" || "$SUDO" mount -t devpts none "$ROOTFS/dev/pts" 2>/dev/null || true
+
 cat > "$BUILD/apt.sh" <<'EOF'
 #!/bin/bash
 set -e
@@ -65,18 +72,20 @@ apt-get install -y firefox vim nano less file htop curl wget git \
   openssh-client fonts-dejavu-fonts-extra xdg-utils tree \
   ca-certificates gnupg \
   libreoffice-core libreoffice-writer libreoffice-calc libreoffice-impress \
-  gimp vlc \
+  gimp vlc thunderbird inkscape blender \
   build-essential python3 python3-pip gcc make cmake \
   || echo "apps group had issues"
 # ---- SECURE / NORMAL world (macos-like desktop security) ----
 apt-get install -y ufw apparmor firejail keepassxc cryptsetup \
   fail2ban gnome-screensaver tor torbrowser-launcher \
+  lynis rkhunter chkrootkit apktool \
   || echo "secure group had issues"
 # ---- GAME world (steam = game mode) ----
 dpkg --add-architecture i386
 apt-get update -y
 apt-get install -y steam steam-devices lutris wine \
   wine32:i386 wine64 vulkan-tools mesa-vulkan-drivers mangohud \
+  0ad supertuxkart warzone2100 xonotic \
   || echo "game group had issues"
 # ---- HACK world (kali = hack mode) — Ubuntu-resolvable Kali-style tools ----
 apt-get install -y nmap sqlmap hydra john hashcat gobuster nikto \
@@ -87,6 +96,11 @@ EOF
   "$SUDO" cp "$BUILD/apt.sh" "$ROOTFS/apt-setup.sh"
   "$SUDO" chroot "$ROOTFS" bash /apt-setup.sh || echo "   apt install had warnings (continuing)"
   "$SUDO" rm -f "$ROOTFS/apt-setup.sh"
+  # unmount chroot bind-mounts
+  mountpoint -q "$ROOTFS/dev/pts" && "$SUDO" umount "$ROOTFS/dev/pts" 2>/dev/null || true
+  mountpoint -q "$ROOTFS/proc" && "$SUDO" umount "$ROOTFS/proc" 2>/dev/null || true
+  mountpoint -q "$ROOTFS/sys" && "$SUDO" umount "$ROOTFS/sys" 2>/dev/null || true
+  mountpoint -q "$ROOTFS/dev" && "$SUDO" umount "$ROOTFS/dev" 2>/dev/null || true
   echo "   desktop + apps installed."
 }
 
