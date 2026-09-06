@@ -1,0 +1,2 @@
+#!/bin/bash
+python3 /home/tinkerspace/linux-kernel/os/terminal-history/tinker-term-history.py "$@"

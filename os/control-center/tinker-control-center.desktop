@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=TinkerOS Control Center
+Comment=Unified control center for TinkerOS
+Exec=python3 /usr/lib/tinker/control-center/tinker-control-center.py
+Icon=tinker-control-center
+Terminal=false
+Type=Application
+Categories=Settings;System;
+StartupNotify=true

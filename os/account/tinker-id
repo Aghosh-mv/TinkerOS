@@ -1,0 +1,51 @@
+#!/bin/bash
+# TinkerID CLI
+
+ACCOUNT_DIR="$HOME/.tinker/account"
+SCRIPT="/home/tinkerspace/linux-kernel/os/account/tinker-account.py"
+
+case "$1" in
+    create)
+        python3 "$SCRIPT" << PYEOF
+import sys
+sys.path.insert(0, '/home/tinkerspace/linux-kernel/os/account')
+from tinker_account import TinkerAccount
+account = TinkerAccount()
+me = account.create_account("$2", "$3", "$4")
+print(f"Created: {me.id}")
+PYEOF
+        ;;
+    list)
+        echo "TinkerID Accounts:"
+        ls "$ACCOUNT_DIR"/*.key 2>/dev/null | xargs -I {} basename {} .key || echo "  None"
+        ;;
+    export)
+        python3 -c "
+import sys
+sys.path.insert(0, '/home/tinkerspace/linux-kernel/os/account')
+from tinker_account import TinkerAccount
+account = TinkerAccount()
+account.export_account('$2', '$3')
+print(f'Exported to $3')
+"
+        ;;
+    import)
+        python3 -c "
+import sys
+sys.path.insert(0, '/home/tinkerspace/linux-kernel/os/account')
+from tinker_account import TinkerAccount
+account = TinkerAccount()
+account.import_account('$2')
+print('Imported')
+"
+        ;;
+    sync)
+        echo "Syncing preferences..."
+        ;;
+    devices)
+        echo "Registered devices:"
+        ;;
+    *)
+        echo "Usage: tinker-id [create|list|export|import|sync|devices]"
+        ;;
+esac

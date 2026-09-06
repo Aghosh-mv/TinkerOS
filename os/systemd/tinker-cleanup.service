@@ -1,0 +1,10 @@
+[Unit]
+Description=TinkerOS System Cleanup
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/tinker/apps/system-cleaner.sh quick
+
+[Install]
+WantedBy=multi-user.target

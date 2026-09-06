@@ -1,0 +1,15 @@
+[Unit]
+Description=TinkerOS Desktop Components
+After=graphical.target
+Wants=graphical.target
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/tinker/desktop/start-desktop.sh
+Restart=on-failure
+RestartSec=5
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=%h/.Xauthority
+
+[Install]
+WantedBy=graphical.target

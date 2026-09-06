@@ -1,0 +1,123 @@
+site_name: TinkerOS Community
+site_description: Community hub for TinkerOS users
+site_url: https://community.tinkeros.dev
+site_author: TinkerOS Community
+copyright: Copyright &copy; 2024 TinkerOS Community
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light mode
+    - scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tabs.link
+
+plugins:
+  - search
+  - blog:
+      blog_dir: posts
+      blog_toc: true
+      post_date_format: short
+      post_read_time: true
+      post_excerpt: required
+      archive: true
+      categories: true
+      pagination_per_page: 10
+  - search
+  - glightbox
+  - mermaid2
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - News: news/index.md
+  - Forum: https://forum.tinkeros.dev
+  - Discord: https://discord.gg/tinkeros
+  - Contribute:
+      - Get Started: contribute/getting-started.md
+      - Code: contribute/code.md
+      - Documentation: contribute/docs.md
+      - Translation: contribute/translation.md
+      - Design: contribute/design.md
+      - Testing: contribute/testing.md
+  - Showcase:
+      - Setups: showcase/setups.md
+      - Workflows: showcase/workflows.md
+      - Themes: showcase/themes.md
+      - Scripts: showcase/scripts.md
+  - Support:
+      - FAQ: support/faq.md
+      - Troubleshooting: support/troubleshooting.md
+      - Hardware Compatibility: support/hardware.md
+      - Report Bug: https://github.com/tinkeros/tinkeros/issues
+  - Governance:
+      - Code of Conduct: governance/conduct.md
+      - Maintainers: governance/maintainers.md
+      - Release Process: governance/releases.md
+      - Security: governance/security.md
+  - Resources:
+      - Wallpapers: resources/wallpapers.md
+      - Dotfiles: resources/dotfiles.md
+      - Scripts: resources/scripts.md
+      - Cheatsheets: resources/cheatsheets.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/tinkeros
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/tinkeros
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@tinkeros
+    - icon: fontawesome/brands/reddit
+      link: https://reddit.com/r/tinkeros
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/@tinkeros
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+

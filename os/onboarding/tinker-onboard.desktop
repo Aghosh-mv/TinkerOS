@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=TinkerOS Setup
+Comment=First-run setup wizard
+Exec=python3 /usr/lib/tinker/onboarding/tinker-onboard.py
+Icon=tinker-onboard
+Terminal=false
+Type=Application
+Categories=Settings;System;
+X-GNOME-Autostart-Phase=Initialization
+OnlyShowIn=GNOME;XFCE;KDE;

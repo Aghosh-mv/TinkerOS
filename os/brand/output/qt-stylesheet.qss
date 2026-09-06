@@ -1,0 +1,9 @@
+
+/* TinkerOS Qt Stylesheet */
+QWidget { background-color: #0D0D12; color: #FFFFFF; font-family: "Inter"; }
+QPushButton { background-color: #00D4AA; color: #000000; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; }
+QPushButton:hover { background-color: #33E0C0; }
+QLineEdit, QTextEdit, QComboBox { background-color: #16161F; border: 1px solid #1E1E2E; border-radius: 8px; padding: 8px 12px; }
+QScrollBar:vertical { background: transparent; width: 8px; }
+QScrollBar::handle:vertical { background: #1E1E2E; border-radius: 4px; min-height: 30px; }
+QScrollBar::handle:vertical:hover { background: #888888; }

@@ -1,0 +1,4 @@
+#!/bin/bash
+# TinkerAI launcher - start the TinkerOS intelligent assistant
+cd "$(dirname "$0")"
+exec python3 tinker_ai.py "$@"

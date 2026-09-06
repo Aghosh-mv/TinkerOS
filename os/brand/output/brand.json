@@ -1,0 +1,87 @@
+{
+  "name": "TinkerOS",
+  "tagline": "Your Computer. Your Rules.",
+  "version": "7.2.0-rc6",
+  "mascot": "\ud83e\udd9d",
+  "colors": {
+    "primary": "#00D4AA",
+    "primary_dark": "#00B896",
+    "primary_light": "#33E0C0",
+    "secondary": "#6366F1",
+    "secondary_dark": "#4F46E5",
+    "secondary_light": "#818CF8",
+    "accent": "#F59E0B",
+    "accent_dark": "#D97706",
+    "accent_light": "#FCD34D",
+    "bg_primary": "#0D0D12",
+    "bg_secondary": "#12121A",
+    "bg_tertiary": "#1A1A26",
+    "bg_card": "#16161F",
+    "border": "#1E1E2E",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#E0E0E0",
+    "text_muted": "#888888",
+    "text_disabled": "#555555",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "error": "#EF4444",
+    "info": "#3B82F6"
+  },
+  "typography": {
+    "font_sans": "Inter",
+    "font_mono": "JetBrains Mono",
+    "font_display": "Inter Tight",
+    "scale": {
+      "xs": 0.75,
+      "sm": 0.875,
+      "base": 1.0,
+      "lg": 1.125,
+      "xl": 1.25,
+      "2xl": 1.5,
+      "3xl": 1.875,
+      "4xl": 2.25,
+      "5xl": 3.0,
+      "6xl": 3.75
+    }
+  },
+  "spacing": {
+    "base": 4,
+    "scale": {
+      "0": 0,
+      "1": 4,
+      "2": 8,
+      "3": 12,
+      "4": 16,
+      "5": 20,
+      "6": 24,
+      "8": 32,
+      "10": 40,
+      "12": 48,
+      "16": 64,
+      "20": 80,
+      "24": 96
+    }
+  },
+  "border_radius": {
+    "none": "0",
+    "sm": "4px",
+    "md": "8px",
+    "lg": "12px",
+    "xl": "16px",
+    "xxl": "24px",
+    "full": "9999px"
+  },
+  "shadows": {
+    "sm": "0 1px 2px rgba(0,0,0,0.3)",
+    "md": "0 4px 6px rgba(0,0,0,0.4)",
+    "lg": "0 10px 15px rgba(0,0,0,0.5)",
+    "xl": "0 20px 25px rgba(0,0,0,0.6)",
+    "glow": "0 0 20px rgba(0, 212, 170, 0.3)",
+    "glow_strong": "0 0 40px rgba(0, 212, 170, 0.5)"
+  },
+  "transitions": {
+    "fast": "150ms ease",
+    "normal": "200ms ease",
+    "slow": "300ms ease"
+  }
+}

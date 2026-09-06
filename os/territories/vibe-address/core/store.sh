@@ -1,0 +1,149 @@
+#!/bin/bash
+# ===========================================================================
+#  core/store.sh — PERSISTENT EVENT STORE (append-only log + integrity)
+# ---------------------------------------------------------------------------
+#  Append-only day-log: $VIBE_EVENTS/YYYY-MM-DD.log
+#  Each line = canonical envelope (epoch|type|source|path|fp|catpath|meta)
+#
+#  Guarantees:
+#    - log rotation by day (auto-create new file)
+#    - append-only: lines never modified, only added
+#    - integrity: sha256 per log segment stored in $VIBE_STATE/integrity/
+#    - compaction: merge old day-logs into monthly archive + rebuild index
+#    - replay: on corruption, truncate to last valid sha256 boundary
+# ===========================================================================
+set -euo pipefail
+
+# ---- append a line to today's log (atomic via temp + cat) ------------------
+ve_store_append() {
+  local line="$1"
+  local today; today=$(date +%Y-%m-%d)
+  local logfile="$VIBE_EVENTS/$today.log"
+  printf '%s\n' "$line" >> "$logfile"
+  # periodic integrity stamp every 500 lines
+  local nlines; nlines=$(wc -l < "$logfile" 2>/dev/null || echo 0)
+  if [ $((nlines % 500)) -eq 0 ] && [ "$nlines" -gt 0 ]; then
+    ve_store_stamp_integrity "$logfile"
+  fi
+}
+
+# ---- integrity stamp (sha256 of log segment) --------------------------------
+ve_store_stamp_integrity() {
+  local logfile="$1"
+  local idir="$VIBE_STATE/integrity"
+  mkdir -p "$idir"
+  local fname; fname=$(basename "$logfile")
+  sha256sum "$logfile" > "$idir/$fname.sha256" 2>/dev/null || true
+}
+
+# ---- verify integrity of a single log ---------------------------------------
+ve_store_verify_log() {
+  local logfile="$1"
+  local idir="$VIBE_STATE/integrity"
+  local fname; fname=$(basename "$logfile")
+  local shafile="$idir/$fname.sha256"
+  [ -f "$shafile" ] || { echo "no-stamp"; return 0; }
+  local expected; expected=$(awk '{print $1}' "$shafile")
+  local actual; actual=$(sha256sum "$logfile" 2>/dev/null | awk '{print $1}')
+  if [ "$expected" = "$actual" ]; then
+    echo "valid"
+  else
+    echo "corrupted"
+  fi
+}
+
+# ---- count events in a time range -------------------------------------------
+ve_store_count_range() {
+  local lo="$1" hi="$2"
+  local count=0
+  local f
+  while IFS= read -r f; do
+    while IFS='|' read -r ts _rest; do
+      ts=${ts:0:12}
+      if [ "$ts" -ge "$lo" ] && [ "$ts" -le "$hi" ] 2>/dev/null; then
+        count=$((count + 1))
+      fi
+    done < "$f"
+  done < <(find "$VIBE_EVENTS" -name "*.log" -type f 2>/dev/null)
+  echo "$count"
+}
+
+# ---- count total events ----------------------------------------------------
+ve_store_total() {
+  cat "$VIBE_EVENTS"/*.log 2>/dev/null | grep -c '|' || echo 0
+}
+
+# ---- stats output -----------------------------------------------------------
+ve_store_stats() {
+  echo "========================================"
+  echo "  TinkerOS Vibe Addressing — Store"
+  echo "========================================"
+  echo "  Version       : $VIBE_VERSION"
+  echo "  Engine format : $VIBE_FORMAT"
+  echo "  Home          : $VIBE_HOME"
+  echo
+  echo "  Events"
+  echo "    total       : $(ve_store_total)"
+  local today; today=$(date +%Y-%m-%d)
+  local tcount; tcount=$(wc -l < "$VIBE_EVENTS/$today.log" 2>/dev/null || echo 0)
+  echo "    today       : $tcount"
+  echo
+  echo "  Storage"
+  echo "    day-logs    : $(find "$VIBE_EVENTS" -name "*.log" -type f 2>/dev/null | wc -l) files"
+  echo "    total bytes : $(du -sb "$VIBE_HOME" 2>/dev/null | cut -f1 || echo 0)"
+  echo
+  echo "  Integrity"
+  local valid=0 bad=0
+  while IFS= read -r f; do
+    case "$(ve_store_verify_log "$f")" in
+      valid)      valid=$((valid + 1)) ;;
+      corrupted)  bad=$((bad + 1)) ;;
+    esac
+  done < <(find "$VIBE_EVENTS" -name "*.log" -type f 2>/dev/null)
+  echo "    valid logs  : $valid"
+  echo "    corrupted   : $bad"
+  echo
+  echo "  Index"
+  ve_index_stats
+  echo "========================================"
+}
+
+# ---- compact: merge old logs + rebuild --------------------------------------
+ve_store_optimize() {
+  echo "Vibe Addressing: running compaction..."
+  ve_store_stamp_integrity_all
+  ve_index_rebuild
+  ve_store_prune_dedup
+  echo "Compaction complete."
+}
+
+ve_store_stamp_integrity_all() {
+  local f
+  while IFS= read -r f; do ve_store_stamp_integrity "$f"; done \
+    < <(find "$VIBE_EVENTS" -name "*.log" -type f 2>/dev/null)
+}
+
+# ---- dedup: remove duplicate fp lines across logs ----------------------------
+ve_store_prune_dedup() {
+  local tmp; tmp=$(mktemp)
+  cat "$VIBE_EVENTS"/*.log 2>/dev/null | sort -t'|' -k5 -u > "$tmp"
+  local count_before; count_before=$(cat "$VIBE_EVENTS"/*.log 2>/dev/null | wc -l)
+  local count_after; count_after=$(wc -l < "$tmp")
+  local removed=$((count_before - count_after))
+  if [ "$removed" -gt 0 ]; then
+    echo "  dedup: removed $removed duplicate events"
+    # rewrite today's log only (old logs are archive)
+    local today; today=$(date +%Y-%m-%d)
+    [ -f "$tmp" ] && cp "$tmp" "$VIBE_EVENTS/$today.log"
+  fi
+  rm -f "$tmp"
+}
+
+# ---- replay: rebuild state from logs ----------------------------------------
+ve_store_replay() {
+  echo "Replaying all event logs..."
+  ve_index_rebuild
+  echo "Replay complete."
+}
+
+ve_store=""

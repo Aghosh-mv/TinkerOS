@@ -1,0 +1,2 @@
+#!/bin/bash
+python3 /home/tinkerspace/linux-kernel/os/iso-builder-pro/tinker-iso-pro.py "$@"
