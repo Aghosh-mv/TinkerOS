@@ -17,7 +17,7 @@ set -euo pipefail
 ARCH="${ARCH:-amd64}"
 SUITE="${SUITE:-jammy}"                       # Ubuntu 22.04 (Pop base)
 MIRROR="${MIRROR:-http://in.archive.ubuntu.com/ubuntu/}"
-BUILD="${BUILD:-/tmp/opencode/tinkeros-build}"
+BUILD="${BUILD:-/home/tinkerspace/build-tinkeros}"
 ROOTFS="$BUILD/rootfs"
 IMAGE="$BUILD/image"
 OUT="${OUT:-/home/tinkerspace/linux-kernel/TinkerOS-v1.2.iso}"
@@ -130,19 +130,21 @@ stage5_squashfs() {
   echo "### [5/6] Building squashfs of the full rootfs (compressing)..."
   "$SUDO" mksquashfs "$ROOTFS" "$IMAGE/casper/filesystem.squashfs" \
     -comp xz -b 1M -no-xattrs -processors "$(nproc)" 2>&1 | tail -4
-  # kernel + initrd from our tree / host
+  # kernel + initrd from our tree / host (pick ONE matching initrd)
   if [ -f /home/tinkerspace/linux-kernel/arch/x86/boot/bzImage ]; then
     cp /home/tinkerspace/linux-kernel/arch/x86/boot/bzImage "$IMAGE/casper/vmlinuz"
   else
     cp /boot/vmlinuz-* "$IMAGE/casper/vmlinuz"
   fi
-  cp /boot/initrd.img-* "$IMAGE/casper/initrd" 2>/dev/null || true
-  du -sh "$IMAGE/casper/filesystem.squashfs"
+  KVER=$(cat /proc/version 2>/dev/null | sed 's/.*ht \|Linux version //;s/ .*//' | head -1)
+  for i in /boot/initrd.img-*; do [ -f "$i" ] && cp "$i" "$IMAGE/casper/initrd" 2>/dev/null && break; done || true
+  ls -la "$IMAGE/casper/" | awk '{print $5,$9}'
 }
 
 stage6_iso() {
-  echo "### [6/6] Building final bootable ISO..."
-  cat > "$IMAGE/isolinux/grub.cfg" <<EOF
+  echo "### [6/6] Building final bootable ISO (iso-level 3, >4GB OK)..."
+  mkdir -p "$BUILD/grub-img"
+  cat > "$BUILD/grub.cfg" <<EOF
 set timeout=10
 menuentry "TinkerOS — tinkerOS normal" {
   linux /casper/vmlinuz boot=casper quiet splash verbose
@@ -152,8 +154,31 @@ menuentry "TinkerOS — tinkerOS normal (safe graphics)" {
   linux /casper/vmlinuz boot=casper quiet splash nomodeset
   initrd /casper/initrd
 }
+menuentry "Boot from first HDD" {
+  set root=(hd0)
+  chainloader +1
+}
 EOF
-  grub-mkrescue -o "$OUT" "$IMAGE" 2>&1 | tail -4
+  grub-mkstandalone --format=x86_64-efi --output="$BUILD/efi.img" \
+    --locales="" --fonts="" \
+    "boot/grub/grub.cfg=$BUILD/grub.cfg" 2>/dev/null || \
+    grub-mkimage -p /boot/grub -O x86_64-efi -o "$BUILD/efi.img" \
+      iso9660 at_keyboard gfxterm gfxmenu all_video font terminal configfile normal 2>/dev/null || true
+  grub-mkimage -p /boot/grub -O i386-pc -o "$BUILD/core.img" \
+    iso9660 biosdisk part_msdos part_gpt fat ext2 udf normal configfile \
+    search search_fs_file linux initrd chain boot reboot gfxterm all_video 2>/dev/null || true
+  if [ -s "$BUILD/core.img" ]; then
+    cat /usr/lib/grub/i386-pc/cdboot.img "$BUILD/core.img" > "$IMAGE/isolinux/isolinux.bin"
+  fi
+  [ -s "$BUILD/efi.img" ] && mkdir -p "$IMAGE/boot/grub" && cp "$BUILD/efi.img" "$IMAGE/boot/grub/efi.img"
+  ls -la "$IMAGE/isolinux/isolinux.bin" "$IMAGE/boot/grub/efi.img" 2>/dev/null | awk '{print $5,$9}'
+  xorriso -as mkisofs -quiet \
+    -volume_id TinkerOS \
+    -iso-level 3 -R -J -joliet-long -full-iso9660-filenames \
+    -b isolinux/isolinux.bin -c boot.cat -no-emul-boot \
+    -boot-load-size 8 -boot-info-table \
+    -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot \
+    -o "$OUT" "$IMAGE" 2>&1 | tail -3
   echo "BUILT: $OUT"
   du -sh "$OUT"
 }
