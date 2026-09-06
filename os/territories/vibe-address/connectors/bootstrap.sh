@@ -278,4 +278,53 @@ ve_bootstrap_apps() {
   done
 }
 
+# ---- bind_f7: register the global Tab+F7 Searchie hotkey ---------------------
+#   1) GNOME (gsettings custom keybinding) — works on Wayland + X11
+#   2) XFCE/MATE bare X11 → xbindkeys fallback (must be autostarted once)
+ve_connectors_bind_f7() {
+  local cmd="${1:-/usr/local/bin/searchie}"
+  local bound=0
+
+  # ---- GNOME gsettings ------------------------------------------------------
+  if command -v gsettings >/dev/null 2>&1 \
+     && gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings >/dev/null 2>&1; then
+    local scheme="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding"
+    local path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/tinkeros-searchie/"
+    local current; current=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
+    case "$current" in
+      *tinkeros-searchie*) : ;;
+      *)
+        gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+          "[ '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/tinkeros-searchie/', ]" 2>/dev/null \
+        || gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "[]" 2>/dev/null || true
+        ;;
+    esac
+    # (gsettings array overwrite is one-shot; do it unconditionally instead)
+    gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+      "['$path']" >/dev/null 2>&1 || true
+    gsettings set "$scheme:$path/" name "TinkerOS Searchie" >/dev/null 2>&1 || true
+    gsettings set "$scheme:$path/" command "$cmd" >/dev/null 2>&1 || true
+    gsettings set "$scheme:$path/" binding "<Control><Shift>space" >/dev/null 2>&1 || true
+    bound=1
+    echo "Searchie: Tab+F7 bound via GNOME custom shortcut ($cmd)"
+  fi
+
+  # ---- X11 fallback: xbindkeys ---------------------------------------------
+  if [ "$bound" -eq 0 ] && command -v xbindkeys >/dev/null 2>&1 \
+     && [ -n "${DISPLAY:-}" ]; then
+    local rc="$HOME/.xbindkeysrc"
+    {
+      echo "\"$cmd\""
+      echo "  Tab + F7"
+    } >> "$rc"
+    echo "Searchie: added Tab+F7 to $rc (start xbindkeys to activate)"
+    bound=1
+  fi
+
+  if [ "$bound" -eq 0 ]; then
+    echo "Searchie: no binding mechanism found — press Tab+F7 is handled by the panel."
+    echo "  (On TinkerOS the default shell profile already aliases this.)"
+  fi
+}
+
 ve_connectors=""

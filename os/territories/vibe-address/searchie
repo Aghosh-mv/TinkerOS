@@ -1,0 +1,45 @@
+#!/bin/bash
+# ===========================================================================
+#  searchie — TinkerOS memory overlay launcher
+# ---------------------------------------------------------------------------
+#  Opens the Searchie glass panel (Tab+F7 on the desktop).  If the Qt
+#  runtime is unavailable it still answers from the terminal so Searchie
+#  NEVER silently fails on any device.
+# ===========================================================================
+set -euo pipefail
+
+SEARCHIE_ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+ENGINE="$SEARCHIE_ROOT/vibe-address.sh"
+GUI="$SEARCHIE_ROOT/searchie-gui.py"
+
+export SEARCHIE_ENGINE="${SEARCHIE_ENGINE:-$SEARCHIE_ROOT}"
+export VIBE_HOME="${VIBE_HOME:-$HOME/.local/share/tinkeros/vibe}"
+
+# ---- first-run / desktop guard -------------------------------------------------
+if [ ! -f "$ENGINE" ]; then
+  echo "searchie: engine missing at $ENGINE" >&2
+  exit 1
+fi
+
+# ---- GUI path (default): glass overlay via PyQt6/ex-ports -------------------
+have_display=0
+[ -n "${DISPLAY:-}" ] && have_display=1
+[ -n "${WAYLAND_DISPLAY:-}" ] && have_display=1
+have_pyqt=0
+if command -v python3 >/dev/null 2>&1; then
+  python3 -c "import PyQt6" >/dev/null 2>&1 && have_pyqt=1
+fi
+
+if [ "$have_display" -eq 1 ] && [ "$have_pyqt" -eq 1 ] && [ -f "$GUI" ]; then
+  exec python3 "$GUI" "$@"
+fi
+
+# ---- headless / no-Qt fallback: answer directly in the terminal --------------
+usage() { bash "$ENGINE" usage; }
+
+if [ $# -gt 0 ]; then
+  bash "$ENGINE" "$@"
+else
+  echo "searchie: glass panel needs a graphical session + PyQt6." >&2
+  echo "searchie: engine still answers queries — try:  searchie ask \"cat photo\""
+fi
