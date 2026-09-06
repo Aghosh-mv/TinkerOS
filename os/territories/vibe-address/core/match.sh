@@ -13,7 +13,8 @@
 #    M5  TEMPORAL     gaussian proximity to parsed time-window center
 #    M6  DEPTH-DEPTH  how deep the user's recorded category tree was
 #    M7  FINGERPRINT  n-gram Jaccard between event path and query text
-#    M8  DIVERSITY    penalise if too many results from same cat1/top-node
+#    M8  PHONE        phonetic consensus (soundex+metaphone+stem, phoneme.sh)
+#                     — rescues misspellings and same-sounding words
 #
 #  Returns: fp, M1-M8 scores (0..100 each), raw line
 #  This is the densest part of the engine.
@@ -220,9 +221,10 @@ ve_match_score_candidate() {
   m5=$(ve_match_temporal "$eepoch" "$qtime")
   m6=$(ve_match_depth    "$edepth")
   m7=$(ve_match_path_ngram "$epath" "$qtok")
+  m8=$(ve_phon_similarity "$qtok" "$etok")
 
-  printf '%s|%s|%s|%s|%s|%s|%s|%s|%s\n' \
-    "$fp" "$m1" "$m2" "$m3" "$m4" "$m5" "$m6" "$m7" "$envelope"
+  printf '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n' \
+    "$fp" "$m1" "$m2" "$m3" "$m4" "$m5" "$m6" "$m7" "$m8" "$envelope"
 }
 
 ve_match=""

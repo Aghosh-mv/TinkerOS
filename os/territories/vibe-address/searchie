@@ -30,6 +30,18 @@ if command -v python3 >/dev/null 2>&1; then
   python3 -c "import PyQt6" >/dev/null 2>&1 && have_pyqt=1
 fi
 
+# GUI-only flags (--selftest, --version, --help) always go to the glass module
+if [ "$1" = "--selftest" ] || [ "$1" = "--gui" ]; then
+  has_gui=0
+  [ -f "$GUI" ] && has_gui=1
+  if [ "$has_gui" -eq 1 ]; then
+    [ "$1" = "--gui" ] && shift
+    exec python3 "$GUI" "$@"
+  fi
+  echo "searchie: GUI module missing at $GUI" >&2
+  exit 1
+fi
+
 if [ "$have_display" -eq 1 ] && [ "$have_pyqt" -eq 1 ] && [ -f "$GUI" ]; then
   exec python3 "$GUI" "$@"
 fi

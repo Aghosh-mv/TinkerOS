@@ -13,7 +13,7 @@
 #  Final score = weighted_sum(Wi * Mi) + diversity_bonus + category_depth_bonus
 #
 #  Scoring pipeline:
-#    1. Read raw candidate lines  (fp|m1|...|m8|envelope)
+#    1. Read raw candidate lines  (fp|m1|...|m8|envelope)  env = fields 10..
 #    2. Apply adaptive weights    (from $VIBE_STATE/weights)
 #    3. Compute weighted sum       (0..100 scale)
 #    4. Diversity pass             (penalise over-represented categories)
@@ -32,7 +32,7 @@ ve_rank_weights() {
     cat "$wfile"
   else
     # default weights: lexical most important, fuzzy second, time third
-    echo "W1=35 W2=25 W3=20 W4=5 W5=15 W6=3 W7=10 W8=5"
+    echo "W1=35 W2=25 W3=20 W4=5 W5=15 W6=3 W7=10 W8=15"
   fi
 }
 
@@ -109,7 +109,7 @@ ve_rank_topk() {
 
 # ---- full ranking pipeline --------------------------------------------------
 ve_rank_run() {
-  # stdin: raw candidate lines from match.sh (fp|m1|m2|m3|m4|m5|m6|m7|envelope)
+  # stdin: raw candidate lines from match.sh (fp|m1|m2|m3|m4|m5|m6|m7|m8|envelope)
   # output: ranked lines with final_score, one per line
   local k="${1:-$RANK_DEFAULT_K}"
   local line ranked scored diversified boosted top
@@ -129,8 +129,8 @@ ve_rank_run() {
     local m5=$(echo "$line" | cut -d'|' -f6)
     local m6=$(echo "$line" | cut -d'|' -f7)
     local m7=$(echo "$line" | cut -d'|' -f8)
-    local m8=100  # neutral constant — real diversity applied separately
-    local env=$(echo "$line" | cut -d'|' -f9-)
+    local m8=$(echo "$line" | cut -d'|' -f9)
+    local env=$(echo "$line" | cut -d'|' -f10-)
     local final; final=$(ve_rank_compute_score "$m1" "$m2" "$m3" "$m4" "$m5" "$m6" "$m7" "$m8")
     local cat1=$(echo "$env" | cut -d'|' -f4 | cut -d: -f1)
     printf '%s|%s|%s|%s\n' "$final" "$cat1" "$fp" "$env"
@@ -140,10 +140,7 @@ ve_rank_run() {
   ve_rank_diversify < "$tmp_score" > "$tmp_div"
 
   # Step 4: boost known-frequent
-  ve_rank_apply_boosts < "$tmp_div"
-
-  # Step 5-6: top-K
-  ve_rank_topk "$k"
+  ve_rank_apply_boosts < "$tmp_div" | ve_rank_topk "$k"
 
   rm -f "$tmp_raw" "$tmp_score" "$tmp_div"
 }
