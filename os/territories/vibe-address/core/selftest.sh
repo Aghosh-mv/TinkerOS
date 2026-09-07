@@ -106,6 +106,12 @@ ve_selftest_run() {
   check "capacity allows write while ok" "0" "$deny"
   check "capacity can force full" "full" "$(VIBE_CAP_BYTES=1 ve_capacity_level 2>/dev/null || echo ok)"
 
+  # ---- count-min sketch: exact small-store behaviour --------------------------------
+  ve_cms_add "needle" >/dev/null 2>&1 || true
+  ve_cms_add "needle" >/dev/null 2>&1 || true
+  check "cms counts repeated" "2" "$(ve_cms_estimate needle 2>/dev/null || echo 0)"
+  check "cms zero for absent" "0" "$(ve_cms_estimate absentword 2>/dev/null || echo x)"
+
   # ---- restore env --------------------------------------------------------------------------
   export HOME="$HOME_OLD"
   export VIBE_HOME="$VIBE_HOME_OLD"

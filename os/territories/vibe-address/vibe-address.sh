@@ -43,7 +43,7 @@ VIBE_MAX_DEPTH=0            # 0 = unlimited category depth
 # ---------------------------------------------------------------------------
 # source the engine kernel (each module provides namespaced functions)
 # ---------------------------------------------------------------------------
-for mod in adapt action auto bloom bulk capacity index ingest ir lexin match phoneme rank query retention selftest store time tree; do
+for mod in adapt action auto bloom bulk capacity cms index ingest ir lexin match phoneme rank query retention selftest store time tree; do
   m="$VIBE_ENGINE/core/$mod.sh"
   if [ -r "$m" ]; then
     # shellcheck disable=SC1090
