@@ -320,6 +320,13 @@ ve_query_run() {
     ve_match_score_candidate "$fp" "$tokens" "$qcat" "$tcenter" "$qsrc" "$envelope"
   done)
 
+  # --- Rocchio PRF: reorder the scored stream by pseudo-relevance feedback ----
+  #  (single candidate or empty query => passthrough, symmetric in size)
+  if [ "$(echo "$scored" | sed '/^$/d' | wc -l | tr -d ' ')" -gt 1 ]; then
+    [ "${SEARCHIE_TERSE:-0}" != "1" ] && echo "  Rocchio feedback reordering... (${#tokens} token query)"
+    scored=$(echo "$scored" | ve_prf_rerank "$tokens" 2>/dev/null || echo "$scored")
+  fi
+
   # --- ranking ---------------------------------------------------------------
   [ "${SEARCHIE_TERSE:-0}" != "1" ] && echo "  ranking..."
   local ranked

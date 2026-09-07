@@ -91,6 +91,17 @@ ve_selftest_run() {
   local cls; cls=$(printf "cat\ncarrot\nkat\n" | ve_dista_closest "catt" 2>/dev/null | cut -d'|' -f1)
   check "dista closest" "cat" "$cls"
 
+  # ---- Rocchio PRF: reordering symmetric, vectors sane -----------------------
+  local qv; qv=$(ve_prf_query_vec "alpha beta alpha" 2>/dev/null | tr '\n' ' ')
+  check "prf query vector tf" "1" "$(echo "$qv" | awk -F'[: ]' '{alpha=0;beta=0; for(i=1;i<=NF;i+=2){if($i=="alpha")alpha=$(i+1); if($i=="beta")beta=$(i+1)} print (alpha==2 && beta==1)?1:0}')"
+  check "prf cosine same vectors" "1000" "$(ve_prf_cosine $'x:1\ny:1' $'x:1\ny:1' 2>/dev/null || echo 0)"
+  check "prf cosine disjoint" "0" "$(ve_prf_cosine $'x:1' $'z:5' 2>/dev/null || echo 9)"
+  check "prf single-candidate passthrough" "solo|5|alpha" "$(printf 'solo|5|alpha\n' | ve_prf_rerank "one" 2>/dev/null)"
+  local prfa prfb
+  prfa=$(printf 'one|1|alpha\nsecond|2|beta\n' | ve_prf_rerank "one" 2>/dev/null | sort | tr '\n' ' ')
+  prfb=$(printf 'one|1|alpha\nsecond|2|beta\n' | sort | tr '\n' ' ')
+  check "prf multiset preserved" "1" "$([ "$prfa" = "$prfb" ] && echo 1 || echo 0)"
+
   # ---- query relax + rank ordering --------------------------------------------------------
   local r; r=$(SEARCHIE_TERSE=1 ve_query_run "meeting notes" 2>/dev/null | grep -c "RESULT|" || true)
   check "query returns ranked rows" "1" "$([ "$r" -ge 1 ] && echo 1 || echo 0)"
