@@ -102,6 +102,18 @@ ve_selftest_run() {
   prfb=$(printf 'one|1|alpha\nsecond|2|beta\n' | sort | tr '\n' ' ')
   check "prf multiset preserved" "1" "$([ "$prfa" = "$prfb" ] && echo 1 || echo 0)"
 
+  # ---- markov predictor: order-2 trigram dominates, chains walk -------------
+  rm -rf "$(ve_markov_dir)" && ve_markov_dir >/dev/null 2>&1
+  ve_markov_observe "meeting notes agenda followup report" >/dev/null 2>&1
+  ve_markov_observe "meeting notes agenda review" >/dev/null 2>&1
+  ve_markov_observe "meeting notes minutes" >/dev/null 2>&1
+  local mtop; mtop=$(ve_markov_predict "meeting notes" 1 2>/dev/null | head -1 | cut -d'|' -f1)
+  check "markov trigram top after meeting notes" "agenda" "$mtop"
+  local mbig; mbig=$(ve_markov_predict "meeting" 1 2>/dev/null | head -1 | cut -d'|' -f1)
+  check "markov bigram top after meeting" "notes" "$mbig"
+  local mchain; mchain=$(ve_markov_chain "meeting" 4 2>/dev/null || true)
+  check "markov chain prefixes meeting" "1" "$([[ "$mchain" == meeting* ]] && echo 1 || echo 0)"
+
   # ---- query relax + rank ordering --------------------------------------------------------
   local r; r=$(SEARCHIE_TERSE=1 ve_query_run "meeting notes" 2>/dev/null | grep -c "RESULT|" || true)
   check "query returns ranked rows" "1" "$([ "$r" -ge 1 ] && echo 1 || echo 0)"
