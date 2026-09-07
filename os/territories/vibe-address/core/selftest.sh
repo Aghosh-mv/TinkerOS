@@ -114,6 +114,16 @@ ve_selftest_run() {
   local mchain; mchain=$(ve_markov_chain "meeting" 4 2>/dev/null || true)
   check "markov chain prefixes meeting" "1" "$([[ "$mchain" == meeting* ]] && echo 1 || echo 0)"
 
+  # ---- minhash/LSH near-duplicate finder -------------------------------------
+  rm -rf "$VIBE_STATE/lsh"; mkdir -p "$VIBE_STATE/lsh"
+  ve_lsh_index fp_x1 "beach photo sunny summer trip beach vacation" >/dev/null 2>&1
+  ve_lsh_index fp_x2 "beach photo sunny summer trip beach vacation" >/dev/null 2>&1
+  ve_lsh_index fp_y1 "tax report quarterly spreadsheet numbers" >/dev/null 2>&1
+  local lsh; lsh=$(ve_lsh_candidates fp_x1 5 2>/dev/null | head -1)
+  check "lsh finds identical copy 8/8" "fp_x2|8" "$lsh"
+  lsh=$(ve_lsh_candidates fp_y1 5 2>/dev/null | wc -l | tr -d ' ')
+  check "lsh rejects unrelated" "0" "$lsh"
+
   # ---- query relax + rank ordering --------------------------------------------------------
   local r; r=$(SEARCHIE_TERSE=1 ve_query_run "meeting notes" 2>/dev/null | grep -c "RESULT|" || true)
   check "query returns ranked rows" "1" "$([ "$r" -ge 1 ] && echo 1 || echo 0)"

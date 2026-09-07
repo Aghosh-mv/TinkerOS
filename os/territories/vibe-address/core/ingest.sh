@@ -87,6 +87,9 @@ ve_ingest_record() {
   # === train the markov predictor on this event's token stream ===============
   ve_markov_observe "$(printf '%s %s %s %s' "$nametokens" "$srctokens" "$typetokens" "$catpath")" >/dev/null 2>&1 || true
 
+  # === project into the minhash/LSH near-duplicate space =====================
+  ve_lsh_index "$fp" "$(printf '%s %s %s' "$nametokens" "$srctokens" "$catpath")" >/dev/null 2>&1 || true
+
   # === adaptive bookkeeping ==================================================
   ve_adapt_log_event "$vtype" "$catpath" "$depth" "$top1" "$deepest"
 }
