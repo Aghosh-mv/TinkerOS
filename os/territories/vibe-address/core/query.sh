@@ -272,10 +272,14 @@ ve_query_run() {
       fetched=$(ve_query_fetch_expanded "$tokens" "$tlo" "$thi" "$qcat")
       if [ "$(echo "$fetched" | sed '/^$/d' | wc -l | tr -d ' ')" -lt 1 ]; then
         relax_level=3
-        fetched=$(ve_query_fetch_by_category_or_time "$tokens" "$tlo" "$thi" "$qcat")
+        fetched=$(ve_query_fetch_dista "$tokens" "$tlo" "$thi" "$qcat")
         if [ "$(echo "$fetched" | sed '/^$/d' | wc -l | tr -d ' ')" -lt 1 ]; then
           relax_level=4
-          fetched=$(ve_query_fetch_recent_any)
+          fetched=$(ve_query_fetch_by_category_or_time "$tokens" "$tlo" "$thi" "$qcat")
+          if [ "$(echo "$fetched" | sed '/^$/d' | wc -l | tr -d ' ')" -lt 1 ]; then
+            relax_level=5
+            fetched=$(ve_query_fetch_recent_any)
+          fi
         fi
       fi
     fi
@@ -418,6 +422,40 @@ ve_query=""
 ve_query_informative_tokens() {
   local tokens="$1"
   ve_lex_stopfilter "$tokens"
+}
+
+# ---- L3: edit-distance rescue — one banded automaton pass over the dictionary --
+ve_query_fetch_dista() {
+  local tokens="$1" tlo="$2" thi="$3" qcat="$4"
+  local inv="$VIBE_INDEX/inv"
+  [ -d "$inv" ] || return 0
+  local corrected=""
+  local tok nearest dictlist
+  while IFS= read -r tok; do
+    [ -z "$tok" ] && continue
+    local t; t=$(ve_index_sanitize_token "$tok")
+    if [ -f "$inv/$t" ]; then
+      corrected="$corrected $tok"
+      continue
+    fi
+    # batch banded search over the whole dictionary (single awk pass per token)
+    dictlist=$(ls "$inv" | tr '\n' '\n')
+    nearest=$(printf '%b' "$dictlist" | ve_dista_neighbors "$t" 2 2>/dev/null | head -1)
+    if [ -n "$nearest" ]; then
+      corrected="$corrected ${nearest%%|*}"
+    fi
+  done <<< "$(echo "$tokens" | tr ' ' '\n' | sed '/^$/d')"
+  [ -z "$corrected" ] && return 0
+  local fps; fps=$(ve_index_tokens_to_fps "$(echo "$corrected" | sed 's/^ //')" 2>/dev/null)
+  while IFS= read -r fp; do
+    [ -z "$fp" ] && continue
+    local envelope; envelope=$(ve_index_fp_to_envelope "$fp" 2>/dev/null)
+    [ -z "$envelope" ] && continue
+    local e; e=$(echo "$envelope" | cut -d'|' -f1)
+    if [ "$e" -ge "$tlo" ] 2>/dev/null && [ "$e" -le "$thi" ] 2>/dev/null; then
+      echo "$envelope"
+    fi
+  done <<< "$fps"
 }
 
 # ---- L2: expanded fetch — synonyms + prefix/substring radius -----------------

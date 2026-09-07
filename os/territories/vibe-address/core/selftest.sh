@@ -82,6 +82,15 @@ ve_selftest_run() {
   local avg; avg=$(ve_ir_avgdl 2>/dev/null || echo 0)
   check "ir avgdl positive" "1" "$([ "$avg" -gt 0 ] 2>/dev/null && echo 1 || echo 0)"
 
+  # ---- edit-distance automaton: batch banded scan, early-abort --------------
+  check "dista exact distance" "0" "$(ve_dista_distance cat cat 2 2>/dev/null || echo x)"
+  check "dista one-edit" "1" "$(ve_dista_distance cat kat 2 2>/dev/null || echo x)"
+  check "dista rejects far" "999" "$(ve_dista_distance cat xenomorph 2 2>/dev/null || echo x)"
+  local dn; dn=$(printf "cat\ncarrot\nkat\ncatalog\n" | ve_dista_neighbors "cat" 2 2>/dev/null | sed -n '2p' | cut -d'|' -f1)
+  check "dista neighbours batches" "kat" "$dn"
+  local cls; cls=$(printf "cat\ncarrot\nkat\n" | ve_dista_closest "catt" 2>/dev/null | cut -d'|' -f1)
+  check "dista closest" "cat" "$cls"
+
   # ---- query relax + rank ordering --------------------------------------------------------
   local r; r=$(SEARCHIE_TERSE=1 ve_query_run "meeting notes" 2>/dev/null | grep -c "RESULT|" || true)
   check "query returns ranked rows" "1" "$([ "$r" -ge 1 ] && echo 1 || echo 0)"
