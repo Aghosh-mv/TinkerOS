@@ -21,13 +21,7 @@ QUERY_DEBUG="${QUERY_DEBUG:-0}"
 
 # ---- step 1: tokenizer -----------------------------------------------------
 ve_query_tokenize() {
-  local raw="$1"
-  # lowercase, strip punctuation except hyphens, collapse whitespace
-  local norm
-  norm=$(printf '%s' "$raw" | tr '[:upper:]' '[:lower:]' | \
-         tr -cd 'a-zA-Z0-9 -' | \
-         sed 's/  */ /g; s/^ //; s/ $//')
-  echo "$norm"
+  ve_lex_tokenize "$1"
 }
 
 # ---- step 2: intent classifier ---------------------------------------------
@@ -59,6 +53,14 @@ ve_query_classify_intent() {
 ve_query_resolve_time() {
   local tokens="$1"
   local now; now=$(date +%s)
+  # try explicit quantity ("three weeks ago", "5 days back")
+  local qty; qty=$(ve_lex_quantity "$tokens")
+  if [ -n "$qty" ] && [ "$qty" -gt 0 ]; then
+    if [[ "$tokens" == *"ago"* ]] || [[ "$tokens" == *"back"* ]] || [[ "$tokens" == *"last"* ]]; then
+      echo "$(( now - qty )) $now"; return 0
+    fi
+    echo "$now $(( now + qty ))"; return 0
+  fi
   # try era aliases first
   local window
   window=$(ve_time_era "$tokens") 2>/dev/null && { IFS=' ' read -r lo hi <<<"$window"; echo "$lo $hi"; return 0; }
@@ -322,20 +324,19 @@ ve_query=""
 # ---- L1: drop stopwords -> keep informative tokens -------------------------
 ve_query_informative_tokens() {
   local tokens="$1"
-  echo "$tokens" | tr ' ' '\n' | \
-    grep -vE '^(the|a|an|that|this|those|these|of|in|on|at|to|for|from|by|with|my|their|our|there|here|is|are|was|were|be|been|i|me|we|it|they|what|which|some|any|it|as|so|did|do|get|got|and|or|but)$' | \
-    grep -vE '^[^a-z0-9]+$' | \
-    sort -u | tr '\n' ' ' | sed 's/ $//'
+  ve_lex_stopfilter "$tokens"
 }
 
-# ---- L2: expanded fetch — prefix/suffix substring radius --------------------
+# ---- L2: expanded fetch — synonyms + prefix/substring radius -----------------
 ve_query_fetch_expanded() {
   # tokens, tlo, thi, qcat
   local tokens="$1" tlo="$2" thi="$3" qcat="$4"
   local inform; inform=$(ve_query_informative_tokens "$tokens")
   [ -z "$inform" ] && inform="$tokens"
-  # build radius tokens: for each informative word, also try its stem prefix
-  local rad tokens2=""
+  # branch 1: synonym-ring expansion (same words, different spellings)
+  local ring; ring=$(ve_lex_expand_ring "$inform")
+  # branch 2: radius tokens — for each informative word also try its stem prefix
+  local rad tokens2="$ring"
   for rad in $inform; do
     local stem; stem="${rad:0:3}"
     tokens2="$tokens2 $rad $stem"
