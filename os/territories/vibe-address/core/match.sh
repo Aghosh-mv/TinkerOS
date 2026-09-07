@@ -222,9 +222,10 @@ ve_match_score_candidate() {
   m6=$(ve_match_depth    "$edepth")
   m7=$(ve_match_path_ngram "$epath" "$qtok")
   m8=$(ve_phon_similarity "$qtok" "$etok")
+  m9=$(ve_ir_component     "$fp" "$qtok")
 
-  printf '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n' \
-    "$fp" "$m1" "$m2" "$m3" "$m4" "$m5" "$m6" "$m7" "$m8" "$envelope"
+  printf '%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s\n' \
+    "$fp" "$m1" "$m2" "$m3" "$m4" "$m5" "$m6" "$m7" "$m8" "$m9" "$envelope"
 }
 
 ve_match=""

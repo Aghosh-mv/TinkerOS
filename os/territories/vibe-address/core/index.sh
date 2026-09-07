@@ -46,6 +46,9 @@ ve_index_insert() {
     tfile="${tfile//_/z_}"
     printf '%s %s %s\n' "$fp" "$epoch" "$path" >> "$inv/$tfile"
   done <<< "$alltok"
+
+  # === IR postings / doc-length / df (BM25 core) =============================
+  ve_ir_add "$fp" "$alltok"
 }
 
 # ---- temporal bucket insert -------------------------------------------------

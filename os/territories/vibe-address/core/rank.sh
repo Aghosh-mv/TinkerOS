@@ -32,7 +32,7 @@ ve_rank_weights() {
     cat "$wfile"
   else
     # default weights: lexical most important, fuzzy second, time third
-    echo "W1=35 W2=25 W3=20 W4=5 W5=15 W6=3 W7=10 W8=15"
+    echo "W1=35 W2=25 W3=20 W4=5 W5=15 W6=3 W7=10 W8=15 W9=20"
   fi
 }
 
@@ -42,16 +42,16 @@ ve_rank_parse_weights() {
   eval "$wstr" 2>/dev/null || true
   # ensure all set
   W1=${W1:-35} W2=${W2:-25} W3=${W3:-20} W4=${W4:-5}
-  W5=${W5:-15} W6=${W6:-3} W7=${W7:-10} W8=${W8:-5}
+  W5=${W5:-15} W6=${W6:-3} W7=${W7:-10} W8=${W8:-5} W9=${W9:-20}
 }
 
 # ---- compute weighted final score (0..100) for one candidate ----------------
 ve_rank_compute_score() {
-  local m1="$1" m2="$2" m3="$3" m4="$4" m5="$5" m6="$6" m7="$7" m8="$8"
+  local m1="$1" m2="$2" m3="$3" m4="$4" m5="$5" m6="$6" m7="$7" m8="$8" m9="$9"
   ve_rank_parse_weights
-  # weighted sum: weights sum to ~118 by default; normalise to 0..100
-  local raw=$(( W1*m1 + W2*m2 + W3*m3 + W4*m4 + W5*m5 + W6*m6 + W7*m7 + W8*m8 ))
-  local wtotal=$(( W1 + W2 + W3 + W4 + W5 + W6 + W7 + W8 ))
+  # weighted sum: weights sum to ~138 by default; normalise to 0..100
+  local raw=$(( W1*m1 + W2*m2 + W3*m3 + W4*m4 + W5*m5 + W6*m6 + W7*m7 + W8*m8 + W9*m9 ))
+  local wtotal=$(( W1 + W2 + W3 + W4 + W5 + W6 + W7 + W8 + W9 ))
   [ "$wtotal" -eq 0 ] && { echo "0"; return; }
   echo $(( raw / wtotal ))
 }
@@ -109,7 +109,7 @@ ve_rank_topk() {
 
 # ---- full ranking pipeline --------------------------------------------------
 ve_rank_run() {
-  # stdin: raw candidate lines from match.sh (fp|m1|m2|m3|m4|m5|m6|m7|m8|envelope)
+  # stdin: raw candidate lines from match.sh (fp|m1..m9|envelope)
   # output: ranked lines with final_score, one per line
   local k="${1:-$RANK_DEFAULT_K}"
   local line ranked scored diversified boosted top
@@ -130,8 +130,9 @@ ve_rank_run() {
     local m6=$(echo "$line" | cut -d'|' -f7)
     local m7=$(echo "$line" | cut -d'|' -f8)
     local m8=$(echo "$line" | cut -d'|' -f9)
-    local env=$(echo "$line" | cut -d'|' -f10-)
-    local final; final=$(ve_rank_compute_score "$m1" "$m2" "$m3" "$m4" "$m5" "$m6" "$m7" "$m8")
+    local m9=$(echo "$line" | cut -d'|' -f10)
+    local env=$(echo "$line" | cut -d'|' -f11-)
+    local final; final=$(ve_rank_compute_score "$m1" "$m2" "$m3" "$m4" "$m5" "$m6" "$m7" "$m8" "$m9")
     local cat1=$(echo "$env" | cut -d'|' -f4 | cut -d: -f1)
     printf '%s|%s|%s|%s\n' "$final" "$cat1" "$fp" "$env"
   done < "$tmp_raw" > "$tmp_score"
