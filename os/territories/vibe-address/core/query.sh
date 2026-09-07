@@ -325,11 +325,13 @@ ve_query_run() {
   # strict match means the requested thing EXISTS; otherwise nearest-thing note
   if [ "${SEARCHIE_TERSE:-0}" = "1" ]; then
     # machine-readable stream for the searchie overlay
+    ve_capacity_host
     echo "$ranked" | ve_rank_format_terse
     ve_adapt_record_query "$raw" "$intent_time" "$intent_cat" "$tlo" "$thi" "$cand_count"
     return
   fi
   echo
+  ve_capacity_banner
   if [ "$strict_count" -ge 1 ]; then
     echo "  top matches:"
   elif [ "$relax_level" -le 2 ]; then

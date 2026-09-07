@@ -43,7 +43,7 @@ VIBE_MAX_DEPTH=0            # 0 = unlimited category depth
 # ---------------------------------------------------------------------------
 # source the engine kernel (each module provides namespaced functions)
 # ---------------------------------------------------------------------------
-for mod in adapt action auto bloom bulk index ingest ir lexin match phoneme rank query retention selftest store time tree; do
+for mod in adapt action auto bloom bulk capacity index ingest ir lexin match phoneme rank query retention selftest store time tree; do
   m="$VIBE_ENGINE/core/$mod.sh"
   if [ -r "$m" ]; then
     # shellcheck disable=SC1090
@@ -115,9 +115,19 @@ USAGE
 case "${1:-}" in
   record)
     shift
+    if ! ve_capacity_can_write; then
+      echo "Searchie: memory locked at full capacity — open existing things; clear/delete to free space" >&2
+      exit 1
+    fi
+    ve_capacity_sweep >/dev/null 2>&1
     ve_ingest_record "$@" ;;
   bulk)
     shift
+    if ! ve_capacity_can_write; then
+      echo "Searchie: memory locked at full capacity" >&2
+      exit 1
+    fi
+    ve_capacity_sweep >/dev/null 2>&1
     ve_ingest_bulk "$@" ;;
   watch)
     shift
@@ -134,6 +144,7 @@ case "${1:-}" in
   ask|find|query)
     shift
     ve_session_init
+    ve_capacity_sweep >/dev/null 2>&1
     ve_query_run "${@:-<no query>}"
     ve_session_bump queries
     ;;
@@ -152,6 +163,18 @@ case "${1:-}" in
     shift
     ve_session_init
     ve_query_plan "$@"
+    ;;
+  cap|capacity|freemem)
+    shift
+    ve_session_init
+    pct=$(ve_capacity_pct)
+    lvl=$(ve_capacity_level)
+    used=$(ve_capacity_usage)
+    echo "Memory available:   $([ "$lvl" = full ] && echo FULL / LOCKED || echo $(awk -v u="$used" -v b="$VIBE_CAP_BYTES" 'BEGIN{ if (u<=b) printf "%d%% free", int((b-u)*100/b) }'))"
+    echo "Memory used:        ${pct}%"
+    echo "Footprint:          $used bytes"
+    echo "State:              $lvl (warn=${VIBE_CAP_WARN}% crit=${VIBE_CAP_CRIT}% full=${VIBE_CAP_FULL}%)"
+    ve_capacity_allowed_at_full
     ;;
   tree)
     shift

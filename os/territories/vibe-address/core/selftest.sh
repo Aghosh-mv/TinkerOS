@@ -97,6 +97,15 @@ ve_selftest_run() {
   ac=$(ve_auto_scan_text "nothing similar here" 2>/dev/null | head -1)
   check "AC rejects absent" "1" "$([ -z "$ac" ] && echo 1 || echo 0)"
 
+  # ---- capacity manager: pct monotonic, level labels, full-lock deny --------------
+  local cp; cp=$(ve_capacity_pct 2>/dev/null || echo 0)
+  check "capacity pct in range" "1" "$([ "$cp" -ge 0 ] 2>/dev/null && [ "$cp" -le 100 ] && echo 1 || echo 0)"
+  check "capacity ok level initially" "ok" "$(ve_capacity_level 2>/dev/null || echo ok)"
+  local deny
+  ve_capacity_can_write; deny=$?
+  check "capacity allows write while ok" "0" "$deny"
+  check "capacity can force full" "full" "$(VIBE_CAP_BYTES=1 ve_capacity_level 2>/dev/null || echo ok)"
+
   # ---- restore env --------------------------------------------------------------------------
   export HOME="$HOME_OLD"
   export VIBE_HOME="$VIBE_HOME_OLD"
