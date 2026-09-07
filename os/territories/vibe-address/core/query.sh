@@ -352,6 +352,15 @@ ve_query_fetch_candidates() {
   # gather events from inverted index
   local fps; fps=$(ve_index_tokens_to_fps "$tokens" 2>/dev/null)
 
+  # Aho-Corasick recovery: tokenizer/inverted-index miss (portmanteau,
+  # substring-style tokens like "catthing") -> one-pass automaton sweep
+  if [ -z "$fps" ] && [ -n "$(find "$VIBE_INDEX/inv" -type f 2>/dev/null | head -1)" ]; then
+    local asweep; asweep=$(ve_auto_candidates "$tokens" "$tlo" "$thi" "$qcat" 2>/dev/null)
+    if [ -n "$asweep" ]; then
+      fps=$asweep
+    fi
+  fi
+
   # also grab from category subtree if specified
   if [ -n "$qcat" ]; then
     local catdir; catdir=$(ve_tree_locate "$qcat" 2>/dev/null)

@@ -90,6 +90,13 @@ ve_selftest_run() {
   local staged; staged=$(ve_action_delete "the missing thing" 2>/dev/null | grep -c "^ITEM|" || true)
   check "delete stages item" "1" "$([ "$staged" -ge 1 ] && echo 1 || echo 0)"
 
+  # ---- Aho-Corasick: substring rescue in one automaton pass --------------------------------
+  ve_auto_compile "hpho" >/dev/null 2>&1 || true
+  local ac; ac=$(ve_auto_scan_text "beachphotojpg note" 2>/dev/null | head -1 || true)
+  check "AC substring finds hpho" "hpho" "$ac"
+  ac=$(ve_auto_scan_text "nothing similar here" 2>/dev/null | head -1)
+  check "AC rejects absent" "1" "$([ -z "$ac" ] && echo 1 || echo 0)"
+
   # ---- restore env --------------------------------------------------------------------------
   export HOME="$HOME_OLD"
   export VIBE_HOME="$VIBE_HOME_OLD"

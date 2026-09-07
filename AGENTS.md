@@ -88,3 +88,11 @@ Key commitment the user insists on (this keeps being forgotten):
    cpufreq governor, backlight driver, and power_supply paths.
 3. Build a genuine TinkerOS `.iso` from this tree.
 4. Ship to GitHub at the end.
+
+## BUILD BOX ≠ TARGET DEVICE (NOTED 2026-09-06)
+- This machine (/home/tinkerspace) is ONLY a build/compile environment.
+- It will NEVER run TinkerOS. TinkerOS is a global project OS for the public.
+- Do NOT install/searchie-launch/bind Tab+F7/set-up personal shortcuts on this box.
+- All shipped features (incl. Searchie + vibe addressing) are baked into the
+  TinkerOS user-space layer in the ISO and delivered to END USERS of the OS.
+- Runtime state here under ~/.local/share/tinkeros is only test scaffolding.

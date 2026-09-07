@@ -194,3 +194,4 @@ sphinx_*/
 
 # bc language scripts (not LLVM bitcode)
 !kernel/time/timeconst.bc
+TinkerOS-v1.2.iso
