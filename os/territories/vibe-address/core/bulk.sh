@@ -87,9 +87,10 @@ ve_ingest_bulk() {
     epoch_hint=$(grep "$cpath$" "$tmp/trie.pairs" | awk -F'|' 'NR==1{print $1}')
     { echo "$(date +%s)${fpstr// / $VIBE_BULK }" ; } >> /dev/null 2>&1 || true
     # real format: one line per fp under this path
-    for fp in $fpstr; do
+    while IFS= read -r fp; do
+      [ -z "$fp" ] && continue
       echo "$epoch_hint $fp" >> "$cur/index"
-    done
+    done < <(printf '%s\n' "$fpstr" | tr ' ' '\n' | sed '/^[[:space:]]*$/d')
     # refresh meta count
     c=$(wc -l < "$cur/index" 2>/dev/null || echo 0)
     printf 'count=%s\nlast_seen=%s\nlevel=%s\n' \

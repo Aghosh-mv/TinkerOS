@@ -19,6 +19,16 @@ set -euo pipefail
 
 QUERY_DEBUG="${QUERY_DEBUG:-0}"
 
+# ---- canonical token iteration --------------------------------------------
+# The engine carries token streams as SPACE-separated strings while the
+# global IFS is deliberately $'\n\t' (no space).  Any `for t in $tokens`
+# loop would therefore never split — every such loop must iterate through
+# this helper instead, which normalises space+newline runs to newline-sep
+# (trunk-delimited) so `while read` works under any IFS.
+ve_query_token_iter() {
+  printf '%s\n' "$1" | tr ' \n' '\n\n' | sed '/^[[:space:]]*$/d'
+}
+
 # ---- step 1: tokenizer -----------------------------------------------------
 ve_query_tokenize() {
   ve_lex_tokenize "$1"
@@ -112,18 +122,72 @@ ve_query_plan() {
   local intent; intent=$(ve_query_classify_intent "$tokens")
   local time_window; time_window=$(ve_query_resolve_time "$tokens")
   local cat; cat=$(ve_query_resolve_cat "$tokens")
+  local ops; ops=$(ve_query_split_ops "$tokens")
+  local pos;  pos=$(echo "$ops" | grep '^POS=' | cut -d= -f2-)
+  local neg;  neg=$(echo "$ops" | grep '^NEG=' | cut -d= -f2-)
 
   echo "============================================"
   echo "  Searchie — Query Plan"
   echo "============================================"
   echo "  Raw query    : $raw"
-  echo "  Tokens       : $tokens"
+  echo "  Tokens       : $pos"
+  echo "  Excluded     : ${neg:-(none)}"
   echo "  Intent       : $intent"
   echo "  Time window  : $time_window"
   echo "  Category     : ${cat:-(any)}"
-  echo "  Matchers     : M1(lexical) M2(fuzzy) M3(category) M4(source) M5(temporal) M6(depth) M7(ngram) M8(diversity)"
-  echo "  Pipeline     : time-prune -> inverted-index -> match-scores -> weighted-fusion -> diversity -> top-K"
+  echo "  Matchers     : M1(lexical) M2(fuzzy) M3(category) M4(source) M5(temporal) M6(depth) M7(ngram) M8(phoneme) M9(BM25)"
+  echo "  Pipeline     : negation-parse -> time-prune -> inverted-index -> match-scores -> weighted-fusion -> negation-filter -> diversity -> top-K"
   echo "============================================"
+}
+
+# ---- boolean op parsing: split query into POSITIVE and NEGATIVE token sets ----
+#   "cat not budget"       -> POS=cat   NEG=budget
+#   "cat -budget -excel"   -> POS=cat   NEG=budget excel
+#   "-budget"              -> POS=<any> NEG=budget   (negation-only = all but X)
+ve_query_split_ops() {
+  local tokens="$1" pos="" neg="" infix_not=0 w
+  # operators are punctuation-level syntax: parse BEFORE any tokenization
+  while IFS= read -r w; do
+    case "$w" in
+      -[a-z0-9._]*)
+        neg="$neg ${w#-}" ;;
+      -)
+        continue ;;
+      Not|NOT|not|Without|WITHOUT|without|Excluding|EXCLUDING|excluding|Minus|MINUS|minus)
+        infix_not=1 ;;
+      *)
+        if [ "$infix_not" -eq 1 ]; then neg="$neg $w"; infix_not=0; else pos="$pos $w"; fi ;;
+    esac
+  done < <(ve_query_token_iter "$tokens")
+  # a lone "not" with no following word can't name anything — drop it
+  pos=$(echo "$pos" | sed 's/^ *//;s/ *$//')
+  neg=$(echo "$neg" | sed 's/^ *//;s/ *$//')
+  printf 'POS=%s\nNEG=%s\n' "$pos" "$neg"
+}
+
+# ---- negation filter: drop candidates that also mention an excluded term ------
+ve_query_filter_negations() {
+  local candidates="$1" negs="$2"
+  [ -z "$negs" ] && { echo "$candidates"; return; }
+  local ntok
+  echo "$candidates" | while IFS= read -r env; do
+    [ -z "$env" ] && continue
+    local drop=0 ntok
+    while IFS= read -r ntok; do
+      [ -z "$ntok" ] && continue
+      # tied to the bloom cascade: an absent token cannot possibly match.
+      # keys are the SANITIZED inv filenames, so any raw token is sanitized
+      # first — absence from bloom is exact (bloom has no false negatives).
+      local nkey; nkey=$(ve_index_sanitize_token "$ntok")
+      local inbloom; inbloom=$(ve_bloom_tok_contains "$nkey" 2>/dev/null || echo 0)
+      [ "$inbloom" = "1" ] || continue
+      local badfps; badfps=$(ve_index_tokens_to_fps "$ntok" 2>/dev/null)
+      if echo "$badfps" | grep -qx "$(echo "$env" | cut -d'|' -f5)"; then
+        drop=1; break
+      fi
+    done < <(ve_query_token_iter "$negs")
+    [ "$drop" -eq 0 ] && echo "$env"
+  done
 }
 
 # ---- step 6-8: execute the full query pipeline ------------------------------
@@ -131,9 +195,21 @@ ve_query_run() {
   local raw="${1:-}"
   local k="${2:-$RANK_DEFAULT_K}"
 
-  # tokenize
-  local tokens; tokens=$(ve_query_tokenize "$raw")
-  [ -z "$tokens" ] && { echo "(empty query)"; return; }
+  # ---- boolean op parse runs on the RAW string ("-" and "not X" are
+  #      operator syntax; a tokenizer would strip them before we saw them) --
+  local ops; ops=$(ve_query_split_ops "$raw")
+  local pos_raw; pos_raw=$(echo "$ops" | grep '^POS=' | cut -d= -f2-)
+  local qneg_raw; qneg_raw=$(echo "$ops" | grep '^NEG=' | cut -d= -f2-)
+
+  # tokenize the positive side (negation-only queries name nothing to find)
+  local tokens; tokens=$(ve_query_tokenize "$pos_raw")
+  local qneg; qneg=$(ve_query_tokenize "$qneg_raw")
+  qneg=$(echo "$qneg" | sed 's/ *$//;s/^ *//')
+  if [ -z "$tokens" ] && [ -n "$qneg" ]; then
+    tokens=""          # "everything EXCEPT <thing>"
+  elif [ -z "$tokens" ]; then
+    echo "(empty query)"; return
+  fi
 
   # classify
   local intent; intent=$(ve_query_classify_intent "$tokens")
@@ -207,6 +283,12 @@ ve_query_run() {
 
   # dedup (an fp can surface via several inverted tokens or cascade levels)
   fetched=$(echo "$fetched" | sed '/^$/d' | sort -u)
+
+  # ---- negation filter: drop anything matching an excluded term ------------
+  if [ -n "$qneg" ]; then
+    fetched=$(ve_query_filter_negations "$fetched" "$qneg")
+    fetched=$(echo "$fetched" | sed '/^$/d' | sort -u)
+  fi
 
   local cand_count; cand_count=$(echo "$fetched" | sed '/^$/d' | wc -l | tr -d ' ')
   [ "${SEARCHIE_TERSE:-0}" != "1" ] && echo "  candidates: $cand_count  (strict=$strict_count relax=L$relax_level)"
@@ -337,10 +419,11 @@ ve_query_fetch_expanded() {
   local ring; ring=$(ve_lex_expand_ring "$inform")
   # branch 2: radius tokens — for each informative word also try its stem prefix
   local rad tokens2="$ring"
-  for rad in $inform; do
+  while IFS= read -r rad; do
+    [ -z "$rad" ] && continue
     local stem; stem="${rad:0:3}"
     tokens2="$tokens2 $rad $stem"
-  done
+  done < <(ve_query_token_iter "$inform")
   ve_query_fetch_candidates "$tokens2" "$tlo" "$thi" "$qcat"
 }
 

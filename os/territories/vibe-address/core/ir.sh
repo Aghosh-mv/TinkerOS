@@ -49,10 +49,10 @@ ve_ir_add() {
   # token frequency map (bash associative array is fast enough for ≤ 300 toks)
   local -A tf
   local tok
-  for tok in $tokens; do
+  while IFS= read -r tok; do
     [ -z "$tok" ] && continue
     tf["$tok"]=$(( ${tf["$tok"]:-0} + 1 ))
-  done
+  done < <(printf '%s\n' "$tokens" | tr ' \n' '\n' | sed '/^[[:space:]]*$/d')
   local len=${#tf[@]}
   [ "$len" -eq 0 ] && return 0
 

@@ -84,10 +84,15 @@ ve_lex_contract() {
 # ---- stopword filter -------------------------------------------------------- --
 ve_lex_stopfilter() {
   # stdin/arg: space-separated or newline-separated tokens
+  # MUST exit 0 even when the input is empty or every token is a stopword —
+  # under `set -euo pipefail` the inner grep returns 1 for "no surviving
+  # lines", and any `$(...)` assignment feeding on this would abort the
+  # whole query planner.  The trailing `|| true` neutralizes only the
+  # status, never the payload.
   local input="$1"
   echo "$input" | tr ' ' '\n' | grep -vE "^(the|a|an|that|this|those|these|of|in|on|at|to|for|from|by|with|my|their|our|there|here|is|are|was|were|be|been|i|me|we|it|they|what|which|some|any|as|so|did|do|does|get|got|gotcha|being|and|or|but|not|no|yeah|ok|okay|oh|um|uh|like|gonna|will|would|can|could|should|may|might|must|let|lets)$" | \
     grep -vE '^[^a-z0-9]+$' | \
-    sort -u | grep -v '^$' | tr '\n' ' ' | sed 's/ $//' | sed 's/^ //'
+    sort -u | grep -v '^$' | tr '\n' ' ' | sed 's/ $//' | sed 's/^ //' || true
 }
 
 # ---- seeded synonym ring ------------------------------------------------------
@@ -206,13 +211,13 @@ ve_lex_ring_lookup() {
 # ---- expand a whole token list via the ring -----------------------------------
 ve_lex_expand_ring() {
   local tokens="$1"
-  local out=""
-  local t aliases
-  for t in $tokens; do
+  local out="" t aliases
+  while IFS= read -r t; do
+    [ -z "$t" ] && continue
     out="$out $t"
     aliases=$(ve_lex_ring_lookup "$t")
     [ -n "$aliases" ] && out="$out $aliases"
-  done
+  done < <(printf '%s\n' "$tokens" | tr ' ' '\n' | sed '/^[[:space:]]*$/d')
   echo "$out" | tr ' ' '\n' | sort -u | tr '\n' ' ' | sed 's/ $//' | sed 's/^ //'
 }
 
@@ -222,11 +227,12 @@ ve_lex_soft_weights() {
   local tokens="$1"
   local out="" t soft
   local softset="thing stuff kind sort bit some any stuffs things type kinda"
-  for t in $tokens; do
+  while IFS= read -r t; do
+    [ -z "$t" ] && continue
     soft=1.0
     case " $softset " in *" $t "*) soft=0.5;; esac
     out="$out $t:$soft"
-  done
+  done < <(printf '%s\n' "$tokens" | tr ' ' '\n' | sed '/^[[:space:]]*$/d')
   echo "${out# }"
 }
 

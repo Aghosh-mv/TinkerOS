@@ -25,6 +25,12 @@
 set -euo pipefail
 
 # ---- inverted index insert --------------------------------------------------
+# ---- canonical token -> inverted-index filename key --------------------------
+ve_index_sanitize_token() {
+  local t="${1//\//z__}"
+  echo "${t//_/z_}"
+}
+
 ve_index_insert() {
   # fp, nametokens, srctokens, typetokens, timetokens, catpath, epoch, path
   local fp="$1" nametokens="$2" srctokens="$3" typetokens="$4" \
@@ -42,9 +48,11 @@ ve_index_insert() {
   while IFS= read -r tok; do
     [ -z "$tok" ] && continue
     # sanitize filename (replace / _ with z__, etc.)
-    local tfile="${tok//\//z__}"
-    tfile="${tfile//_/z_}"
+    local tfile; tfile=$(ve_index_sanitize_token "$tok")
     printf '%s %s %s\n' "$fp" "$epoch" "$path" >> "$inv/$tfile"
+    # token PRESENCE prefilter must be maintained incrementally — the bloom
+    # cascade is the fetch-side "absent ⇒ definitely no posting" oracle.
+    ve_bloom_tok_add "$tfile" >/dev/null 2>&1 || true
   done <<< "$alltok"
 
   # === IR postings / doc-length / df (BM25 core) =============================
@@ -88,7 +96,7 @@ ve_index_tokens_to_fps() {
   tmp=$(mktemp)
   while IFS= read -r tok; do
     [ -z "$tok" ] && continue
-    local t="${tok//\//z__}"; t="${t//_/z_}"
+    local t; t=$(ve_index_sanitize_token "$tok")
     if [ -f "$inv/$t" ]; then
       cut -d' ' -f1 "$inv/$t" | sort -u
     fi
