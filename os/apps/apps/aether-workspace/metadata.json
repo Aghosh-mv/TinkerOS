@@ -1,0 +1,6 @@
+{
+  "name": "Aether Workspace",
+  "description": "An ultra-fast, sovereign OS workspace featuring zero-knowledge AES-256-GCM encryption, offline-first sync, and native local automations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

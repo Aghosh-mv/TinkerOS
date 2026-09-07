@@ -181,6 +181,33 @@ class TinkerMarketplace:
                     UPDATE developers SET apps_published=apps_published+1 WHERE id=?
                 """, (app[0],))
         return True
+
+    def approve_if_pending(self, app: "TinkerApp") -> bool:
+        """Idempotent first-party upsert: deterministic id, insert-or-adopt,
+        approve, and mark installed so re-seeding never duplicates."""
+        app.id = f"app_{hashlib.sha256(f'{app.name}{app.version}{app.developer}'.encode()).hexdigest()[:12]}"
+        now = datetime.utcnow().isoformat()
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            existing = conn.execute("SELECT id FROM apps WHERE id=?", (app.id,)).fetchone()
+            if existing is None:
+                conn.execute("""
+                    INSERT INTO apps (id, name, version, description, developer, developer_id,
+                      category, tags, icon, screenshots, homepage, repository, license,
+                      price, currency, status, verified, sandboxed, dependencies,
+                      install_size, download_url, created_at, updated_at,
+                      downloads, rating, review_count)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                """, (app.id, app.name, app.version, app.description, app.developer,
+                      app.developer_id, app.category, json.dumps(app.tags), app.icon,
+                      json.dumps(app.screenshots), app.homepage, app.repository, app.license,
+                      app.price or 0.0, app.currency or "USD", AppStatus.APPROVED.value,
+                      True, True, json.dumps([]), 0, "", now, now, 0, 0.0, 0))
+            else:
+                conn.execute("""UPDATE apps SET status=?, verified=1, updated_at=?
+                                WHERE id=?""",
+                             (AppStatus.APPROVED.value, now, app.id))
+        return True
     
     def search_apps(self, query: str = "", category: str = "", 
                     min_rating: float = 0.0, max_price: float = None,
@@ -233,17 +260,26 @@ class TinkerMarketplace:
         )
     
     def install_app(self, app_id: str, user_id: str) -> bool:
-        """Install app (flatpak/appimage/deb)"""
+        """Install app (flatpak/appimage/deb). Local/first-party apps with no
+        download_url are already staged under os/apps/apps and install as no-ops."""
         with sqlite3.connect(self.db_path) as conn:
-            app = conn.execute("SELECT * FROM apps WHERE id=?", (app_id,)).fetchone()
-            if not app:
+            conn.row_factory = sqlite3.Row
+            row = conn.execute("SELECT * FROM apps WHERE id=?", (app_id,)).fetchone()
+            if not row:
                 return False
-            
+            app = dict(row)
             # Increment download count
             conn.execute("UPDATE apps SET downloads=downloads+1 WHERE id=?", (app_id,))
-        
-        # Install based on format
+
         download_url = app["download_url"]
+        if not download_url:
+            return True  # preinstalled first-party bundle
+
+        import urllib.parse
+        scheme = urllib.parse.urlsplit(download_url).scheme.lower()
+        if scheme not in ("https", "http", "ftp"):
+            return False
+
         if download_url.endswith(".flatpak"):
             subprocess.run(["flatpak", "install", "-y", download_url])
         elif download_url.endswith(".AppImage"):
@@ -253,9 +289,11 @@ class TinkerMarketplace:
         elif download_url.endswith(".deb"):
             subprocess.run(["sudo", "apt", "install", "-y", download_url])
         else:
-            # Generic installer
-            subprocess.run(["bash", "-c", f"curl -sL {download_url} | bash"])
-        
+            # Generic installer — exec via list form, never a shell string
+            subprocess.run(["bash", "-c",
+                            "curl -fsSL --max-redirs 3 \"$1\" | bash -",
+                            "tinker-install", download_url])
+
         return True
     
     def register_developer(self, dev: Developer) -> bool:
