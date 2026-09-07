@@ -1,0 +1,57 @@
+!<thin>
+//                                              458       `
+tinker.o/
+thermal_sched.o/
+gamemode.o/
+energy_sched.o/
+battery_life.o/
+oled_wear.o/
+cache_tiering.o/
+coil_whine.o/
+data_shredder.o/
+dust_dislodger.o/
+fpga_scaler.o/
+zero_latency_input.o/
+cxl_memory.o/
+dvfs_shaver.o/
+hardware_dna.o/
+ray_traced_audio.o/
+neural_audio.o/
+predictive_prewarm.o/
+smart_power_grid.o/
+adaptive_display.o/
+unified_memory.o/
+hardware_tuning.o/
+neural_super_res.o/
+predictive_render.o/
+remote_hardware_api.o/
+sdgpu.o/
+finance_audit.o/
+
+/0              0           0     0     644     5344      `
+/10             0           0     0     644     8424      `
+/27             0           0     0     644     7984      `
+/39             0           0     0     644     7312      `
+/55             0           0     0     644     7520      `
+/71             0           0     0     644     6216      `
+/84             0           0     0     644     6488      `
+/101            0           0     0     644     6760      `
+/115            0           0     0     644     6624      `
+/132            0           0     0     644     6720      `
+/150            0           0     0     644     5768      `
+/165            0           0     0     644     6272      `
+/187            0           0     0     644     6224      `
+/201            0           0     0     644     6664      `
+/216            0           0     0     644     7824      `
+/232            0           0     0     644     7648      `
+/252            0           0     0     644     6472      `
+/268            0           0     0     644     6592      `
+/290            0           0     0     644     6592      `
+/310            0           0     0     644     6528      `
+/330            0           0     0     644     6600      `
+/348            0           0     0     644     6376      `
+/367            0           0     0     644     6352      `
+/387            0           0     0     644     6544      `
+/408            0           0     0     644     6920      `
+/431            0           0     0     644     6360      `
+/440            0           0     0     644     6616      `
