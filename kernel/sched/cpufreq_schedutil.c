@@ -431,6 +431,28 @@ static inline bool sugov_update_single_common(struct sugov_cpu *sg_cpu,
 	return true;
 }
 
+#if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
+extern bool tinker_task_boosted(struct task_struct *p);
+#define TINKER_GAMEMODE_UTIL_STEP	256  /* util headroom while a boosted task runs */
+#endif
+
+/*
+ * Tinker GameMode: while a gamemode-boosted task is the running task on this
+ * CPU, raise the utilization request that gets mapped onto P-state.  The step
+ * is clamped to max_cap so the frequency stays inside the policy range; a
+ * boosted game thread therefore holds the high-frequency floor instead of
+ * ramping back down as soon as EAS thinks the load eased.
+ */
+static inline unsigned long sugov_tinker_gamemode_util(unsigned long util,
+						       unsigned long max_cap)
+{
+#if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
+	if (likely(tinker_task_boosted(current)))
+		util += TINKER_GAMEMODE_UTIL_STEP;
+#endif
+	return min(util, max_cap);
+}
+
 static void sugov_update_single_freq(struct update_util_data *hook, u64 time,
 				     unsigned int flags)
 {
@@ -445,6 +467,7 @@ static void sugov_update_single_freq(struct update_util_data *hook, u64 time,
 	if (!sugov_update_single_common(sg_cpu, time, max_cap, flags))
 		return;
 
+	sg_cpu->util = sugov_tinker_gamemode_util(sg_cpu->util, max_cap);
 	next_f = get_next_freq(sg_policy, sg_cpu->util, max_cap);
 
 	if (sugov_hold_freq(sg_cpu) && next_f < sg_policy->next_freq &&
@@ -498,6 +521,7 @@ static void sugov_update_single_perf(struct update_util_data *hook, u64 time,
 	if (sugov_hold_freq(sg_cpu) && sg_cpu->util < prev_util)
 		sg_cpu->util = prev_util;
 
+	sg_cpu->util = sugov_tinker_gamemode_util(sg_cpu->util, max_cap);
 	cpufreq_driver_adjust_perf(sg_policy->policy, sg_cpu->bw_min,
 				   sg_cpu->util, max_cap);
 
