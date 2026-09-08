@@ -9601,6 +9601,17 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
 	if (unlikely(sd))
 		return sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
 
+#if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
+	/* TinkerOS GameMode: boosted (latency-critical) tasks waive thermal
+	 * demotion and fall straight to the affine fast path — games must
+	 * stay on their core even if it is warm. */
+	{
+		extern bool tinker_task_boosted(struct task_struct *p);
+		if (tinker_task_boosted(p))
+			return select_idle_sibling(p, prev_cpu, new_cpu);
+	}
+#endif
+
 #if IS_ENABLED(CONFIG_TINKER_THERMAL_SCHED)
 	/* TinkerOS: avoid waking a task on a thermally-hot CPU when a cool
 	 * affine CPU (prev_cpu) is available. Only ever moves the task back

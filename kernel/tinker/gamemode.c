@@ -83,6 +83,23 @@ bool tinker_gamemode_enabled(void)
 }
 EXPORT_SYMBOL_GPL(tinker_gamemode_enabled);
 
+/* Per-task probe: is this task part of the currently boosted process group?
+ * Used by the scheduler/fair path to waive thermal demotion for boosted
+ * (latency-critical) tasks. */
+bool tinker_task_boosted(struct task_struct *p)
+{
+	bool b;
+
+	if (!p)
+		return false;
+	mutex_lock(&gamemode_lock);
+	b = gamemode_enabled && gamemode_tgid > 0 &&
+	    (task_tgid_nr(p) == gamemode_tgid);
+	mutex_unlock(&gamemode_lock);
+	return b;
+}
+EXPORT_SYMBOL_GPL(tinker_task_boosted);
+
 static int gamemode_show(struct seq_file *m, void *v)
 {
 	mutex_lock(&gamemode_lock);

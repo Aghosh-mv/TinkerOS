@@ -12,6 +12,7 @@
  */
 
 extern struct proc_dir_entry *tinker_proc_root;
+struct task_struct;
 
 #ifdef CONFIG_TINKER_THERMAL_SCHED
 extern void tinker_thermal_hint_hot_cpu(int cpu);
@@ -21,6 +22,7 @@ extern bool tinker_thermal_is_hot(int cpu);
 #ifdef CONFIG_TINKER_GAMEMODE
 extern void tinker_gamemode_request_boost(pid_t tgid, int on);
 extern bool tinker_gamemode_enabled(void);
+extern bool tinker_task_boosted(struct task_struct *p);
 #endif
 
 #ifdef CONFIG_TINKER_ENERGY_SCHED
