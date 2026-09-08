@@ -43,7 +43,7 @@ VIBE_MAX_DEPTH=0            # 0 = unlimited category depth
 # ---------------------------------------------------------------------------
 # source the engine kernel (each module provides namespaced functions)
 # ---------------------------------------------------------------------------
-for mod in adapt action auto bloom bulk capacity cms dista index lsh markov prf sarray ingest ir lexin match phoneme rank query retention selftest store time tree; do
+for mod in adapt action audit auto bloom bulk capacity cms dista index lsh markov prf sarray ingest ir lexin match phoneme rank query retention selftest store time tree; do
   m="$VIBE_ENGINE/core/$mod.sh"
   if [ -r "$m" ]; then
     # shellcheck disable=SC1090
@@ -201,6 +201,16 @@ case "${1:-}" in
       chain)   ve_markov_chain "${2:-}" ${3:-$VE_MARKOV_MAXCHAIN} ;;
       *) echo "usage: ve markov predict <context> | ve markov chain <start> [len]" ;;
     esac
+    ;;
+  audit)
+    shift
+    ve_session_init
+    ve_audit_event "${1:-}"
+    ;;
+  audit-query)
+    shift
+    ve_session_init
+    ve_audit_query "${*:-}"
     ;;
   similar)
     shift

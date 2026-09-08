@@ -138,6 +138,11 @@ ve_selftest_run() {
   local r; r=$(SEARCHIE_TERSE=1 ve_query_run "meeting notes" 2>/dev/null | grep -c "RESULT|" || true)
   check "query returns ranked rows" "1" "$([ "$r" -ge 1 ] && echo 1 || echo 0)"
 
+  # ---- audit: event internals + query ladder ----------------------------------------------
+  local afp; afp=$(ls "$VIBE_INDEX/fp" 2>/dev/null | head -1)
+  check "audit event dumps envelope" "1" "$([ -n "$afp" ] && ve_audit_event "$afp" 2>/dev/null | grep -c 'Vibe-address AUDIT' || echo 0)"
+  check "audit-query prints ladder" "1" "$(ve_audit_query "meeting" 2>/dev/null | grep -c '^  L0')"
+
   # ---- action staging surface --------------------------------------------------------------
   local staged; staged=$(ve_action_delete "the missing thing" 2>/dev/null | grep -c "^ITEM|" || true)
   check "delete stages item" "1" "$([ "$staged" -ge 1 ] && echo 1 || echo 0)"
