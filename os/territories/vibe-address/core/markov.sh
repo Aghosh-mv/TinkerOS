@@ -13,12 +13,14 @@
 # ===========================================================================
 set -euo pipefail
 
-VE_MARKOV_DIR="${VIBE_STATE:-$VIBE_HOME/state}/markov"
+#  NOTE: the store dir is resolved LAZILY at call time (like bloom.sh) because
+#  VIBE_STATE may be re-derived by the caller (dispatcher/selftest) after this
+#  module is sourced; an eager binding would silently target the wrong store.
+ve_markov_dir() { local d="${VIBE_STATE:-$VIBE_HOME/state}/markov"; mkdir -p "$d"; echo "$d"; }
+
 VE_MARKOV_TOP="${VE_MARKOV_TOP:-3}"         # candidate surface in predict
 VE_MARKOV_MAXCHAIN="${VE_MARKOV_MAXCHAIN:-12}"
 VE_MARKOV_O1_DECAY=7                        # 0.7 weight for order-1 edges
-
-ve_markov_dir() { mkdir -p "$VE_MARKOV_DIR"; echo "$VE_MARKOV_DIR"; }
 
 # ---- deterministic bucket file for a (order, context) pair -------------------
 ve_markov_keyfile() {

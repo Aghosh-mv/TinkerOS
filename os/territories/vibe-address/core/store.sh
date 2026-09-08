@@ -19,6 +19,7 @@ ve_store_append() {
   local line="$1"
   local today; today=$(date +%Y-%m-%d)
   local logfile="$VIBE_EVENTS/$today.log"
+  mkdir -p "$VIBE_EVENTS"
   printf '%s\n' "$line" >> "$logfile"
   # periodic integrity stamp every 500 lines
   local nlines; nlines=$(wc -l < "$logfile" 2>/dev/null || echo 0)

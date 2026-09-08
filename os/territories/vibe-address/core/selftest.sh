@@ -169,6 +169,18 @@ ve_selftest_run() {
   check "cms counts repeated" "2" "$(ve_cms_estimate needle 2>/dev/null || echo 0)"
   check "cms zero for absent" "0" "$(ve_cms_estimate absentword 2>/dev/null || echo x)"
 
+  # ---- model-integrity: every artifact rebuilt from the store must align -------
+  ve_store_append "1780000000|photo|file|/st/align_probe.txt|1111aaaa00000000|misc|align" >/dev/null 2>&1 || true
+  ve_align_fix >/dev/null 2>&1 || true
+  local algn; algn=$(ve_align_check 2>/dev/null | grep -c 'ALIGNED' || echo 0)
+  local aok=0
+  if [ "$algn" -ge 1 ] 2>/dev/null; then aok=1; fi
+  check "align fixes + verifies models" "1" "$aok"
+  local tcnt; tcnt=$(find "$VIBE_INDEX/time" -type f 2>/dev/null | wc -l | tr -d ' ' || echo 0)
+  local tok=0
+  if [ "${tcnt:-0}" -ge 1 ] 2>/dev/null; then tok=1; fi
+  check "align index covers tokens" "1" "$tok"
+
   # ---- restore env --------------------------------------------------------------------------
   export HOME="$HOME_OLD"
   export VIBE_HOME="$VIBE_HOME_OLD"

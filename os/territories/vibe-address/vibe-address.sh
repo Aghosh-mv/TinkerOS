@@ -43,7 +43,7 @@ VIBE_MAX_DEPTH=0            # 0 = unlimited category depth
 # ---------------------------------------------------------------------------
 # source the engine kernel (each module provides namespaced functions)
 # ---------------------------------------------------------------------------
-for mod in adapt action audit auto bloom bulk capacity cms dista index lsh markov prf sarray ingest ir lexin match phoneme rank query retention selftest store time tree; do
+for mod in adapt action audit auto align bloom bulk capacity cms dista index lsh markov prf sarray ingest ir lexin match phoneme rank query retention selftest store time tree; do
   m="$VIBE_ENGINE/core/$mod.sh"
   if [ -r "$m" ]; then
     # shellcheck disable=SC1090
@@ -211,6 +211,15 @@ case "${1:-}" in
     shift
     ve_session_init
     ve_audit_query "${*:-}"
+    ;;
+  align)
+    shift
+    ve_session_init
+    case "${1:-check}" in
+      check|--check|-c) ve_align_check ;;
+      fix|--fix|-f)     ve_align_fix ;;
+      *) echo "usage: ve align [check|--fix]" ;;
+    esac
     ;;
   similar)
     shift

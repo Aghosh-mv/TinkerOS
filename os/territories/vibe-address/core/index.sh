@@ -135,7 +135,7 @@ ve_index_stats() {
 ve_index_rebuild() {
   echo "Rebuilding inverted index (full scan)..."
   local inv="$VIBE_INDEX/inv" fpd="$VIBE_INDEX/fp"
-  rm -rf "$inv" "$VIBE_INDEX/time"; mkdir -p "$inv"
+  rm -rf "$inv" "$fpd" "$VIBE_INDEX/time"; mkdir -p "$inv" "$fpd"
   local line
   while IFS= read -r line; do
     local fp=$(echo "$line" | cut -d'|' -f5)
@@ -148,13 +148,27 @@ ve_index_rebuild() {
     local vtype=$(echo "$line" | cut -d'|' -f2)
     local meta=$(echo "$line" | cut -d'|' -f7)
     local nametokens; nametokens=$(ve_ingest_name_tokens "$path" "$meta")
-    local alltok; alltok=$(printf '%s\n%s\n' "$nametokens" "$catpath" | tr ':/' ' ' | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9 \n' | tr ' ' '\n' | sed '/^$/d' | sort -u)
+    local srctokens;  srctokens=$(ve_ingest_source_tokens "$source") || true
+    local typetokens; typetokens=$(ve_ingest_type_tokens "$vtype") || true
+    local timetokens; timetokens=$(ve_ingest_time_tokens "$epoch" "$path" "$meta")
+    local alltok; alltok=$(printf '%s\n%s\n%s\n%s\n%s\n' "$nametokens" "$srctokens" "$typetokens" "$timetokens" "$catpath" | tr ':/' ' ' | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9 \n' | tr ' ' '\n' | sed '/^$/d' | sort -u)
     local tok
     while IFS= read -r tok; do
       [ -z "$tok" ] && continue
       local t="${tok//\//z__}"; t="${t//_/z_}"
       printf '%s %s %s\n' "$fp" "$epoch" "$path" >> "$inv/$t"
     done <<< "$alltok"
+    # re-insert time buckets (rebuild wiped them)
+    local bucket_m bucket_h bucket_d bucket_w bucket_mo bucket_q bucket_y
+    bucket_m=$(ve_time_epoch_bucket "$epoch" 1) || true
+    bucket_h=$(ve_time_epoch_bucket "$epoch" 2) || true
+    bucket_d=$(ve_time_epoch_bucket "$epoch" 3) || true
+    bucket_w=$(ve_time_epoch_bucket "$epoch" 4) || true
+    bucket_mo=$(ve_time_epoch_bucket "$epoch" 5) || true
+    bucket_q=$(ve_time_epoch_bucket "$epoch" 6) || true
+    bucket_y=$(ve_time_epoch_bucket "$epoch" 7) || true
+    ve_index_time_insert "$fp" "$epoch" \
+      "$bucket_m" "$bucket_h" "$bucket_d" "$bucket_w" "$bucket_mo" "$bucket_q" "$bucket_y"
   done < <(cat "$VIBE_EVENTS"/*.log 2>/dev/null)
   echo "Rebuild complete."
 }

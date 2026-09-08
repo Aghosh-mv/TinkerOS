@@ -15,9 +15,8 @@
 set -euo pipefail
 
 VE_SARRAY_MAXCHARS="${VE_SARRAY_MAXCHARS:-140000}"
-VE_SARRAY_DIR="$VIBE_STATE/sarray"
-
-ve_sarray_dir() { mkdir -p "$VE_SARRAY_DIR"; echo "$VE_SARRAY_DIR"; }
+# lazy store dir: VIBE_STATE is derived by the dispatcher AFTER modules source
+ve_sarray_dir() { local d="${VIBE_STATE:-$VIBE_HOME/state}/sarray"; mkdir -p "$d"; echo "$d"; }
 
 ve_sarray_fps() { ls "$VIBE_INDEX/fp" 2>/dev/null || true; }
 
