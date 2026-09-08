@@ -197,6 +197,15 @@ ve_selftest_run() {
   if echo "$qout" | grep -qE "strict inverted-index hit|relaxed to"; then qok=1; fi
   check "query results explain their relax tier" "1" "$qok"
 
+  # ---- bloom sweep: rebuilt filter admits indexed tokens, rejects absent ----
+  local bloom_tok; bloom_tok=$(ls "$VIBE_INDEX/inv" 2>/dev/null | head -1)
+  local bok2=0
+  if [ -n "$bloom_tok" ] && [ "$(ve_bloom_tok_contains "$bloom_tok" 2>/dev/null)" = "1" ] \
+     && [ "$(ve_bloom_tok_contains "zzzqtxnotreal" 2>/dev/null)" = "0" ]; then
+    bok2=1
+  fi
+  check "bloom sweep admits indexed + rejects absent" "1" "$bok2"
+
   # ---- restore env --------------------------------------------------------------------------
   export HOME="$HOME_OLD"
   export VIBE_HOME="$VIBE_HOME_OLD"

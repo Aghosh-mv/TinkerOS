@@ -128,7 +128,7 @@ ve_bloom_pair_contains() { ve_bloom_contains "$(ve_bloom_pair_filter)" "$1"; }
 # ---- rebuild from the inverted index (optimize path) ------------------------------
 ve_bloom_rebuild() {
   local inv="$VIBE_INDEX/inv"
-  local tf; tf=$(ve_bloom_tok_filter); pf=$(ve_bloom_pair_filter)
+  local tf; tf=$(ve_bloom_tok_filter); local pf; pf=$(ve_bloom_pair_filter)
   rm -f "$tf" "$pf"
   # token presence + pair presence recomputed from every index file
   local tfile
