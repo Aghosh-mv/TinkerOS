@@ -199,7 +199,8 @@ case "${1:-}" in
     case "${1:-}" in
       predict) ve_markov_predict "${2:-}" ${3:-$VE_MARKOV_TOP} ;;
       chain)   ve_markov_chain "${2:-}" ${3:-$VE_MARKOV_MAXCHAIN} ;;
-      *) echo "usage: ve markov predict <context> | ve markov chain <start> [len]" ;;
+      complete) ve_markov_chain "${2:-}" ${3:-$VE_MARKOV_MAXCHAIN} ;;
+      *) echo "usage: ve markov predict <context> | ve markov chain <start> [len] | ve markov complete <start> [len]" ;;
     esac
     ;;
   audit)
