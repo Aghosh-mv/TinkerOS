@@ -181,6 +181,16 @@ ve_selftest_run() {
   if [ "${tcnt:-0}" -ge 1 ] 2>/dev/null; then tok=1; fi
   check "align index covers tokens" "1" "$tok"
 
+  # ---- optimize --burn: quarantine exact-duplicate logical items -------------
+  ve_store_append "1780000001|photo|file|/st/align_probe.txt|2222bbbb11110000|misc|align" >/dev/null 2>&1 || true
+  ve_align_fix >/dev/null 2>&1 || true
+  local burnout; burnout=$(ve_lsh_dupe_prune_burn 2>/dev/null)
+  local burned_row; burned_row=$(echo "$burnout" | grep -c "duplicate logical item" || echo 0)
+  local bok=0
+  if [ "$burned_row" -ge 1 ] 2>/dev/null; then bok=1; fi
+  check "optimize burn quarantines exact dupes" "1" "$bok"
+  ve_index_rebuild >/dev/null 2>&1 || true
+
   # ---- restore env --------------------------------------------------------------------------
   export HOME="$HOME_OLD"
   export VIBE_HOME="$VIBE_HOME_OLD"

@@ -147,6 +147,7 @@ ve_index_rebuild() {
     local epoch=$(echo "$line" | cut -d'|' -f1)
     local vtype=$(echo "$line" | cut -d'|' -f2)
     local meta=$(echo "$line" | cut -d'|' -f7)
+    local source=$(echo "$line" | cut -d'|' -f3)
     local nametokens; nametokens=$(ve_ingest_name_tokens "$path" "$meta")
     local srctokens;  srctokens=$(ve_ingest_source_tokens "$source") || true
     local typetokens; typetokens=$(ve_ingest_type_tokens "$vtype") || true

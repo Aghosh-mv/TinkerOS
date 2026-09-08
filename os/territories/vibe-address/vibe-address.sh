@@ -186,7 +186,7 @@ case "${1:-}" in
     ;;
   optimize|compact)
     shift
-    ve_store_optimize
+    ve_store_optimize "${1:-}"
     ;;
   session)
     shift

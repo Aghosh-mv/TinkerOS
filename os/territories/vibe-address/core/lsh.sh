@@ -139,4 +139,56 @@ ve_lsh_dupe_count() {
   ve_lsh_dupe_scan "${1:-}" 2>/dev/null | wc -l | tr -d ' '
 }
 
+# ---- quarantine exact-duplicate logical items (optimize --burn) --------------
+# Near-dup pairs (all 8 LSH rows shared) whose NAME TOKENS are identical are
+# the same logical item recorded twice under different fingerprints.  Each
+# such second fp's event line is moved out of the live logs into a quarantine
+# dir (never deleted outright), reporting the burned fingerprints.
+ve_lsh_dupe_prune_burn() {
+  local quardir="${1:-$VIBE_EVENTS/.dupes}"
+  mkdir -p "$quardir"
+  local burned=0 pair a b rows ea eb nama namb line log
+  while IFS= read -r pair; do
+    [ -z "$pair" ] && continue
+    a="${pair%%|*}"
+    local rest; rest="${pair#*|}"
+    b="${rest%%|*}"; rows="${rest#*|}"
+    [ "$rows" -lt 8 ] 2>/dev/null && continue
+    ea=$(ve_index_fp_to_envelope "$a" 2>/dev/null)
+    eb=$(ve_index_fp_to_envelope "$b" 2>/dev/null)
+    { [ -z "$ea" ] || [ -z "$eb" ]; } && continue
+    nama=$(ve_ingest_name_tokens "$(echo "$ea" | cut -d'|' -f4)" "$(echo "$ea" | cut -d'|' -f2)" 2>/dev/null)
+    namb=$(ve_ingest_name_tokens "$(echo "$eb" | cut -d'|' -f4)" "$(echo "$eb" | cut -d'|' -f2)" 2>/dev/null)
+    [ "$nama" = "$namb" ] || continue
+    echo "  burn    duplicate logical item fp=$b (shares all $rows/8 rows with $a)"
+    ve_lsh_dupe_quarantine_fp "$b" "$quardir"
+    if [ "$?" -eq 0 ]; then
+      burned=$((burned + 1))
+    else
+      echo "  burn    SKIP fp=$b (not found in live logs — already removed?)"
+    fi
+  done < <(ve_lsh_dupe_scan 2>/dev/null)
+  echo "  burned $burned exact duplicate event(s) to $quardir"
+}
+
+# ---- move every live log line carrying fp into the quarantine dir -------------
+ve_lsh_dupe_quarantine_fp() {
+  local fp="$1" quardir="$2" found=0
+  local -a tmp=()
+  local f
+  while IFS= read -r f; do
+    [ -f "$f" ] || continue
+    tmp=("$f")
+    grep -n "|$fp|" "$f" 2>/dev/null | while IFS=: read -r ln restline; do
+      [ -z "$ln" ] && continue
+      sed -n "${ln}p" "$f" >> "$quardir/burned_$fp.log"
+      found=1
+    done
+    grep -v "|$fp|" "$f" 2>/dev/null > "$f.prune" || true
+    [ -s "$f.prune" ] && mv "$f.prune" "$f"
+    rm -f "$f.prune"
+  done < <(find "$VIBE_EVENTS" -maxdepth 1 -name "*.log" -type f 2>/dev/null)
+  return "$found"
+}
+
 ve_lsh=""

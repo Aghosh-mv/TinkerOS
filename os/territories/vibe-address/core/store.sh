@@ -113,13 +113,41 @@ ve_store_stats() {
 
 # ---- compact: merge old logs + rebuild --------------------------------------
 ve_store_optimize() {
+  local burn="${1:-}"
   echo "Vibe Addressing: running compaction..."
   ve_store_stamp_integrity_all
   ve_index_rebuild
   ve_store_prune_dedup
   local dupes; dupes=$(ve_lsh_dupe_scan 2>/dev/null | wc -l | tr -d ' ')
   echo "  near-duplicate signature pairs (candidate, not removed): $dupes"
+  if [ "$burn" = "--burn" ]; then
+    echo "  burning exact-duplicate logical items (all 8 LSH rows, same name tokens)..."
+    ve_lsh_dupe_prune_burn >/dev/null 2>&1 || true
+    ve_index_rebuild
+    ve_bloom_rebuild
+    ve_sarray_rebuild
+    ve_lsh_rebuild
+  fi
   echo "Compaction complete."
+}
+
+ve_lsh_rebuild() {
+  ve_lsh_sigdir >/dev/null 2>&1 || true
+  local f env path vtype source catpath meta toks
+  local a; local b; local c; local d; local e
+  while IFS= read -r f; do
+    env=$(ve_index_fp_to_envelope "$f" 2>/dev/null)
+    [ -z "$env" ] && continue
+    a="${env%%|*}"; b="${env#*|}"
+    vtype="${b%%|*}"; b="${b#*|}"
+    source="${b%%|*}"; b="${b#*|}"
+    path="${b%%|*}";  b="${b#*|}"
+    c="${b%%|*}";     b="${b#*|}"
+    catpath="${b%%|*}"; meta="${b#*|}"
+    toks="$(ve_ingest_name_tokens "$path" "$meta" 2>/dev/null) $(ve_ingest_source_tokens "$source" 2>/dev/null) $(ve_ingest_type_tokens "$vtype" 2>/dev/null) $catpath"
+    [ -n "$toks" ] || continue
+    ve_lsh_index "$f" "$toks" >/dev/null 2>&1 || true
+  done < <(ls "$VIBE_INDEX/fp" 2>/dev/null)
 }
 
 ve_store_stamp_integrity_all() {
