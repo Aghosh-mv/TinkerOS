@@ -29,7 +29,7 @@ ve_sarray_rebuild() {
   fplist=$(ve_sarray_fps)
   local total; total=$(echo "$fplist" | sed '/^$/d' | wc -l | tr -d ' ')
   local keep=$total; [ "$keep" -gt 300 ] && keep=300
-  for fp in $(echo "$fplist" | tail -"$keep" | tr '\n' ' '); do
+  for fp in $(echo "$fplist" | tail -"$keep"); do
     [ -z "$fp" ] && continue
     local env; env=$(ve_index_fp_to_envelope "$fp" 2>/dev/null)
     [ -z "$env" ] && continue
@@ -67,16 +67,23 @@ ve_sarray_ensure() {
   local want
   want=$(ve_sarray_fps | sed '/^$/d' | wc -l | tr -d ' ')
   { [ -f "$dir/sa" ] && [ -s "$dir/sa" ] ; } || { ve_sarray_rebuild; return; }
-  [ "$have" -ne "$want" ] && ve_sarray_rebuild
+  if [ "$have" -ne "$want" ]; then
+    ve_sarray_rebuild
+  fi
+  return 0
 }
 
 # ---- owner fp for a window offset (binary walk over owners) -----------------
 ve_sarray_owner() {
   local off="$1" file="$2"
   local fp=""
+  local line a rest b c
   while IFS= read -r line; do
-    local a="${line%%|*}" rest="${line#*|}" b="${rest%%|*}"
-    if [ "$off" -ge "$a" ] && [ "$off" -lt "$b" ]; then fp="$a"; break; fi
+    a="${line%%|*}"          # fingerprint
+    rest="${line#*|}"        # "start|end"
+    b="${rest%%|*}"          # start
+    c="${rest#*|}"           # end
+    if [ "$off" -ge "$b" ] && [ "$off" -lt "$c" ]; then fp="$a"; break; fi
   done < "$file"
   echo "$fp"
 }

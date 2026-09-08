@@ -124,6 +124,13 @@ ve_selftest_run() {
   lsh=$(ve_lsh_candidates fp_y1 5 2>/dev/null | wc -l | tr -d ' ')
   check "lsh rejects unrelated" "0" "$lsh"
 
+  # ---- suffix array: idempotent ensure + infix rescue ------------------------
+  check "sarray ensure idempotent rc" "0" "$(ve_sarray_ensure >/dev/null 2>&1; echo $?)"
+  local sain; sain=$(ve_sarray_search "photo" 5 2>/dev/null | wc -l | tr -d ' ')
+  check "sarray infix returns hits" "1" "$([ "${sain:-0}" -ge 1 ] && echo 1 || echo 0)"
+  sain=$(ve_sarray_search "zzzzqzx" 5 2>/dev/null | wc -l | tr -d ' ')
+  check "sarray rejects absent" "0" "$sain"
+
   # ---- query relax + rank ordering --------------------------------------------------------
   local r; r=$(SEARCHIE_TERSE=1 ve_query_run "meeting notes" 2>/dev/null | grep -c "RESULT|" || true)
   check "query returns ranked rows" "1" "$([ "$r" -ge 1 ] && echo 1 || echo 0)"

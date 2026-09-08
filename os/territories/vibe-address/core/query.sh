@@ -260,8 +260,10 @@ ve_query_run() {
   #      L0  strict (tokens ∩ index ∩ time ∩ cat)
   #      L1  drop stopwords, keep informative tokens
   #      L2  expand via substrings/synonyms (radius match)
-  #      L3  category subtree + independent time window (ignore tokens)
-  #      L4  whole store recency (last candidate on earth)
+  #      L3  edit-distance rescue (typos) — one banded automaton pass
+  #      L4  suffix-array infix (substring across token boundaries)
+  #      L5  category subtree + independent time window (ignore tokens)
+  #      L6  whole store recency (last candidate on earth)
   local relax_level=0 fetched="$candidates"
   if [ "$strict_count" -lt 1 ]; then
     relax_level=1
@@ -275,10 +277,14 @@ ve_query_run() {
         fetched=$(ve_query_fetch_dista "$tokens" "$tlo" "$thi" "$qcat")
         if [ "$(echo "$fetched" | sed '/^$/d' | wc -l | tr -d ' ')" -lt 1 ]; then
           relax_level=4
-          fetched=$(ve_query_fetch_by_category_or_time "$tokens" "$tlo" "$thi" "$qcat")
+          fetched=$(ve_query_fetch_sarray "$tokens" "$tlo" "$thi" "$qcat")
           if [ "$(echo "$fetched" | sed '/^$/d' | wc -l | tr -d ' ')" -lt 1 ]; then
             relax_level=5
-            fetched=$(ve_query_fetch_recent_any)
+            fetched=$(ve_query_fetch_by_category_or_time "$tokens" "$tlo" "$thi" "$qcat")
+            if [ "$(echo "$fetched" | sed '/^$/d' | wc -l | tr -d ' ')" -lt 1 ]; then
+              relax_level=6
+              fetched=$(ve_query_fetch_recent_any)
+            fi
           fi
         fi
       fi
@@ -345,7 +351,7 @@ ve_query_run() {
   ve_capacity_banner
   if [ "$strict_count" -ge 1 ]; then
     echo "  top matches:"
-  elif [ "$relax_level" -le 2 ]; then
+  elif [ "$relax_level" -le 4 ]; then
     echo "  no exact thing like that is in memory — closest thing you have:"
   else
     echo "  nothing matching that is in memory — nearest thing found anywhere:"
@@ -460,6 +466,28 @@ ve_query_fetch_dista() {
     [ -z "$envelope" ] && continue
     local e; e=$(echo "$envelope" | cut -d'|' -f1)
     if [ "$e" -ge "$tlo" ] 2>/dev/null && [ "$e" -le "$thi" ] 2>/dev/null; then
+      echo "$envelope"
+    fi
+  done <<< "$fps"
+}
+
+# ---- L4: suffix-array infix rescue — substring across token boundaries ------
+ve_query_fetch_sarray() {
+  local tokens="$1" tlo="$2" thi="$3" qcat="$4"
+  local fps="" tok
+  while IFS= read -r tok; do
+    [ -z "$tok" ] && continue
+    local hit; hit=$(ve_sarray_search "$tok" 30 2>/dev/null)
+    [ -n "$hit" ] && fps=$(printf '%s\n%s\n' "$fps" "$hit" | sort -u)
+    [ -n "$fps" ] && break
+  done <<< "$(echo "$tokens" | tr ' ' '\n' | sed '/^$/d')"
+  [ -z "$fps" ] && return 0
+  while IFS= read -r fp; do
+    [ -z "$fp" ] && continue
+    local envelope; envelope=$(ve_index_fp_to_envelope "$fp" 2>/dev/null)
+    [ -z "$envelope" ] && continue
+    local e; e=$(echo "$envelope" | cut -d'|' -f1)
+    if [ "$e" -ge "$tlo" ] && [ "$e" -le "$thi" ] 2>/dev/null; then
       echo "$envelope"
     fi
   done <<< "$fps"
