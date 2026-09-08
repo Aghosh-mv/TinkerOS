@@ -356,11 +356,30 @@ ve_query_run() {
   else
     echo "  nothing matching that is in memory — nearest thing found anywhere:"
   fi
+  echo "  $cand_count candidate(s) — $(ve_query_tier_label "$strict_count" "$relax_level")"
   echo
   echo "$ranked" | ve_rank_format_result
 
   # --- adapt: record what worked (always, for future weight adjustment) ------
   ve_adapt_record_query "$raw" "$intent_time" "$intent_cat" "$tlo" "$thi" "$cand_count"
+}
+
+# ---- tier explanation: which relax mechanism produced the hits --------------
+ve_query_tier_label() {
+  local strict="$1" relax="$2"
+  if [ "$strict" -ge 1 ]; then
+    echo "strict inverted-index hit"
+  else
+    case "$relax" in
+      1) echo "relaxed to informative tokens (noise dropped)";;
+      2) echo "relaxed to substring/synonym expansion";;
+      3) echo "relaxed via edit-distance typo rescue";;
+      4) echo "relaxed to suffix-array infix (substring across token boundaries)";;
+      5) echo "relaxed to category+time window (tokens ignored)";;
+      6) echo "relaxed to whole-store recency";;
+      *) echo "unknown relax tier $relax";;
+    esac
+  fi
 }
 
 # ---- candidate fetch: time-prune then inverted-index ------------------------

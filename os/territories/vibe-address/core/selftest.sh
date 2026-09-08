@@ -191,6 +191,12 @@ ve_selftest_run() {
   check "optimize burn quarantines exact dupes" "1" "$bok"
   ve_index_rebuild >/dev/null 2>&1 || true
 
+  # ---- per-tier explanation line present in query results -------------------
+  local qout; qout=$(ve_query_run "notes" 2>/dev/null || true)
+  local qok=0
+  if echo "$qout" | grep -qE "strict inverted-index hit|relaxed to"; then qok=1; fi
+  check "query results explain their relax tier" "1" "$qok"
+
   # ---- restore env --------------------------------------------------------------------------
   export HOME="$HOME_OLD"
   export VIBE_HOME="$VIBE_HOME_OLD"
