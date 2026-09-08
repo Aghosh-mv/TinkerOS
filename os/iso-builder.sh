@@ -50,7 +50,7 @@ EOF
 check_deps() {
     echo "Checking dependencies..."
     
-    local deps=("squashfs-tools" "xorriso" "mksquashfs" "genisoimage" "grub-pc-bin" "grub-efi-amd64-bin")
+    local deps=("squashfs-tools" "xorriso" "mksquashfs" "genisoimage" "grub-pc-bin" "grub-efi-amd64-bin" "mtools" "grub-common")
     local missing=""
     
     for dep in "${deps[@]}"; do
@@ -163,6 +163,47 @@ create_efi() {
     echo "EFI boot created"
 }
 
+# Create GRUB boot images (bios.img for BIOS, efi.img for EFI) — required by the
+# xorriso step but never generated before.  grub-mkimage makes the BIOS core;
+# mtools builds the EFI FAT image with the embedded x86_64 GRUB, no mounts.
+create_boot_images() {
+    echo "Creating GRUB boot images..."
+
+    # BIOS core image (i386-pc) with the modules needed to read the ISO
+    if [ ! -f "$BUILD_DIR/boot/grub/bios.img" ]; then
+        grub-mkimage -O i386-pc -o "$BUILD_DIR/boot/grub/bios.img" -p /boot/grub \
+            iso9660 biosdisk part_msdos part_gpt 2>/dev/null \
+        || { echo "  BIOS image skipped (grub-mkimage i386-pc unavailable)"; }
+    fi
+
+    # EFI image: FAT filesystem populated with the x86_64 GRUB
+    if [ ! -f "$BUILD_DIR/boot/grub/efi.img" ]; then
+        local efiimg="$BUILD_DIR/boot/grub/efi.img"
+        dd if=/dev/zero of="$efiimg" bs=1M count=6 status=none 2>/dev/null || true
+        if mformat -i "$efiimg" -v TINKEROS 2>/dev/null; then
+            local mdir; mdir=$(mktemp -d)
+            mkdir -p "$mdir/EFI/boot" "$mdir/boot/grub"
+            # build the EFI core image from the installed modules (no standalone binary needed)
+            # shellcheck disable=SC2015
+            grub-mkimage -O x86_64-efi -o "$mdir/EFI/boot/BOOTX64.EFI" -p /boot/grub \
+                iso9660 fat part_msdos part_gpt normal configfile linux linux16 \
+                test ls cat efi_gop all_video 2>/dev/null \
+            || { echo "  EFI core image skipped (grub-mkimage x86_64-efi unavailable)"; }
+            if [ -f "$mdir/EFI/boot/BOOTX64.EFI" ]; then
+                cp /usr/lib/grub/x86_64-efi/*.mod "$mdir/boot/grub/" 2>/dev/null || true
+                cp /usr/lib/grub/x86_64-efi/unicode.pf2 "$mdir/boot/grub/" 2>/dev/null || true
+                mcopy -i "$efiimg" -s "$mdir/EFI" "::EFI" 2>/dev/null || true
+                mcopy -i "$efiimg" -s "$mdir/boot" "::boot" 2>/dev/null || true
+            fi
+            rm -rf "$mdir"
+        else
+            echo "  EFI image skipped (mtools/mformat unavailable)"
+        fi
+    fi
+
+    echo "GRUB boot images ready"
+}
+
 # Create ISO
 create_iso() {
     echo "Creating ISO image..."
@@ -180,10 +221,8 @@ create_iso() {
             -no-emul-boot \
             -boot-load-size 4 \
             -boot-info-table \
-            --grub2-boot-info \
             -eltorito-catalog boot/grub/boot.cat \
-        -eltorito-efi boot/grub/efi.img \
-            -efi-boot-partition \
+        -e boot/grub/efi.img \
             -no-emul-boot \
         "$BUILD_DIR"
     
@@ -200,6 +239,7 @@ build_iso() {
     build_squashfs
     create_boot
     create_efi
+    create_boot_images
     create_iso
     
     echo ""
