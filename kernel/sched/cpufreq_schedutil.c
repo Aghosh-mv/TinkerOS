@@ -6,6 +6,7 @@
  * Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
  */
 #include <uapi/linux/sched/types.h>
+#include <linux/moduleparam.h>
 #include "sched.h"
 
 #define IOWAIT_BOOST_MIN	(SCHED_CAPACITY_SCALE / 8)
@@ -433,7 +434,17 @@ static inline bool sugov_update_single_common(struct sugov_cpu *sg_cpu,
 
 #if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
 extern bool tinker_task_boosted(struct task_struct *p);
-#define TINKER_GAMEMODE_UTIL_STEP	256  /* util headroom while a boosted task runs */
+#endif
+
+/* Runtime knob: util headroom granted while a boosted task runs on a CPU.
+ * Written via /sys/module/cpufreq_schedutil/parameters/tinker_gamemode_util_step
+ * (0 disables the GameMode P-state boost entirely).
+ */
+static unsigned int tinker_gamemode_util_step = 256;
+#if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
+module_param(tinker_gamemode_util_step, uint, 0644);
+MODULE_PARM_DESC(tinker_gamemode_util_step,
+		 "Tinker GameMode per-CPU util headroom (0..1024) while a boosted task runs");
 #endif
 
 /*
@@ -448,7 +459,7 @@ static inline unsigned long sugov_tinker_gamemode_util(unsigned long util,
 {
 #if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
 	if (likely(tinker_task_boosted(current)))
-		util += TINKER_GAMEMODE_UTIL_STEP;
+		util += tinker_gamemode_util_step;
 #endif
 	return min(util, max_cap);
 }
