@@ -113,4 +113,30 @@ ve_lsh_candidates() {
   done | sort -u
 }
 
+# ---- store-wide duplicate scan: report "fpA|fpB|hits" pairs above thresh ----
+ve_lsh_dupe_scan() {
+  local thresh="${1:-$VE_LSH_THRESH}"
+  local sigdir; sigdir=$(ve_lsh_sigdir)
+  local -A done=()
+  local fpa fpb line r a b hit
+  for fpa in $(ls "$sigdir" 2>/dev/null); do
+    while IFS= read -r line; do
+      [ -z "$line" ] && continue
+      fpb="${line%%|*}"; hit="${line##*|}"
+      [ "$fpb" = "$fpa" ] && continue
+      key="$fpa>$fpb"; [ "${done[$key]:-0}" = 1 ] && continue
+      done[$key]=1
+      done["$fpb>$fpa"]=1
+      if [ "$hit" -ge "$thresh" ] 2>/dev/null; then
+        echo "$fpa|$fpb|$hit"
+      fi
+    done < <(ve_lsh_candidates "$fpa" "$thresh" 2>/dev/null)
+  done
+}
+
+# ---- store-level count (for stats / optimize summary) ------------------------
+ve_lsh_dupe_count() {
+  ve_lsh_dupe_scan "${1:-}" 2>/dev/null | wc -l | tr -d ' '
+}
+
 ve_lsh=""

@@ -207,6 +207,20 @@ case "${1:-}" in
     ve_session_init
     ve_lsh_candidates "${1:-}" "${2:-$VE_LSH_THRESH}"
     ;;
+  dupes)
+    shift
+    ve_session_init
+    echo "LSH near-duplicate scan (≥${1:-$VE_LSH_THRESH}/$VE_LSH_ROWS signature rows):"
+    local n=0
+    while IFS= read -r line; do
+      [ -z "$line" ] && continue
+      local a b h
+      a="${line%%|*}"; b="${line#*|}"; b="${b%%|*}"; h="${line##*|}"
+      echo "  $a == $b  (rows $h/$VE_LSH_ROWS)"
+      n=$((n + 1))
+    done < <(ve_lsh_dupe_scan "${1:-}")
+    echo "  total candidate pairs: $n"
+    ;;
   bind_f7|install)
     ve_connectors_bind_f7 "$@"
     ;;

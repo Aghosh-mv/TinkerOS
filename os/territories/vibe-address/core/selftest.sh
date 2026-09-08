@@ -131,6 +131,9 @@ ve_selftest_run() {
   sain=$(ve_sarray_search "zzzzqzx" 5 2>/dev/null | wc -l | tr -d ' ')
   check "sarray rejects absent" "0" "$sain"
 
+  local dupcnt; dupcnt=$(ve_lsh_index "st1st1" "alpha beta gamma delta file misc" >/dev/null 2>&1; ve_lsh_index "st2st2" "alpha beta gamma delta file misc" >/dev/null 2>&1; ve_lsh_index "st3st3" "omega zeta eta theta file misc" >/dev/null 2>&1; ve_lsh_dupe_count 6 2>/dev/null)
+  check "lsh dupe scan finds identical pair" "2" "$dupcnt"
+
   # ---- query relax + rank ordering --------------------------------------------------------
   local r; r=$(SEARCHIE_TERSE=1 ve_query_run "meeting notes" 2>/dev/null | grep -c "RESULT|" || true)
   check "query returns ranked rows" "1" "$([ "$r" -ge 1 ] && echo 1 || echo 0)"

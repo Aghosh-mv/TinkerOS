@@ -91,6 +91,8 @@ ve_store_stats() {
   echo "  Storage"
   echo "    day-logs    : $(find "$VIBE_EVENTS" -name "*.log" -type f 2>/dev/null | wc -l) files"
   echo "    total bytes : $(du -sb "$VIBE_HOME" 2>/dev/null | cut -f1 || echo 0)"
+  echo "    sig rows    : $(ve_lsh_sigdir 2>/dev/null >/dev/null; ls "$(ve_lsh_dir)/sig" 2>/dev/null | wc -l) signatures"
+  echo "    near-dup prs: $(ve_lsh_dupe_count 2>/dev/null)"
   echo
   echo "  Integrity"
   local valid=0 bad=0
@@ -114,6 +116,8 @@ ve_store_optimize() {
   ve_store_stamp_integrity_all
   ve_index_rebuild
   ve_store_prune_dedup
+  local dupes; dupes=$(ve_lsh_dupe_scan 2>/dev/null | wc -l | tr -d ' ')
+  echo "  near-duplicate signature pairs (candidate, not removed): $dupes"
   echo "Compaction complete."
 }
 
