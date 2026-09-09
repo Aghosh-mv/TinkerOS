@@ -82,11 +82,26 @@ nv_powermizer_mode = 1
 force_gpu_clock = no
 
 [custom]
-start = notify-send "GameMode" "Performance mode ACTIVE"
-end = notify-send "GameMode" "Performance mode ended"
+start = /opt/tinkeros/os/system/tinker-gamemode-hook.sh on "$@"
+end = /opt/tinkeros/os/system/tinker-gamemode-hook.sh off
 EOF
     chmod 644 "$GM_CONFIG"
     log "Config written: $GM_CONFIG"
+}
+
+# Install the TinkerOS kernel-gamemode hook used by [custom] start/end
+install_hook() {
+    log "Installing TinkerOS kernel-gamemode hook..."
+    local hook_dir="/opt/tinkeros/os/system"
+    sudo mkdir -p "$hook_dir"
+    sudo cp "$(dirname "$0")/tinker-gamemode-hook.sh" "$hook_dir/tinker-gamemode-hook.sh"
+    sudo chmod +x "$hook_dir/tinker-gamemode-hook.sh"
+    if [ -w /proc/tinker/gamemode ]; then
+        log "kernel gamemode proc API present (CONFIG_TINKER_GAMEMODE=y)"
+    else
+        log "NOTE: /proc/tinker/gamemode missing — this kernel lacks the"
+        log "  TinkerOS gamemode governor boost; hook logs & degrades safely."
+    fi
 }
 
 # Enable the daemon to auto-start via DBus/desktop session
@@ -134,6 +149,7 @@ main() {
     
     install_gamemode && check_daemon
     write_config
+    install_hook
     enable_service
     test_gamemode
     
