@@ -110,6 +110,8 @@ stage3_worlds() {
   "$SUDO" mkdir -p "$ROOTFS/opt/tinkeros"
   "$SUDO" cp -r /home/tinkerspace/linux-kernel/os "$ROOTFS/opt/tinkeros/os"
   "$SUDO" cp /home/tinkerspace/linux-kernel/README.md "$ROOTFS/opt/tinkeros/" 2>/dev/null || true
+  "$SUDO" cp /home/tinkerspace/linux-kernel/LICENSE "$ROOTFS/opt/tinkeros/" 2>/dev/null || true
+  "$SUDO" cp /home/tinkerspace/linux-kernel/LICENSE "$ROOTFS/usr/share/doc/tinkeros-os-copyright" 2>/dev/null || true
   # world launcher on PATH
   "$SUDO" bash -c 'cat > "$ROOTFS/usr/local/bin/tinker-world" <<EOF
 #!/bin/bash
