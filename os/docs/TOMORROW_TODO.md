@@ -18,9 +18,10 @@
 
 ## TODO for Tomorrow
 1. **Publish ISO to SourceForge FRS** (`os/publish-iso.sh`, needs `SF_USER` + key registered
-   on the SF account): `SF_USER=<account> ./os/publish-iso.sh TinkerOS-v1.2.iso`;
-   README already links the SF project page. Never git-commit the ISO.
-2. **TIO/TUI polish**: markov chain completion phrases for the overlay; `markov` regression.
-3. **TinkerOS desktop branding** — Plymouth + GRUB theme pass for the ISO.
-4. **Gamescope/Proton session hinting**: bump TinkerOS tools to drive the gamemode proc API
-   during real game sessions (hook done; wire extra launch wrappers).
+   on the SF account): `SF_USER=<account> ./os/publish-iso.sh TinkerOS-v1.2.iso`; generate
+   SHA manifest with `os/iso-artifacts.sh`; README already links the SF project page.
+   Never git-commit the ISO.
+2. **Rebuild branded ISO**: stage2b_branding (plymouth + TinkerOS splash/GRUB theme) golden
+   bake in-flight → produces final ~8.5 GB `TinkerOS-v1.2.iso`; verify El Torito, then publish.
+3. **TIO/TUI polish**: markov chain completion phrases for the overlay; `markov` regression.
+4. **Kernel: crash-safe gamemode reap DONE** (boost clears if the boosted process group died).
