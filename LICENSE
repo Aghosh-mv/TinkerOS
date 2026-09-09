@@ -1,0 +1,299 @@
+DUAL SOURCE LICENSE
+Version 1.0
+
+Copyright © 2026 TinkerOS Project
+
+1. Overview
+
+This software and its associated source code (collectively, the "Software") are made available under this Dual Source License.
+
+This License provides two alternative licensing options:
+
+Option A — Public Source License
+Option B — Private Source-Sharing License
+
+You may choose either Option A or Option B.
+
+You are not required to comply with both options for the same use of the Software. The option you choose determines the source-code obligations applicable to your use, modification, distribution, deployment, or other provision of the Software.
+
+OPTION A — PUBLIC SOURCE LICENSE
+
+2. Permission to Use the Software
+
+Subject to the terms of this Option A, permission is hereby granted to any person or organization obtaining a copy of the Software to:
+
+- use the Software for any lawful purpose;
+- copy the Software;
+- study the Software;
+- modify the Software;
+- create derivative works based on the Software;
+- distribute the Software;
+- distribute modified versions;
+- publish the Software;
+- deploy the Software;
+- provide the Software as part of a product or service;
+- use the Software commercially;
+- sell copies of the Software or products incorporating the Software; and
+- otherwise exercise the rights permitted by applicable copyright law.
+
+No royalty or additional fee is required solely for exercising these permissions.
+
+3. Public Source Requirement
+
+If you modify the Software or create a derivative work based on the Software, and you distribute, deploy, provide, publish, release, or otherwise make that modified or derivative work available to any person or organization other than yourself, you must make the Complete Corresponding Source Code of that modified or derivative work publicly available.
+
+The Complete Corresponding Source Code must be made available under this License.
+
+This requirement applies regardless of whether the modified or derivative work is provided free of charge or for payment.
+
+4. Public Availability
+
+The source code required under Section 3 must be publicly accessible to anyone.
+
+The source code may be hosted using:
+
+- a public Git repository;
+- a public source-code hosting service;
+- a publicly accessible website;
+- a public file server; or
+- another publicly accessible electronic location.
+
+A private repository, private download, password-protected source archive, or source code provided only to selected persons does not satisfy the public-source requirement of Option A.
+
+5. Timing of Publication
+
+The Complete Corresponding Source Code must be made publicly available no later than the time the modified or derivative work is distributed, deployed, provided, published, released, or otherwise made available.
+
+If the modified or derivative work remains available to others, the corresponding source must remain publicly available for the duration of that availability, subject to applicable law.
+
+6. Complete Corresponding Source Code
+
+For purposes of this License, "Complete Corresponding Source Code" means the preferred form of the modified or derivative work for making modifications to that work.
+
+Where applicable, this includes:
+
+- source files;
+- source code for modifications;
+- build scripts;
+- configuration files necessary to build or modify the Software;
+- installation scripts;
+- deployment scripts necessary to reproduce the Software;
+- interface definitions;
+- dependency information necessary to build the Software; and
+- other files reasonably necessary to build, modify, and reproduce the modified or derivative work.
+
+Complete Corresponding Source Code does not include materials that are independent works and are not themselves part of or required to reproduce the modified or derivative Software.
+
+7. Licensing of Publicly Released Source
+
+Source code released under Option A must be made available under this License.
+
+You may identify your own contributions and copyright them separately.
+
+You may add reasonable notices describing your modifications, provided that such notices do not prevent recipients from exercising the rights granted by this License.
+
+You may not add terms that prohibit recipients from copying, modifying, or redistributing the source code in accordance with this License.
+
+8. Commercial Use
+
+Commercial use is expressly permitted.
+
+You may:
+
+- sell the Software;
+- sell modified versions;
+- incorporate the Software into commercial products;
+- provide commercial services using the Software;
+- operate the Software as a service; and
+- charge customers for products or services incorporating the Software.
+
+However, the source-publication requirements of this Option A continue to apply.
+
+OPTION B — PRIVATE SOURCE-SHARING LICENSE
+
+9. Permission to Use the Software
+
+Subject to the terms of this Option B, permission is hereby granted to any person or organization obtaining a copy of the Software to:
+
+- use the Software for any lawful purpose;
+- copy the Software;
+- study the Software;
+- modify the Software;
+- create derivative works;
+- distribute the Software;
+- distribute modified versions;
+- deploy the Software;
+- provide the Software as part of a product or service;
+- use the Software commercially;
+- sell copies of the Software or products incorporating the Software; and
+- keep modified or derivative works private.
+
+10. Private Source-Sharing Requirement
+
+If you modify the Software or create a derivative work based on the Software, you may choose Option B instead of publicly releasing the source code.
+
+Under Option B, you are not required to make your modifications publicly available.
+
+However, upon reasonable written request from the original copyright holder, you must provide the Complete Corresponding Source Code of the applicable modified or derivative work to the original copyright holder.
+
+11. Private Delivery of Source Code
+
+The source code required under Option B may be provided privately through any reasonable electronic method, including:
+
+- a private Git repository;
+- private file transfer;
+- encrypted archive;
+- private cloud storage; or
+- another mutually reasonable method.
+
+The source code does not need to be published publicly.
+
+12. Confidentiality
+
+Source code provided to the original copyright holder solely pursuant to Option B shall be treated as privately provided source code.
+
+The original copyright holder shall not intentionally publish or publicly distribute such source code without permission from the person or organization that provided it, except where disclosure is:
+
+- required by applicable law;
+- required by a valid court order;
+- required by a governmental authority; or
+- reasonably necessary for confidential legal advice or enforcement of this License.
+
+The original copyright holder may retain private copies of source code provided under this Option for purposes including:
+
+- verifying compliance;
+- maintaining the original Software;
+- investigating license violations;
+- enforcing copyright or contractual rights; and
+- obtaining confidential professional or legal advice.
+
+13. No Public Disclosure Requirement
+
+A person or organization choosing Option B is not required by this License to publicly release its modified or derivative work.
+
+The source-sharing obligation under Option B is satisfied by providing the applicable Complete Corresponding Source Code privately to the original copyright holder as required by this License.
+
+GENERAL TERMS
+
+14. Choice of Option
+
+The licensee may choose Option A or Option B.
+
+- Option A requires public availability of the applicable source code.
+- Option B permits private use and private source sharing with the original copyright holder.
+
+The licensee must comply with the requirements of the option it chooses.
+
+15. Attribution
+
+You must retain existing copyright notices and license notices included in the original Software.
+
+You may add copyright notices identifying your own modifications.
+
+You may not falsely claim that modifications created by you were created by the original copyright holder.
+
+16. Independent Works
+
+This License does not automatically apply to an independent work that is merely distributed together with the Software.
+
+A separate work that is not a modification or derivative work of the Software remains governed by its own applicable license.
+
+Whether a particular work constitutes a derivative work shall be determined according to applicable copyright law.
+
+17. Dependencies and Third-Party Software
+
+The Software may contain or depend upon software, libraries, assets, or other materials provided by third parties.
+
+Those materials may be subject to separate licenses.
+
+Nothing in this License grants rights that the copyright holder does not have the legal authority to grant.
+
+You are responsible for complying with applicable third-party license requirements.
+
+18. Trademarks
+
+This License does not grant permission to use the trademarks, service marks, logos, names, or branding of the copyright holder except where such use is reasonably necessary to identify the Software or its origin.
+
+19. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+
+20. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT HOLDER SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, CONSEQUENTIAL, OR OTHER DAMAGES ARISING FROM OR RELATED TO THE USE OF, INABILITY TO USE, MODIFICATION OF, OR DISTRIBUTION OF THE SOFTWARE.
+
+21. Copyright Ownership
+
+This License does not transfer ownership of the Software.
+
+Copyright in the original Software remains with the applicable copyright holder.
+
+Copyright in modifications belongs to their respective authors to the extent provided by applicable law.
+
+The permissions granted by this License are copyright permissions and do not constitute a transfer of ownership.
+
+22. Compliance
+
+Any person or organization exercising rights under this License must comply with the requirements of the licensing option selected.
+
+Failure to comply with the applicable requirements of this License terminates the permissions granted under the applicable option, subject to any rights that may be restored under applicable law or by written permission of the copyright holder.
+
+23. Restoration of Rights
+
+If your rights under this License terminate because of a violation, those rights may be restored if:
+
+- the violation is completely corrected; and
+- the copyright holder provides written confirmation restoring the applicable permissions,
+
+unless otherwise required by applicable law.
+
+24. No Additional Restrictions
+
+You may not impose additional restrictions that prevent another person from exercising rights expressly granted by the applicable licensing option.
+
+25. Acceptance
+
+By copying, modifying, distributing, deploying, publishing, providing, selling, or otherwise exercising rights granted by this License, you indicate your acceptance of the applicable terms of this License.
+
+If you do not agree to these terms, you may not exercise the permissions granted by this License.
+
+26. Severability
+
+If any provision of this License is determined to be invalid or unenforceable under applicable law, the remaining provisions shall remain in effect to the maximum extent permitted by law.
+
+27. Governing Law
+
+This License shall be interpreted under the laws applicable to the copyright holder and the applicable jurisdiction, except to the extent that applicable law requires otherwise.
+
+[OPTIONAL: Specify jurisdiction here, after obtaining appropriate legal advice.]
+
+28. Entire Agreement
+
+This License constitutes the licensing terms governing the Software unless the copyright holder has separately provided written licensing terms that expressly supersede or supplement this License.
+
+SUMMARY OF THE TWO OPTIONS
+
+Option                                                                   | Option A                                                              | Option B
+-------------------------------------------------------------------------|-----------------------------------------------------------------------|---------------------------------------------
+Use the Software                                                         | Yes                                                                   | Yes
+Modify the Software                                                      | Yes                                                                   | Yes
+Commercial use                                                           | Yes                                                                   | Yes
+Sell products using it                                                   | Yes                                                                   | Yes
+Keep modifications private                                               | No, where Section 3 applies                                           | Yes
+Publicly release source                                                  | Required where Section 3 applies                                      | No
+Give source to original author                                           | Not specifically required                                             | Required upon reasonable request
+Public GitHub repository required                                        | Effectively yes, or another public location                           | No
+Private source transfer                                                  | Does not satisfy Option A                                             | Yes
+
+Copyright © 2026 TinkerOS Project
+
+This software is licensed under the Dual Source License, Version 1.0.
+
+You may choose either:
+
+- Option A — Public Source License
+- Option B — Private Source-Sharing License
+
+Neither option requires payment of a license fee solely for exercising the rights granted by this License.

@@ -69,6 +69,18 @@ Ctrl+Alt+Gr                         -> pop TinkerOS agent
 
 ## License
 
-See `COPYING` (GPL-2.0) — TinkerOS builds on and is a modification of the
-Linux kernel; licensing and the Developer Certificate of Origin apply.
-See `Documentation/process/coding-assistants.rst`.
+The TinkerOS distribution and its user-space layer are licensed under the
+**Dual Source License, Version 1.0** (see `LICENSE`). You may choose either:
+
+- **Option A — Public Source License** (use, modify, and sell freely; modified
+  works must be published publicly under this License), or
+- **Option B — Private Source-Sharing License** (use, modify, and sell freely;
+  keep modifications private, sharing source with the original copyright
+  holder upon reasonable request).
+
+Neither option requires any license fee.
+
+The upstream Linux kernel portions of this tree remain covered by `COPYING`
+(GPL-2.0); modifications to the kernel itself are distributed under GPL-2.0 and
+the Developer Certificate of Origin. Third-party software inside the OS keeps
+its own licenses. See `Documentation/process/coding-assistants.rst`.
