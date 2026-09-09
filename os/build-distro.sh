@@ -128,8 +128,29 @@ stage4_live() {
   echo "   staged ($(du -sh "$ROOTFS" | cut -f1) rootfs ready for squashfs)."
 }
 
+stage_branding() {
+  echo "### [branding] Writing TinkerOS distribution identity into rootfs..."
+  "$SUDO" bash -c "cat > '$ROOTFS/etc/os-release' <<'EOS'
+PRETTY_NAME=\"TinkerOS 1.2 (jammy)\"
+NAME=TinkerOS
+VERSION_ID=\"1.2\"
+VERSION=\"1.2 (jammy)\"
+VERSION_CODENAME=jammy
+ID=tinkeros
+ID_LIKE=ubuntu debian
+HOME_URL=https://sourceforge.net/projects/tinkeros/
+SUPPORT_URL=https://sourceforge.net/projects/tinkeros/
+BUG_REPORT_URL=https://sourceforge.net/projects/tinkeros/
+EOS"
+  "$SUDO" cp "$ROOTFS/etc/os-release" "$ROOTFS/etc/lsb-release"
+  "$SUDO" bash -c "echo 'TinkerOS 1.2 (jammy) \\\\l' > '$ROOTFS/etc/issue'"
+  "$SUDO" cp "$ROOTFS/etc/issue" "$ROOTFS/etc/issue.net"
+  echo "   TinkerOS identity written (os-release/lsb-release/issue)."
+}
+
 stage5_squashfs() {
   echo "### [5/6] Building squashfs of the full rootfs (compressing)..."
+  "$SUDO" rm -f "$IMAGE/casper/filesystem.squashfs"
   "$SUDO" mksquashfs "$ROOTFS" "$IMAGE/casper/filesystem.squashfs" \
     -comp xz -b 1M -no-xattrs -processors "$(nproc)" 2>&1 | tail -4
 }
@@ -204,14 +225,14 @@ run() {
 }
 
 run() {
-  stage1 && stage2_install && stage3_worlds && stage4_live \
+  stage1 && stage2_install && stage3_worlds && stage_branding && stage4_live \
     && stage5_squashfs && stage5_caspermaterials && stage6_iso
   echo "DONE: TinkerOS full distribution ISO ready."
 }
 
 rebuild() {
   test -d "$ROOTFS/etc" || { echo "no rootfs yet — run full first"; exit 1; }
-  stage2_install && stage3_worlds && stage4_live \
+  stage2_install && stage3_worlds && stage_branding && stage4_live \
     && stage5_squashfs && stage5_caspermaterials && stage6_iso
   echo "DONE: TinkerOS rebuild (kept base rootfs)."
 }
