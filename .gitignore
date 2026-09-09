@@ -195,3 +195,10 @@ sphinx_*/
 # bc language scripts (not LLVM bitcode)
 !kernel/time/timeconst.bc
 TinkerOS-v1.2.iso
+
+# TinkerOS release artifacts — the ISO is NEVER committed to git.
+# It is published to SourceForge FRS only and linked from the README.
+*.iso
+*.squashfs
+/casper/
+/build-tinkeros/
