@@ -111,6 +111,19 @@ ve_store_stats() {
   echo "========================================"
 }
 
+# ---- per-day event timeline: counts + last-seen fingerprints ----------------
+ve_store_timeline() {
+  echo "Timeline: events per day (UTC) + latest fingerprints"
+  echo "  date       count  last-seen fp          last path"
+  awk -F'|' '
+    /^[0-9]+/ {
+      cmd = "date -u -d @" $1 " +%Y-%m-%d"; cmd | getline d; close(cmd);
+      cnt[d]++; lastfp[d] = $5; lastpath[d] = $4
+    }
+    END { for (d in cnt) printf "  %-11s %5d  %-16s %s\n", d, cnt[d], lastfp[d], lastpath[d] }
+  ' "$VIBE_EVENTS"/*.log 2>/dev/null | sort
+}
+
 # ---- compact: merge old logs + rebuild --------------------------------------
 ve_store_optimize() {
   local burn="${1:-}"

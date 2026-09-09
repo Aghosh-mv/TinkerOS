@@ -209,6 +209,13 @@ ve_selftest_run() {
   fi
   check "fuzz: varied events align + query hits" "1" "$fuzzok"
 
+  # ---- timeline: per-day event counts come back clean ------------------------
+  local tl_out; tl_out=$(ve_store_timeline 2>/dev/null || true)
+  local tlrows; tlrows=$(echo "$tl_out" | grep -c '^  [0-9]\{4\}-' || echo 0)
+  local tlok=0
+  if [ "$tlrows" -ge 1 ] 2>/dev/null && echo "$tl_out" | grep -q '[0-9]'; then tlok=1; fi
+  check "timeline reports per-day event rows" "1" "$tlok"
+
   # ---- optimize --burn: quarantine exact-duplicate logical items -------------
   ve_store_append "1780000001|photo|file|/st/align_probe.txt|2222bbbb11110000|misc|align" >/dev/null 2>&1 || true
   ve_align_fix >/dev/null 2>&1 || true

@@ -130,19 +130,31 @@ stage5_squashfs() {
   echo "### [5/6] Building squashfs of the full rootfs (compressing)..."
   "$SUDO" mksquashfs "$ROOTFS" "$IMAGE/casper/filesystem.squashfs" \
     -comp xz -b 1M -no-xattrs -processors "$(nproc)" 2>&1 | tail -4
-  # kernel + initrd from our tree / host (pick ONE matching initrd)
+}
+
+# kernel + initrd into casper (fresh copy; image dir may be root-owned)
+stage5_caspermaterials() {
+  "$SUDO" mkdir -p "$IMAGE/casper"
   if [ -f /home/tinkerspace/linux-kernel/arch/x86/boot/bzImage ]; then
-    cp /home/tinkerspace/linux-kernel/arch/x86/boot/bzImage "$IMAGE/casper/vmlinuz"
+    "$SUDO" cp /home/tinkerspace/linux-kernel/arch/x86/boot/bzImage "$IMAGE/casper/vmlinuz"
   else
-    cp /boot/vmlinuz-* "$IMAGE/casper/vmlinuz"
+    "$SUDO" cp /boot/vmlinuz-* "$IMAGE/casper/vmlinuz"
   fi
-  KVER=$(cat /proc/version 2>/dev/null | sed 's/.*ht \|Linux version //;s/ .*//' | head -1)
-  for i in /boot/initrd.img-*; do [ -f "$i" ] && cp "$i" "$IMAGE/casper/initrd" 2>/dev/null && break; done || true
+  local got=""
+  for i in /boot/initrd.img-*; do
+    if [ -f "$i" ] && [ ! -s "$IMAGE/casper/initrd" ]; then
+      "$SUDO" cp "$i" "$IMAGE/casper/initrd" && got=1
+    fi
+  done
+  [ -n "$got" ] || echo "   WARN: no initrd copied"
   ls -la "$IMAGE/casper/" | awk '{print $5,$9}'
 }
 
 stage6_iso() {
   echo "### [6/6] Building final bootable ISO (iso-level 3, >4GB OK)..."
+  # earlier stages (mksquashfs/apt) wrote as root — hand the build dir back
+  # to the real user so grub-mk* and xorriso can write without sudo.
+  "$SUDO" chown -R "$(id -u):$(id -g)" "$IMAGE" "$BUILD" 2>/dev/null || true
   mkdir -p "$BUILD/grub-img"
   cat > "$BUILD/grub.cfg" <<EOF
 set timeout=10
@@ -189,20 +201,40 @@ run() {
   echo "DONE: TinkerOS full distribution ISO ready."
 }
 
+run() {
+  stage1 && stage2_install && stage3_worlds && stage4_live \
+    && stage5_squashfs && stage5_caspermaterials && stage6_iso
+  echo "DONE: TinkerOS full distribution ISO ready."
+}
+
 rebuild() {
   test -d "$ROOTFS/etc" || { echo "no rootfs yet — run full first"; exit 1; }
   stage2_install && stage3_worlds && stage4_live \
-    && stage5_squashfs && stage6_iso
+    && stage5_squashfs && stage5_caspermaterials && stage6_iso
   echo "DONE: TinkerOS rebuild (kept base rootfs)."
+}
+
+# finalize: reuse an already-built rootfs + squashfs; just (re)materialize
+# casper kernel/initrd and assemble the ISO. Saves the slow compress step.
+finalize() {
+  [ -s "$IMAGE/casper/filesystem.squashfs" ] || {
+    echo "ERROR: no squashfs at $IMAGE/casper/filesystem.squashfs — run 'build' first"
+    exit 1
+  }
+  echo "### [finalize] reusing existing squashfs, rebuilding casper materials + ISO"
+  stage5_caspermaterials && stage6_iso
+  echo "DONE: TinkerOS ISO rebuilt from existing squashfs."
 }
 
 case "${1:-}" in
   full|build|run) run ;;
   rebuild) rebuild ;;
+  finalize) finalize ;;
   base|stage1) stage1 ;;
   *) echo "TinkerOS Distribution Builder
-Usage: ${0##*/} <build|rebuild|base>
+Usage: ${0##*/} <build|rebuild|finalize|base>
 Builds a real, full desktop Linux distribution ISO (Ubuntu/Kali-style) with
 Xorg/Wayland + desktop + apps + package base + the 3 worlds baked in.
-rebuild=keep rootfs, redo apt+worlds+ISO (fast iteration)." ;;
+rebuild = keep rootfs, redo apt+worlds+ISO (fast iteration).
+finalize = reuse existing squashfs, just rebuild casper materials + ISO." ;;
 esac

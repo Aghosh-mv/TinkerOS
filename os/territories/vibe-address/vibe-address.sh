@@ -184,6 +184,9 @@ case "${1:-}" in
     shift
     ve_store_stats
     ;;
+  timeline)
+    ve_store_timeline
+    ;;
   optimize|compact)
     shift
     ve_store_optimize "${1:-}"
