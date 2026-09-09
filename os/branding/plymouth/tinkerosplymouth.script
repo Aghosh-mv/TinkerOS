@@ -1,0 +1,42 @@
+# TinkerOS Plymouth theme (fade-in, from Ubuntu's fade-in script)
+Window.SetBackgroundTopColor (0.11, 0.16, 0.29);        # #1b2a4a
+Window.SetBackgroundBottomColor (0.05, 0.08, 0.15);
+
+logo_image = Image ("logo.png");
+logo_sprite = Sprite (logo_image);
+logo_sprite.SetX (Window.GetWidth() / 2 - logo_image.GetWidth() / 2);
+logo_sprite.SetY (Window.GetHeight() / 2 - logo_image.GetHeight() / 2);
+logo_sprite.SetOpacity (0);
+
+messages = null;
+text_sprite = null;
+
+fun refresh ()
+{
+  if (messages == null)
+    return;
+  if (text_sprite != null)
+    text_sprite.SetVisible (false);
+  text_sprite = null;
+
+  string = messages[0];
+  n = 1;
+  while (n < 6 && n < messages.Length ())
+  {
+    string = string + "\n" + messages[n];
+    n = n + 1;
+  }
+
+  text_sprite = Text (string, 1, 1, 1);
+
+  text_sprite.SetPosition (Window.GetWidth() / 2 - text_sprite.GetWidth() / 2,
+                           Window.GetHeight() * 0.70);
+
+  text_sprite.SetVisible (true);
+}
+
+fun OnMessages (message)
+{
+  messages = message;
+  refresh ();
+}

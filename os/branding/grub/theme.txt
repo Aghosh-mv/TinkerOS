@@ -1,0 +1,35 @@
+# TinkerOS GRUB2 theme — menu on a dark branded canvas
+
+desktop-image: "background.png"
+title-text: "TinkerOS"
+title-color: "#38d6a5"
+title-font: "DejaVu Sans Bold 24"
+
++ boot_menu {
+    left = 20%
+    top = 32%
+    width = 60%
+    height = 36%
+    item_color = "#d7e3f4"
+    selected_item_color = "#17171c"
+    item_font = "DejaVu Sans Regular 18"
+    selected_item_font = "DejaVu Sans Bold 18"
+    item_height = 28
+    item_spacing = 8
+    selected_icon = ""
+
+    icon_width = 24
+    icon_height = 24
+    item_pixmap_style = "menu_highlight"
+    selected_item_pixmap_style = ""
+    scrollbar = true
+    scrollbar_thumb = "scrollbar_thumb"
+    scrollbar_width = 12
+}
+
++ label {
+    left = 24
+    bottom = 8
+    color = "#38d6a5"
+    font = "DejaVu Sans Regular 12"
+}
