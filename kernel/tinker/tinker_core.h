@@ -23,6 +23,7 @@ extern bool tinker_thermal_is_hot(int cpu);
 extern void tinker_gamemode_request_boost(pid_t tgid, int on);
 extern bool tinker_gamemode_enabled(void);
 extern bool tinker_task_boosted(struct task_struct *p);
+extern void tinker_gamemode_reap_finished(void);
 #endif
 
 #ifdef CONFIG_TINKER_ENERGY_SCHED

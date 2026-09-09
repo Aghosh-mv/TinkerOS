@@ -434,6 +434,23 @@ static inline bool sugov_update_single_common(struct sugov_cpu *sg_cpu,
 
 #if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
 extern bool tinker_task_boosted(struct task_struct *p);
+extern void tinker_gamemode_reap_finished(void);
+#endif
+
+/*
+ * Crash-safe reap throttle: when no boosted task is on this CPU, occasionally
+ * ask the gamemode module to clear a stale boost whose process group died.
+ * ~1 call per 256 schedutil updates (sub-second cadence at tick rate), so a
+ * dead game can never pin the CPU forever, even if the cleanup hook never ran.
+ */
+#if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
+inline void sugov_tinker_gamemode_reap(void)
+{
+	static unsigned int reap_tick __read_mostly;
+
+	if (likely(!++reap_tick % 256))
+		tinker_gamemode_reap_finished();
+}
 #endif
 
 /* Runtime knob: util headroom granted while a boosted task runs on a CPU.
@@ -460,6 +477,8 @@ static inline unsigned long sugov_tinker_gamemode_util(unsigned long util,
 #if IS_ENABLED(CONFIG_TINKER_GAMEMODE)
 	if (likely(tinker_task_boosted(current)))
 		util += tinker_gamemode_util_step;
+	else
+		sugov_tinker_gamemode_reap();
 #endif
 	return min(util, max_cap);
 }

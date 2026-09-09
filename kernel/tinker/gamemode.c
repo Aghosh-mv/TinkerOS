@@ -100,9 +100,65 @@ bool tinker_task_boosted(struct task_struct *p)
 }
 EXPORT_SYMBOL_GPL(tinker_task_boosted);
 
+/*
+ * Crash-safe reaping: if the boosted process group no longer exists (e.g. the
+ * game died hard before the userland hook could write "off"), clear the boost
+ * so a stale boost can never pin the whole system.  Called rate-limited from
+ * the schedutil path when no boosted task is on the current CPU, and from the
+ * proc reader.
+ */
+void tinker_gamemode_reap_finished(void)
+{
+	struct task_struct *p;
+	pid_t gone;
+	bool alive = false;
+
+	mutex_lock(&gamemode_lock);
+	if (!gamemode_enabled || gamemode_tgid <= 0)
+		goto out;
+	rcu_read_lock();
+	for_each_process(p) {
+		if (task_tgid_nr(p) == gamemode_tgid) {
+			alive = true;
+			break;
+		}
+	}
+	rcu_read_unlock();
+	if (!alive) {
+		gone = gamemode_tgid;
+		gamemode_enabled = 0;
+		gamemode_tgid = 0;
+		pr_notice("TinkerOS: gamemode boost reaped (tgid %d gone)\n", gone);
+	}
+out:
+	mutex_unlock(&gamemode_lock);
+}
+EXPORT_SYMBOL_GPL(tinker_gamemode_reap_finished);
+
 static int gamemode_show(struct seq_file *m, void *v)
 {
 	mutex_lock(&gamemode_lock);
+	/* a read is a good moment to reap a dead boosted tgid */
+	if (gamemode_enabled && gamemode_tgid <= 0)
+		gamemode_enabled = 0;
+	if (gamemode_enabled && gamemode_tgid > 0) {
+		struct task_struct *p;
+		bool alive = false;
+
+		rcu_read_lock();
+		for_each_process(p) {
+			if (task_tgid_nr(p) == gamemode_tgid) {
+				alive = true;
+				break;
+			}
+		}
+		rcu_read_unlock();
+		if (!alive) {
+			pr_notice("TinkerOS: gamemode reap on read (tgid gone)\n");
+			gamemode_enabled = 0;
+			gamemode_tgid = 0;
+		}
+	}
 	seq_printf(m, "enabled: %d\n", gamemode_enabled);
 	seq_printf(m, "tgid:    %d\n", gamemode_tgid);
 	seq_printf(m, "rt_prio: %d\n", gamemode_rt_prio);
