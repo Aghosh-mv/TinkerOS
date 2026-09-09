@@ -181,6 +181,14 @@ ve_selftest_run() {
   if [ "${tcnt:-0}" -ge 1 ] 2>/dev/null; then tok=1; fi
   check "align index covers tokens" "1" "$tok"
 
+  # ---- align --dry-run: plans without touching any artifact ----------------
+  local mcount_dr; mcount_dr=$(ve_align_markov_count 2>/dev/null)
+  ve_align_fix --dry-run >/dev/null 2>&1 || true
+  local mcount_dr2; mcount_dr2=$(ve_align_markov_count 2>/dev/null)
+  local drok=0
+  if [ "$mcount_dr" = "$mcount_dr2" ] 2>/dev/null; then drok=1; fi
+  check "align dry-run is non-mutating" "1" "$drok"
+
   # ---- optimize --burn: quarantine exact-duplicate logical items -------------
   ve_store_append "1780000001|photo|file|/st/align_probe.txt|2222bbbb11110000|misc|align" >/dev/null 2>&1 || true
   ve_align_fix >/dev/null 2>&1 || true

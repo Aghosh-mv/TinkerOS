@@ -217,8 +217,10 @@ case "${1:-}" in
     shift
     ve_session_init
     case "${1:-check}" in
-      check|--check|-c) ve_align_check ;;
-      fix|--fix|-f)     ve_align_fix ;;
+      check|--check|-c)       ve_align_check ;;
+      fix|--fix|-f)           ve_align_fix ;;
+      dry|--dry|--dry-run|-n) ve_align_fix --dry-run ;;
+      *) echo "usage: ve align check | ve align fix | ve align --dry-run" ;;
       *) echo "usage: ve align [check|--fix]" ;;
     esac
     ;;

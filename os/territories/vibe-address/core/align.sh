@@ -144,26 +144,39 @@ ve_align_check() {
 }
 
 # ---- rebuild drifted artifacts from the event store --------------------------
+#  --dry-run: audit first, then print the exact rebuild plan WITHOUT touching
+#  anything (used by ops/UIs before committing to a store rewrite).
 ve_align_fix() {
-  echo "Vibe-align: rebuilding all models from the event store..."
-  echo "  1/5 inverted index + fp table + time buckets"
-  ve_index_rebuild 2>&1 | sed 's/^/    /'
-  echo "  2/5 bloom prefilter"
-  ve_bloom_rebuild >/dev/null 2>&1 || true
-  echo "  3/5 suffix array"
-  ve_sarray_rebuild >/dev/null 2>&1 || true
-  echo "  4/5 markov + LSH replay"
-  rm -rf "$VIBE_STATE/markov" "$(ve_lsh_dir)"
+  local dry=0 step=1 prefix=""
+  [ "${1:-}" = "--dry-run" ] && dry=1
+  ve_align_check
+  echo
+  echo "Vibe-align: $( [ "$dry" = 1 ] && echo 'DRY-RUN — would rebuild' || echo 'rebuilding' ) all models from the event store:"
+  run() {   # shellcheck disable=SC2317
+    if [ "$dry" = 1 ]; then echo "    $step/$RUN_TOTAL $1 [planned]"; else echo "    $step/$RUN_TOTAL $1"; fi
+    step=$((step + 1))
+    [ "$dry" = 0 ] && { shift; "$@" 2>&1 | sed 's/^/    /' || true; }
+  }
+  RUN_TOTAL=5
+  run "inverted index + fp table + time buckets" ve_index_rebuild
+  run "bloom prefilter" ve_bloom_rebuild
+  run "suffix array" ve_sarray_rebuild
+  run "markov + LSH replay" ve_align_fix_replay
+  run "re-verify" ve_align_check
+  [ "$dry" = 1 ] && echo
+  return 0
+}
+
+ve_align_fix_replay() {
+  rm -rf "$VIBE_STATE/markov" "$(ve_lsh_dir)" 2>/dev/null || true
   mkdir -p "$VIBE_STATE" "$(ve_lsh_dir)"
-  local n=0
+  local n=0 line
   while IFS= read -r line; do
     [ -z "$line" ] && continue
     ve_align_replay_one "$line"
     n=$((n + 1))
-  done < <(ve_align_events)
+  done < <(ve_align_events 2>/dev/null)
   echo "    replayed $n events"
-  echo "  5/5 re-verify"
-  ve_align_check
 }
 
 ve_align=""
