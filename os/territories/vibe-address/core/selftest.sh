@@ -189,6 +189,26 @@ ve_selftest_run() {
   if [ "$mcount_dr" = "$mcount_dr2" ] 2>/dev/null; then drok=1; fi
   check "align dry-run is non-mutating" "1" "$drok"
 
+  # ---- randomized robustness: 8 varied events -> align + query integrity -----
+  # NOTE: array literals (not `read -a`) — the harness IFS is \n\t (no space)
+  local rnd_str; rnd_str="alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo lima mike november oscar papa quebec uniform victor whiskey xray yankee zulu"
+  local rnd_arr=(); local rw
+  while IFS= read -r rw; do [ -n "$rw" ] && rnd_arr+=("$rw"); done <<<"$(echo "$rnd_str" | tr ' ' '\n')"
+  local rnd_i t0 word vtypes=("photo" "terminal" "email" "browser" "note")
+  for rnd_i in 1 2 3 4 5 6 7 8; do
+    t0=$((1780000000 + rnd_i * 1000))
+    word="${rnd_arr[$((rnd_i % 26))]}"
+    ve_store_append "$t0|${vtypes[$((rnd_i % 5))]}|file|/st/fuzz/${word}_${rnd_i}.txt|${rnd_i}${rnd_i}${rnd_i}${rnd_i}0000000000|misc|fuzz" >/dev/null 2>&1 || true
+  done
+  ve_align_fix >/dev/null 2>&1 || true
+  local fuzzok=0
+  local fuzzalign; fuzzalign=$(ve_align_check 2>/dev/null | grep -c ALIGNED || echo 0)
+  local fuzzq; fuzzq=$(ve_query_run "kilo" 2>/dev/null || true)
+  if [ "$fuzzalign" -ge 1 ] 2>/dev/null && [ "$(echo "$fuzzq" | grep -c "candidate" || echo 0)" -ge 1 ]; then
+    fuzzok=1
+  fi
+  check "fuzz: varied events align + query hits" "1" "$fuzzok"
+
   # ---- optimize --burn: quarantine exact-duplicate logical items -------------
   ve_store_append "1780000001|photo|file|/st/align_probe.txt|2222bbbb11110000|misc|align" >/dev/null 2>&1 || true
   ve_align_fix >/dev/null 2>&1 || true
