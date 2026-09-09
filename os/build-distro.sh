@@ -178,14 +178,14 @@ EOF
       iso9660 at_keyboard gfxterm gfxmenu all_video font terminal configfile normal 2>/dev/null || true
   grub-mkimage -p /boot/grub -O i386-pc -o "$BUILD/core.img" \
     iso9660 biosdisk part_msdos part_gpt fat ext2 udf normal configfile \
-    search search_fs_file linux initrd chain boot reboot gfxterm all_video 2>/dev/null || true
+    search search_fs_file linux chain boot reboot gfxterm all_video 2>&1 | tail -2
   if [ -s "$BUILD/core.img" ]; then
     cat /usr/lib/grub/i386-pc/cdboot.img "$BUILD/core.img" > "$IMAGE/isolinux/isolinux.bin"
   fi
   [ -s "$BUILD/efi.img" ] && mkdir -p "$IMAGE/boot/grub" && cp "$BUILD/efi.img" "$IMAGE/boot/grub/efi.img"
   ls -la "$IMAGE/isolinux/isolinux.bin" "$IMAGE/boot/grub/efi.img" 2>/dev/null | awk '{print $5,$9}'
   xorriso -as mkisofs -quiet \
-    -volume_id TinkerOS \
+    -V TinkerOS \
     -iso-level 3 -R -J -joliet-long -full-iso9660-filenames \
     -b isolinux/isolinux.bin -c boot.cat -no-emul-boot \
     -boot-load-size 8 -boot-info-table \
