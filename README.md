@@ -10,12 +10,10 @@
 
 | Option | Link |
 |---|---|
-| **Primary ISO (SourceForge Global CDN)** | [Download ISO](https://sourceforge.net/projects/tinkeros/) |
-| **Alternative Mirror (Internet Archive)** | [Download Mirror](https://archive.org/details/tinkeros) |
-| **P2P Torrent (seed it!)** | [Download Torrent](https://archive.org/download/tinkeros/TinkerOS.iso.torrent) |
+| **Primary ISO (SourceForge Global CDN)** | [Download TinkerOS-v1.2.iso](https://sourceforge.net/projects/tinkeros/files/TinkerOS-1.2/TinkerOS-v1.2.iso/download) |
+| **SHA256** | `172f45204490dcba62c3cf94d9f99d713092dab23842f3e4fe8e00d056fa40b0` |
 
-> 💡 Prefer torrents? Grab the .torrent above — seeding keeps TinkerOS
-> cost-proof and un-ban-able. Star ⭐ the repo to support the project.
+> The ISO is ~8.3 GB. Verify the SHA256 after download.
 
 ---
 
