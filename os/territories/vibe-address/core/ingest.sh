@@ -223,12 +223,54 @@ ve_connectors_bind_f7() {
   mkdir -p "$(dirname "$kbconf")"
   cat > "$kbconf" <<EOF
 # TinkerOS Vibe Addressing  Tab+F7
-"echo F7 > /tmp/vibe-f7.pressed & $vah ask \$(zenity --entry --title='What do you remember?' --text='Memory:' 2>/dev/null)"
+"echo F7 > /tmp/vibe-f7.pressed & $vah ask-complete"
   Tab+F7
 EOF
   echo "Tab+F7 binding written to $kbconf"
   echo "Apply with:  xbindkeys"
   echo "(for GNOME custom shortcut: Settings > Keyboard > Custom Shortcuts)"
+}
+
+# ---- Tab+F7 dialog with markov completion (Searchie overlay) ----------------
+# Ask flow: type a partial phrase; if it looks truncated, the top markov chains
+# are offered as pickable completions; the chosen (or typed) phrase is queried
+# and the answer is shown in a summary popup.
+ve_connectors_ask_dialog() {
+  local vah="${VIBE_ENGINE}/vibe-address.sh"
+  local typed result picks lines n tok
+
+  if ! command -v zenity >/dev/null 2>&1; then
+    read -rp "What do you remember? " typed
+    "$vah" ask "$typed"
+    return 0
+  fi
+
+  typed=$(zenity --entry --title="Searchie" \
+    --text="What do you remember? (partial phrase — chains will be suggested)" 2>/dev/null) || return 0
+  [ -z "$typed" ] && return 0
+
+  # only suggest when the phrase is a single short token (likely a prefix)
+  n=$(echo "$typed" | wc -w | tr -d ' ')
+  if [ "$n" -le 1 ] 2>/dev/null && [ "${#typed}" -ge 3 ]; then
+    picks=$("$vah" markov complete "$typed" 3 2>/dev/null || true)
+    if [ -n "$picks" ]; then
+      result=$(echo "$picks" | {
+        line=0
+        while IFS= read -r p; do
+          printf '%s\n%s\n' "$line" "$p"
+          line=$((line + 1))
+        done
+      } | zenity --list --title="Remembered phrases" \
+          --text="Pick a completion, or cancel to query what you typed:" \
+          --column="" --column="Phrase" 2>/dev/null | tail -1 || true)
+      if [ -n "$result" ] && [ "$result" != "FALSE" ]; then
+        typed="$result"
+      fi
+    fi
+  fi
+
+  result=$("$vah" ask "$typed" 2>/dev/null)
+  echo "$result" | head -20 | zenity --info --title="Searchie" --text="$(echo "$result" | sed 1q)" 2>/dev/null || echo "$result"
 }
 
 ve_ingest=""

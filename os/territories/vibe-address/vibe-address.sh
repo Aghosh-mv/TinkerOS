@@ -141,6 +141,10 @@ case "${1:-}" in
       exit 1
     fi
     ;;
+  ask-complete)
+    ve_session_init
+    ve_connectors_ask_dialog
+    ;;
   ask|find|query)
     shift
     ve_session_init
