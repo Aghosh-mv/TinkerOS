@@ -13,8 +13,7 @@ set -euo pipefail
 
 ROOTFS="${1:-/}"
 SRC="$(cd "$(dirname "$0")" && pwd)"
-S="$SUDO"
-[ "$ROOTFS" = "/" ] && S="sudo"
+S=sudo
 
 echo "TinkerOS branding -> $ROOTFS"
 

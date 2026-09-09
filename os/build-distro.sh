@@ -65,7 +65,8 @@ apt-get update -y
 # ---- desktop ----
 apt-get install -y xfce4 xfce4-terminal lightdm lightdm-gtk-greeter \
   xorg xserver-xorg-input-all xserver-xorg-video-all \
-  pulseaudio pavucontrol network-manager dbus \
+  pulseaudio pavucontrol network-manager dbus plymouth plymouth-themes \
+  plymouth-x11 \
   || echo "desktop group had issues"
 # ---- applications / package base (REAL full desktop) ----
 apt-get install -y firefox vim nano less file htop curl wget git \
@@ -148,6 +149,26 @@ EOS"
   echo "   TinkerOS identity written (os-release/lsb-release/issue)."
 }
 
+# install plymouth + the branded splash/GRUB theme into an existing rootfs
+# (used on incremental rebuilds; fresh builds get plymouth via stage2 apt)
+stage2b_branding() {
+  echo "### [branding] installing plymouth + TinkerOS boot theme into rootfs..."
+  "$SUDO" mkdir -p "$ROOTFS"/{proc,sys,dev,dev/pts}
+  "$SUDO" mount --bind /proc "$ROOTFS/proc" 2>/dev/null || true
+  "$SUDO" mount --bind /sys  "$ROOTFS/sys"  2>/dev/null || true
+  "$SUDO" mount --bind /dev  "$ROOTFS/dev"  2>/dev/null || true
+  mountpoint -q "$ROOTFS/dev/pts" || "$SUDO" mount -t devpts none "$ROOTFS/dev/pts" 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends plymouth plymouth-themes plymouth-x11" \
+    || echo "   plymouth install had warnings"
+  "$SUDO" bash "/home/tinkerspace/linux-kernel/os/branding/install-branding.sh" "$ROOTFS" \
+    || echo "   branding install had warnings"
+  "$SUDO" chroot "$ROOTFS" update-initramfs -u 2>&1 | tail -1 || echo "   initramfs not updated"
+  for m in dev/pts proc sys dev; do
+    mountpoint -q "$ROOTFS/$m" && "$SUDO" umount "$ROOTFS/$m" 2>/dev/null || true
+  done
+  echo "   boot branding installed (Plymouth + GRUB theme)."
+}
+
 stage5_squashfs() {
   echo "### [5/6] Building squashfs of the full rootfs (compressing)..."
   "$SUDO" rm -f "$IMAGE/casper/filesystem.squashfs"
@@ -225,14 +246,14 @@ run() {
 }
 
 run() {
-  stage1 && stage2_install && stage3_worlds && stage_branding && stage4_live \
+  stage1 && stage2_install && stage3_worlds && stage_branding && stage2b_branding && stage4_live \
     && stage5_squashfs && stage5_caspermaterials && stage6_iso
   echo "DONE: TinkerOS full distribution ISO ready."
 }
 
 rebuild() {
   test -d "$ROOTFS/etc" || { echo "no rootfs yet — run full first"; exit 1; }
-  stage2_install && stage3_worlds && stage_branding && stage4_live \
+  stage2_install && stage3_worlds && stage_branding && stage2b_branding && stage4_live \
     && stage5_squashfs && stage5_caspermaterials && stage6_iso
   echo "DONE: TinkerOS rebuild (kept base rootfs)."
 }
