@@ -18,10 +18,23 @@
 
 ## TODO for Tomorrow
 1. **Publish ISO to SourceForge FRS** (`os/publish-iso.sh`, needs `SF_USER` + key registered
-   on the SF account): `SF_USER=<account> ./os/publish-iso.sh TinkerOS-v1.2.iso`; generate
-   SHA manifest with `os/iso-artifacts.sh`; README already links the SF project page.
-   Never git-commit the ISO.
-2. **Rebuild branded ISO**: stage2b_branding (plymouth + TinkerOS splash/GRUB theme) golden
-   bake in-flight → produces final ~8.5 GB `TinkerOS-v1.2.iso`; verify El Torito, then publish.
+   on the SF account): `SF_USER=aghoshpratheesh os/release.sh` for automated releases.
+2. **Rebuild branded ISO**: Plymouth animated splash + GRUB branded background baked in;
+   world-gating (WORLDS=game|hack|secure|all); ISO size reduced (~1-2 GB savings).
 3. **TIO/TUI polish**: markov chain completion phrases for the overlay; `markov` regression.
-4. **Kernel: crash-safe gamemode reap DONE** (boost clears if the boosted process group died).
+4. **Kernel: crash-safe gamemode reap DONE** (boost clears if the boosted process died).
+
+## TODO for Tinker AI (Siri-like assistant)
+1. **TinkerAI: answer anything** — train/retrieve answers for any question using a local
+   knowledge base + web fallback; needs a local LLM or retrieval-augmented generation (RAG)
+   pipeline; not maximum depth like Claude — just correct answers 90%+ of the time.
+2. **TinkerAI: app connections** — pre-connected to all OS apps (browser, terminal, editor,
+   file manager, calendar, email, notes, media player); user can `tinker-ai connect <app>`
+   or `tinker-ai disconnect <app>`; each connection gives the AI access to that app's
+   data/state/context.
+3. **TinkerAI: rich display** — cards, links, multiple fonts, sizes, colors, styles in the
+   response UI; uses a terminal/markdown renderer with ANSI colors + optional zenity/graphical
+   overlay for rich formatting.
+4. **TinkerAI: productivity hooks** — auto-suggest next actions, schedule reminders, draft
+   emails, summarize documents, generate code, brainstorm ideas; all from within the TinkerOS
+   desktop (Ctrl+Alt+Gr or voice activation).
