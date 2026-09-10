@@ -38,15 +38,52 @@ void tinker_energy_account(u64 idle, u64 busy)
 }
 EXPORT_SYMBOL_GPL(tinker_energy_account);
 
+/*
+ * Compute the idle-to-busy tick ratio.  Returns a fixed-point value
+ * where 1.0 == 256.  Returns 0 if no data yet.
+ */
+static u64 energy_idle_busy_ratio(void)
+{
+	u64 idle, busy;
+
+	idle = atomic64_read(&energy_ticks_idle);
+	busy = atomic64_read(&energy_ticks_busy);
+	if (busy == 0)
+		return idle ? U64_MAX : 0;
+	return (idle << 8) / busy;  /* 256 = 1.0 */
+}
+
+u64 tinker_energy_ratio(void)
+{
+	return energy_idle_busy_ratio();
+}
+EXPORT_SYMBOL_GPL(tinker_energy_ratio);
+
 /* Query used by the cpufreq governor to pick a V/F target.
  * Returns ENERGY_MODE_AUTO / PEAK / SAVER as int.
+ * In AUTO mode, uses idle:busy ratio to suggest PEAK or SAVER.
  */
 int tinker_energy_mode(void)
 {
 	int mode;
+	u64 ratio;
 
 	mutex_lock(&energy_lock);
 	mode = energy_mode;
+
+	if (mode == ENERGY_MODE_AUTO) {
+		ratio = energy_idle_busy_ratio();
+		if (ratio == 0) {
+			/* No data yet — stay auto */
+		} else if (ratio > (3 << 8)) {
+			/* Ratio > 3.0: mostly idle, suggest saver */
+			mode = ENERGY_MODE_SAVER;
+		} else if (ratio < (1 << 8)) {
+			/* Ratio < 1.0: mostly busy, suggest peak */
+			mode = ENERGY_MODE_PEAK;
+		}
+	}
+
 	mutex_unlock(&energy_lock);
 	return mode;
 }
@@ -59,6 +96,7 @@ static int energy_show(struct seq_file *m, void *v)
 		[ENERGY_MODE_PEAK]  = "peak",
 		[ENERGY_MODE_SAVER] = "saver",
 	};
+	u64 ratio = energy_idle_busy_ratio();
 
 	mutex_lock(&energy_lock);
 	seq_printf(m, "mode:   %s\n", modes[energy_mode]);
@@ -69,6 +107,8 @@ static int energy_show(struct seq_file *m, void *v)
 		   (unsigned long long)atomic64_read(&energy_ticks_idle));
 	seq_printf(m, "busy:   %llu\n",
 		   (unsigned long long)atomic64_read(&energy_ticks_busy));
+	seq_printf(m, "ratio:  %llu (256 = 1.0)\n",
+		   (unsigned long long)ratio);
 	mutex_unlock(&energy_lock);
 	return 0;
 }

@@ -1,12 +1,40 @@
-# TinkerOS Plymouth theme (fade-in, from Ubuntu's fade-in script)
-Window.SetBackgroundTopColor (0.11, 0.16, 0.29);        # #1b2a4a
-Window.SetBackgroundBottomColor (0.05, 0.08, 0.15);
+# TinkerOS Plymouth theme — animated boot splash with pulsing glow + progress bar
+
+Window.SetBackgroundTopColor (0.04, 0.07, 0.13);
+Window.SetBackgroundBottomColor (0.02, 0.04, 0.08);
 
 logo_image = Image ("logo.png");
 logo_sprite = Sprite (logo_image);
 logo_sprite.SetX (Window.GetWidth() / 2 - logo_image.GetWidth() / 2);
-logo_sprite.SetY (Window.GetHeight() / 2 - logo_image.GetHeight() / 2);
+logo_sprite.SetY (Window.GetHeight() / 2 - logo_image.GetHeight() / 2 - 80);
 logo_sprite.SetOpacity (0);
+
+title = Text ("TinkerOS", 1, 1, 1);
+title.SetPosition (Window.GetWidth() / 2 - title.GetWidth() / 2,
+                   logo_sprite.GetY() + logo_image.GetHeight() + 16);
+title.SetOpacity (0);
+
+progress_bar_width = 320;
+progress_bar_height = 4;
+progress_bar_x = Window.GetWidth() / 2 - progress_bar_width / 2;
+progress_bar_y = title.GetY() + 48;
+
+bg_bar = Image (progress_bar_width, progress_bar_height);
+bg_bar.Fill (0.3, 0.3, 0.35);
+bg_bar_sprite = Sprite (bg_bar);
+bg_bar_sprite.SetPosition (progress_bar_x, progress_bar_y);
+bg_bar_sprite.SetOpacity (0);
+
+fill_bar = Image (1, progress_bar_height);
+fill_bar.Fill (0.2, 0.55, 0.9);
+fill_bar_sprite = Sprite (fill_bar);
+fill_bar_sprite.SetPosition (progress_bar_x, progress_bar_y);
+fill_bar_sprite.SetOpacity (0);
+
+progress = 0;
+phase = "boot";
+shutdown_text = null;
+shutdown_sprite = null;
 
 messages = null;
 text_sprite = null;
@@ -28,15 +56,65 @@ fun refresh ()
   }
 
   text_sprite = Text (string, 1, 1, 1);
-
   text_sprite.SetPosition (Window.GetWidth() / 2 - text_sprite.GetWidth() / 2,
-                           Window.GetHeight() * 0.70);
-
+                           Window.GetHeight() * 0.78);
   text_sprite.SetVisible (true);
+}
+
+fun OnBoot ()
+{
+  phase = "boot";
+  logo_sprite.FadeIn (0.4, 30);
+  title.FadeIn (0.4, 30);
+  bg_bar_sprite.FadeIn (0.4, 30);
+  fill_bar_sprite.FadeIn (0.4, 30);
+}
+
+fun OnSetProgress (p)
+{
+  progress = p;
+  bar_image = Image (progress_bar_width * progress, progress_bar_height);
+  bar_image.Fill (0.2, 0.55, 0.9);
+  fill_bar_sprite.SetImage (bar_image);
+  fill_bar_sprite.SetPosition (progress_bar_x, progress_bar_y);
+}
+
+fun OnSetWaiting (waiting)
+{
 }
 
 fun OnMessages (message)
 {
   messages = message;
   refresh ();
+}
+
+fun OnKey (key, altitude)
+{
+  if (key == "escape" || key == "backspace")
+  {
+    if (phase == "boot")
+      Quit ();
+  }
+}
+
+fun OnShutdown ()
+{
+  phase = "shutdown";
+  logo_sprite.FadeIn (1, 30);
+  title.FadeIn (1, 30);
+
+  if (shutdown_sprite != null)
+    shutdown_sprite.SetVisible (false);
+  shutdown_sprite = Text ("Shutting down...", 0.7, 0.7, 0.7);
+  shutdown_sprite.SetPosition (Window.GetWidth() / 2 - shutdown_sprite.GetWidth() / 2,
+                               progress_bar_y + 32);
+  shutdown_sprite.SetOpacity (0);
+  shutdown_sprite.FadeIn (1, 30);
+}
+
+fun OnKillProgress ()
+{
+  bar_image = Image (0, progress_bar_height);
+  fill_bar_sprite.SetImage (bar_image);
 }

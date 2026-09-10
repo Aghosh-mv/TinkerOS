@@ -17,6 +17,8 @@
 #include <linux/seq_file.h>
 #include <linux/mutex.h>
 #include <linux/uaccess.h>
+#include <linux/jiffies.h>
+#include <linux/timer.h>
 
 #include "tinker_core.h"
 
@@ -24,16 +26,19 @@
 
 static DEFINE_MUTEX(cw_lock);
 static unsigned int cw_freq_khz = 300;
+static unsigned int cw_base_freq_khz = 300;
 static bool cw_enabled;
 static bool cw_spread_spectrum;
 static unsigned int cw_spread_khz = 50;
 static bool cw_popup_shown;
+static struct timer_list cw_spread_timer;
 
 static int cw_show(struct seq_file *m, void *v)
 {
 	mutex_lock(&cw_lock);
 	seq_printf(m, "enabled:          %u\n", cw_enabled);
 	seq_printf(m, "freq_khz:         %u\n", cw_freq_khz);
+	seq_printf(m, "base_freq_khz:    %u\n", cw_base_freq_khz);
 	seq_printf(m, "spread_spectrum:  %u\n", cw_spread_spectrum);
 	seq_printf(m, "spread_khz:       %u\n", cw_spread_khz);
 	seq_printf(m, "popup_shown:      %u\n", cw_popup_shown);
@@ -81,6 +86,7 @@ static ssize_t cw_write(struct file *file, const char __user *ubuf,
 	} else if (!strcmp(cmd, "freq") && arg) {
 		val = simple_strtol(arg, NULL, 10);
 		cw_freq_khz = clamp(val, 100, 1000);
+		cw_base_freq_khz = cw_freq_khz;
 	} else if (!strcmp(cmd, "spread") && arg) {
 		val = simple_strtol(arg, NULL, 10);
 		if (val)
@@ -108,8 +114,27 @@ static const struct proc_ops cw_fops = {
 	.proc_release	= single_release,
 };
 
+static void cw_spread_timer_fn(struct timer_list *t)
+{
+	unsigned int jitter;
+
+	if (!cw_enabled || !cw_spread_spectrum || cw_spread_khz == 0)
+		goto resched;
+
+	jitter = get_random_u32() % (2 * cw_spread_khz);
+	mutex_lock(&cw_lock);
+	cw_freq_khz = cw_base_freq_khz + jitter - cw_spread_khz;
+	mutex_unlock(&cw_lock);
+
+resched:
+	mod_timer(&cw_spread_timer, jiffies + msecs_to_jiffies(10));
+}
+
 static int __init tinker_cw_init(void)
 {
+	timer_setup(&cw_spread_timer, cw_spread_timer_fn, 0);
+	mod_timer(&cw_spread_timer, jiffies + msecs_to_jiffies(10));
+
 	if (tinker_proc_root)
 		proc_create("coil_whine", 0644, tinker_proc_root, &cw_fops);
 
@@ -119,6 +144,7 @@ static int __init tinker_cw_init(void)
 
 static void __exit tinker_cw_exit(void)
 {
+	timer_delete_sync(&cw_spread_timer);
 	pr_info("TinkerOS: coil-whine killer removed\n");
 }
 

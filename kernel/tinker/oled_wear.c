@@ -17,6 +17,8 @@
 #include <linux/mutex.h>
 #include <linux/uaccess.h>
 #include <linux/backlight.h>
+#include <linux/workqueue.h>
+#include <linux/jiffies.h>
 
 #include "tinker_core.h"
 
@@ -25,6 +27,8 @@
 static DEFINE_MUTEX(oled_lock);
 static unsigned int oled_dim_pct = 100;	/* 100 = no dimming */
 static unsigned long long oled_wear_seconds;
+static bool oled_wear_enabled = true;
+static struct delayed_work oled_wear_work;
 
 /* Query used by the backlight driver to apply proportional wear dimming.
  * Returns a percentage (100 = no dim). */
@@ -38,6 +42,18 @@ unsigned int tinker_oled_get_dim(void)
 	return dim;
 }
 EXPORT_SYMBOL_GPL(tinker_oled_get_dim);
+
+/* Query used by other modules to read cumulative wear seconds. */
+unsigned long long tinker_oled_wear_seconds(void)
+{
+	unsigned long long sec;
+
+	mutex_lock(&oled_lock);
+	sec = oled_wear_seconds;
+	mutex_unlock(&oled_lock);
+	return sec;
+}
+EXPORT_SYMBOL_GPL(tinker_oled_wear_seconds);
 
 static int oled_show(struct seq_file *m, void *v)
 {
@@ -93,8 +109,37 @@ static const struct proc_ops oled_fops = {
 	.proc_release	= single_release,
 };
 
+static void oled_wear_workfn(struct work_struct *work)
+{
+	unsigned int hours;
+
+	mutex_lock(&oled_lock);
+	if (!oled_wear_enabled) {
+		mutex_unlock(&oled_lock);
+		schedule_delayed_work(&oled_wear_work, msecs_to_jiffies(1000));
+		return;
+	}
+
+	oled_wear_seconds++;
+
+	/* Auto-dim: if wear > 1 hour, reduce dim_pct by 1% per additional
+	 * hour down to a minimum of 70%. */
+	if (oled_wear_seconds > 3600) {
+		hours = (oled_wear_seconds - 3600) / 3600;
+		if (hours > 30)
+			hours = 30;
+		oled_dim_pct = max(70U, 100U - hours);
+	}
+
+	mutex_unlock(&oled_lock);
+	schedule_delayed_work(&oled_wear_work, msecs_to_jiffies(1000));
+}
+
 static int __init tinker_oled_init(void)
 {
+	INIT_DELAYED_WORK(&oled_wear_work, oled_wear_workfn);
+	schedule_delayed_work(&oled_wear_work, msecs_to_jiffies(1000));
+
 	if (tinker_proc_root)
 		proc_create("oled", 0644, tinker_proc_root, &oled_fops);
 
@@ -104,6 +149,7 @@ static int __init tinker_oled_init(void)
 
 static void __exit tinker_oled_exit(void)
 {
+	cancel_delayed_work_sync(&oled_wear_work);
 	pr_info("TinkerOS: OLED wear compensation removed\n");
 }
 

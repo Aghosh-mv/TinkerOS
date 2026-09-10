@@ -1109,6 +1109,8 @@ deps_kernel/tinker/thermal_sched.o := \
   include/linux/string_helpers.h \
   include/linux/ctype.h \
   include/linux/string_choices.h \
+  include/linux/namei.h \
+  include/linux/fs_struct.h \
   kernel/tinker/tinker_core.h \
     $(wildcard include/config/TINKER_THERMAL_SCHED) \
     $(wildcard include/config/TINKER_GAMEMODE) \

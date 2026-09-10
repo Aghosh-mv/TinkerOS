@@ -130,4 +130,28 @@ ve_markov_chain() {
   echo "$phrase"
 }
 
+# ---- confident chain: walk + show per-step confidence % ----------------------
+ve_markov_chain_confident() {
+  local start="${1:-}" maxlen="${2:-$VE_MARKOV_MAXCHAIN}"
+  [ -z "$start" ] && return 0
+  local phrase="$start" cur="$start" next
+  local steps=0
+  local -a words=()
+  while [ "$steps" -lt "$maxlen" ]; do
+    local pred; pred=$(ve_markov_predict "$cur" 1 2>/dev/null | head -1)
+    next=$(echo "$pred" | cut -d'|' -f1)
+    local pct=$(echo "$pred" | cut -d'|' -f3)
+    [ -z "$next" ] && break
+    words+=("$next:$pct")
+    phrase="$phrase $next"
+    cur=$(echo "$cur" | awk -v w="$next" '{ if (NF>=2) sub(/^[^ ]+ /,""); print $0 " " w }')
+    steps=$((steps + 1))
+  done
+  local conf=""
+  for w in "${words[@]}"; do
+    conf="$conf $w"
+  done
+  echo "$phrase ($conf)"
+}
+
 ve_markov=""

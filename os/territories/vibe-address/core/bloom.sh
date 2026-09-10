@@ -127,6 +127,7 @@ ve_bloom_pair_contains() { ve_bloom_contains "$(ve_bloom_pair_filter)" "$1"; }
 
 # ---- rebuild from the inverted index (optimize path) ------------------------------
 ve_bloom_rebuild() {
+  ve_bloom_auto_size
   local inv="$VIBE_INDEX/inv"
   local tf; tf=$(ve_bloom_tok_filter); local pf; pf=$(ve_bloom_pair_filter)
   rm -f "$tf" "$pf"
@@ -141,6 +142,19 @@ ve_bloom_rebuild() {
       ve_bloom_pair_add "$fp:$tok" >/dev/null
     done
   done
+}
+
+# ---- auto-size bloom filter based on corpus token count ----------------------
+ve_bloom_auto_size() {
+  local inv="${VIBE_INDEX}/inv"
+  if [ -d "$inv" ]; then
+    local ntokens; ntokens=$(ls "$inv" 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$ntokens" -gt 200000 ] 2>/dev/null; then
+      VE_BLOOM_BITS=8388608
+    elif [ "$ntokens" -gt 50000 ] 2>/dev/null; then
+      VE_BLOOM_BITS=4194304
+    fi
+  fi
 }
 
 ve_bloom=""

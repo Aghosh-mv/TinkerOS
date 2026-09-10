@@ -32,10 +32,12 @@ extern void tinker_energy_account(u64 idle, u64 busy);
 #define TINKER_ENERGY_PEAK	1
 #define TINKER_ENERGY_SAVER	2
 extern int tinker_energy_mode(void);
+extern u64 tinker_energy_ratio(void);
 #endif
 
 #ifdef CONFIG_TINKER_OLED_WEAR
 extern unsigned int tinker_oled_get_dim(void);
+extern unsigned long long tinker_oled_wear_seconds(void);
 #endif
 
 #ifdef CONFIG_TINKER_BATTERY_LIFE

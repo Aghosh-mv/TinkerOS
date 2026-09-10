@@ -30,6 +30,49 @@ static unsigned int cache_l3_realtime_ways;
 static bool cache_enabled;
 static unsigned int cache_max_ways = 16;
 
+/* Kernel parameter: override L3 ways detection (0 = auto-detect) */
+static unsigned int cache_l3_ways_override;
+module_param(cache_l3_ways_override, uint, 0644);
+MODULE_PARM_DESC(cache_l3_ways_override,
+		 "Override L3 cache ways (0 = auto-detect via CPUID)");
+
+/*
+ * Detect L3 cache ways using CPUID leaf 4 (Deterministic Cache Parameters).
+ * Iterates sub-leaves until type=0 (no more caches), looking for L3 (type=3).
+ * Returns number of ways on success, 0 if not found.
+ */
+static unsigned int cache_detect_ways(void)
+{
+	unsigned int eax, ebx, ecx, edx;
+	unsigned int subleaf = 0;
+	unsigned int cache_type, cache_level, ways;
+
+	asm volatile("cpuid"
+		     : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
+		     : "a"(4), "c"(subleaf));
+
+	if ((eax & 0x1f) == 0)
+		return 0; /* CPUID leaf 4 not supported */
+
+	for (subleaf = 0; ; subleaf++) {
+		asm volatile("cpuid"
+			     : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
+			     : "a"(4), "c"(subleaf));
+
+		cache_type = eax & 0x1f;
+		if (cache_type == 0)
+			break; /* no more cache entries */
+
+		cache_level = (eax >> 5) & 0x7;
+		if (cache_level == 3 && cache_type == 3) {
+			/* L3 unified cache */
+			ways = ((ebx >> 22) & 0x3ff) + 1;
+			return ways;
+		}
+	}
+	return 0;
+}
+
 static int cache_show(struct seq_file *m, void *v)
 {
 	mutex_lock(&cache_lock);
@@ -103,7 +146,26 @@ static const struct proc_ops cache_fops = {
 
 static int __init tinker_cache_init(void)
 {
-	cache_l3_ways = cache_max_ways;	/* detect from cpuid where present */
+	unsigned int detected;
+
+	if (cache_l3_ways_override) {
+		cache_l3_ways = cache_l3_ways_override;
+		cache_max_ways = cache_l3_ways_override;
+		pr_info("TinkerOS: cache tiering using override %u ways\n",
+			cache_l3_ways);
+	} else {
+		detected = cache_detect_ways();
+		if (detected) {
+			cache_l3_ways = detected;
+			cache_max_ways = detected;
+			pr_info("TinkerOS: cache tiering detected %u L3 ways via CPUID\n",
+				detected);
+		} else {
+			cache_l3_ways = cache_max_ways;
+			pr_info("TinkerOS: cache tiering using default %u ways (CPUID unavailable)\n",
+				cache_max_ways);
+		}
+	}
 	cache_l3_realtime_ways = 4;
 
 	if (tinker_proc_root)

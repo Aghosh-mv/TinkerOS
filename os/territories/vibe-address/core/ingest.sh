@@ -187,10 +187,15 @@ ve_connectors_run() {  # type [options]
       local action="${2:-saved}" file="${3:-}"
       ve_ingest_record FILE "$action" "$file" "" "files" "fs:$action"
       ;;
+    app-launch)
+      local appname="${2:-}" pid="${3:-0}"
+      local catpath; catpath=$(ve_connectors_guess_app_cat "$appname")
+      ve_ingest_record APP "launch:$appname" "pid:$pid" "" "$catpath" "app:$appname:pid:$pid"
+      ;;
     tab-edit)  ve_connectors_run tab "$@" ;;
     bind-f7) ve_connectors_bind_f7 ;;
     *)
-      echo "Usage: vibe-address watch <tab|download|search|file-change> ..."
+      echo "Usage: vibe-address watch <tab|download|search|file-change|app-launch> ..."
       ;;
   esac
 }
@@ -271,6 +276,30 @@ ve_connectors_ask_dialog() {
 
   result=$("$vah" ask "$typed" 2>/dev/null)
   echo "$result" | head -20 | zenity --info --title="Searchie" --text="$(echo "$result" | sed 1q)" 2>/dev/null || echo "$result"
+}
+
+# heuristic: classify an app name into a category
+ve_connectors_guess_app_cat() {
+  local app="$1"
+  app=$(echo "$app" | tr '[:upper:]' '[:lower:]' | sed 's/\.desktop$//')
+  case "$app" in
+    firefox|chrome|chromium|brave|vivaldi|opera|edge|epiphany|midori)
+      echo "net:browser" ;;
+    vim|nvim|nano|code|sublime-text|emacs|gedit|kate|geany|notepadqq)
+      echo "dev:editor" ;;
+    gnome-terminal|konsole|xterm|alacritty|kitty|terminator|tilix|wezterm|foot)
+      echo "dev:terminal" ;;
+    vlc|mpv|totem|spotify|rhythmbox|amarok|audacious|deadbeef|cmus|moc)
+      echo "media:player" ;;
+    steam|lutris|wine|playonlinux|heroic|protonup)
+      echo "game:launcher" ;;
+    gcc|make|cmake|python|python3|perl|ruby|node|cargo|go|javac|ghc)
+      echo "dev:compiler" ;;
+    libreoffice|libreoffice-writer|libreoffice-calc|libreoffice-impress|gimp|inkscape|blender|krita|darktable)
+      echo "office:creative" ;;
+    *)
+      echo "app:other" ;;
+  esac
 }
 
 ve_ingest=""

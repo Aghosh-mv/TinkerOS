@@ -20,8 +20,15 @@
 #include <linux/spinlock.h>
 #include <linux/uaccess.h>
 #include <linux/workqueue.h>
+#include <linux/fs.h>
+#include <linux/namei.h>
+#include <linux/uaccess.h>
+#include <linux/sched.h>
 
 #include "tinker_core.h"
+
+#define THERMAL_MAX_ZONES	8
+#define THERMAL_BUF_SZ		32
 
 struct tinker_heat_map {
 	unsigned int		zones;
@@ -30,6 +37,7 @@ struct tinker_heat_map {
 	u64			cpu_temp_mc[NR_CPUS];
 	u64			cpu_hot_thresh_mc;
 	unsigned int		enabled;
+	u64			zone_temps[THERMAL_MAX_ZONES];
 };
 
 static struct tinker_heat_map heat;
@@ -73,11 +81,47 @@ static void thermal_decay_workfn(struct work_struct *work)
 {
 	unsigned long flags;
 	int cpu;
+	unsigned int i;
+	char path[64];
+	char buf[THERMAL_BUF_SZ];
+	struct file *f;
+	loff_t pos = 0;
+	ssize_t nr;
+	long temp_mc;
+
+	/* Read real thermal zone temperatures and blend them in */
+	for (i = 0; i < THERMAL_MAX_ZONES; i++) {
+		snprintf(path, sizeof(path),
+			 "/sys/class/thermal/thermal_zone%u/temp", i);
+		f = filp_open(path, O_RDONLY, 0);
+		if (IS_ERR(f))
+			break;
+		memset(buf, 0, sizeof(buf));
+		nr = kernel_read(f, buf, sizeof(buf) - 1, &pos);
+		filp_close(f, NULL);
+		if (nr > 0) {
+			buf[nr] = '\0';
+			if (kstrtol(buf, 10, &temp_mc) == 0) {
+				/* Kernel thermal zones report millidegrees */
+				if (temp_mc < 200)
+					temp_mc *= 1000;
+				heat.zone_temps[i] = temp_mc;
+			}
+		}
+	}
+	heat.zones = i;
 
 	spin_lock_irqsave(&thermal_map_lock, flags);
-	for_each_possible_cpu(cpu)
+	for_each_possible_cpu(cpu) {
+		/* Blend: average real zone temp with hint-based estimate */
+		if (heat.zones > 0 && cpu < heat.zones) {
+			heat.cpu_temp_mc[cpu] =
+				(heat.cpu_temp_mc[cpu] + heat.zone_temps[cpu]) / 2;
+		}
+		/* Decay toward zero */
 		if (heat.cpu_temp_mc[cpu] > 0)
 			heat.cpu_temp_mc[cpu] -= 500;
+	}
 	spin_unlock_irqrestore(&thermal_map_lock, flags);
 
 	schedule_delayed_work(&thermal_decay_work,

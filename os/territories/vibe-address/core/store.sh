@@ -122,24 +122,74 @@ ve_store_timeline() {
     }
     END { for (d in cnt) printf "  %-11s %5d  %-16s %s\n", d, cnt[d], lastfp[d], lastpath[d] }
   ' "$VIBE_EVENTS"/*.log 2>/dev/null | sort
+
+  # sparkline: map daily counts to Unicode block chars
+  local -a counts=()
+  while IFS= read -r line; do
+    local c; c=$(echo "$line" | awk '{print $2}')
+    counts+=("$c")
+  done < <(
+    awk -F'|' '
+      /^[0-9]+/ {
+        cmd = "date -u -d @" $1 " +%Y-%m-%d"; cmd | getline d; close(cmd);
+        cnt[d]++
+      }
+      END { for (d in cnt) printf "%s %d\n", d, cnt[d] }
+    ' "$VIBE_EVENTS"/*.log 2>/dev/null | sort
+  )
+  if [ ${#counts[@]} -gt 0 ]; then
+    local mn=${counts[0]} mx=${counts[0]}
+    for c in "${counts[@]}"; do
+      [ "$c" -lt "$mn" ] && mn=$c
+      [ "$c" -gt "$mx" ] && mx=$c
+    done
+    local span=$((mx - mn))
+    local spark="  sparkline:"
+    for c in "${counts[@]}"; do
+      local idx=0
+      if [ "$span" -gt 0 ]; then
+        idx=$(awk -v c="$c" -v mn="$mn" -v s="$span" 'BEGIN{printf "%d", (c-mn)*7/s}')
+      fi
+      case $idx in
+        0) spark="$spark▁" ;; 1) spark="$spark▂" ;; 2) spark="$spark▃" ;;
+        3) spark="$spark▄" ;; 4) spark="$spark▅" ;; 5) spark="$spark▆" ;;
+        6) spark="$spark▇" ;; 7) spark="$spark█" ;; *) spark="$spark▁" ;;
+      esac
+    done
+    echo "$spark"
+  fi
 }
 
 # ---- compact: merge old logs + rebuild --------------------------------------
 ve_store_optimize() {
-  local burn="${1:-}"
+  local dry=0 burn=0
+  for arg in "$@"; do
+    case "$arg" in
+      --dry-run|-n) dry=1 ;;
+      --burn)       burn=1 ;;
+    esac
+  done
   echo "Vibe Addressing: running compaction..."
   ve_store_stamp_integrity_all
   ve_index_rebuild
   ve_store_prune_dedup
   local dupes; dupes=$(ve_lsh_dupe_scan 2>/dev/null | wc -l | tr -d ' ')
   echo "  near-duplicate signature pairs (candidate, not removed): $dupes"
-  if [ "$burn" = "--burn" ]; then
-    echo "  burning exact-duplicate logical items (all 8 LSH rows, same name tokens)..."
-    ve_lsh_dupe_prune_burn >/dev/null 2>&1 || true
-    ve_index_rebuild
-    ve_bloom_rebuild
-    ve_sarray_rebuild
-    ve_lsh_rebuild
+  if [ "$burn" -eq 1 ]; then
+    if [ "$dry" -eq 1 ]; then
+      echo "  [dry-run] would burn exact-duplicate logical items (all 8 LSH rows, same name tokens)"
+      echo "  [dry-run] would rebuild: index, bloom, sarray, lsh"
+    else
+      echo "  burning exact-duplicate logical items (all 8 LSH rows, same name tokens)..."
+      ve_lsh_dupe_prune_burn >/dev/null 2>&1 || true
+      ve_index_rebuild
+      ve_bloom_rebuild
+      ve_sarray_rebuild
+      ve_lsh_rebuild
+    fi
+  elif [ "$dry" -eq 1 ]; then
+    echo "  [dry-run] compaction plan: stamp integrity, rebuild index, prune dedup, scan dupes"
+    echo "  [dry-run] no changes made (dry run)"
   fi
   echo "Compaction complete."
 }

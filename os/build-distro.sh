@@ -14,6 +14,8 @@
 
 set -euo pipefail
 
+WORLDS="${WORLDS:-all}"
+
 ARCH="${ARCH:-amd64}"
 SUITE="${SUITE:-jammy}"                       # Ubuntu 22.04 (Pop base)
 MIRROR="${MIRROR:-http://in.archive.ubuntu.com/ubuntu/}"
@@ -57,42 +59,52 @@ SRC"
   "$SUDO" mount --bind /dev   "$ROOTFS/dev"   2>/dev/null || true
   mountpoint -q "$ROOTFS/dev/pts" || "$SUDO" mount -t devpts none "$ROOTFS/dev/pts" 2>/dev/null || true
 
-cat > "$BUILD/apt.sh" <<'EOF'
+cat > "$BUILD/apt.sh" <<EOF
 #!/bin/bash
 set -e
 export DEBIAN_FRONTEND=noninteractive
+WORLDS="$WORLDS"
 apt-get update -y
-# ---- desktop ----
-apt-get install -y xfce4 xfce4-terminal lightdm lightdm-gtk-greeter \
+# ---- desktop (always installed, with --no-install-recommends to reduce ISO size) ----
+apt-get install -y --no-install-recommends xfce4 xfce4-terminal lightdm lightdm-gtk-greeter \
   xorg xserver-xorg-input-all xserver-xorg-video-all \
   pulseaudio pavucontrol network-manager dbus plymouth plymouth-themes \
   plymouth-x11 \
   || echo "desktop group had issues"
-# ---- applications / package base (REAL full desktop) ----
-apt-get install -y firefox vim nano less file htop curl wget git \
+# ---- applications / package base (REAL full desktop, always installed) ----
+apt-get install -y --no-install-recommends firefox vim nano less file htop curl wget git \
   openssh-client fonts-dejavu xdg-utils tree \
   ca-certificates gnupg \
   libreoffice-core libreoffice-writer libreoffice-calc libreoffice-impress \
   gimp vlc thunderbird inkscape blender \
   build-essential python3 python3-pip gcc make cmake \
   || echo "apps group had issues"
-# ---- SECURE / NORMAL world (macos-like desktop security) ----
-apt-get install -y ufw apparmor firejail keepassxc cryptsetup \
-  fail2ban gnome-screensaver tor torbrowser-launcher \
-  lynis rkhunter chkrootkit apktool \
-  || echo "secure group had issues"
-# ---- GAME world (steam = game mode) ----
-dpkg --add-architecture i386
-apt-get update -y
-apt-get install -y steam steam-devices lutris wine \
-  wine32:i386 wine64 vulkan-tools mesa-vulkan-drivers mangohud \
-  0ad supertuxkart warzone2100 minetest game-data-packager \
-  || echo "game group had issues"
-# ---- HACK world (kali = hack mode) — Ubuntu-resolvable Kali-style tools ----
-apt-get install -y nmap sqlmap hydra john hashcat gobuster nikto \
-  wireshark-common wireshark netcat-openbsd ncat dsniff macchanger tcpdump \
-  dirb wfuzz masscan recon-ng smbmap smbclient ldap-utils \
-  || echo "hack group had issues"
+# ---- SECURE world (gated) ----
+if [ "\$WORLDS" = "all" ] || echo "\$WORLDS" | grep -qw "secure"; then
+  apt-get install -y --no-install-recommends ufw apparmor firejail keepassxc cryptsetup \
+    fail2ban gnome-screensaver tor torbrowser-launcher \
+    lynis rkhunter chkrootkit apktool \
+    || echo "secure group had issues"
+fi
+# ---- GAME world (gated) ----
+if [ "\$WORLDS" = "all" ] || echo "\$WORLDS" | grep -qw "game"; then
+  dpkg --add-architecture i386
+  apt-get update -y
+  apt-get install -y --no-install-recommends steam steam-devices lutris wine \
+    wine32:i386 wine64 vulkan-tools mesa-vulkan-drivers mangohud \
+    0ad supertuxkart warzone2100 minetest game-data-packager \
+    || echo "game group had issues"
+fi
+# ---- HACK world (gated) ----
+if [ "\$WORLDS" = "all" ] || echo "\$WORLDS" | grep -qw "hack"; then
+  apt-get install -y --no-install-recommends nmap sqlmap hydra john hashcat gobuster nikto \
+    wireshark-common wireshark netcat-openbsd ncat dsniff macchanger tcpdump \
+    dirb wfuzz masscan recon-ng smbmap smbclient ldap-utils \
+    || echo "hack group had issues"
+fi
+# ---- cleanup: reduce ISO size ----
+apt-get clean
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 EOF
   "$SUDO" cp "$BUILD/apt.sh" "$ROOTFS/apt-setup.sh"
   "$SUDO" chroot "$ROOTFS" bash /apt-setup.sh || echo "   apt install had warnings (continuing)"
@@ -220,9 +232,9 @@ EOF
     "boot/grub/grub.cfg=$BUILD/grub.cfg" 2>/dev/null || \
     grub-mkimage -p /boot/grub -O x86_64-efi -o "$BUILD/efi.img" \
       iso9660 at_keyboard gfxterm gfxmenu all_video font terminal configfile normal 2>/dev/null || true
-  grub-mkimage -p /boot/grub -O i386-pc -o "$BUILD/core.img" \
-    iso9660 biosdisk part_msdos part_gpt fat ext2 udf normal configfile \
-    search search_fs_file linux chain boot reboot gfxterm all_video 2>&1 | tail -2
+  GRUB_MODS="iso9660 biosdisk part_msdos part_gpt fat ext2 udf normal configfile search search_fs_file linux chain boot reboot gfxterm all_video"
+  [ -f /usr/lib/grub/i386-pc/initrd.mod ] && GRUB_MODS="$GRUB_MODS initrd"
+  grub-mkimage -p /boot/grub -O i386-pc -o "$BUILD/core.img" $GRUB_MODS 2>&1 | tail -2
   if [ -s "$BUILD/core.img" ]; then
     cat /usr/lib/grub/i386-pc/cdboot.img "$BUILD/core.img" > "$IMAGE/isolinux/isolinux.bin"
   fi

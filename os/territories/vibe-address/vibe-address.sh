@@ -149,7 +149,22 @@ case "${1:-}" in
     shift
     ve_session_init
     ve_capacity_sweep >/dev/null 2>&1
-    ve_query_run "${@:-<no query>}"
+    local subsys=""
+    while [[ "${1:-}" == --subsystem && -n "${2:-}" ]]; do
+      subsys="$2"; shift 2
+    done
+    if [ -n "$subsys" ]; then
+      local sconf="$VIBE_STATE/subsystems/$subsys/config"
+      if [ -f "$sconf" ]; then
+        local prefix; prefix=$(grep "^name=" "$sconf" | cut -d= -f2)
+        ve_query_run --catpath-filter "$prefix" "${@:-<no query>}"
+      else
+        echo "subsystem '$subsys' not found"
+        exit 1
+      fi
+    else
+      ve_query_run "${@:-<no query>}"
+    fi
     ve_session_bump queries
     ;;
   delete|del)
@@ -207,7 +222,8 @@ case "${1:-}" in
       predict) ve_markov_predict "${2:-}" ${3:-$VE_MARKOV_TOP} ;;
       chain)   ve_markov_chain "${2:-}" ${3:-$VE_MARKOV_MAXCHAIN} ;;
       complete) ve_markov_chain "${2:-}" ${3:-$VE_MARKOV_MAXCHAIN} ;;
-      *) echo "usage: ve markov predict <context> | ve markov chain <start> [len] | ve markov complete <start> [len]" ;;
+      confident) ve_markov_chain_confident "${2:-}" ${3:-$VE_MARKOV_MAXCHAIN} ;;
+      *) echo "usage: ve markov predict <context> | ve markov chain <start> [len] | ve markov complete <start> [len] | ve markov confident <start> [len]" ;;
     esac
     ;;
   audit)
@@ -255,6 +271,68 @@ case "${1:-}" in
     ;;
   --selftest|selftest|test)
     ve_selftest_run
+    ;;
+  subsystem)
+    shift
+    ve_session_init
+    local subsys_dir="$VIBE_STATE/subsystems"
+    mkdir -p "$subsys_dir"
+    case "${1:-}" in
+      list)
+        if [ -d "$subsys_dir" ]; then
+          local d
+          for d in "$subsys_dir"/*/; do
+            [ -d "$d" ] || continue
+            local name; name=$(basename "$d")
+            local enabled; enabled=$(grep "^enabled=" "$d/config" 2>/dev/null | cut -d= -f2 || echo 1)
+            echo "$name  enabled=$enabled"
+          done
+        else
+          echo "(no subsystems)"
+        fi
+        ;;
+      create)
+        local name="${2:-}"
+        [ -z "$name" ] && { echo "usage: vibe-address subsystem create <name>"; exit 1; }
+        local sdir="$subsys_dir/$name"
+        if [ -d "$sdir" ]; then
+          echo "subsystem '$name' already exists"
+        else
+          mkdir -p "$sdir"
+          cat > "$sdir/config" <<EOF
+name=$name
+enabled=1
+created=$(date +%s)
+EOF
+          echo "subsystem '$name' created"
+        fi
+        ;;
+      delete|rm)
+        local name="${2:-}"
+        [ -z "$name" ] && { echo "usage: vibe-address subsystem delete <name>"; exit 1; }
+        local sdir="$subsys_dir/$name"
+        if [ -d "$sdir" ]; then
+          rm -rf "$sdir"
+          echo "subsystem '$name' deleted"
+        else
+          echo "subsystem '$name' not found"
+        fi
+        ;;
+      show)
+        local name="${2:-}"
+        [ -z "$name" ] && { echo "usage: vibe-address subsystem show <name>"; exit 1; }
+        local sdir="$subsys_dir/$name"
+        if [ -f "$sdir/config" ]; then
+          echo "=== subsystem: $name ==="
+          cat "$sdir/config"
+        else
+          echo "subsystem '$name' not found"
+        fi
+        ;;
+      *)
+        echo "Usage: vibe-address subsystem <list|create|delete|show> [name]"
+        ;;
+    esac
     ;;
   --version|-v)
     echo "vibe-address $VIBE_VERSION (engine $VIBE_FORMAT)"
