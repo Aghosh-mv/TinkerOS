@@ -96,6 +96,7 @@ TinkerOS Vibe Addressing Engine  (pure algorithms — no AI)
   record        TYPE SOURCE PATH [FP] [CATPATH] [META]
   watch         register an OS event connector (tab/download/search/file)
   ask           "memory phrase"  -> ranked results table (Tab+F7 session)
+  remember      "phrase"         -> save a manual note as a USER event
   planner       "memory phrase"  -> show the compiled query plan
   delete        "memory phrase"  -> stage matched files (REVIEW/ITEM/3 buttons)
   confirm       PID              -> execute a staged delete (only after OK)
@@ -144,6 +145,14 @@ case "${1:-}" in
   ask-complete)
     ve_session_init
     ve_connectors_ask_dialog
+    ;;
+  remember)
+    shift
+    local phrase="${*:-}"
+    [ -z "$phrase" ] && { echo "usage: vibe-address remember \"phrase\""; exit 1; }
+    ve_session_init
+    ve_ingest_record USER "manual" "note:$(date +%s)" "" "notes:remember" "user-note:$phrase"
+    echo "Remembered: $phrase"
     ;;
   ask|find|query)
     shift

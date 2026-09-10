@@ -259,9 +259,21 @@ ve_connectors_ask_dialog() {
   if [ "$n" -le 1 ] 2>/dev/null && [ "${#typed}" -ge 3 ]; then
     picks=$("$vah" markov complete "$typed" 3 2>/dev/null || true)
     if [ -n "$picks" ]; then
-      result=$(echo "$picks" | {
+      # build completion list with confidence percentages
+      local conf_lines=""
+      while IFS= read -r p; do
+        [ -z "$p" ] && continue
+        local cconf
+        cconf=$("$vah" markov chain_confident "$p" 2 2>/dev/null | tail -1 | \
+          awk -F'[ ]' '{for(i=NF;i>=1;i--) if($i ~ /^[0-9]+%$/) {print $i; exit}}' || true)
+        [ -z "$cconf" ] && cconf="0%"
+        conf_lines="${conf_lines}${p} (${cconf})
+"
+      done <<< "$picks"
+      result=$(echo "$conf_lines" | {
         line=0
         while IFS= read -r p; do
+          [ -z "$p" ] && continue
           printf '%s\n%s\n' "$line" "$p"
           line=$((line + 1))
         done
@@ -270,6 +282,23 @@ ve_connectors_ask_dialog() {
           --column="" --column="Phrase" 2>/dev/null | tail -1 || true)
       if [ -n "$result" ] && [ "$result" != "FALSE" ]; then
         typed="$result"
+        # strip trailing confidence annotation for querying
+        typed="${typed% (*}"
+        # offer chain extension: extend by 2 more steps
+        local extended
+        extended=$("$vah" markov chain "$typed" 2 2>/dev/null || true)
+        if [ -n "$extended" ] && [ "$extended" != "$typed" ]; then
+          local ext_result
+          ext_result=$(zenity --list --title="Extend chain?" \
+              --text="Extend this completion?" \
+              --column="" --column="Option" \
+              "Keep: $typed" \
+              "Extend: $extended" 2>/dev/null | tail -1 || true)
+          if [ -n "$ext_result" ] && [ "$ext_result" != "FALSE" ]; then
+            typed="${ext_result#Extend: }"
+            typed="${typed#Keep: }"
+          fi
+        fi
       fi
     fi
   fi
