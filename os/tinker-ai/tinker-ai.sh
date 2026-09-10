@@ -490,6 +490,10 @@ case "${1:-help}" in
   disconnect) shift; cmd_disconnect "$@" ;;
   connections) cmd_connections ;;
   subsystem) shift; cmd_subsystem "$@" ;;
+  remind)    shift; cmd_remind "$@" ;;
+  reminders) cmd_reminders ;;
+  summarize) shift; cmd_summarize "$@" ;;
+  draft)     shift; cmd_draft "$@" ;;
   status)    cmd_status ;;
   help|*)
     cat <<EOF
@@ -501,6 +505,10 @@ Usage:
   tinker-ai disconnect <app>       Disconnect from an app
   tinker-ai connections            List active connections
   tinker-ai subsystem <name>       Scope to a subsystem (or "all")
+  tinker-ai remind "<msg>" <when>  Set a reminder (30m, 2h, tomorrow 9am)
+  tinker-ai reminders              List pending reminders
+  tinker-ai summarize <path>       Summarize a file or directory
+  tinker-ai draft "<topic>"        Draft a short message on a topic
   tinker-ai status                 Show AI status
 
 The 'ask' command searches:
@@ -512,3 +520,72 @@ Output is valid HTML with glassmorphism CSS for GUI rendering.
 EOF
     ;;
 esac
+
+
+# --- productivity hooks ---
+
+cmd_remind() {
+  local msg="$1"
+  local when="$2"  # "30m", "2h", "tomorrow 9am", "2026-09-11 14:00"
+  local id
+  id="r_$(date +%s)_$$"
+  local dir="$TINKER_AI_HOME/reminders"
+  mkdir -p "$dir"
+  cat > "$dir/$id.json" <<EOJSON
+{"id":"$id","message":"$msg","when":"$when","created":"$(date -Iseconds)","status":"pending"}
+EOJSON
+  echo "<div class='ai-card ok'><div class='ai-title'>reminder set</div>"
+  echo "<div class='ai-body'>$msg — $when</div>"
+  echo "<div class='ai-action'><button onclick='dismiss'>ok</button></div></div>"
+}
+
+cmd_reminders() {
+  local dir="$TINKER_AI_HOME/reminders"
+  mkdir -p "$dir"
+  echo "<div class='ai-card'><div class='ai-title'>pending reminders</div><div class='ai-body'>"
+  local found=0
+  for f in "$dir"/*.json; do
+    [ -f "$f" ] || continue
+    local msg when status
+    msg=$(python3 -c "import json; print(json.load(open('$f'))['message'])" 2>/dev/null)
+    when=$(python3 -c "import json; print(json.load(open('$f'))['when'])" 2>/dev/null)
+    status=$(python3 -c "import json; print(json.load(open('$f'))['status'])" 2>/dev/null)
+    [ "$status" = "pending" ] || continue
+    echo "<br>• $msg — <i>$when</i>"
+    found=1
+  done
+  [ "$found" -eq 0 ] && echo "<br>no pending reminders"
+  echo "</div></div>"
+}
+
+cmd_summarize() {
+  local target="$1"
+  local content=""
+  if [ -f "$target" ]; then
+    content=$(head -100 "$target" 2>/dev/null)
+  elif [ -d "$target" ]; then
+    content=$(find "$target" -maxdepth 2 -type f -name "*.md" -o -name "*.txt" | head -10 | while read f; do echo "=== $(basename "$f") ==="; head -20 "$f"; done)
+  else
+    echo "<div class='ai-card warn'><div class='ai-title'>not found</div><div class='ai-body'>$target</div></div>"
+    return
+  fi
+  local words=$(echo "$content" | wc -w)
+  local lines=$(echo "$content" | wc -l)
+  echo "<div class='ai-card'><div class='ai-title'>summary: $(basename "$target")</div>"
+  echo "<div class='ai-body'>$lines lines, $words words"
+  echo "<br><br>first 5 lines:"
+  echo "$content" | head -5 | sed 's/</\&lt;/g' | sed 's/^/<br>/'
+  echo "</div><div class='ai-action'><button onclick='dismiss'>ok</button></div></div>"
+}
+
+cmd_draft() {
+  local topic="$1"
+  echo "<div class='ai-card'><div class='ai-title'>draft: $topic</div>"
+  echo "<div class='ai-body'>"
+  echo "<b>subject:</b> $topic"
+  echo "<br><br>hi,"
+  echo "<br><br>i wanted to follow up regarding $topic. please let me know your thoughts."
+  echo "<br><br>best,<br>tinker"
+  echo "</div><div class='ai-action'><button onclick='dismiss'>ok</button></div></div>"
+}
+
