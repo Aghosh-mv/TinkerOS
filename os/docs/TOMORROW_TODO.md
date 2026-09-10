@@ -32,9 +32,23 @@
    file manager, calendar, email, notes, media player); user can `tinker-ai connect <app>`
    or `tinker-ai disconnect <app>`; each connection gives the AI access to that app's
    data/state/context.
-3. **TinkerAI: rich display** — cards, links, multiple fonts, sizes, colors, styles in the
-   response UI; uses a terminal/markdown renderer with ANSI colors + optional zenity/graphical
-   overlay for rich formatting.
-4. **TinkerAI: productivity hooks** — auto-suggest next actions, schedule reminders, draft
+3. **TinkerAI: glassmorphism premium GUI** — like Searchie's overlay (searchie-gui.py):
+   - Small popup (spotlight-style, 680px wide, top-center) or expandable side panel
+   - Full glassmorphism: frosted glass, real blur, transparency (WA_TranslucentBackground),
+     rounded corners (18px radius), cold edge glow, subtle shadows
+   - Brand row: logo + "TINKER AI" + subtitle + hotkey hint
+   - Chat-style input field (like Searchie's search field, 20pt light weight)
+   - Rich response area with cards, links, code blocks, images
+   - Expandable: small popup → side panel → full-screen app (3 modes)
+   - Always-on-top frameless window, keyboard-driven (Esc to close, arrows to navigate)
+   - Glass tones: GLASS_BG=(26,30,42,170), GLASS_GLOW=(200,215,255,200),
+     GLASS_TXT=(240,244,255,235), GLASS_OK=(120,220,170), GLASS_WARN=(255,168,120)
+   - Terminal-native fallback for SSH/headless (ANSI colors + markdown)
+   - Activation: `Ctrl+Alt+Gr` or voice (future)
+4. **TinkerAI: rich display** — cards (title + body + action buttons), clickable links,
+   multiple fonts (Ubuntu Sans, Inter, monospace), sizes (12-24pt), colors (glass accent
+   palette: blue/green/amber), styles (bold headers, italic quotes, code blocks with syntax
+   highlighting); uses QTextBrowser or custom painted widgets for rich rendering.
+5. **TinkerAI: productivity hooks** — auto-suggest next actions, schedule reminders, draft
    emails, summarize documents, generate code, brainstorm ideas; all from within the TinkerOS
-   desktop (Ctrl+Alt+Gr or voice activation).
+   desktop.
