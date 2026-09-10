@@ -10,10 +10,10 @@
 
 | Option | Link |
 |---|---|
-| **Primary ISO (SourceForge Global CDN)** | [Download TinkerOS-v1.2.iso](https://sourceforge.net/projects/tinkeros/files/TinkerOS-1.2/TinkerOS-v1.2.iso/download) |
-| **SHA256** | `172f45204490dcba62c3cf94d9f99d713092dab23842f3e4fe8e00d056fa40b0` |
+| **Primary ISO (SourceForge Global CDN)** | [Download TinkerOS-v1.3.iso](https://sourceforge.net/projects/tinkeros/files/v1.3/TinkerOS-v1.3.iso/download) |
+| **SHA256** | `82bd9012fdd21ad96f8b1dabc60992ca07928807a5fe07db393e58e01a1999b6` |
 
-> The ISO is ~8.3 GB. Verify the SHA256 after download.
+> The ISO is ~7.6 GB. Verify the SHA256 after download.
 
 ---
 
