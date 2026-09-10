@@ -125,11 +125,13 @@ echo ""
 
 # --- step 6: upload to SourceForge ---
 echo "[6/7] uploading to SourceForge..."
-sftp -o BatchMode=yes -o ConnectTimeout=15 -i "$KEY" "${SF_USER}@${SF_HOST}" <<EOF
-mkdir /home/frs/project/tinkeros/v${NEW_VER}
+# scp handles large files better than sftp (no broken pipe on >2GB)
+scp -o BatchMode=yes -o ConnectTimeout=30 -i "$KEY" \
+  "$ISO_PATH" "${ISO_PATH}.sha256" \
+  "${SF_USER}@${SF_HOST}:/home/frs/project/tinkeros/v${NEW_VER}/" 2>&1 | tail -3
+echo "  verify:"
+sftp -o BatchMode=yes -i "$KEY" "${SF_USER}@${SF_HOST}" <<EOF 2>&1 | grep -E "iso|sha"
 cd /home/frs/project/tinkeros/v${NEW_VER}
-put $ISO_PATH
-put ${ISO_PATH}.sha256
 ls -la
 EOF
 echo ""
