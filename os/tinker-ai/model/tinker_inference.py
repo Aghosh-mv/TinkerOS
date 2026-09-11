@@ -95,18 +95,18 @@ class TinkerInference:
         except:
             return None
     
-    def answer(self, question, prefer_local=True):
-        """Smart inference: try local first, fall back to Ollama"""
-        # Try local neural network first
-        if prefer_local and self.has_local_model():
-            result = self.generate_local(question)
-            if result and result['answer']:
-                return result
-        
-        # Fall back to Ollama
+    def answer(self, question, prefer_local=False):
+        """Smart inference: Ollama primary, local model fallback"""
+        # Ollama is the primary brain (real answers)
         ollama_result = self.generate_ollama(question)
         if ollama_result:
             return ollama_result
+        
+        # Fall back to local neural network
+        if self.has_local_model():
+            result = self.generate_local(question)
+            if result and result['answer']:
+                return result
         
         return {
             'answer': "I'm not sure how to answer that. Could you rephrase?",
