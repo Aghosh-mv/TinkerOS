@@ -263,8 +263,8 @@ cmd_ask() {
     html_header
     card_open
     card_title "Tinker AI"
-    card_body "Ask me anything — I answer questions, write code, translate, summarize, and much more."
-    card_secondary "Type any question and press Enter."
+    card_body "Hey! I'm TinkerAI. Ask me anything — I can answer questions, write code, translate text, help with productivity, control your computer, and a lot more. What's on your mind?"
+    card_secondary "Try something like: 'Summarize this article' or 'Write me a Python script' or 'What's the weather?'"
     card_close
     html_footer
     return 0
@@ -322,13 +322,13 @@ print(text)
     fi
   fi
 
-  # === FALLBACK: Specialized modules when Ollama is unavailable ===
+  # === FALLBACK: Specialized modules with CONVERSATIONAL responses ===
   case "$intent" in
     greeting)
       card_open
-      card_title "Hey there!"
-      card_body "I'm TinkerAI, your AI assistant. I can answer questions, write code, help with productivity, and much more. What would you like to know?"
-      card_secondary "Try: 'What is quantum computing?' or 'Write me a Python script'"
+      card_title "Hey there! 👋"
+      card_body "I'm TinkerAI, your built-in assistant. I'm here to help with whatever you need — whether that's answering questions, writing something, coding, managing your schedule, or just chatting. What can I do for you?"
+      card_secondary "Try asking me anything!"
       card_close
       ;;
 
@@ -340,9 +340,9 @@ print(text)
       local web_results
       web_results=$(ai_web_search "$target" 3 2>/dev/null || echo "")
       if [ -n "$web_results" ]; then
-        card_body "<pre style='white-space:pre-wrap;font-size:12pt;'>${web_results}</pre>"
+        card_body "I found some information about that. Here's what I got:<br><br><pre style='white-space:pre-wrap;font-size:12pt;'>${web_results}</pre>"
       else
-        card_body "I can provide a better answer if you start Ollama: <code>ollama serve</code>"
+        card_body "Hmm, I'm not able to look that up right now. If you start Ollama with <code>ollama serve</code>, I can give you much better answers. In the meantime, try asking me something else — I'm good with code, writing, math, and TinkerOS questions!"
       fi
       card_close
       ;;
@@ -351,10 +351,10 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "create" 2>/dev/null || echo "$query")
       card_open
-      card_title "✍️ Creating: $target"
+      card_title "✍️ Writing: $target"
       local result
-      result=$(ai_text_generate "$target" 2>&1 || echo "Could not generate content.")
-      card_code "" "$result"
+      result=$(ai_text_generate "$target" 2>&1 || echo "I couldn't generate that, but I can try something else.")
+      card_body "$result"
       card_close
       ;;
 
@@ -362,10 +362,10 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "search" 2>/dev/null || echo "$query")
       card_open
-      card_title "🌐 Search: $target"
+      card_title "🌐 Searching: $target"
       local result
-      result=$(ai_web_search "$target" 5 2>&1 || echo "Search unavailable")
-      card_body "<pre style='white-space:pre-wrap;font-size:12pt;'>${result}</pre>"
+      result=$(ai_web_search "$target" 5 2>&1 || echo "Search isn't available right now.")
+      card_body "Here's what I found:<br><br><pre style='white-space:pre-wrap;font-size:12pt;'>${result}</pre>"
       card_close
       ;;
 
@@ -373,21 +373,18 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "code" 2>/dev/null || echo "$query")
       card_open
-      card_title "💻 Code: $target"
+      card_title "💻 Code help"
       local result
-      result=$(ai_code_debug "$target" 2>&1 || echo "Could not analyze code.")
-      card_code "" "$result"
+      result=$(ai_code_debug "$target" 2>&1 || echo "I couldn't analyze that code. Can you paste it again?")
+      card_body "$result"
       card_close
       ;;
 
     media)
       card_open
       card_title "🎵 Media"
-      card_body "For media processing, use the direct commands:"
-      card_secondary "• tinker-ai image &lt;path&gt; — recognize image"
-      card_secondary "• tinker-ai ocr &lt;path&gt; — extract text from image"
-      card_secondary "• tinker-ai audio &lt;path&gt; — recognize audio"
-      card_secondary "• tinker-ai tts &lt;text&gt; — text to speech"
+      card_body "I can help with images, audio, and video! Just tell me what you need — like 'recognize this image' or 'read this text from a photo' or 'transcribe this audio clip'."
+      card_secondary "Or use: tinker-ai image &lt;path&gt; · tinker-ai ocr &lt;path&gt; · tinker-ai tts &lt;text&gt;"
       card_close
       ;;
 
@@ -397,16 +394,16 @@ print(text)
       card_open
       card_title "📝 Summary"
       local result
-      result=$(ai_text_summarize "$target" 5 2>&1 || echo "Could not summarize.")
+      result=$(ai_text_summarize "$target" 5 2>&1 || echo "I couldn't summarize that. Try pasting the text or giving me a file path.")
       card_body "$result"
       card_close
       ;;
 
     translate)
       card_open
-      card_title "🌍 Translate"
-      card_body "For translation, use: tinker-ai translate &lt;text&gt; &lt;lang&gt;"
-      card_secondary "Supported: es, fr, de, ja, zh"
+      card_title "🌍 Translation"
+      card_body "Sure, I can translate that! Just tell me what language you want it in — I support Spanish, French, German, Japanese, Chinese, and more."
+      card_secondary "Example: 'Translate hello world to Spanish'"
       card_close
       ;;
 
@@ -414,20 +411,18 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "math" 2>/dev/null || echo "$query")
       card_open
-      card_title "🧮 Calculate"
+      card_title "🧮 Math"
       local result
-      result=$(ai_math_calc "$target" 2>&1 || echo "Could not compute.")
-      card_code "" "$result"
+      result=$(ai_math_calc "$target" 2>&1 || echo "I couldn't calculate that. Can you double-check the numbers?")
+      card_body "$result"
       card_close
       ;;
 
     schedule)
       card_open
-      card_title "📅 Schedule"
-      card_body "For scheduling, use the direct commands:"
-      card_secondary "• tinker-ai todo &lt;text&gt; [priority]"
-      card_secondary "• tinker-ai cal &lt;title&gt; &lt;date&gt; [time]"
-      card_secondary "• tinker-ai today — today's schedule"
+      card_title "📅 Scheduling"
+      card_body "I can help you manage your time! I can set reminders, create to-do lists, or help you plan your day. Just tell me what you need — like 'remind me to call mom at 3pm' or 'add buy groceries to my todo list'."
+      card_secondary "Or use: tinker-ai remind &lt;msg&gt; &lt;time&gt; · tinker-ai todo add &lt;text&gt;"
       card_close
       ;;
 
@@ -437,18 +432,16 @@ print(text)
       card_open
       card_title "⚙️ Settings"
       local result
-      result=$(ai_device_settings "$target" 2>&1 || echo "Could not change settings.")
+      result=$(ai_device_settings "$target" 2>&1 || echo "I couldn't change that setting. Can you be more specific?")
       card_body "$result"
       card_close
       ;;
 
     commerce)
       card_open
-      card_title "🛒 Commerce"
-      card_body "For shopping and bookings, use:"
-      card_secondary "• tinker-ai order &lt;item&gt; &lt;price&gt;"
-      card_secondary "• tinker-ai book &lt;type&gt; &lt;name&gt; &lt;date&gt;"
-      card_secondary "• tinker-ai wallet — check balance"
+      card_title "🛒 Shopping"
+      card_body "I can help you track orders, make bookings, or check your wallet balance. Just tell me what you need — like 'track my order' or 'book a table for two' or 'what's my balance?'"
+      card_secondary "Or use: tinker-ai order &lt;item&gt; · tinker-ai book &lt;type&gt; &lt;name&gt; · tinker-ai wallet"
       card_close
       ;;
 
@@ -458,48 +451,48 @@ print(text)
 
     thanks)
       card_open
-      card_title "You're welcome!"
-      card_body "Happy to help. Let me know if you need anything else."
+      card_title "You're welcome! 😊"
+      card_body "Happy to help! I'm always here if you need anything else — just ask."
       card_close
       ;;
 
     *)
-      # Fallback: search local context
+      # Fallback: try to search, but give a conversational response
       local vibe_results
-      vibe_results=$(search_vibe_index "$query")
+      vibe_results=$(search_vibe_index "$query" 2>/dev/null)
       local file_results
-      file_results=$(search_local_files "$query")
+      file_results=$(search_local_files "$query" 2>/dev/null)
 
       card_open
-      card_title "🔍 $query"
+      card_title "🤔 $query"
 
-      if [ -n "$vibe_results" ]; then
-        while IFS= read -r line; do
-          if [[ "$line" == RESULT\|* ]]; then
-            IFS='|' read -ra parts <<< "$line"
-            if [ ${#parts[@]} -ge 5 ]; then
-              local fpath="${parts[2]// /}"
-              local score="${parts[1]// /}"
-              local fname
-              fname=$(basename "$fpath")
-              card_secondary "<a href=\"file://${fpath}\">${fname}</a> — ${score}% match"
+      if [ -n "$vibe_results" ] || [ -n "$file_results" ]; then
+        card_body "I found some things that might be related to what you're asking about:"
+        if [ -n "$vibe_results" ]; then
+          while IFS= read -r line; do
+            if [[ "$line" == RESULT\|* ]]; then
+              IFS='|' read -ra parts <<< "$line"
+              if [ ${#parts[@]} -ge 5 ]; then
+                local fpath="${parts[2]// /}"
+                local score="${parts[1]// /}"
+                local fname
+                fname=$(basename "$fpath")
+                card_secondary "<a href=\"file://${fpath}\">${fname}</a> — ${score}% match"
+              fi
             fi
-          fi
-        done <<< "$vibe_results"
-      fi
-
-      if [ -n "$file_results" ]; then
-        while IFS= read -r fpath; do
-          [ -z "$fpath" ] && continue
-          local fname
-          fname=$(basename "$fpath")
-          card_secondary "<a href=\"file://${fpath}\">${fname}</a>"
-        done <<< "$file_results"
-      fi
-
-      if [ -z "$vibe_results" ] && [ -z "$file_results" ]; then
-        card_body "I can help with questions, code, writing, math, translations, device control, and more."
-        card_secondary "Try: tinker-ai help to see all commands."
+          done <<< "$vibe_results"
+        fi
+        if [ -n "$file_results" ]; then
+          while IFS= read -r fpath; do
+            [ -z "$fpath" ] && continue
+            local fname
+            fname=$(basename "$fpath")
+            card_secondary "<a href=\"file://${fpath}\">${fname}</a>"
+          done <<< "$file_results"
+        fi
+      else
+        card_body "I'm not sure I understand what you're looking for. I'm pretty good with questions about TinkerOS, writing, code, math, translations, and controlling your computer. Could you try rephrasing that, or let me know what kind of help you need?"
+        card_secondary "Type 'help' to see everything I can do."
       fi
 
       card_close
