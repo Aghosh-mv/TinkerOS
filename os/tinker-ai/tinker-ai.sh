@@ -906,6 +906,8 @@ case "${1:-help}" in
   focus)         shift; agent_focus_window "$@" ;;
   type)          shift; agent_type "$@" ;;
   key)           shift; agent_key "$@" ;;
+  type-in)       shift; agent_type_in "$@" ;;
+  key-in)        shift; agent_key_in "$@" ;;
   click)         shift; agent_click "$@" ;;
   move)          shift; agent_move "$@" ;;
   scroll)        shift; agent_scroll "$@" ;;

@@ -168,16 +168,46 @@ agent_focus_window() {
   fi
 }
 
-# Type text
+# Type text (optionally into specific window — no focus steal)
 agent_type() {
   local text="$1"
-  xdotool type --clearmodifiers "$text" 2>/dev/null || echo "Type failed"
+  local window_title="$2"
+  
+  if [ -n "$window_title" ]; then
+    # Type into specific window — no focus steal
+    local wid=$(xdotool search --name "$window_title" 2>/dev/null | head -1)
+    if [ -n "$wid" ]; then
+      xdotool type --window "$wid" --clearmodifiers "$text" 2>/dev/null
+      echo "Typed into '$window_title'"
+    else
+      echo "Window not found: $window_title"
+      return 1
+    fi
+  else
+    # Type into focused window (last resort)
+    xdotool type --clearmodifiers "$text" 2>/dev/null || echo "Type failed"
+  fi
 }
 
-# Press a key
+# Press a key (optionally into specific window — no focus steal)
 agent_key() {
   local key="$1"
-  xdotool key --clearmodifiers "$key" 2>/dev/null || echo "Key failed"
+  local window_title="$2"
+  
+  if [ -n "$window_title" ]; then
+    # Press key in specific window — no focus steal
+    local wid=$(xdotool search --name "$window_title" 2>/dev/null | head -1)
+    if [ -n "$wid" ]; then
+      xdotool key --window "$wid" "$key" 2>/dev/null
+      echo "Pressed $key in '$window_title'"
+    else
+      echo "Window not found: $window_title"
+      return 1
+    fi
+  else
+    # Press key in focused window (last resort)
+    xdotool key --clearmodifiers "$key" 2>/dev/null || echo "Key failed"
+  fi
 }
 
 # Mouse click at coordinates

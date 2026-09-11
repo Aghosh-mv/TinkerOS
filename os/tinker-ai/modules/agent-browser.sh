@@ -115,6 +115,7 @@ agent_browser_tabs() {
 }
 
 # Search the web — opens Chrome, types query, hits Enter
+# Types ONLY into Chrome window, never steals focus from user
 agent_search_up() {
   local query="$1"
   if [ -z "$query" ]; then
@@ -125,7 +126,7 @@ agent_search_up() {
   # Find Chrome window
   local wid=$(xdotool search --name "Google Chrome" 2>/dev/null | head -1)
   
-  # If no Chrome window, open one
+  # If no Chrome window, open one in background
   if [ -z "$wid" ]; then
     google-chrome --new-window "https://www.google.com" &>/dev/null &
     sleep 3
@@ -133,23 +134,53 @@ agent_search_up() {
   fi
 
   if [ -n "$wid" ]; then
-    # Focus Chrome
-    xdotool windowactivate "$wid" 2>/dev/null
-    sleep 0.5
-
-    # Ctrl+L to focus address bar
-    xdotool key ctrl+l
+    # Type DIRECTLY into Chrome window — no focus steal
+    xdotool key --window "$wid" ctrl+l
     sleep 0.3
-
-    # Type the search query
-    xdotool type --clearmodifiers "$query"
+    xdotool type --window "$wid" --clearmodifiers "$query"
     sleep 0.3
-
-    # Press Enter
-    xdotool key Return
-    echo "Searched: $query"
+    xdotool key --window "$wid" Return
+    echo "Searched: $query (window $wid)"
   else
     echo "Could not find Chrome window"
+    return 1
+  fi
+}
+
+# Type text into a specific window by title (no focus steal)
+agent_type_in() {
+  local window_title="$1"
+  local text="$2"
+  if [ -z "$window_title" ] || [ -z "$text" ]; then
+    echo "Usage: type-in <window-title> <text>"
+    return 1
+  fi
+
+  local wid=$(xdotool search --name "$window_title" 2>/dev/null | head -1)
+  if [ -n "$wid" ]; then
+    xdotool type --window "$wid" --clearmodifiers "$text"
+    echo "Typed into '$window_title': $text"
+  else
+    echo "Window not found: $window_title"
+    return 1
+  fi
+}
+
+# Press key in a specific window (no focus steal)
+agent_key_in() {
+  local window_title="$1"
+  local key="$2"
+  if [ -z "$window_title" ] || [ -z "$key" ]; then
+    echo "Usage: key-in <window-title> <key>"
+    return 1
+  fi
+
+  local wid=$(xdotool search --name "$window_title" 2>/dev/null | head -1)
+  if [ -n "$wid" ]; then
+    xdotool key --window "$wid" "$key"
+    echo "Pressed $key in '$window_title'"
+  else
+    echo "Window not found: $window_title"
     return 1
   fi
 }
