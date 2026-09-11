@@ -113,3 +113,43 @@ agent_browser_tabs() {
   # List all browser windows
   wmctrl -l 2>/dev/null | grep -iE "firefox|chrome|chromium|brave" || echo "No browser windows found"
 }
+
+# Search the web — opens Chrome, types query, hits Enter
+agent_search_up() {
+  local query="$1"
+  if [ -z "$query" ]; then
+    echo "Usage: search-up <query>"
+    return 1
+  fi
+
+  # Find Chrome window
+  local wid=$(xdotool search --name "Google Chrome" 2>/dev/null | head -1)
+  
+  # If no Chrome window, open one
+  if [ -z "$wid" ]; then
+    google-chrome --new-window "https://www.google.com" &>/dev/null &
+    sleep 3
+    wid=$(xdotool search --name "Google Chrome" 2>/dev/null | head -1)
+  fi
+
+  if [ -n "$wid" ]; then
+    # Focus Chrome
+    xdotool windowactivate "$wid" 2>/dev/null
+    sleep 0.5
+
+    # Ctrl+L to focus address bar
+    xdotool key ctrl+l
+    sleep 0.3
+
+    # Type the search query
+    xdotool type --clearmodifiers "$query"
+    sleep 0.3
+
+    # Press Enter
+    xdotool key Return
+    echo "Searched: $query"
+  else
+    echo "Could not find Chrome window"
+    return 1
+  fi
+}

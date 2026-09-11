@@ -911,6 +911,7 @@ case "${1:-help}" in
   scroll)        shift; agent_scroll "$@" ;;
 
   # --- agent: browser ---
+  search-up)      shift; agent_search_up "$@" ;;
   browser-history) shift; agent_browser_history "$@" ;;
   browser-open)  shift; agent_browser_open "$@" ;;
   browser-replay) shift; agent_browser_replay "$@" ;;
