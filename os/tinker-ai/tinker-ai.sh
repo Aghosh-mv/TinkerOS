@@ -34,6 +34,10 @@ DEFAULT_CONNECTIONS="browser terminal editor file-manager email calendar notes"
 mkdir -p "${AI_CONNECTIONS}"
 mkdir -p "$(dirname "${AI_LOG}")"
 
+# ---- source all modules ---------------------------------------------------
+MODULE_DIR="${AI_DIR}/modules"
+[ -d "$MODULE_DIR" ] && for m in "$MODULE_DIR"/*.sh; do [ -f "$m" ] && source "$m"; done
+
 # ---------------------------------------------------------------------------
 #  HTML card builder helpers
 # ---------------------------------------------------------------------------
@@ -259,8 +263,8 @@ cmd_ask() {
     html_header
     card_open
     card_title "Tinker AI"
-    card_body "Ask me anything — I'll search your local files, command history, and index for context."
-    card_secondary "Type a question and press Enter."
+    card_body "Ask me anything — I answer questions, write code, translate, summarize, and much more."
+    card_secondary "Type any question and press Enter."
     card_close
     html_footer
     return 0
@@ -271,116 +275,391 @@ cmd_ask() {
   local connections
   connections=$(get_connections_list)
 
+  # --- NLU intent detection ---
+  local intent
+  intent=$(ai_nlu_intent "$query" 2>/dev/null || echo "unknown")
+
   html_header
-  echo "<div class=\"section-label\">query</div>"
-  card_open
-  card_title "🔍 $query"
-  card_close
 
-  # --- 1. Search the vibe-address index ---
-  local vibe_results
-  vibe_results=$(search_vibe_index "$query")
-
-  if [ -n "$vibe_results" ]; then
-    local hit_count=0
-    local vibe_html=""
-    while IFS= read -r line; do
-      if [[ "$line" == RESULT\|* ]]; then
-        IFS='|' read -ra parts <<< "$line"
-        if [ ${#parts[@]} -ge 5 ]; then
-          local score="${parts[1]// /}"
-          local fpath="${parts[2]// /}"
-          local cat="${parts[3]// /}"
-          local ago="${parts[4]// /}"
-          local fname
-          fname=$(basename "$fpath")
-          vibe_html+="<div class=\"card-body\" style=\"margin:4px 0;\">"
-          vibe_html+="<a href=\"file://${fpath}\">${fname}</a>"
-          vibe_html+=" <span style=\"color:rgb(150,165,200);font-size:12pt;\">${cat} · ${ago} · ${score}% match</span>"
-          vibe_html+="</div>"
-          hit_count=$((hit_count + 1))
-        fi
-      fi
-    done <<< "$vibe_results"
-
-    if [ "$hit_count" -gt 0 ]; then
+  # === PRIMARY: Use AI Engine (Ollama LLM) for real answers ===
+  if ai_ollama_available 2>/dev/null; then
+    local answer
+    answer=$(ai_smart_answer "$query" 2>/dev/null)
+    if [ -n "$answer" ]; then
+      # Render as rich markdown card
+      local html_answer
+      html_answer=$(echo "$answer" | python3 -c "
+import sys, re, html as h
+text = sys.stdin.read()
+text = h.escape(text)
+# Bold
+text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', text)
+# Italic
+text = re.sub(r'\*(.+?)\*', r'<i>\1</i>', text)
+# Code blocks
+text = re.sub(r'\`\`\`(\w*)\n(.*?)\`\`\`', lambda m: f'<pre style=\"background:#0d1117;padding:12px;border-radius:8px;color:#c9d1d9;font-size:12px;overflow-x:auto;white-space:pre-wrap;\">{m.group(2)}</pre>', text, flags=re.S)
+# Inline code
+text = re.sub(r'\`([^\`]+)\`', r'<code style=\"background:#21262d;padding:2px 6px;border-radius:4px;color:#c9d1d9;font-size:12px;\">\1</code>', text)
+# Headers
+text = re.sub(r'^### (.+)$', r'<h3 style=\"color:#c8d7ff;margin:12px 0 6px;\">\1</h3>', text, flags=re.M)
+text = re.sub(r'^## (.+)$', r'<h2 style=\"color:#c8d7ff;margin:16px 0 8px;\">\1</h2>', text, flags=re.M)
+text = re.sub(r'^# (.+)$', r'<h1 style=\"color:#c8d7ff;margin:20px 0 10px;\">\1</h1>', text, flags=re.M)
+# Lists
+text = re.sub(r'^- (.+)$', r'<li>\1</li>', text, flags=re.M)
+text = re.sub(r'^(\d+)\. (.+)$', r'<li>\2</li>', text, flags=re.M)
+# Line breaks
+text = text.replace('\n', '<br>')
+print(text)
+" 2>/dev/null || echo "$answer" | sed 's/</\&lt;/g; s/\n/<br>/g')
+      
       card_open
-      card_title "📚 Found in your index"
-      echo "$vibe_html"
-      card_buttons \
-        "$(btn_primary "Open top result" "open-first-result")" \
-        "$(btn "Search more" "search-more:${query}")" \
-        "$(btn "Copy results" "copy-results")"
+      card_title "🤖 TinkerAI"
+      card_body "<div style='line-height:1.7;'>${html_answer}</div>"
+      card_secondary "Model: ${OLLAMA_MODEL:-llama3.1:8b} · Intent: ${intent}"
       card_close
+      html_footer
+      return 0
     fi
   fi
 
-  # --- 2. Search local filesystem ---
-  local file_results
-  file_results=$(search_local_files "$query")
+  # === FALLBACK: Specialized modules when Ollama is unavailable ===
+  case "$intent" in
+    greeting)
+      card_open
+      card_title "Hey there!"
+      card_body "I'm TinkerAI, your AI assistant. I can answer questions, write code, help with productivity, and much more. What would you like to know?"
+      card_secondary "Try: 'What is quantum computing?' or 'Write me a Python script'"
+      card_close
+      ;;
 
-  if [ -n "$file_results" ]; then
-    card_open
-    card_title "📁 Local files"
-    while IFS= read -r fpath; do
-      [ -z "$fpath" ] && continue
-      local fname
-      fname=$(basename "$fpath")
-      local dir
-      dir=$(dirname "$fpath")
-      card_body "<a href=\"file://${fpath}\">${fname}</a> <span style=\"color:rgb(150,165,200);font-size:12pt;\">in ${dir}</span>"
-    done <<< "$file_results"
-    card_buttons \
-      "$(btn_primary "Open file" "open-file")" \
-      "$(btn "Copy path" "copy-path")"
-    card_close
-  fi
+    question)
+      local target
+      target=$(ai_nlu_target "$query" "question" 2>/dev/null || echo "$query")
+      card_open
+      card_title "🔍 $query"
+      local web_results
+      web_results=$(ai_web_search "$target" 3 2>/dev/null || echo "")
+      if [ -n "$web_results" ]; then
+        card_body "<pre style='white-space:pre-wrap;font-size:12pt;'>${web_results}</pre>"
+      else
+        card_body "I can provide a better answer if you start Ollama: <code>ollama serve</code>"
+      fi
+      card_close
+      ;;
 
-  # --- 3. Search command history ---
-  local hist_results
-  hist_results=$(search_command_history "$query")
+    create)
+      local target
+      target=$(ai_nlu_target "$query" "create" 2>/dev/null || echo "$query")
+      card_open
+      card_title "✍️ Creating: $target"
+      local result
+      result=$(ai_text_generate "$target" 2>&1 || echo "Could not generate content.")
+      card_code "" "$result"
+      card_close
+      ;;
 
-  if [ -n "$hist_results" ]; then
-    card_open
-    card_title "⏱ Command history"
-    while IFS= read -r line; do
-      [ -z "$line" ] && continue
-      local trimmed
-      trimmed=$(echo "$line" | sed 's/^[ ]*[0-9]*[ ]*//' | cut -c1-100)
-      card_code "" "${trimmed}"
-    done <<< "$hist_results"
-    card_buttons "$(btn "Re-run command" "run-command")"
-    card_close
-  fi
+    search)
+      local target
+      target=$(ai_nlu_target "$query" "search" 2>/dev/null || echo "$query")
+      card_open
+      card_title "🌐 Search: $target"
+      local result
+      result=$(ai_web_search "$target" 5 2>&1 || echo "Search unavailable")
+      card_body "<pre style='white-space:pre-wrap;font-size:12pt;'>${result}</pre>"
+      card_close
+      ;;
 
-  # --- 4. If nothing found, provide helpful default ---
-  local total_results=$(( $(echo "$vibe_results" | grep -c "^RESULT|" 2>/dev/null || echo 0) + \
-                           $(echo "$file_results" | grep -c . 2>/dev/null || echo 0) + \
-                           $(echo "$hist_results" | grep -c . 2>/dev/null || echo 0) ))
+    code)
+      local target
+      target=$(ai_nlu_target "$query" "code" 2>/dev/null || echo "$query")
+      card_open
+      card_title "💻 Code: $target"
+      local result
+      result=$(ai_code_debug "$target" 2>&1 || echo "Could not analyze code.")
+      card_code "" "$result"
+      card_close
+      ;;
 
-  if [ "$total_results" -eq 0 ]; then
-    card_open
-    card_title "I can help with that"
-    card_body "I didn't find anything locally matching \"${query}\". Here are some things I can help with:"
-    echo '<div style="margin-top:10px;">'
-    card_secondary "• Search your documents and files"
-    card_secondary "• Look up command history"
-    card_secondary "• Manage connected apps"
-    card_secondary "• Navigate your project structure"
-    echo '</div>'
-    card_buttons \
-      "$(btn_primary "Try a broader search" "search-broad:${query}")" \
-      "$(btn "Show connections" "show-connections")" \
-      "$(btn "Help" "help")"
-    card_close
-  fi
+    media)
+      card_open
+      card_title "🎵 Media"
+      card_body "For media processing, use the direct commands:"
+      card_secondary "• tinker-ai image &lt;path&gt; — recognize image"
+      card_secondary "• tinker-ai ocr &lt;path&gt; — extract text from image"
+      card_secondary "• tinker-ai audio &lt;path&gt; — recognize audio"
+      card_secondary "• tinker-ai tts &lt;text&gt; — text to speech"
+      card_close
+      ;;
 
-  # --- 5. Footer with metadata ---
+    summarize)
+      local target
+      target=$(ai_nlu_target "$query" "summarize" 2>/dev/null || echo "$query")
+      card_open
+      card_title "📝 Summary"
+      local result
+      result=$(ai_text_summarize "$target" 5 2>&1 || echo "Could not summarize.")
+      card_body "$result"
+      card_close
+      ;;
+
+    translate)
+      card_open
+      card_title "🌍 Translate"
+      card_body "For translation, use: tinker-ai translate &lt;text&gt; &lt;lang&gt;"
+      card_secondary "Supported: es, fr, de, ja, zh"
+      card_close
+      ;;
+
+    math)
+      local target
+      target=$(ai_nlu_target "$query" "math" 2>/dev/null || echo "$query")
+      card_open
+      card_title "🧮 Calculate"
+      local result
+      result=$(ai_math_calc "$target" 2>&1 || echo "Could not compute.")
+      card_code "" "$result"
+      card_close
+      ;;
+
+    schedule)
+      card_open
+      card_title "📅 Schedule"
+      card_body "For scheduling, use the direct commands:"
+      card_secondary "• tinker-ai todo &lt;text&gt; [priority]"
+      card_secondary "• tinker-ai cal &lt;title&gt; &lt;date&gt; [time]"
+      card_secondary "• tinker-ai today — today's schedule"
+      card_close
+      ;;
+
+    settings)
+      local target
+      target=$(ai_nlu_target "$query" "settings" 2>/dev/null || echo "$query")
+      card_open
+      card_title "⚙️ Settings"
+      local result
+      result=$(ai_device_settings "$target" 2>&1 || echo "Could not change settings.")
+      card_body "$result"
+      card_close
+      ;;
+
+    commerce)
+      card_open
+      card_title "🛒 Commerce"
+      card_body "For shopping and bookings, use:"
+      card_secondary "• tinker-ai order &lt;item&gt; &lt;price&gt;"
+      card_secondary "• tinker-ai book &lt;type&gt; &lt;name&gt; &lt;date&gt;"
+      card_secondary "• tinker-ai wallet — check balance"
+      card_close
+      ;;
+
+    help)
+      cmd_help
+      ;;
+
+    thanks)
+      card_open
+      card_title "You're welcome!"
+      card_body "Happy to help. Let me know if you need anything else."
+      card_close
+      ;;
+
+    *)
+      # Fallback: search local context
+      local vibe_results
+      vibe_results=$(search_vibe_index "$query")
+      local file_results
+      file_results=$(search_local_files "$query")
+
+      card_open
+      card_title "🔍 $query"
+
+      if [ -n "$vibe_results" ]; then
+        while IFS= read -r line; do
+          if [[ "$line" == RESULT\|* ]]; then
+            IFS='|' read -ra parts <<< "$line"
+            if [ ${#parts[@]} -ge 5 ]; then
+              local fpath="${parts[2]// /}"
+              local score="${parts[1]// /}"
+              local fname
+              fname=$(basename "$fpath")
+              card_secondary "<a href=\"file://${fpath}\">${fname}</a> — ${score}% match"
+            fi
+          fi
+        done <<< "$vibe_results"
+      fi
+
+      if [ -n "$file_results" ]; then
+        while IFS= read -r fpath; do
+          [ -z "$fpath" ] && continue
+          local fname
+          fname=$(basename "$fpath")
+          card_secondary "<a href=\"file://${fpath}\">${fname}</a>"
+        done <<< "$file_results"
+      fi
+
+      if [ -z "$vibe_results" ] && [ -z "$file_results" ]; then
+        card_body "I can help with questions, code, writing, math, translations, device control, and more."
+        card_secondary "Try: tinker-ai help to see all commands."
+      fi
+
+      card_close
+      ;;
+  esac
+
+  # Footer
   card_open
-  card_source "subsystem: ${subsystem} · connected: ${connections:-none} · $(date '+%H:%M:%S')"
+  card_source "intent: ${intent} · subsystem: ${subsystem} · connected: ${connections:-none} · $(date '+%H:%M:%S')"
   card_close
 
   html_footer
+}
+
+cmd_help() {
+  cat <<'EOF'
+Tinker AI — your productivity assistant
+
+USAGE
+  tinker-ai <command> [args...]
+
+CORE
+  ask "<query>"              Ask anything (NLU-intent routed)
+  status                     Show AI status
+  help                       Show this help
+
+CONVERSATION & NLU
+  ask "<text>"               NLU classifies intent → smart routing
+  (intents: greeting, question, command, create, search, code, media,
+   summarize, translate, math, schedule, settings, commerce, help, thanks)
+
+TEXT & CONTENT
+  generate <topic> [type]    Generate text (email/essay/report/poem/story)
+  grammar <text>             Fix grammar and capitalization
+  paraphrase <text>          Rewrite with synonyms
+  brainstorm <topic>         Generate ideas
+  stats <text>               Word/char/sentence counts
+  summarize <path>           Summarize file content
+  draft <topic>              Draft a short message
+  email <to> <purpose> [tone]  Draft email (professional/casual/formal/persuasive/empathetic)
+  blog <topic> [style] [words]  Blog outline (informative/howto/opinion)
+  social <topic> [platform]   Social captions (twitter/instagram/linkedin/tiktok)
+  copywrite <product> [type]  Copywriting (tagline/description/ad)
+  poem <topic> [style]        Poetry (freeverse/haiku/limerick/sonnet/rap)
+  lyrics <topic>              Rap lyrics
+
+CODE
+  code <lang> [name]         Generate boilerplate (py/js/bash/c/rs/go/java)
+  debug <error-text>         Analyze error messages
+  explain <code>             Explain what code does
+  boilerplate <lang> [name]  Generate starter code
+  duck <problem>             Rubber-duck debugging
+
+MULTIMEDIA
+  image <path>               Recognize/describe an image
+  ocr <path>                 Extract text from image (tesseract)
+  genimage <prompt> [out]    Generate image from text prompt
+  audio <path>               Transcribe/analyze audio
+  tts <text> [out]           Text-to-speech
+  stt <path>                 Speech-to-text
+
+MATH
+  calc <expression>          Evaluate math (e.g. "2**10")
+  convert <val> <from> <to>  Unit conversion (km/mi, kg/lb, etc.)
+  analyze <csv>              Analyze CSV data
+  solve <equation>           Solve linear equations
+
+WEB
+  search <query> [n]         Search the web (DuckDuckGo)
+  fetch <url>                Fetch and extract URL text
+  extract <text>             Extract emails, URLs, phones, dates
+  factcheck <claim>          Search for claim verification
+
+LANGUAGE
+  detect <text>              Detect language of text
+  translate <text> [lang]    Translate (es/fr/de/ja/zh)
+  romanize <text>            Romanize CJK text
+
+PRODUCTIVITY
+  todo <text> [priority] [due]  Add a todo item
+  todos [filter]             List todos (all/pending/done)
+  done <id>                  Mark todo as complete
+  cal <title> <date> [time] [dur]  Add calendar event
+  today                      Today's schedule
+  week                       This week's schedule
+  remind <msg> <when>        Set reminder (30m, 2h, tomorrow 9am)
+  reminders                  List pending reminders
+
+EMAIL & DOCS
+  email-reply <to> <subj> <tone>  Draft email reply (formal/casual/professional)
+  meeting <audio>            Transcribe meeting audio
+  template <type> <topic>    Generate template (email/essay/report/poem/story)
+  parse <file>               Parse document (txt/md/csv/json/pdf/docx)
+  transcribe <audio>         Transcribe audio file
+
+DEVICE CONTROL
+  open <app>                 Launch application (browser/terminal/editor/files)
+  media <action>             Media control (play/pause/next/prev/volume/status)
+  settings <opt> [val]       Device settings (wifi/bluetooth/brightness/darkmode)
+  apps                       List installed applications
+  screenshot                 Take screenshot
+
+PERSONA & AUTH
+  persona <name>             Switch persona (coder/tutor/writer/casual/pro/chef/...)
+  register <user> <email> <pass>  Register account
+  login <user> <pass>        Login
+  logout                     Logout
+
+COMMERCE
+  wallet                     Check wallet balance
+  addfunds <amount> [desc]   Add funds to wallet
+  spend <amount> [desc]      Spend from wallet
+  order <item> <price> [qty] Place order
+  track <order-id>           Track order status
+  book <type> <name> <date> [time]  Make reservation
+  bookings                   List reservations
+  wishlist                   View wishlist
+
+CREATIVE
+  prompt <topic>             Generate creative prompt
+  names <topic> [n]          Generate name ideas
+  tagline <product>          Generate tagline
+  analogy <concept>          Generate analogy
+  perspective <topic>        Alternative perspectives
+  moodboard <theme>          Describe a moodboard
+
+TRAVEL
+  itinerary <dest> [days] [interests]  Generate trip itinerary
+  packing <dest> [days] [activity]     Packing checklist
+  recommend <location> [type]          Local recommendations (restaurant/cafe/attraction/hotel)
+  tweather <location>                  Weather forecast
+
+ENTERTAINMENT
+  joke [category]            Tell a joke (general/tech/science/dad)
+  trivia [category]          Trivia question (general/science/history)
+  game <type> [topic]        Games (20q/riddle/wordgame)
+  ent-recommend [type] [mood]  Recommend (movie/book/music)
+  persona-voice [persona]    Talk as persona (pirate/shakespeare/robot/detective/chef/surfer/ninja/professor)
+
+CONTACTS
+  contact-add <name> [phone] [email] [notes]  Add contact
+  contact-search <query>                      Search contacts
+  contacts                                   List all contacts
+  contact-del <name>                         Delete contact
+
+FINANCE
+  stock <symbol>             Get stock price
+  currency <amount> [from] [to]  Currency conversion
+  budget [summary]           Budget summary
+  budget-add <category> <amount>  Add expense
+  budget-income <amount>     Set monthly income
+
+CONNECTIONS
+  connect <app>              Connect to an app
+  disconnect <app>           Disconnect from an app
+  connections                List active connections
+
+SUBSYSTEM
+  subsystem [name]           Scope to subsystem (or "all")
+EOF
 }
 
 # ---------------------------------------------------------------------------
@@ -485,48 +764,220 @@ EOF
 #  dispatch
 # ---------------------------------------------------------------------------
 case "${1:-help}" in
-  ask)       shift; cmd_ask "$@" ;;
-  connect)   shift; cmd_connect "$@" ;;
-  disconnect) shift; cmd_disconnect "$@" ;;
-  connections) cmd_connections ;;
-  subsystem) shift; cmd_subsystem "$@" ;;
-  remind)    shift; cmd_remind "$@" ;;
-  reminders) cmd_reminders ;;
-  summarize) shift; cmd_summarize "$@" ;;
-  draft)     shift; cmd_draft "$@" ;;
-  status)    cmd_status ;;
-  help|*)
-    cat <<EOF
-Tinker AI — productivity assistant CLI
+  ask)           shift; cmd_ask "$@" ;;
+  connect)       shift; cmd_connect "$@" ;;
+  disconnect)    shift; cmd_disconnect "$@" ;;
+  connections)   cmd_connections ;;
+  subsystem)     shift; cmd_subsystem "$@" ;;
+  status)        cmd_status ;;
 
-Usage:
-  tinker-ai ask "<query>"          Ask a question, get HTML card response
-  tinker-ai connect <app>          Connect to an app (browser, terminal, ...)
-  tinker-ai disconnect <app>       Disconnect from an app
-  tinker-ai connections            List active connections
-  tinker-ai subsystem <name>       Scope to a subsystem (or "all")
-  tinker-ai remind "<msg>" <when>  Set a reminder (30m, 2h, tomorrow 9am)
-  tinker-ai reminders              List pending reminders
-  tinker-ai summarize <path>       Summarize a file or directory
-  tinker-ai draft "<topic>"        Draft a short message on a topic
-  tinker-ai status                 Show AI status
+  # --- text & content ---
+  generate)      shift; ai_text_generate "$@" ;;
+  grammar)       shift; ai_text_grammar "$@" ;;
+  paraphrase)    shift; ai_text_paraphrase "$@" ;;
+  brainstorm)    shift; ai_text_brainstorm "$@" ;;
+  stats)         shift; ai_text_stats "$@" ;;
+  summarize)     shift; ai_text_summarize "$@" ;;
+  draft)         shift; cmd_draft "$@" ;;
+  email)         shift; ai_text_email "$@" ;;
+  blog)          shift; ai_text_blog "$@" ;;
+  social)        shift; ai_text_social "$@" ;;
+  copywrite)     shift; ai_text_copywriting "$@" ;;
+  poem)          shift; ai_text_poetry "$@" ;;
+  lyrics)        shift; ai_text_poetry "$@" "rap" ;;
 
-The 'ask' command searches:
-  1. Searchie vibe-address index
-  2. Local files (~/Documents, ~/Desktop, etc.)
-  3. Command history
+  # --- code ---
+  code)          shift; ai_code_generate "$@" ;;
+  debug)         shift; ai_code_debug "$@" ;;
+  explain)       shift; ai_code_document "$@" ;;
+  boilerplate)   shift; ai_code_generate "$@" ;;
+  duck)          shift; ai_code_debug "$@" ;;
 
-Output is valid HTML with glassmorphism CSS for GUI rendering.
-EOF
-    ;;
+  # --- multimodal ---
+  image)         shift; ai_image_recognize "$@" ;;
+  ocr)           shift; ai_image_ocr "$@" ;;
+  genimage)      shift; ai_image_generate "$@" ;;
+  audio)         shift; ai_audio_recognize "$@" ;;
+  tts)           shift; ai_audio_tts "$@" ;;
+  stt)           shift; ai_audio_recognize "$@" ;;
+
+  # --- math ---
+  calc)          shift; ai_math_calc "$@" ;;
+  convert)       shift; ai_math_convert "$@" ;;
+  analyze)       shift; ai_math_analyze "$@" ;;
+  solve)         shift; ai_math_solve "$@" ;;
+
+  # --- web ---
+  search)        shift; ai_web_search "$@" ;;
+  fetch)         shift; ai_web_fetch "$@" ;;
+  extract)       shift; ai_web_extract "$@" ;;
+  factcheck)     shift; ai_web_factcheck "$@" ;;
+
+  # --- language ---
+  detect)        shift; ai_lang_detect "$@" ;;
+  translate)     shift; ai_lang_translate "$@" ;;
+  romanize)      shift; ai_lang_romanize "$@" ;;
+
+  # --- productivity ---
+  todo)          shift; ai_todo_add "$@" ;;
+  todos)         shift; ai_todo_list "$@" ;;
+  done)          shift; ai_todo_done "$@" ;;
+  cal)           shift; ai_cal_add "$@" ;;
+  today)         ai_cal_today ;;
+  week)          ai_cal_week ;;
+  remind)        shift; cmd_remind "$@" ;;
+  reminders)     cmd_reminders ;;
+
+  # --- email & docs ---
+  email-reply)   shift; ai_email_draft "$@" ;;
+  meeting)       shift; ai_transcribe "$@" ;;
+  template)      shift; ai_text_generate "$@" ;;
+  parse)         shift; ai_doc_parse "$@" ;;
+  transcribe)    shift; ai_transcribe "$@" ;;
+
+  # --- device ---
+  open)          shift; ai_device_open "$@" ;;
+  media)         shift; ai_device_media "$@" ;;
+  settings)      shift; ai_device_settings "$@" ;;
+  apps)          ai_device_apps ;;
+  screenshot)    ai_device_screenshot ;;
+
+  # --- persona & auth ---
+  persona)       shift; ai_persona_get "$@" ;;
+  personas)      ai_persona_list ;;
+  register)      shift; ai_auth_register "$@" ;;
+  login)         shift; ai_auth_login "$@" ;;
+  logout)        ai_auth_logout ;;
+  auth-status)   ai_auth_status ;;
+
+  # --- commerce ---
+  wallet)        shift; ai_wallet_balance "$@" ;;
+  balance)       ai_wallet_balance ;;
+  addfunds)      shift; ai_wallet_add "$@" ;;
+  spend)         shift; ai_wallet_spend "$@" ;;
+  order)         shift; ai_order_place "$@" ;;
+  track)         shift; ai_order_track "$@" ;;
+  book)          shift; ai_book_reserve "$@" ;;
+  bookings)      ai_book_list ;;
+  wishlist)      ai_recomm_list ;;
+
+  # --- creative ---
+  prompt)        shift; ai_text_generate "$@" ;;
+  names)         shift; ai_text_brainstorm "$@" ;;
+  tagline)       shift; ai_text_generate "$@" ;;
+  analogy)       shift; ai_text_generate "$@" ;;
+  perspective)   shift; ai_text_generate "$@" ;;
+  moodboard)     shift; ai_text_generate "$@" ;;
+
+  # --- travel ---
+  itinerary)     shift; ai_travel_itinerary "$@" ;;
+  packing)       shift; ai_travel_packing "$@" ;;
+  recommend)     shift; ai_travel_recommend "$@" ;;
+  tweather)      shift; ai_travel_weather "$@" ;;
+
+  # --- entertainment ---
+  joke)          shift; ai_entertainment_joke "$@" ;;
+  trivia)        shift; ai_entertainment_trivia "$@" ;;
+  game)          shift; ai_entertainment_game "$@" ;;
+  ent-recommend) shift; ai_entertainment_recommend "$@" ;;
+  persona-voice) shift; ai_entertainment_persona "$@" ;;
+
+  # --- contacts ---
+  contact-add)   shift; ai_contact_add "$@" ;;
+  contact-search) shift; ai_contact_search "$@" ;;
+  contacts)      ai_contact_list ;;
+  contact-del)   shift; ai_contact_delete "$@" ;;
+
+  # --- finance ---
+  stock)         shift; ai_finance_stock "$@" ;;
+  currency)      shift; ai_finance_currency "$@" ;;
+  budget)        shift; ai_finance_budget "$@" ;;
+  budget-add)    shift; ai_finance_budget_add "$@" ;;
+  budget-income) shift; ai_finance_budget_set_income "$@" ;;
+
+  # --- AI engine ---
+  chat)          shift; ai_chat "$@" ;;
+  chat-stream)   shift; ai_chat_stream "$@" ;;
+  clear-history) ai_clear_history ;;
+  history)       ai_show_history ;;
+  models)        ai_ollama_models ;;
+  model-set)     OLLAMA_MODEL="${2:-llama3.1:8b}"; echo "Model set to: $OLLAMA_MODEL" ;;
+
+  # --- agent: system control ---
+  exec)          shift; agent_exec "$@" ;;
+  open)          shift; agent_open_app "$@" ;;
+  screenshot)    shift; agent_screenshot "$@" ;;
+  read-screen)   shift; agent_read_screen "$@" ;;
+  window)        agent_get_window ;;
+  windows)       agent_list_windows ;;
+  focus)         shift; agent_focus_window "$@" ;;
+  type)          shift; agent_type "$@" ;;
+  key)           shift; agent_key "$@" ;;
+  click)         shift; agent_click "$@" ;;
+  move)          shift; agent_move "$@" ;;
+  scroll)        shift; agent_scroll "$@" ;;
+
+  # --- agent: browser ---
+  browser-history) shift; agent_browser_history "$@" ;;
+  browser-open)  shift; agent_browser_open "$@" ;;
+  browser-replay) shift; agent_browser_replay "$@" ;;
+  browser-tabs)  agent_browser_tabs ;;
+
+  # --- agent: vision ---
+  vision-read)   shift; agent_vision_read "$@" ;;
+  vision-find)   shift; agent_vision_find "$@" ;;
+  vision-click)  shift; agent_vision_click "$@" ;;
+  vision-describe) shift; agent_vision_describe "$@" ;;
+
+  # --- agent: automation ---
+  schedule)      shift; agent_schedule "$@" ;;
+  schedules)     agent_schedule_list ;;
+  cancel)        shift; agent_schedule_cancel "$@" ;;
+  chain)         shift; agent_chain "$@" ;;
+  purchase)      shift; agent_purchase "$@" ;;
+
+  # --- knowledge ---
+  know)          shift; tk_knowledge "$@" ;;
+  random-fact)   tk_random_fact ;;
+  os-version)    tk_version ;;
+
+  # --- cards ---
+  card-image)    shift; ai_card_image "$@" ;;
+  card-link)     shift; ai_card_link "$@" ;;
+  card-code)     shift; ai_card_code "$@" ;;
+  card-snapshot) shift; ai_card_snapshot "$@" ;;
+  card-flowchart) shift; ai_card_flowchart "$@" ;;
+  card-statemachine) shift; ai_card_statemachine "$@" ;;
+  card-mockup)   shift; ai_card_mockup "$@" ;;
+  card-pipeline) shift; ai_card_pipeline "$@" ;;
+  card-sandbox)  shift; ai_card_sandbox "$@" ;;
+  card-codecell) shift; ai_card_codecell "$@" ;;
+  card-dataviz)  shift; ai_card_dataviz "$@" ;;
+  card-countdown) shift; ai_card_countdown "$@" ;;
+  card-pomodoro) ai_card_pomodoro ;;
+  card-kanban)   ai_card_kanban ;;
+  card-clock)    shift; ai_card_clock "$@" ;;
+  card-fileexplorer) shift; ai_card_fileexplorer "$@" ;;
+  card-diff)     shift; ai_card_diff "$@" ;;
+  card-doceditor) shift; ai_card_doceditor "$@" ;;
+  card-mediaplayer) shift; ai_card_mediaplayer "$@" ;;
+  card-scenario) shift; ai_card_scenario "$@" ;;
+  card-abtest)   shift; ai_card_abtest "$@" ;;
+  card-logic)    shift; ai_card_logic "$@" ;;
+  card-3d)       shift; ai_card_3d "$@" ;;
+  card-map)      shift; ai_card_map "$@" ;;
+  card-audioviz) shift; ai_card_audioviz "$@" ;;
+
+  # --- help ---
+  help|*)        cmd_help ;;
 esac
 
-
-# --- productivity hooks ---
-
+# ---------------------------------------------------------------------------
+#  internal helpers (called by dispatch above)
+# ---------------------------------------------------------------------------
 cmd_remind() {
   local msg="$1"
-  local when="$2"  # "30m", "2h", "tomorrow 9am", "2026-09-11 14:00"
+  local when="$2"
   local id
   id="r_$(date +%s)_$$"
   local dir="$TINKER_AI_HOME/reminders"
@@ -534,15 +985,13 @@ cmd_remind() {
   cat > "$dir/$id.json" <<EOJSON
 {"id":"$id","message":"$msg","when":"$when","created":"$(date -Iseconds)","status":"pending"}
 EOJSON
-  echo "<div class='ai-card ok'><div class='ai-title'>reminder set</div>"
-  echo "<div class='ai-body'>$msg — $when</div>"
-  echo "<div class='ai-action'><button onclick='dismiss'>ok</button></div></div>"
+  echo "Reminder set: $msg — $when"
 }
 
 cmd_reminders() {
-  local dir="$TINKER_AI_HOME/reminders"
+  local dir="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}/reminders"
   mkdir -p "$dir"
-  echo "<div class='ai-card'><div class='ai-title'>pending reminders</div><div class='ai-body'>"
+  echo "=== Pending Reminders ==="
   local found=0
   for f in "$dir"/*.json; do
     [ -f "$f" ] || continue
@@ -551,41 +1000,14 @@ cmd_reminders() {
     when=$(python3 -c "import json; print(json.load(open('$f'))['when'])" 2>/dev/null)
     status=$(python3 -c "import json; print(json.load(open('$f'))['status'])" 2>/dev/null)
     [ "$status" = "pending" ] || continue
-    echo "<br>• $msg — <i>$when</i>"
+    echo "  • $msg — $when"
     found=1
   done
-  [ "$found" -eq 0 ] && echo "<br>no pending reminders"
-  echo "</div></div>"
-}
-
-cmd_summarize() {
-  local target="$1"
-  local content=""
-  if [ -f "$target" ]; then
-    content=$(head -100 "$target" 2>/dev/null)
-  elif [ -d "$target" ]; then
-    content=$(find "$target" -maxdepth 2 -type f -name "*.md" -o -name "*.txt" | head -10 | while read f; do echo "=== $(basename "$f") ==="; head -20 "$f"; done)
-  else
-    echo "<div class='ai-card warn'><div class='ai-title'>not found</div><div class='ai-body'>$target</div></div>"
-    return
-  fi
-  local words=$(echo "$content" | wc -w)
-  local lines=$(echo "$content" | wc -l)
-  echo "<div class='ai-card'><div class='ai-title'>summary: $(basename "$target")</div>"
-  echo "<div class='ai-body'>$lines lines, $words words"
-  echo "<br><br>first 5 lines:"
-  echo "$content" | head -5 | sed 's/</\&lt;/g' | sed 's/^/<br>/'
-  echo "</div><div class='ai-action'><button onclick='dismiss'>ok</button></div></div>"
+  [ "$found" -eq 0 ] && echo "  (none)"
 }
 
 cmd_draft() {
   local topic="$1"
-  echo "<div class='ai-card'><div class='ai-title'>draft: $topic</div>"
-  echo "<div class='ai-body'>"
-  echo "<b>subject:</b> $topic"
-  echo "<br><br>hi,"
-  echo "<br><br>i wanted to follow up regarding $topic. please let me know your thoughts."
-  echo "<br><br>best,<br>tinker"
-  echo "</div><div class='ai-action'><button onclick='dismiss'>ok</button></div></div>"
+  ai_text_generate "$topic" email
 }
 

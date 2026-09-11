@@ -65,6 +65,28 @@ class Engine(QObject):
         self._pending = ""
         self._counter = 0
 
+    # known subcommands that can be routed directly from the input field
+    DIRECT_CMDS = {
+        "help", "status", "connections", "apps", "screenshot", "todos",
+        "today", "week", "reminders", "bookings", "wishlist", "wallet",
+        "balance", "logout", "personas", "auth-status",
+    }
+    DIRECT_CMD_PREFIXES = (
+        "open ", "media ", "settings ", "todo ", "cal ", "done ",
+        "image ", "ocr ", "genimage ", "audio ", "tts ", "stt ",
+        "calc ", "convert ", "analyze ", "solve ",
+        "search ", "fetch ", "extract ", "factcheck ",
+        "detect ", "translate ", "romanize ",
+        "generate ", "grammar ", "paraphrase ", "brainstorm ", "stats ",
+        "summarize ", "draft ", "template ",
+        "code ", "debug ", "explain ", "boilerplate ", "duck ",
+        "email-reply ", "meeting ", "parse ", "transcribe ",
+        "persona ", "register ", "login ",
+        "order ", "track ", "book ", "spend ", "addfunds ", "wallet ",
+        "remind ", "prompt ", "names ", "tagline ", "analogy ",
+        "perspective ", "moodboard ",
+    )
+
     def set_query(self, text: str):
         self._pending = text
         self._counter -= 1
@@ -76,20 +98,57 @@ class Engine(QObject):
             self.response_ready.emit("")
             return
         try:
-            out = subprocess.run(
-                ["bash", AI_SCRIPT, "ask", text],
-                capture_output=True, text=True, timeout=12,
-            )
-            if out.returncode == 0 and out.stdout.strip():
-                self.response_ready.emit(out.stdout)
+            # Check if input is a direct subcommand
+            parts = text.strip().split(None, 1)
+            cmd_word = parts[0].lower() if parts else ""
+            args = parts[1] if len(parts) > 1 else ""
+
+            if cmd_word in self.DIRECT_CMDS or text.strip().lower() in self.DIRECT_CMDS:
+                out = subprocess.run(
+                    ["bash", AI_SCRIPT, cmd_word],
+                    capture_output=True, text=True, timeout=12,
+                )
+                result = out.stdout.strip() or out.stderr.strip()
+                if result:
+                    self.response_ready.emit(self._wrap_text(result))
+                else:
+                    self.response_ready.emit(self._empty_response(text))
+            elif any(text.strip().lower().startswith(p) for p in self.DIRECT_CMD_PREFIXES):
+                out = subprocess.run(
+                    ["bash", AI_SCRIPT] + text.strip().split(None, 1),
+                    capture_output=True, text=True, timeout=12,
+                )
+                result = out.stdout.strip() or out.stderr.strip()
+                if result:
+                    self.response_ready.emit(self._wrap_text(result))
+                else:
+                    self.response_ready.emit(self._empty_response(text))
             else:
-                self.response_ready.emit(self._empty_response(text))
+                # Default: route through ask (NLU-intent routed)
+                out = subprocess.run(
+                    ["bash", AI_SCRIPT, "ask", text],
+                    capture_output=True, text=True, timeout=12,
+                )
+                if out.returncode == 0 and out.stdout.strip():
+                    self.response_ready.emit(out.stdout)
+                else:
+                    self.response_ready.emit(self._empty_response(text))
         except FileNotFoundError:
             self.error.emit("tinker-ai.sh not found at " + AI_SCRIPT)
         except subprocess.TimeoutExpired:
             self.response_ready.emit(self._timeout_response(text))
         except Exception as e:
             self.error.emit(str(e))
+
+    @staticmethod
+    def _wrap_text(text: str) -> str:
+        """Wrap plain-text CLI output in a glass-style HTML card."""
+        safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        return (
+            '<div class="card"><div class="card-title">Result</div>'
+            f'<div class="card-body"><pre style="white-space:pre-wrap;'
+            f'font-size:13pt;margin:0;">{safe}</pre></div></div>'
+        )
 
     def _empty_response(self, query: str) -> str:
         return (
