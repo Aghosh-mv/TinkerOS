@@ -36,7 +36,15 @@ mkdir -p "$(dirname "${AI_LOG}")"
 
 # ---- source all modules ---------------------------------------------------
 MODULE_DIR="${AI_DIR}/modules"
+OVERLAY_DIR="${AI_DIR}/overlay"
 [ -d "$MODULE_DIR" ] && for m in "$MODULE_DIR"/*.sh; do [ -f "$m" ] && source "$m"; done
+[ -f "$OVERLAY_DIR/agent-narrator.sh" ] && source "$OVERLAY_DIR/agent-narrator.sh"
+[ -f "$MODULE_DIR/ai-master-brain.sh" ] && source "$MODULE_DIR/ai-master-brain.sh"
+[ -f "$MODULE_DIR/ai-self-learn.sh" ] && source "$MODULE_DIR/ai-self-learn.sh"
+[ -f "$MODULE_DIR/ai-voice.sh" ] && source "$MODULE_DIR/ai-voice.sh"
+[ -f "$MODULE_DIR/ai-image-gen.sh" ] && source "$MODULE_DIR/ai-image-gen.sh"
+[ -f "$MODULE_DIR/ai-personality.sh" ] && source "$MODULE_DIR/ai-personality.sh"
+[ -f "$MODULE_DIR/nlp-670-patterns.sh" ] && source "$MODULE_DIR/nlp-670-patterns.sh"
 
 # ---------------------------------------------------------------------------
 #  HTML card builder helpers
@@ -966,6 +974,24 @@ case "${1:-help}" in
   card-3d)       shift; ai_card_3d "$@" ;;
   card-map)      shift; ai_card_map "$@" ;;
   card-audioviz) shift; ai_card_audioviz "$@" ;;
+
+  # --- self-learning ---
+  learn)         shift; ai_learn_search "$@" ;;
+  teach)         shift; ai_learn_teach "$@" ;;
+  learned)       ai_learn_list ;;
+  forget)        shift; ai_learn_forget "$@" ;;
+
+  # --- voice ---
+  say)           shift; ai_tts "$@" ;;
+  listen)        ai_stt "$@" ;;
+
+  # --- image gen ---
+  gen-card)      shift; ai_gen_gradient_card "$@" ;;
+  gen-code)      shift; ai_gen_code_card "$@" ;;
+  gen-flow)      shift; ai_gen_flowchart "$@" ;;
+  gen-chart)     shift; ai_gen_chart "$@" ;;
+  gen-alert)     shift; ai_gen_alert "$@" ;;
+  gen-progress)  shift; ai_gen_progress "$@" ;;
 
   # --- help ---
   help|*)        cmd_help ;;
