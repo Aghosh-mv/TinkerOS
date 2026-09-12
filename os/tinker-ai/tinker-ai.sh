@@ -914,6 +914,9 @@ case "${1:-help}" in
 
   # --- agent: browser ---
   search-up)      shift; agent_search_up "$@" ;;
+  open-url)       shift; agent_open_url "$@" ;;
+  play)           shift; agent_play_music "$@" ;;
+  stop-music)     agent_stop_music ;;
   browser-history) shift; agent_browser_history "$@" ;;
   browser-open)  shift; agent_browser_open "$@" ;;
   browser-replay) shift; agent_browser_replay "$@" ;;
