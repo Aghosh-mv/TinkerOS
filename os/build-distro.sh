@@ -157,6 +157,16 @@ chmod +x /usr/local/bin/korrinos' 2>/dev/null || true
       name=$(basename "\$f" .sh)
       ln -sf "\$f" "$ROOTFS/usr/local/bin/korrinos-\$name" 2>/dev/null || true
     done
+    done' 2>/dev/null || true
+
+  # KorrinOS System CLI — all os/system/ scripts on PATH
+  "$SUDO" bash -c 'mkdir -p "$ROOTFS/usr/local/bin"
+  for d in package-manager update-system cloud-sync mobile-companion enterprise driver-manager hardware-cert installer appstore desktop-env security backup firewall; do
+    for f in /opt/korrinos/os/system/\$d/korrinos-*.sh; do
+      [ -f "$ROOTFS\$f" ] || continue
+      name=\$(basename "\$f" .sh)
+      ln -sf "\$f" "$ROOTFS/usr/local/bin/\$name" 2>/dev/null || true
+    done
   done' 2>/dev/null || true
 
   # Systemd services for KorrinOS features
@@ -234,12 +244,73 @@ RestartSec=5
 WantedBy=multi-user.target
 EOF'
 
+  # Backup timer service
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-backup.service" <<EOF
+[Unit]
+Description=KorrinOS Backup
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/korrinos/os/system/backup/korrinos-backup.sh full
+Nice=19
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  # Backup timer
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-backup.timer" <<EOF
+[Unit]
+Description=KorrinOS Backup Timer
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+RandomizedDelaySec=3600
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF'
+
+  # Firewall auto-setup service
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-firewall.service" <<EOF
+[Unit]
+Description=KorrinOS Firewall Setup
+Before=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/korrinos/os/system/firewall/korrinos-firewall.sh setup
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  # Health monitor timer
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-health.timer" <<EOF
+[Unit]
+Description=KorrinOS Health Monitor Timer
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF'
+
   # Enable services
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-liquid-glass.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-widgets-panel.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-dock.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-smoothui.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-autoupdate.timer 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-backup.timer 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-firewall.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-health.timer 2>/dev/null || true
 
   # Auto-update service (new systems)
   "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-autoupdate.service" <<EOF
