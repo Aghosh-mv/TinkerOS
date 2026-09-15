@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
 #
-# Makefile for TinkerOS core kernel features
+# Makefile for KorrinOS core kernel features
 #
 
 obj-$(CONFIG_TINKER_CORE)		+= tinker.o

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Duplicate Finder - Find duplicate files
+# KorrinOS Duplicate Finder - Find duplicate files
 
 set -e
 

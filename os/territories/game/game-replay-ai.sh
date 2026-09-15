@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Game Replay AI — analyze your gameplay to improve
+# KorrinOS Game Replay AI — analyze your gameplay to improve
 # Records a clip + sidecar telemetry (FPS, ping, inputs where available),
 # then renders a plain-text coaching report from the data using the local
 # tinkerai model if present, else heuristic analysis.
@@ -54,7 +54,7 @@ analyze() {  # analyze <replay-file|dir> — produce coaching text
   fi
 }
 
-usage() { echo "TinkerOS Replay AI
+usage() { echo "KorrinOS Replay AI
 Usage: ${0##*/} <record <sec> [game]|analyze [dir]> (local-only, no cloud)"; }
 
 case "${1:-}" in

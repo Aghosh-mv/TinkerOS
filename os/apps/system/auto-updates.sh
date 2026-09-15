@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Auto Updates - Comprehensive update management
+# KorrinOS Auto Updates - Comprehensive update management
 
 set -e
 
@@ -168,7 +168,7 @@ schedule() {
     # Create systemd timer
     cat > /etc/systemd/system/tinker-auto-update.service << EOF
 [Unit]
-Description=TinkerOS Auto Update
+Description=KorrinOS Auto Update
 After=network-online.target
 Wants=network-online.target
 
@@ -188,7 +188,7 @@ EOF
     
     cat > /etc/systemd/system/tinker-auto-update.timer << EOF
 [Unit]
-Description=Run TinkerOS Auto Update $freq
+Description=Run KorrinOS Auto Update $freq
 
 [Timer]
 $timer_spec

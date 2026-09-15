@@ -1,6 +1,6 @@
 #!/bin/bash
 # ===========================================================================
-#  vibe-address.sh — TinkerOS VIBE ADDRESSING ENGINE (dispatcher)
+#  vibe-address.sh — KorrinOS VIBE ADDRESSING ENGINE (dispatcher)
 # ---------------------------------------------------------------------------
 #  Pure-algorithm memory retrieval. NO AI. NO models. 5000+ lines of
 #  deterministic software across an engine kernel:
@@ -25,13 +25,13 @@ IFS=$'\n\t'
 VIBE_ENGINE="${VIBE_ENGINE:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 
 # ---- per-user state ------------------------------------------------------
-VIBE_HOME="${VIBE_HOME:-$HOME/.local/share/tinkeros/vibe}"
+VIBE_HOME="${VIBE_HOME:-$HOME/.local/share/korrinos/vibe}"
 VIBE_EVENTS="$VIBE_HOME/events"     # append-only day logs
 VIBE_TREE="$VIBE_HOME/tree"         # category trie (dirs + index files)
 VIBE_INDEX="$VIBE_HOME/index"       # inverted index + fingerprints
 VIBE_STATE="$VIBE_HOME/state"       # adapt/learned weights, sessions
 VIBE_CACHE="$VIBE_HOME/cache"       # precomputed parse artifacts
-VIBE_CONFIG="${VIBE_CONFIG:-$HOME/.config/tinkeros/vibe.conf}"
+VIBE_CONFIG="${VIBE_CONFIG:-$HOME/.config/korrinos/vibe.conf}"
 mkdir -p "$VIBE_EVENTS" "$VIBE_TREE" "$VIBE_INDEX" "$VIBE_STATE" "$VIBE_CACHE"
 mkdir -p "$(dirname "$VIBE_CONFIG")"
 
@@ -91,7 +91,7 @@ ve_session_bump() {  # what=queries|recalls
 # ---------------------------------------------------------------------------
 usage() {
   cat <<'USAGE'
-TinkerOS Vibe Addressing Engine  (pure algorithms — no AI)
+KorrinOS Vibe Addressing Engine  (pure algorithms — no AI)
 
   record        TYPE SOURCE PATH [FP] [CATPATH] [META]
   watch         register an OS event connector (tab/download/search/file)

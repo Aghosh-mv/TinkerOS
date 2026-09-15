@@ -1,10 +1,10 @@
 #!/bin/bash
-# TinkerOS Init Script
+# KorrinOS Init Script
 # Runs as PID 1 - the first process after kernel
 
 set -e
 
-echo "TinkerOS v1.0 - Starting up..."
+echo "KorrinOS v1.0 - Starting up..."
 
 # Mount virtual filesystems
 mount -t proc proc /proc
@@ -29,7 +29,7 @@ udevadm trigger --action=add
 udevadm settle
 
 # Set hostname
-hostname TinkerOS
+hostname KorrinOS
 
 # Configure system clock
 hwclock --hctosys
@@ -90,7 +90,7 @@ else
     /usr/bin/tinker-greeter &
 fi
 
-echo "TinkerOS is ready!"
+echo "KorrinOS is ready!"
 
 # Wait for display manager to exit (shutdown signal)
 wait

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS World Engine
+# KorrinOS World Engine
 # Manages fully-isolated mode "worlds": NORMAL, HACK, GAME.
 # Each world is a separate, scoped environment with its own apps config,
 # PATH, per-world state, and no cross-contamination of apps or traces.
@@ -188,7 +188,7 @@ case "${1:-}" in
   kb|key) shift; keyboard_switch "${1:-}" ;;
   matrix|show) debug_matrix ;;
   state|info) show_state ;;
-  *) echo "TinkerOS World Engine
+  *) echo "KorrinOS World Engine
 Usage: ${0##*/} <command> [args]
   enter|switch <NORMAL|HACK|GAME>   switch worlds
   cur|current                        show current world

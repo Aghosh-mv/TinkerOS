@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Kernel-Level Reverse-Proxy (HACK territory)
+# KorrinOS Kernel-Level Reverse-Proxy (HACK territory)
 # Forces ALL outbound traffic from a specific workspace through a multi-hop
 # proxy chain (Tor / WireGuard mesh) at the routing layer, with fail-closed
 # semantics so no packet leaks the real IP when the chain drops.
@@ -72,7 +72,7 @@ case "${1:-}" in
   up|open) shift; open "$@" ;;
   status) status ;;
   off|disable) disable ;;
-  *) echo "TinkerOS Kernel Reverse-Proxy
+  *) echo "KorrinOS Kernel Reverse-Proxy
 Usage: ${0##*/} <setup|force <gw> <dev>|closed|up <device>|status|off>
 Fail-closed multi-hop proxying via policy routing. Respect law/Tor policy." ;;
 esac

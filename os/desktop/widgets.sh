@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Desktop Widgets
+# KorrinOS Desktop Widgets
 
 set -e
 

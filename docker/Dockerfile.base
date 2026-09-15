@@ -1,8 +1,8 @@
-# TinkerOS Base Image
+# KorrinOS Base Image
 FROM ubuntu:24.04
 
-LABEL maintainer="TinkerOS Team <team@tinkeros.dev>"
-LABEL description="TinkerOS Base Image"
+LABEL maintainer="KorrinOS Team <team@korrinos.dev>"
+LABEL description="KorrinOS Base Image"
 LABEL version="7.2.0"
 
 # Prevent interactive prompts

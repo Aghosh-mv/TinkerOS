@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Discord Rich Presence - Show what you're playing
+# KorrinOS Discord Rich Presence - Show what you're playing
 
 set -e
 

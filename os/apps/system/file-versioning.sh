@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS File Versioning - Git-like file versions
+# KorrinOS File Versioning - Git-like file versions
 
 set -e
 

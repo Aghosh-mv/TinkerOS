@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Password Manager - Local, encrypted credential storage
+# KorrinOS Password Manager - Local, encrypted credential storage
 # Local-only. No cloud. Your data stays on your machine.
 
 set -e

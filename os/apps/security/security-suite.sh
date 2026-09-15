@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Security Suite - Comprehensive security audit and hardening
+# KorrinOS Security Suite - Comprehensive security audit and hardening
 
 set -e
 
@@ -112,7 +112,7 @@ check_encryption() {
 run_audit() {
     local out=""
     {
-        echo "TinkerOS Security Audit - $(timestamp)"
+        echo "KorrinOS Security Audit - $(timestamp)"
         echo "Host: $(hostname) | User: $USER"
         check_updates
         check_ports

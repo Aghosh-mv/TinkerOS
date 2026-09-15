@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS zero-latency input path.
+ * KorrinOS zero-latency input path.
  *
  * Routes high-priority input (gamepad / keyboard / mouse) through a
  * low-latency path by recording a realtime-boost target device class
@@ -102,17 +102,17 @@ static int __init tinker_zl_init(void)
 	if (tinker_proc_root)
 		proc_create("zerolatency", 0644, tinker_proc_root, &zl_fops);
 
-	pr_info("TinkerOS: zero-latency input at /proc/tinker/zerolatency\n");
+	pr_info("KorrinOS: zero-latency input at /proc/tinker/zerolatency\n");
 	return 0;
 }
 
 static void __exit tinker_zl_exit(void)
 {
-	pr_info("TinkerOS: zero-latency input removed\n");
+	pr_info("KorrinOS: zero-latency input removed\n");
 }
 
 module_init(tinker_zl_init);
 module_exit(tinker_zl_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS zero-latency input path");
+MODULE_DESCRIPTION("KorrinOS zero-latency input path");

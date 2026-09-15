@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Global Search - Search everything (files, apps, settings)
+# KorrinOS Global Search - Search everything (files, apps, settings)
 
 set -e
 

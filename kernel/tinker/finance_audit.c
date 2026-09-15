@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS finance audit — local subscription/ledger audit kernel hooks.
+ * KorrinOS finance audit — local subscription/ledger audit kernel hooks.
  *
  * The heavy subscription parsing is a user-space concern (scanning
  * receipts/apps). The kernel contributes an encrypted-accounting store:
@@ -111,17 +111,17 @@ static int __init tinker_fa_init(void)
 	if (tinker_proc_root)
 		proc_create("finaudit", 0644, tinker_proc_root, &fa_fops);
 
-	pr_info("TinkerOS: finance audit hooks at /proc/tinker/finaudit\n");
+	pr_info("KorrinOS: finance audit hooks at /proc/tinker/finaudit\n");
 	return 0;
 }
 
 static void __exit tinker_fa_exit(void)
 {
-	pr_info("TinkerOS: finance audit hooks removed\n");
+	pr_info("KorrinOS: finance audit hooks removed\n");
 }
 
 module_init(tinker_fa_init);
 module_exit(tinker_fa_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS local finance/subscription audit hooks");
+MODULE_DESCRIPTION("KorrinOS local finance/subscription audit hooks");

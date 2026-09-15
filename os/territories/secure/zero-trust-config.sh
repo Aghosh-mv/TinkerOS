@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Zero-Trust Config — system hardening to a zero-trust posture (SECURE territory)
+# KorrinOS Zero-Trust Config — system hardening to a zero-trust posture (SECURE territory)
 # Applies a defense-in-depth configuration across layers so the system
 # assumes nothing about trust: every access is verified. Runs a coherent
 # bundle of the other secure tools into one zero-trust policy.
@@ -20,7 +20,7 @@ T="$TERR_ROOT/secure"
 H="$TERR_ROOT/hack"
 
 apply_all() {
-  echo "### TinkerOS Zero-Trust Configuration ###"
+  echo "### KorrinOS Zero-Trust Configuration ###"
   echo "[zt] 1/6 deny-by-default execution..."
   "$T/app-allowlist.sh" init 2>/dev/null || true
   "$T/app-allowlist.sh" enforce 2>/dev/null || true
@@ -60,7 +60,7 @@ report() {
   echo "  canaries:   $TINKER_STATE/canary-secure"
 }
 
-usage() { echo "TinkerOS Zero-Trust Config
+usage() { echo "KorrinOS Zero-Trust Config
 Usage: ${0##*/} <apply|verify|report>
 Zero-trust hardening bundle: execution+network deny-by-default, integrity, monitoring, sealed secrets."; }
 

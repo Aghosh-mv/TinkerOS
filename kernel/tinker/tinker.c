@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS core kernel interface.
+ * KorrinOS core kernel interface.
  *
  * Provides the central /proc/tinker directory and per-feature control
- * nodes. This is the kernel-internal home for the TinkerOS control
+ * nodes. This is the kernel-internal home for the KorrinOS control
  * center: hardware-throughput-code desktop features expressed as real
  * kernel C code rather than user-space-only tools.
  */
@@ -23,7 +23,7 @@ struct proc_dir_entry *tinker_proc_root;
 
 static int tinker_status_show(struct seq_file *m, void *v)
 {
-	seq_printf(m, "TinkerOS core kernel features\n");
+	seq_printf(m, "KorrinOS core kernel features\n");
 	seq_printf(m, "kernel:   %s\n", utsname()->release);
 #ifdef CONFIG_TINKER_THERMAL_SCHED
 	seq_puts(m, "thermal:  available (TINKER_THERMAL_SCHED)\n");
@@ -62,19 +62,19 @@ static int __init tinker_init(void)
 		return -ENOMEM;
 
 	proc_create("status", 0444, tinker_proc_root, &tinker_status_fops);
-	pr_info("TinkerOS: core interface mounted at /proc/tinker\n");
+	pr_info("KorrinOS: core interface mounted at /proc/tinker\n");
 	return 0;
 }
 
 static void __exit tinker_exit(void)
 {
 	proc_remove(tinker_proc_root);
-	pr_info("TinkerOS: core interface removed\n");
+	pr_info("KorrinOS: core interface removed\n");
 }
 
 module_init(tinker_init);
 module_exit(tinker_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("TinkerOS");
-MODULE_DESCRIPTION("TinkerOS core kernel features");
+MODULE_AUTHOR("KorrinOS");
+MODULE_DESCRIPTION("KorrinOS core kernel features");

@@ -99,7 +99,7 @@ def _collect_context():
         pass
 
     if not lines:
-        lines.append("TinkerAI is running on TinkerOS with access to system tools.")
+        lines.append("TinkerAI is running on KorrinOS with access to system tools.")
     return "\n".join(lines)
 
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Serial/UART - Serial port manager
+# KorrinOS Serial/UART - Serial port manager
 
 set -e
 

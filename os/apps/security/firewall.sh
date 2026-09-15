@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Firewall - UFW/firewalld/iptables management (security category)
+# KorrinOS Firewall - UFW/firewalld/iptables management (security category)
 
 set -e
 
@@ -13,7 +13,7 @@ FW_DIR="$HOME/.tinker/firewall"
 mkdir -p "$FW_DIR"
 
 status() {
-    echo "=== TinkerOS Firewall ==="
+    echo "=== KorrinOS Firewall ==="
     echo ""
     if command -v ufw &>/dev/null; then
         echo "UFW status:"

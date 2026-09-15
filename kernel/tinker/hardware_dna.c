@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS hardware DNA — hardware fingerprinting.
+ * KorrinOS hardware DNA — hardware fingerprinting.
  *
  * Builds a stable, hashed hardware identity from CPU, DMI, and serial
  * components (a "hardware DNA"). Exposes the fingerprint via
@@ -109,17 +109,17 @@ static int __init tinker_dna_init(void)
 	if (tinker_proc_root)
 		proc_create("hwdna", 0444, tinker_proc_root, &dna_fops);
 
-	pr_info("TinkerOS: hardware DNA at /proc/tinker/hwdna\n");
+	pr_info("KorrinOS: hardware DNA at /proc/tinker/hwdna\n");
 	return 0;
 }
 
 static void __exit tinker_dna_exit(void)
 {
-	pr_info("TinkerOS: hardware DNA removed\n");
+	pr_info("KorrinOS: hardware DNA removed\n");
 }
 
 module_init(tinker_dna_init);
 module_exit(tinker_dna_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS hardware DNA fingerprinting");
+MODULE_DESCRIPTION("KorrinOS hardware DNA fingerprinting");

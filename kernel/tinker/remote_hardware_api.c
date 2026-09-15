@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS remote hardware API.
+ * KorrinOS remote hardware API.
  *
  * Exposes limited, authenticated remote-h/w control slots (remote
  * power, remote fan, remote diagnostic) through a single proc interface.
@@ -118,17 +118,17 @@ static int __init tinker_rha_init(void)
 	if (tinker_proc_root)
 		proc_create("remotehw", 0644, tinker_proc_root, &rha_fops);
 
-	pr_info("TinkerOS: remote hardware API at /proc/tinker/remotehw\n");
+	pr_info("KorrinOS: remote hardware API at /proc/tinker/remotehw\n");
 	return 0;
 }
 
 static void __exit tinker_rha_exit(void)
 {
-	pr_info("TinkerOS: remote hardware API removed\n");
+	pr_info("KorrinOS: remote hardware API removed\n");
 }
 
 module_init(tinker_rha_init);
 module_exit(tinker_rha_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS remote hardware API");
+MODULE_DESCRIPTION("KorrinOS remote hardware API");

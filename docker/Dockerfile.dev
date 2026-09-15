@@ -1,8 +1,8 @@
-# TinkerOS Development Image
-FROM ghcr.io/tinkeros/tinkeros/base:latest
+# KorrinOS Development Image
+FROM ghcr.io/korrinos/korrinos/base:latest
 
-LABEL maintainer="TinkerOS Team <team@tinkeros.dev>"
-LABEL description="TinkerOS Development Environment"
+LABEL maintainer="KorrinOS Team <team@korrinos.dev>"
+LABEL description="KorrinOS Development Environment"
 LABEL version="7.2.0"
 
 USER root
@@ -145,8 +145,8 @@ USER tinkerer
 WORKDIR /home/tinkerer
 
 # Set up git
-RUN git config --global user.name "TinkerOS Developer" && \
-    git config --global user.email "dev@tinkeros.dev" && \
+RUN git config --global user.name "KorrinOS Developer" && \
+    git config --global user.email "dev@korrinos.dev" && \
     git config --global init.defaultBranch main
 
 # Set up shell

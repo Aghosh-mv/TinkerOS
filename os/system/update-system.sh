@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Update System
+# KorrinOS Update System
 # OTA (Over-The-Air) updates for the system
 
 set -e
@@ -43,8 +43,8 @@ check_updates() {
         echo -e "  ${GREEN}✓${NC} System updates available: $updates"
     fi
     
-    # Check for TinkerOS updates
-    echo -e "  Checking TinkerOS updates..."
+    # Check for KorrinOS updates
+    echo -e "  Checking KorrinOS updates..."
     local current_version=$(cat /etc/tinker/version 2>/dev/null || echo "1.0")
     echo -e "  Current version: $current_version"
     
@@ -79,8 +79,8 @@ apply_updates() {
         sudo pacman -Syu --noconfirm 2>/dev/null
     fi
     
-    # Update TinkerOS components
-    echo -e "  Updating TinkerOS components..."
+    # Update KorrinOS components
+    echo -e "  Updating KorrinOS components..."
     update_tinker_components
     
     # Update drivers
@@ -102,7 +102,7 @@ apply_updates() {
 }
 
 update_tinker_components() {
-    echo -e "  Updating TinkerOS core..."
+    echo -e "  Updating KorrinOS core..."
     
     # Update smart input system
     if [ -d /proc/smart_input ]; then
@@ -248,7 +248,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Update System${NC}"
+        echo -e "${YELLOW}KorrinOS Update System${NC}"
         echo ""
         echo "Keeps your system up to date with the latest features and security fixes."
         echo ""

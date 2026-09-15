@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Sub-OS Supply Chain Verification (HACK + SECURE territory)
+# KorrinOS Sub-OS Supply Chain Verification (HACK + SECURE territory)
 # Before any package/binary is allowed to touch the system, verify it.
 #
 # CONCEPT:
@@ -95,7 +95,7 @@ case "${1:-}" in
   timewarp|sim) shift; timewarp "$@" ;;
   scan) shift; threshold_scan "$@" ;;
   status) status ;;
-  *) echo "TinkerOS Supply-Chain Verification
+  *) echo "KorrinOS Supply-Chain Verification
 Usage: ${0##*/} <record <path>|build <srcdir>|verify <path>|timewarp <payload>|scan <bin>|status>
 Deterministic-build + hash-ledger + simulated time-warp analysis." ;;
 esac

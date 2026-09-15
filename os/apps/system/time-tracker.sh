@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Time Tracker - Track time per app
+# KorrinOS Time Tracker - Track time per app
 
 set -e
 

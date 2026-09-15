@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS software-defined cache tiering (CAT / MPAM) hint interface.
+ * KorrinOS software-defined cache tiering (CAT / MPAM) hint interface.
  *
  * Exposes a cache-partitioning "ways" profile that can be applied to
  * CPU resource-control hardware (Intel CAT, AMD way-partitioning, ARM
@@ -151,18 +151,18 @@ static int __init tinker_cache_init(void)
 	if (cache_l3_ways_override) {
 		cache_l3_ways = cache_l3_ways_override;
 		cache_max_ways = cache_l3_ways_override;
-		pr_info("TinkerOS: cache tiering using override %u ways\n",
+		pr_info("KorrinOS: cache tiering using override %u ways\n",
 			cache_l3_ways);
 	} else {
 		detected = cache_detect_ways();
 		if (detected) {
 			cache_l3_ways = detected;
 			cache_max_ways = detected;
-			pr_info("TinkerOS: cache tiering detected %u L3 ways via CPUID\n",
+			pr_info("KorrinOS: cache tiering detected %u L3 ways via CPUID\n",
 				detected);
 		} else {
 			cache_l3_ways = cache_max_ways;
-			pr_info("TinkerOS: cache tiering using default %u ways (CPUID unavailable)\n",
+			pr_info("KorrinOS: cache tiering using default %u ways (CPUID unavailable)\n",
 				cache_max_ways);
 		}
 	}
@@ -171,17 +171,17 @@ static int __init tinker_cache_init(void)
 	if (tinker_proc_root)
 		proc_create("cache", 0644, tinker_proc_root, &cache_fops);
 
-	pr_info("TinkerOS: cache tiering (CAT/MPAM) at /proc/tinker/cache\n");
+	pr_info("KorrinOS: cache tiering (CAT/MPAM) at /proc/tinker/cache\n");
 	return 0;
 }
 
 static void __exit tinker_cache_exit(void)
 {
-	pr_info("TinkerOS: cache tiering removed\n");
+	pr_info("KorrinOS: cache tiering removed\n");
 }
 
 module_init(tinker_cache_init);
 module_exit(tinker_cache_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS software-defined cache tiering hint");
+MODULE_DESCRIPTION("KorrinOS software-defined cache tiering hint");

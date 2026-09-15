@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Optimization Toggles
+# KorrinOS Optimization Toggles
 
 set -e
 
@@ -11,7 +11,7 @@ mkdir -p "$OPT_DIR"
 init_config() {
     if [ ! -f "$CONFIG_FILE" ]; then
         cat > "$CONFIG_FILE" << 'EOF'
-# TinkerOS Optimization Toggles
+# KorrinOS Optimization Toggles
 
 # Performance
 CPU_GOVERNOR=schedutil

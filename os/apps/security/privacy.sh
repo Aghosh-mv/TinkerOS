@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Privacy - Privacy audit, tracker blocking, and data management
+# KorrinOS Privacy - Privacy audit, tracker blocking, and data management
 # Local-only. No analytics. No cloud.
 
 set -e
@@ -73,7 +73,7 @@ apply_hosts() {
     [ ! -f "$HOSTS_BACKUP" ] && sudo cp /etc/hosts "$HOSTS_BACKUP" && echo "  ✓ Backed up /etc/hosts"
     
     echo "  Applying $1 block rules..."
-    { cat "$HOSTS_BACKUP" 2>/dev/null; echo ""; echo "# TinkerOS Privacy Blocklist $(date +%F)"; cat "$PV_DIR/hosts.block"; } | sudo tee /etc/hosts >/dev/null
+    { cat "$HOSTS_BACKUP" 2>/dev/null; echo ""; echo "# KorrinOS Privacy Blocklist $(date +%F)"; cat "$PV_DIR/hosts.block"; } | sudo tee /etc/hosts >/dev/null
     echo "  ✓ Applied to /etc/hosts"
 }
 

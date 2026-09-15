@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS battery lifespan manager.
+ * KorrinOS battery lifespan manager.
  *
  * Implements the "lifespan doubler" concept as a kernel feature: track a
  * safe charge envelope (trickle-charge lower bound and top-off cap) and
@@ -131,17 +131,17 @@ static int __init tinker_battery_init(void)
 		proc_create("battery", 0644, tinker_proc_root,
 			    &battery_fops);
 
-	pr_info("TinkerOS: battery lifespan manager at /proc/tinker/battery\n");
+	pr_info("KorrinOS: battery lifespan manager at /proc/tinker/battery\n");
 	return 0;
 }
 
 static void __exit tinker_battery_exit(void)
 {
-	pr_info("TinkerOS: battery lifespan manager removed\n");
+	pr_info("KorrinOS: battery lifespan manager removed\n");
 }
 
 module_init(tinker_battery_init);
 module_exit(tinker_battery_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS battery lifespan manager");
+MODULE_DESCRIPTION("KorrinOS battery lifespan manager");

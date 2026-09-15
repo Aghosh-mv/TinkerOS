@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Unified Package Manager
+# KorrinOS Unified Package Manager
 # Works with apt, dnf, pacman, zypper, snap, flatpak
 
 set -e

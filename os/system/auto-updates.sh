@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Automatic System Updates
+# KorrinOS Automatic System Updates
 
 set -e
 
@@ -13,7 +13,7 @@ mkdir -p "$UPDATE_DIR"
 init_config() {
     if [ ! -f "$UPDATE_CONFIG" ]; then
         cat > "$UPDATE_CONFIG" << 'EOF'
-# TinkerOS Auto-Update Configuration
+# KorrinOS Auto-Update Configuration
 
 # Enable automatic updates
 AUTO_UPDATES=true

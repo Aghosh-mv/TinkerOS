@@ -6,9 +6,9 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.dev
-    image: ghcr.io/tinkeros/tinkeros/dev:latest
-    container_name: tinkeros-dev
-    hostname: tinkeros-dev
+    image: ghcr.io/korrinos/korrinos/dev:latest
+    container_name: korrinos-dev
+    hostname: korrinos-dev
     volumes:
       - ../:/workspace:cached
       - ~/.gitconfig:/home/tinkerer/.gitconfig:ro
@@ -32,8 +32,8 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.ci
-    image: ghcr.io/tinkeros/tinkeros/ci:latest
-    container_name: tinkeros-ci
+    image: ghcr.io/korrinos/korrinos/ci:latest
+    container_name: korrinos-ci
     volumes:
       - ../:/workspace:cached
       - /var/run/docker.sock:/var/run/docker.sock
@@ -48,8 +48,8 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.iso
-    image: ghcr.io/tinkeros/tinkeros/iso-builder:latest
-    container_name: tinkeros-iso-builder
+    image: ghcr.io/korrinos/korrinos/iso-builder:latest
+    container_name: korrinos-iso-builder
     volumes:
       - ../:/workspace:cached
       - iso-output:/output
@@ -60,7 +60,7 @@ services:
   # QEMU for testing
   qemu:
     image: ubuntu:24.04
-    container_name: tinkeros-qemu
+    container_name: korrinos-qemu
     volumes:
       - ../:/workspace:cached
       - iso-output:/iso
@@ -73,4 +73,4 @@ volumes:
 
 networks:
   default:
-    name: tinkeros-network
+    name: korrinos-network

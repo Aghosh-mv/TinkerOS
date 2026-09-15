@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Parental Controls - Content/time restrictions
+# KorrinOS Parental Controls - Content/time restrictions
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Qt Theme - Qt theme manager
+# KorrinOS Qt Theme - Qt theme manager
 set -e
 QT_DIR="$HOME/.tinker/qt-theme"
 mkdir -p "$QT_DIR"

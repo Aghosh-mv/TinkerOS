@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS HDR Manager - HDR display settings
+# KorrinOS HDR Manager - HDR display settings
 
 set -e
 

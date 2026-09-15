@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Desktop Effects - Compositor effects
+# KorrinOS Desktop Effects - Compositor effects
 
 set -e
 

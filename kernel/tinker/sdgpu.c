@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS SD-GPU — software-defined GPU control plane.
+ * KorrinOS SD-GPU — software-defined GPU control plane.
  *
  * On systems with a real GPU this would map to DRM/compute scheduling.
  * Here it exposes a software-defined GPU policy (compute share, latency
@@ -103,17 +103,17 @@ static int __init tinker_sdgpu_init(void)
 	if (tinker_proc_root)
 		proc_create("sdgpu", 0644, tinker_proc_root, &sdgpu_fops);
 
-	pr_info("TinkerOS: SD-GPU control plane at /proc/tinker/sdgpu\n");
+	pr_info("KorrinOS: SD-GPU control plane at /proc/tinker/sdgpu\n");
 	return 0;
 }
 
 static void __exit tinker_sdgpu_exit(void)
 {
-	pr_info("TinkerOS: SD-GPU control plane removed\n");
+	pr_info("KorrinOS: SD-GPU control plane removed\n");
 }
 
 module_init(tinker_sdgpu_init);
 module_exit(tinker_sdgpu_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS software-defined GPU control plane");
+MODULE_DESCRIPTION("KorrinOS software-defined GPU control plane");

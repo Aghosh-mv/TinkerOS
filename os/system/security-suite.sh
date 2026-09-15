@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Security Suite - Comprehensive security audit and hardening
+# KorrinOS Security Suite - Comprehensive security audit and hardening
 # (Delegates to the full implementation in os/apps/security/)
 
 set -e
@@ -9,6 +9,6 @@ if [ -f "$FULL_IMPL" ] && [ -s "$FULL_IMPL" ]; then
     exec bash "$FULL_IMPL" "$@"
 fi
 
-echo "=== TinkerOS Security Suite ==="
+echo "=== KorrinOS Security Suite ==="
 echo "Full implementation not found at: $FULL_IMPL"
 echo "Unable to run audit."

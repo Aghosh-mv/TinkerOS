@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Predictive System Intelligence (PSI)
+# KorrinOS Predictive System Intelligence (PSI)
 # Temporal Behavioral Optimization - predicts next action based on patterns
 
 PSI_HISTORY="$HOME/.tinker/psi_history.json"

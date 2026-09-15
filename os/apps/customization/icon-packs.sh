@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Icon Packs - Custom icon themes
+# KorrinOS Icon Packs - Custom icon themes
 
 set -e
 

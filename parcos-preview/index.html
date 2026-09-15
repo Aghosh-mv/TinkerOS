@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KorrinOS — Desktop Preview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background: #0a0a0f;
+    color: #e0e0e0;
+    user-select: none;
+  }
+
+  /* ─── DESKTOP ─── */
+  .desktop {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .desktop::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+    animation: bgPulse 20s ease-in-out infinite;
+  }
+
+  @keyframes bgPulse {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-2%, 1%) scale(1.02); }
+    66% { transform: translate(1%, -1%) scale(0.98); }
+  }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 36px;
+    background: rgba(15, 15, 25, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+  .topbar .logo {
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    background: linear-gradient(135deg, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .topbar .menu-item {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+  .topbar .menu-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  .topbar .clock {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+  }
+
+  /* ─── DOCK ─── */
+  .dock {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(15, 15, 25, 0.6);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    z-index: 999;
+    transition: all 0.3s;
+  }
+
+  .dock:hover {
+    background: rgba(15, 15, 25, 0.8);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .dock-item {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+
+  .dock-item:hover {
+    transform: translateY(-8px) scale(1.15);
+    background: rgba(255,255,255,0.1);
+  }
+
+  .dock-item .tooltip {
+    position: absolute;
+    bottom: 60px;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  .dock-item:hover .tooltip { opacity: 1; }
+
+  .dock-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 8px 4px;
+  }
+
+  .dock-indicator {
+    position: absolute;
+    bottom: -4px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #818cf8;
+  }
+
+  /* ─── DESKTOP ICONS ─── */
+  .desktop-icons {
+    position: absolute;
+    top: 52px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10;
+  }
+
+  .desktop-icon {
+    width: 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .desktop-icon:hover { background: rgba(255,255,255,0.08); }
+
+  .desktop-icon .icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .desktop-icon .label {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+
+  /* ─── WIDGETS ─── */
+  .widget-area {
+    position: absolute;
+    top: 52px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10;
+  }
+
+  .widget {
+    background: rgba(15, 15, 25, 0.55);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 16px;
+    min-width: 220px;
+    transition: all 0.3s;
+  }
+  .widget:hover {
+    border-color: rgba(255,255,255,0.12);
+    background: rgba(15, 15, 25, 0.7);
+  }
+
+  .widget-title {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+
+  .widget-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+  .widget-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+  }
+
+  .widget-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .widget-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  /* ─── PARC AI PANEL ─── */
+  .ai-panel {
+    position: absolute;
+    top: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 520px;
+    max-height: 60vh;
+    background: rgba(15, 15, 25, 0.7);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    z-index: 500;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+  .ai-panel.active { display: flex; }
+
+  .ai-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ai-avatar {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #818cf8, #c084fc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .ai-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #fff;
+  }
+  .ai-status {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .ai-close {
+    margin-left: auto;
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: rgba(255,255,255,0.4);
+    transition: all 0.15s;
+  }
+  .ai-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  .ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px;
+  }
+
+  .ai-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    animation: msgIn 0.3s ease;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .ai-msg.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+
+  .ai-msg.assistant {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.9);
+    border-bottom-left-radius: 4px;
+  }
+
+  .ai-input-area {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 8px;
+  }
+
+  .ai-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .ai-input:focus { border-color: rgba(129, 140, 248, 0.5); }
+  .ai-input::placeholder { color: rgba(255,255,255,0.25); }
+
+  .ai-send {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .ai-send:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  }
+
+  /* ─── WINDOW ─── */
+  .window {
+    position: absolute;
+    top: 80px; left: 120px;
+    width: 680px; height: 480px;
+    background: rgba(15, 15, 25, 0.8);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    display: none;
+    flex-direction: column;
+    z-index: 200;
+    overflow: hidden;
+  }
+  .window.active { display: flex; }
+
+  .win-titlebar {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    cursor: grab;
+  }
+
+  .win-dots {
+    display: flex; gap: 7px;
+  }
+  .win-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+  .win-dot:hover { filter: brightness(1.2); }
+  .win-dot.red { background: #ef4444; }
+  .win-dot.yellow { background: #eab308; }
+  .win-dot.green { background: #22c55e; }
+
+  .win-title {
+    margin-left: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .win-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.8);
+  }
+
+  /* ─── NOTIFICATION ─── */
+  .notif {
+    position: absolute;
+    top: 48px; right: 16px;
+    background: rgba(15, 15, 25, 0.85);
+    backdrop-filter: blur(20px);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 2000;
+    animation: notifIn 0.4s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  @keyframes notifIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .notif-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #818cf8, #c084fc);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .notif-text { font-size: 12px; color: rgba(255,255,255,0.9); }
+  .notif-sub { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .widget-area { display: none; }
+    .ai-panel { width: 90vw; }
+    .window { left: 5vw; width: 90vw; }
+  }
+</style>
+</head>
+<body>
+
+<div class="desktop">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="logo">PARC</span>
+      <span class="menu-item">File</span>
+      <span class="menu-item">Edit</span>
+      <span class="menu-item">View</span>
+      <span class="menu-item">Help</span>
+    </div>
+    <div class="topbar-right">
+      <div class="status-dot"></div>
+      <span class="clock" id="clock">12:00</span>
+    </div>
+  </div>
+
+  <!-- DESKTOP ICONS -->
+  <div class="desktop-icons">
+    <div class="desktop-icon" onclick="openApp('files')">
+      <div class="icon">📁</div>
+      <span class="label">Files</span>
+    </div>
+    <div class="desktop-icon" onclick="openApp('terminal')">
+      <div class="icon">⬛</div>
+      <span class="label">Terminal</span>
+    </div>
+    <div class="desktop-icon" onclick="openApp('browser')">
+      <div class="icon">🌐</div>
+      <span class="label">Browser</span>
+    </div>
+    <div class="desktop-icon" onclick="openApp('settings')">
+      <div class="icon">⚙️</div>
+      <span class="label">Settings</span>
+    </div>
+  </div>
+
+  <!-- WIDGETS -->
+  <div class="widget-area">
+    <div class="widget">
+      <div class="widget-title">System</div>
+      <div class="widget-value" style="font-size:20px">KorrinOS 1.0</div>
+      <div class="widget-sub">Kernel 6.12 • Wayland</div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">CPU</div>
+      <div class="widget-value">12%</div>
+      <div class="widget-sub">AMD Ryzen 9 5900X</div>
+      <div class="widget-bar"><div class="widget-bar-fill" style="width:12%;background:linear-gradient(90deg,#34d399,#818cf8)"></div></div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Memory</div>
+      <div class="widget-value">8.2 GB</div>
+      <div class="widget-sub">of 32 GB used</div>
+      <div class="widget-bar"><div class="widget-bar-fill" style="width:25%;background:linear-gradient(90deg,#3b82f6,#8b5cf6)"></div></div>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Parc AI</div>
+      <div class="widget-value" style="font-size:16px;color:#34d399">● Online</div>
+      <div class="widget-sub">Model: Parc-3B • 2048 ctx</div>
+    </div>
+    <div class="widget" style="cursor:pointer" onclick="toggleAI()">
+      <div class="widget-title">Quick Actions</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+        <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">🔍 Search</span>
+        <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">📸 Screenshot</span>
+        <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">🎨 Theme</span>
+        <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">🌙 Night</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCK -->
+  <div class="dock">
+    <div class="dock-item" onclick="toggleAI()">
+      🤖
+      <span class="tooltip">Parc AI</span>
+      <div class="dock-indicator"></div>
+    </div>
+    <div class="dock-divider"></div>
+    <div class="dock-item" onclick="openApp('files')">
+      📁
+      <span class="tooltip">Files</span>
+    </div>
+    <div class="dock-item" onclick="openApp('terminal')">
+      ⬛
+      <span class="tooltip">Terminal</span>
+    </div>
+    <div class="dock-item" onclick="openApp('browser')">
+      🌐
+      <span class="tooltip">Browser</span>
+    </div>
+    <div class="dock-item" onclick="openApp('editor')">
+      ✏️
+      <span class="tooltip">Editor</span>
+    </div>
+    <div class="dock-item" onclick="openApp('settings')">
+      ⚙️
+      <span class="tooltip">Settings</span>
+    </div>
+    <div class="dock-divider"></div>
+    <div class="dock-item">
+      🎵
+      <span class="tooltip">Music</span>
+    </div>
+    <div class="dock-item">
+      📷
+      <span class="tooltip">Camera</span>
+    </div>
+  </div>
+
+  <!-- PARC AI PANEL -->
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-header">
+      <div class="ai-avatar">🤖</div>
+      <div>
+        <div class="ai-name">Parc AI</div>
+        <div class="ai-status">Parc-3B • Always here</div>
+      </div>
+      <div class="ai-close" onclick="toggleAI()">✕</div>
+    </div>
+    <div class="ai-messages" id="aiMessages">
+      <div class="ai-msg assistant">Hey! I'm Parc AI, built right into your system. Ask me anything — I can search, code, brainstorm, or just chat. What's up?</div>
+    </div>
+    <div class="ai-input-area">
+      <input class="ai-input" id="aiInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="ai-send" onclick="sendMsg()">→</button>
+    </div>
+  </div>
+
+  <!-- WINDOW -->
+  <div class="window" id="mainWindow">
+    <div class="win-titlebar">
+      <div class="win-dots">
+        <div class="win-dot red" onclick="closeWindow()"></div>
+        <div class="win-dot yellow"></div>
+        <div class="win-dot green"></div>
+      </div>
+      <span class="win-title" id="winTitle">Application</span>
+    </div>
+    <div class="win-body" id="winBody"></div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div class="notif" id="notif" style="display:none">
+    <div class="notif-icon">🤖</div>
+    <div>
+      <div class="notif-text">Parc AI is ready</div>
+      <div class="notif-sub">Click the dock icon or press Ctrl+Space</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── CLOCK ───
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ─── NOTIFICATION ───
+setTimeout(() => {
+  document.getElementById('notif').style.display = 'flex';
+  setTimeout(() => { document.getElementById('notif').style.display = 'none'; }, 4000);
+}, 1500);
+
+// ─── AI PANEL ───
+function toggleAI() {
+  const panel = document.getElementById('aiPanel');
+  panel.classList.toggle('active');
+  if (panel.classList.contains('active')) {
+    document.getElementById('aiInput').focus();
+  }
+}
+
+const responses = {
+  'hello': "Hey there! What can I help you with?",
+  'hi': "Hi! What's on your mind?",
+  'what are you': "I'm Parc AI — your built-in assistant. I live right here on your device, no cloud needed. Ask me anything!",
+  'help': "I can help with: searching the web, writing code, brainstorming ideas, controlling your system, explaining concepts, and much more. What do you need?",
+  'time': `It's ${new Date().toLocaleTimeString()}. Anything else?`,
+  'weather': "I'd check your local weather if I had location access. You can enable that in Settings → Privacy.",
+  'joke': "Why do programmers prefer dark mode? Because light attracts bugs! 🪲",
+  'who made you': "The KorrinOS team built me. I'm open source and I live on your machine — your data never leaves.",
+  'default': [
+    "That's interesting! Let me think about that...",
+    "Good question! Here's what I know...",
+    "I can help with that. Let me break it down...",
+    "Sure thing! Let me look into that for you.",
+    "Great question! The short answer is...",
+  ]
+};
+
+function getResponse(msg) {
+  const lower = msg.toLowerCase().trim();
+  for (const [key, val] of Object.entries(responses)) {
+    if (key !== 'default' && lower.includes(key)) return val;
+  }
+  return responses.default[Math.floor(Math.random() * responses.default.length)];
+}
+
+function sendMsg() {
+  const input = document.getElementById('aiInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const messages = document.getElementById('aiMessages');
+  
+  // User message
+  const userDiv = document.createElement('div');
+  userDiv.className = 'ai-msg user';
+  userDiv.textContent = msg;
+  messages.appendChild(userDiv);
+
+  input.value = '';
+
+  // Typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'ai-msg assistant';
+  typing.innerHTML = '<span style="opacity:0.5">thinking...</span>';
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  // Response
+  setTimeout(() => {
+    typing.textContent = getResponse(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }, 800 + Math.random() * 1200);
+}
+
+// ─── WINDOWS ───
+const appContent = {
+  files: {
+    title: 'Files',
+    body: `
+      <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">⬆ Home</div>
+        <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">📂 Documents</div>
+        <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">📥 Downloads</div>
+        <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">🖼️ Pictures</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        ${['📁 Projects', '📁 Documents', '📁 Downloads', '📁 Pictures', '📁 Music', '📁 Videos', '📁 Desktop', '📁 .config'].map(f =>
+          `<div style="padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;text-align:center;cursor:pointer;font-size:12px;border:1px solid rgba(255,255,255,0.04)">
+            <div style="font-size:28px;margin-bottom:4px">📁</div>${f.split(' ')[1]}
+          </div>`
+        ).join('')}
+      </div>`
+  },
+  terminal: {
+    title: 'Terminal',
+    body: `<div style="font-family:monospace;font-size:12px;line-height:1.8;color:#34d399">
+      <div>$ neofetch --parc</div>
+      <div style="color:#818cf8">        ██████╗ ██████╗ </div>
+      <div style="color:#818cf8">       ██╔════╝██╔═══██╗</div>
+      <div style="color:#818cf8">       ██║     ██║   ██║</div>
+      <div style="color:#818cf8">       ██║     ██║   ██║</div>
+      <div style="color:#818cf8">       ╚██████╗╚██████╔╝</div>
+      <div style="color:#818cf8">        ╚═════╝ ╚═════╝ </div>
+      <div style="margin-top:8px"><span style="color:#e0e0e0">OS:</span> KorrinOS 1.0 (Parc)</div>
+      <div><span style="color:#e0e0e0">Kernel:</span> 6.12.0-parc</div>
+      <div><span style="color:#e0e0e0">Shell:</span> parc-sh 1.0</div>
+      <div><span style="color:#e0e0e0">DE:</span> ParcDE (Wayland)</div>
+      <div><span style="color:#e0e0e0">CPU:</span> AMD Ryzen 9 5900X</div>
+      <div><span style="color:#e0e0e0">GPU:</span> NVIDIA RTX 4000 Ada</div>
+      <div><span style="color:#e0e0e0">Memory:</span> 8.2 GiB / 32 GiB</div>
+      <div style="margin-top:8px;color:#c084fc">$ <span id="cursor" style="animation:blink 1s infinite">_</span></div>
+      <style>@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}</style>
+    </div>`
+  },
+  browser: {
+    title: 'Parc Browser',
+    body: `
+      <div style="padding:8px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+        <span style="color:rgba(255,255,255,0.3)">🔒</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.5)">parc://newtab</span>
+      </div>
+      <div style="text-align:center;padding:40px 0">
+        <div style="font-size:32px;font-weight:700;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Parc Browser</div>
+        <div style="color:rgba(255,255,255,0.4);margin-top:8px;font-size:13px">Fast. Private. Yours.</div>
+        <div style="margin-top:24px;padding:10px 20px;background:rgba(255,255,255,0.06);border-radius:10px;display:inline-block;font-size:13px;color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.06)">
+          Search or enter URL...
+        </div>
+      </div>`
+  },
+  editor: {
+    title: 'Parc Editor',
+    body: `<div style="font-family:monospace;font-size:12px;line-height:1.8">
+      <div style="color:#6b7280">// Welcome to Parc Editor</div>
+      <div style="color:#6b7280">// A minimal, fast code editor</div>
+      <div style="margin-top:8px"><span style="color:#c084fc">fn</span> <span style="color:#818cf8">main</span>() {</div>
+      <div style="padding-left:20px"><span style="color:#818cf8">let</span> greeting = <span style="color:#34d399">"Hello, KorrinOS!"</span>;</div>
+      <div style="padding-left:20px"><span style="color:#818cf8">println!</span>(<span style="color:#34d399">"{}"</span>, greeting);</div>
+      <div>}</div>
+    </div>`
+  },
+  settings: {
+    title: 'Settings',
+    body: `
+      <div style="display:flex;gap:20px">
+        <div style="width:160px;display:flex;flex-direction:column;gap:4px">
+          ${['Appearance', 'Wallpaper', 'Sound', 'Network', 'Bluetooth', 'Display', 'Privacy', 'AI', 'About'].map((s, i) =>
+            `<div style="padding:8px 12px;border-radius:8px;font-size:12px;cursor:pointer;${i===0?'background:rgba(129,140,248,0.15);color:#818cf8':'color:rgba(255,255,255,0.5)'}">${s}</div>`
+          ).join('')}
+        </div>
+        <div style="flex:1;padding-left:16px;border-left:1px solid rgba(255,255,255,0.06)">
+          <div style="font-size:16px;font-weight:600;color:#fff;margin-bottom:16px">Appearance</div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px">Theme</div>
+            <div style="display:flex;gap:8px">
+              <div style="width:60px;height:40px;background:linear-gradient(135deg,#1a1a2e,#302b63);border-radius:8px;border:2px solid #818cf8;cursor:pointer"></div>
+              <div style="width:60px;height:40px;background:linear-gradient(135deg,#f5f5f5,#e5e5e5);border-radius:8px;border:2px solid transparent;cursor:pointer"></div>
+              <div style="width:60px;height:40px;background:linear-gradient(135deg,#1a1a1a,#2d2d2d);border-radius:8px;border:2px solid transparent;cursor:pointer"></div>
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px">Accent Color</div>
+            <div style="display:flex;gap:8px">
+              ${['#818cf8','#34d399','#f59e0b','#ef4444','#ec4899','#06b6d4'].map(c =>
+                `<div style="width:24px;height:24px;border-radius:50%;background:${c};cursor:pointer;border:2px solid transparent"></div>`
+              ).join('')}
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px">Parc AI</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:36px;height:20px;background:#34d399;border-radius:10px;position:relative;cursor:pointer">
+                <div style="width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;right:2px;transition:all 0.2s"></div>
+              </div>
+              <span style="font-size:12px;color:rgba(255,255,255,0.6)">Enabled</span>
+            </div>
+          </div>
+        </div>
+      </div>`
+  }
+};
+
+function openApp(name) {
+  const app = appContent[name];
+  if (!app) return;
+  document.getElementById('winTitle').textContent = app.title;
+  document.getElementById('winBody').innerHTML = app.body;
+  document.getElementById('mainWindow').classList.add('active');
+}
+
+function closeWindow() {
+  document.getElementById('mainWindow').classList.remove('active');
+}
+
+// ─── KEYBOARD SHORTCUTS ───
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === ' ') {
+    e.preventDefault();
+    toggleAI();
+  }
+  if (e.key === 'Escape') {
+    document.getElementById('aiPanel').classList.remove('active');
+    closeWindow();
+  }
+});
+</script>
+
+</body>
+</html>

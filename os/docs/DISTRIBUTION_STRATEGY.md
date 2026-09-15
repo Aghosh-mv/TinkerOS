@@ -1,6 +1,6 @@
-# TinkerOS — Ultimate OS Distribution Strategy (OFFICIAL, do not change)
+# KorrinOS — Ultimate OS Distribution Strategy (OFFICIAL, do not change)
 
-This is the standing, official release/deploy strategy for TinkerOS. Follow
+This is the standing, official release/deploy strategy for KorrinOS. Follow
 it exactly. Rationale: combine the best free services instead of forcing one
 website to do everything — full community reach + unlimited storage +
 cost-proof, un-ban-able redundancy.
@@ -10,7 +10,7 @@ cost-proof, un-ban-able redundancy.
 [ Modified Linux code ]  ->  GitHub (community: code, stars, issues)
                                  |
                                  v
-                [ Compiled TinkerOS ISO ]
+                [ Compiled KorrinOS ISO ]
                                  |
                 ------------------------------------------
                 |                    |                    |
@@ -28,34 +28,34 @@ cost-proof, un-ban-able redundancy.
   warnings, no analytics).
 - README.md is the beautiful "front door" landing page.
 - **Create the place:** https://github.com/new  ->  repo will live at
-  https://github.com/<your-username>/TinkerOS
+  https://github.com/<your-username>/KorrinOS
 
 ## 1b. SourceForge (the actual ISO — primary download)
 - SourceForge hosts the large ISO file (multi-GB welcome, global mirror
   network, elite analytics). Publish the full, uncompressed
-  TinkerOS-v1.0.iso here — "non-quantised", a real exact binary.
+  KorrinOS-v1.0.iso here — "non-quantised", a real exact binary.
 - **Create the place:** https://sourceforge.net/create/  (or
   https://sourceforge.net/projects/create.php)  ->  project lives at
-  https://sourceforge.net/projects/tinkeros/
-- Uploads: https://sourceforge.net/projects/tinkeros/files/
+  https://sourceforge.net/projects/korrinos/
+- Uploads: https://sourceforge.net/projects/korrinos/files/
 
 ## Hosting layout (canonical — v1.0)
 ```
-[ TinkerOS source CODE ]  ->  GitHub (community, stars, issues)
+[ KorrinOS source CODE ]  ->  GitHub (community, stars, issues)
                                     |
                                     |   (README links to ISO)
                                     v
-                   [ TinkerOS ISO (326 MB, non-quantised) ]
+                   [ KorrinOS ISO (326 MB, non-quantised) ]
                                     |
                        SourceForge (primary) + Internet Archive + torrent
 ```
 Why: GitHub has the biggest audience/popularity, so its README is where
-everyone first finds TinkerOS. The large ISO lives on SourceForge (no size
+everyone first finds KorrinOS. The large ISO lives on SourceForge (no size
 caps, CDN, analytics) and is linked from the GitHub README so GitHub's
 popularity drives people straight to the download.
 ```
 Git remotes:
-  - git remote add origin  https://github.com/<user>/TinkerOS.git   (code)
+  - git remote add origin  https://github.com/<user>/KorrinOS.git   (code)
   - (ISO is NOT in git; it is uploaded to SourceForge only)
 - Free project hosting; multi-gigabyte ISO welcome (4GB/6GB+ no caps).
 - Massive global mirror network — handles viral traffic without throttling.

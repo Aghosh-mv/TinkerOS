@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Predictive Intelligence (PSI) - AI-powered system prediction
+# KorrinOS Predictive Intelligence (PSI) - AI-powered system prediction
 
 set -e
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS Desktop - Modern UI for TinkerAI
+KorrinOS Desktop - Modern UI for TinkerAI
 =========================================
 A friendly, button-driven desktop front-end for the on-device TinkerAI agent.
 Instead of a developer terminal, this gives you a clean dark-themed window with
@@ -113,7 +113,7 @@ def run_gui():
     # Header
     tk.Label(main, text="TinkerAI", font=("Segoe UI", 16, "bold"),
              fg=Theme.accent, bg=Theme.bg).pack(anchor="w")
-    tk.Label(main, text="on-device AI for TinkerOS", font=("Segoe UI", 9),
+    tk.Label(main, text="on-device AI for KorrinOS", font=("Segoe UI", 9),
              fg=Theme.muted, bg=Theme.bg).pack(anchor="w", pady=(2, 12))
 
     # Quick-action buttons

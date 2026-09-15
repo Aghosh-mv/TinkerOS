@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS App Store
+# KorrinOS App Store
 # One-click app installation
 
 set -e
@@ -284,7 +284,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}Welcome to TinkerOS App Store!${NC}"
+        echo -e "${YELLOW}Welcome to KorrinOS App Store!${NC}"
         echo ""
         echo "Quick commands:"
         echo "  tinker-store list      - See all apps"

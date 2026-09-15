@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Feature Manager
+# KorrinOS Feature Manager
 # Enable/disable optional technologies
 
 CONFIG_FILE="$HOME/.tinker/optional-features.conf"
@@ -10,7 +10,7 @@ init() {
     
     if [ ! -f "$CONFIG_FILE" ]; then
         cat > "$CONFIG_FILE" << 'EOF'
-# TinkerOS Optional Features (All disabled by default)
+# KorrinOS Optional Features (All disabled by default)
 
 DIGITAL_TWIN_ENABLED=false
 SELF_HEALING_ENABLED=false
@@ -113,7 +113,7 @@ disable() {
 
 # Show status
 status() {
-    echo "TinkerOS Optional Features Status:"
+    echo "KorrinOS Optional Features Status:"
     echo ""
     
     if [ -f "$CONFIG_FILE" ]; then

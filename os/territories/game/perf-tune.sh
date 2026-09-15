@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Perf-Tune — auto benchmark + tuning profile generator (GAME)
+# KorrinOS Perf-Tune — auto benchmark + tuning profile generator (GAME)
 # Benchmarks the system, then generates a tuned profile (governor, IO
 # scheduler, swappiness, GPU power profile) tuned to the measured hardware.
 
@@ -64,7 +64,7 @@ EOF
   echo "Saved profile '$name' to $PROFILES/$name"
 }
 
-usage() { echo "TinkerOS Perf-Tune
+usage() { echo "KorrinOS Perf-Tune
 Usage: ${0##*/} <bench|tune <balanced|powersaver|game>|game|save <name>>"; }
 
 case "${1:-}" in

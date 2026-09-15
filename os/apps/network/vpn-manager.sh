@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS VPN Manager - WireGuard and OpenVPN connection management
+# KorrinOS VPN Manager - WireGuard and OpenVPN connection management
 
 set -e
 

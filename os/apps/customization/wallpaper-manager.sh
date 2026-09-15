@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Wallpaper Manager - Auto-rotate wallpapers
+# KorrinOS Wallpaper Manager - Auto-rotate wallpapers
 set -e
 WP_DIR="$HOME/.tinker/wallpaper"
 CONFIG_FILE="$WP_DIR/config.conf"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Voice Commands
+# KorrinOS Voice Commands
 # Control your system with your voice
 
 set -e
@@ -56,7 +56,7 @@ init_voice() {
     
     if [ ! -f $VOICE_CONFIG ]; then
         cat > $VOICE_CONFIG << 'EOF'
-# TinkerOS Voice Commands Configuration
+# KorrinOS Voice Commands Configuration
 
 # Enable/disable voice commands
 ENABLED=true
@@ -444,7 +444,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Voice Commands${NC}"
+        echo -e "${YELLOW}KorrinOS Voice Commands${NC}"
         echo ""
         echo "Control your system with your voice."
         echo ""

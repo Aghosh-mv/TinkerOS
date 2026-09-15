@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Smart Clipboard
+# KorrinOS Smart Clipboard
 # Multi-item clipboard with search, history, and sync
 
 set -e

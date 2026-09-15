@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GPU Auto-Configuration
+# KorrinOS GPU Auto-Configuration
 
 set -e
 

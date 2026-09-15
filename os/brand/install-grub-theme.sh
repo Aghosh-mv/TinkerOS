@@ -1,24 +1,24 @@
 #!/bin/bash
-# TinkerOS GRUB theme installer — wires the branded boot menu into real Linux
+# KorrinOS GRUB theme installer — wires the branded boot menu into real Linux
 # GRUB as the default. Builds on the existing GRUB bootloader (we only add
 # our theme dir + enable it in /etc/default/grub), then regenerate grub.cfg.
 #
-#   install   : copy theme to /boot/grub/themes/tinkeros + enable
+#   install   : copy theme to /boot/grub/themes/korrinos + enable
 #   uninstall : revert to default GRUB
 #   status    : show current GRUB theme
 
 set -euo pipefail
-THEME_NAME=tinkeros
-THEME_DST=/boot/grub/themes/tinkeros
-SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/grub-tinkeros"
+THEME_NAME=korrinos
+THEME_DST=/boot/grub/themes/korrinos
+SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/grub-korrinos"
 [ -d "$SRC" ] || SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 need_root() { [ "$(id -u)" -eq 0 ]; }
 
 install_theme() {
-    echo "Installing TinkerOS GRUB theme..."
+    echo "Installing KorrinOS GRUB theme..."
     mkdir -p "$THEME_DST"
-    cp "$SRC/theme.txt" "$SRC/tinkeros_boot.png" "$SRC/select_hi.png" "$SRC/select_s.png" "$THEME_DST/"
+    cp "$SRC/theme.txt" "$SRC/korrinos_boot.png" "$SRC/select_hi.png" "$SRC/select_s.png" "$THEME_DST/"
 
     if command -v update-grub >/dev/null 2>&1 || [ -f /etc/default/grub ]; then
         # enable theme + keep splash in /etc/default/grub
@@ -32,11 +32,11 @@ install_theme() {
             /usr/sbin/grub-mkconfig -o /boot/grub/grub.cfg || true
         fi
     fi
-    echo "TinkerOS GRUB theme installed and set as default."
+    echo "KorrinOS GRUB theme installed and set as default."
 }
 
 uninstall_theme() {
-    echo "Removing TinkerOS GRUB theme..."
+    echo "Removing KorrinOS GRUB theme..."
     rm -rf "$THEME_DST"
     sed -i '/^GRUB_THEME=/d' /etc/default/grub 2>/dev/null || true
     echo "Reverted to default GRUB menu."
@@ -51,7 +51,7 @@ case "${1:-}" in
     install|apply|on) need_root && install_theme || echo "Re-run with sudo." ;;
     uninstall|remove|off) need_root && uninstall_theme || echo "Re-run with sudo." ;;
     status) status ;;
-    *) echo "TinkerOS GRUB Theme
+    *) echo "KorrinOS GRUB Theme
 Usage: ${0##*/} <install|uninstall|status>
 Wires the branded GRUB boot menu into real Linux as the default." ;;
 esac

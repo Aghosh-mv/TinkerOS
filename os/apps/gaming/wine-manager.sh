@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Wine/Proton Manager - Easy Windows app compatibility
+# KorrinOS Wine/Proton Manager - Easy Windows app compatibility
 
 set -e
 

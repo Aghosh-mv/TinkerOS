@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Dock/Taskbar
+# KorrinOS Dock/Taskbar
 
 set -e
 

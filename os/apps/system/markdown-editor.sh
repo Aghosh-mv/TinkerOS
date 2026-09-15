@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Markdown Editor - Live preview markdown
+# KorrinOS Markdown Editor - Live preview markdown
 
 set -e
 

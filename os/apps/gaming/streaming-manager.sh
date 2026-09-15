@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Streaming Manager - OBS/Twitch integration
+# KorrinOS Streaming Manager - OBS/Twitch integration
 
 set -e
 
@@ -39,11 +39,11 @@ check_obs() {
 configure_obs() {
     echo "Configuring OBS for streaming..."
     
-    mkdir -p ~/.config/obs-studio/basic/profiles/TinkerOS
+    mkdir -p ~/.config/obs-studio/basic/profiles/KorrinOS
     
-    cat > ~/.config/obs-studio/basic/profiles/TinkerOS/basic.ini << 'EOF'
+    cat > ~/.config/obs-studio/basic/profiles/KorrinOS/basic.ini << 'EOF'
 [General]
-Name=TinkerOS Streaming
+Name=KorrinOS Streaming
 
 [Video]
 BaseCX=1920
@@ -58,7 +58,7 @@ Encoder=obs_x264
 Bitrate=6000
 EOF
     
-    echo "OBS configured for TinkerOS"
+    echo "OBS configured for KorrinOS"
 }
 
 # Setup Twitch

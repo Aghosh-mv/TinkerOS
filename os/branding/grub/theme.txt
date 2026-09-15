@@ -1,7 +1,7 @@
-# TinkerOS GRUB2 theme — menu on a dark branded canvas
+# KorrinOS GRUB2 theme — menu on a dark branded canvas
 
 desktop-image: "background.png"
-title-text: "TinkerOS"
+title-text: "KorrinOS"
 title-color: "#38d6a5"
 title-font: "DejaVu Sans Bold 24"
 

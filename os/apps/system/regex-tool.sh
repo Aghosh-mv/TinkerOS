@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Regex Tool - Test regex patterns
+# KorrinOS Regex Tool - Test regex patterns
 
 set -e
 

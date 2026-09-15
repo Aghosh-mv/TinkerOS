@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Nuclear Panic Keystroke / Zero-Footprint Wipe (HACK territory)
+# KorrinOS Nuclear Panic Keystroke / Zero-Footprint Wipe (HACK territory)
 # A bound shortcut that, when triggered, rapidly destroys volatile working
 # data, closes/hides workspace processes, and memsets temporary buffers.
 #
@@ -93,7 +93,7 @@ case "${1:-}" in
   full) panic full ;;
   arm) arm ;;
   status) status ;;
-  *) echo "TinkerOS Nuclear Panic / Zero-Footprint Wipe
+  *) echo "KorrinOS Nuclear Panic / Zero-Footprint Wipe
 Usage: ${0##*/} <trigger [soft|full]|soft|full|arm|status>
 Destroys volatile workspace + session data fast; 'full' also powers off.
 Bound to volatile memory; cannot un-write persistent disk." ;;

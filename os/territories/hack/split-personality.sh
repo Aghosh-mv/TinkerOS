@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Split Personality (Multi-tenant cryptographic boot)
+# KorrinOS Split Personality (Multi-tenant cryptographic boot)
 # Sets up a secondary "duress" boot path + hidden encrypted container.
 #
 # CONCEPT:
@@ -87,7 +87,7 @@ case "${1:-}" in
   close) shift; close "$@" ;;
   wipe) shift; wipe "$@" ;;
   status) status ;;
-  *) echo "TinkerOS Split Personality
+  *) echo "KorrinOS Split Personality
 Usage: ${0##*/} <check|blocks|create [file] [size]|open [file] [name]|close [name]|wipe [file]|status>
 Creates a two-passphrase hidden encrypted container (plausible deniability).
 Passphrase A = decoy; Passphrase B = hidden world. Requires root + cryptsetup." ;;

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Quick Actions - Custom quick actions
+# KorrinOS Quick Actions - Custom quick actions
 
 set -e
 

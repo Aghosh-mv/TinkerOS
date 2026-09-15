@@ -1,5 +1,5 @@
 #!/bin/bash
-# os/release.sh — one-command TinkerOS release
+# os/release.sh — one-command KorrinOS release
 #
 # Reads the current version from README.md, bumps it, rebuilds the ISO,
 # uploads to SourceForge, and git-tags the release.
@@ -20,7 +20,7 @@ SF_HOST="frs.sourceforge.net"
 KEY="${SF_SSH_KEY:-$HOME/.ssh/id_ed25519}"
 
 # --- read current version from README download link ---
-CURRENT=$(grep -oP 'TinkerOS-v\K[0-9]+\.[0-9]+' "$README" | head -1)
+CURRENT=$(grep -oP 'KorrinOS-v\K[0-9]+\.[0-9]+' "$README" | head -1)
 [ -z "$CURRENT" ] && { echo "ERROR: cannot read current version from README"; exit 1; }
 CUR_MAJOR=$(echo "$CURRENT" | cut -d. -f1)
 CUR_MINOR=$(echo "$CURRENT" | cut -d. -f2)
@@ -60,7 +60,7 @@ bump() {
 bump "${1:-}"
 NEW_VER="${NEW_MAJOR}.${NEW_MINOR}"
 NEW_VER_FULL="${NEW_MAJOR}.${NEW_MINOR}.${NEW_PATCH}"
-ISO_NAME="TinkerOS-v${NEW_VER}.iso"
+ISO_NAME="KorrinOS-v${NEW_VER}.iso"
 echo "New version: ${NEW_VER_FULL} → ${ISO_NAME}"
 echo ""
 
@@ -76,15 +76,15 @@ echo ""
 echo "[2/7] updating version strings..."
 
 # build-distro.sh OUT path
-sed -i "s|TinkerOS-v[0-9]*\.[0-9]*\.iso|${ISO_NAME}|g" "$BUILD"
+sed -i "s|KorrinOS-v[0-9]*\.[0-9]*\.iso|${ISO_NAME}|g" "$BUILD"
 
 # stage_branding os-release VERSION_ID
 sed -i "s|VERSION_ID=\"[0-9]*\.[0-9]*\"|VERSION_ID=\"${NEW_VER}\"|g" "$BUILD"
 sed -i "s|VERSION=\"[0-9]*\.[0-9]* |VERSION=\"${NEW_VER} |g" "$BUILD"
-sed -i "s|TinkerOS [0-9]*\.[0-9]* (jammy)|TinkerOS ${NEW_VER} (jammy)|g" "$BUILD"
+sed -i "s|KorrinOS [0-9]*\.[0-9]* (jammy)|KorrinOS ${NEW_VER} (jammy)|g" "$BUILD"
 
 # README download link
-sed -i "s|TinkerOS-v[0-9]*\.[0-9]*\.iso|${ISO_NAME}|g" "$README"
+sed -i "s|KorrinOS-v[0-9]*\.[0-9]*\.iso|${ISO_NAME}|g" "$README"
 
 # commit the version bump
 cd "$REPO"
@@ -100,7 +100,7 @@ echo ""
 # --- step 4: checksum ---
 echo "[4/7] generating SHA256..."
 ISO_PATH="$REPO/$ISO_NAME"
-[ -f "$ISO_PATH" ] || ISO_PATH=$(ls -1 "$REPO"/TinkerOS-v*.iso 2>/dev/null | head -1)
+[ -f "$ISO_PATH" ] || ISO_PATH=$(ls -1 "$REPO"/KorrinOS-v*.iso 2>/dev/null | head -1)
 [ -f "$ISO_PATH" ] || { echo "ERROR: ISO not found after build"; exit 1; }
 # rename if needed
 if [ "$(basename "$ISO_PATH")" != "$ISO_NAME" ]; then
@@ -128,10 +128,10 @@ echo "[6/7] uploading to SourceForge..."
 # scp handles large files better than sftp (no broken pipe on >2GB)
 scp -o BatchMode=yes -o ConnectTimeout=30 -i "$KEY" \
   "$ISO_PATH" "${ISO_PATH}.sha256" \
-  "${SF_USER}@${SF_HOST}:/home/frs/project/tinkeros/v${NEW_VER}/" 2>&1 | tail -3
+  "${SF_USER}@${SF_HOST}:/home/frs/project/korrinos/v${NEW_VER}/" 2>&1 | tail -3
 echo "  verify:"
 sftp -o BatchMode=yes -i "$KEY" "${SF_USER}@${SF_HOST}" <<EOF 2>&1 | grep -E "iso|sha"
-cd /home/frs/project/tinkeros/v${NEW_VER}
+cd /home/frs/project/korrinos/v${NEW_VER}
 ls -la
 EOF
 echo ""
@@ -145,10 +145,10 @@ echo ""
 
 # --- done ---
 echo "========================================="
-echo "  TinkerOS v${NEW_VER_FULL} SHIPPED"
+echo "  KorrinOS v${NEW_VER_FULL} SHIPPED"
 echo "========================================="
 echo ""
-echo "  ISO: https://sourceforge.net/projects/tinkeros/files/v${NEW_VER}/${ISO_NAME}/download"
+echo "  ISO: https://sourceforge.net/projects/korrinos/files/v${NEW_VER}/${ISO_NAME}/download"
 echo "  SHA: ${SHA}"
 echo "  Tag: v${NEW_VER_FULL}"
 echo ""

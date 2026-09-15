@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Fast Boot - Boot optimization and analysis
+# KorrinOS Fast Boot - Boot optimization and analysis
 
 set -e
 

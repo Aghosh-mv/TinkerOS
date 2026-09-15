@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Battery Monitor
+# KorrinOS Battery Monitor
 # Smart battery management with predictions and alerts
 
 set -e

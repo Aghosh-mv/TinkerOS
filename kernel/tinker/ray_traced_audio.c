@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS ray-traced audio — geometric sound propagation DSP kernel.
+ * KorrinOS ray-traced audio — geometric sound propagation DSP kernel.
  *
  * Implements the core of "ray traced audio" as a real kernel DSP
  * frontend: maintains a room-geometry acoustic model (reflectivity,
@@ -169,17 +169,17 @@ static int __init tinker_rta_init(void)
 	if (tinker_proc_root)
 		proc_create("rayaudio", 0644, tinker_proc_root, &rta_fops);
 
-	pr_info("TinkerOS: ray-traced audio DSP at /proc/tinker/rayaudio\n");
+	pr_info("KorrinOS: ray-traced audio DSP at /proc/tinker/rayaudio\n");
 	return 0;
 }
 
 static void __exit tinker_rta_exit(void)
 {
-	pr_info("TinkerOS: ray-traced audio DSP removed\n");
+	pr_info("KorrinOS: ray-traced audio DSP removed\n");
 }
 
 module_init(tinker_rta_init);
 module_exit(tinker_rta_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS geometric ray-traced audio DSP");
+MODULE_DESCRIPTION("KorrinOS geometric ray-traced audio DSP");

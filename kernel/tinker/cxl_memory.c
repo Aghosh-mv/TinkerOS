@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS unified memory over CXL.
+ * KorrinOS unified memory over CXL.
  *
  * Exposes a memory-pool registry (local DRAM, GPU VRAM, CXL expander,
  * networked memory) with explicit opt-in only. On systems without CXL,
@@ -108,17 +108,17 @@ static int __init tinker_cxl_init(void)
 	if (tinker_proc_root)
 		proc_create("cxlmemb", 0644, tinker_proc_root, &cxl_fops);
 
-	pr_info("TinkerOS: unified CXL memory at /proc/tinker/cxlmemb (opt-in)\n");
+	pr_info("KorrinOS: unified CXL memory at /proc/tinker/cxlmemb (opt-in)\n");
 	return 0;
 }
 
 static void __exit tinker_cxl_exit(void)
 {
-	pr_info("TinkerOS: unified CXL memory removed\n");
+	pr_info("KorrinOS: unified CXL memory removed\n");
 }
 
 module_init(tinker_cxl_init);
 module_exit(tinker_cxl_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS unified memory over CXL");
+MODULE_DESCRIPTION("KorrinOS unified memory over CXL");

@@ -4,7 +4,7 @@
 set -e
 
 echo "========================================="
-echo "TinkerOS Package Builder"
+echo "KorrinOS Package Builder"
 echo "========================================="
 
 echo ""
@@ -19,5 +19,5 @@ echo ""
 echo "========================================="
 echo "All packages built!"
 echo "========================================="
-ls -la "$HOME/Desktop/TinkerOS-Packages"/*.deb 2>/dev/null || true
-ls -la "$HOME/Desktop/TinkerOS-Packages"/*.rpm 2>/dev/null || true
+ls -la "$HOME/Desktop/KorrinOS-Packages"/*.deb 2>/dev/null || true
+ls -la "$HOME/Desktop/KorrinOS-Packages"/*.rpm 2>/dev/null || true

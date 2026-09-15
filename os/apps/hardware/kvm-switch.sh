@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS KVM Switch - Keyboard/video/mouse switching
+# KorrinOS KVM Switch - Keyboard/video/mouse switching
 
 set -e
 

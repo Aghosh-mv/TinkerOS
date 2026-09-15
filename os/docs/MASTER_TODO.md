@@ -1,7 +1,7 @@
-# TinkerOS — MASTER FEATURE TODO (the huge one)
+# KorrinOS — MASTER FEATURE TODO (the huge one)
 
 This is the definitive, exhaustive master list of EVERY feature built or
-planned for TinkerOS across the entire project. The user asked for a
+planned for KorrinOS across the entire project. The user asked for a
 genuinely huge todo list (150+ entries). It is organized by category.
 
 Status legend:
@@ -276,7 +276,7 @@ P = pending kernel C implementation.
 - [D] tinker.conf / optional-features.conf (os/system)
 - [D] hardware.conf / packages.conf / profiles.conf (os/data)
 - [D] profiles: hardware-db.sh, user-profiles.sh
-- [P] Build genuine TinkerOS .iso from the modified kernel tree
+- [P] Build genuine KorrinOS .iso from the modified kernel tree
 - [P] Bake all kernel/tinker features + Control Center into the ISO
 - [P] Ship modified kernel source + ISO to GitHub
 

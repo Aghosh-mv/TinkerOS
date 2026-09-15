@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Bandwidth Limiter - Limit per-app bandwidth
+# KorrinOS Bandwidth Limiter - Limit per-app bandwidth
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Activity Monitor
+# KorrinOS Activity Monitor
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Clipboard Manager
+# KorrinOS Clipboard Manager
 
 set -e
 

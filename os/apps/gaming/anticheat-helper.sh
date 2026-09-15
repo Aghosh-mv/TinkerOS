@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Anti-Cheat Helper - Configure anti-cheat for games
+# KorrinOS Anti-Cheat Helper - Configure anti-cheat for games
 
 set -e
 

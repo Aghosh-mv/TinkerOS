@@ -5,7 +5,7 @@
 #include <linux/proc_fs.h>
 
 /*
- * TinkerOS core kernel features — shared declarations.
+ * KorrinOS core kernel features — shared declarations.
  *
  * The core module provides the /proc/tinker directory and status file;
  * individual feature modules register their own nodes beneath it.

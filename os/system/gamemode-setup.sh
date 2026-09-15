@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Feral GameMode — Background Performance Service
+# KorrinOS Feral GameMode — Background Performance Service
 # Built into the OS installer.
 #
 # GameMode is a tiny DBus background daemon (gamemoded) that:
@@ -58,7 +58,7 @@ write_config() {
     log "Writing default GameMode config..."
     mkdir -p "$CONFIG_DIR"
     cat > "$GM_CONFIG" << 'EOF'
-# TinkerOS default GameMode configuration
+# KorrinOS default GameMode configuration
 # These settings apply the moment a heavy app requests GameMode
 # and revert automatically when it closes.
 
@@ -82,17 +82,17 @@ nv_powermizer_mode = 1
 force_gpu_clock = no
 
 [custom]
-start = /opt/tinkeros/os/system/tinker-gamemode-hook.sh on "$@"
-end = /opt/tinkeros/os/system/tinker-gamemode-hook.sh off
+start = /opt/korrinos/os/system/tinker-gamemode-hook.sh on "$@"
+end = /opt/korrinos/os/system/tinker-gamemode-hook.sh off
 EOF
     chmod 644 "$GM_CONFIG"
     log "Config written: $GM_CONFIG"
 }
 
-# Install the TinkerOS kernel-gamemode hook used by [custom] start/end
+# Install the KorrinOS kernel-gamemode hook used by [custom] start/end
 install_hook() {
-    log "Installing TinkerOS kernel-gamemode hook..."
-    local hook_dir="/opt/tinkeros/os/system"
+    log "Installing KorrinOS kernel-gamemode hook..."
+    local hook_dir="/opt/korrinos/os/system"
     sudo mkdir -p "$hook_dir"
     sudo cp "$(dirname "$0")/tinker-gamemode-hook.sh" "$hook_dir/tinker-gamemode-hook.sh"
     sudo chmod +x "$hook_dir/tinker-gamemode-hook.sh"
@@ -100,7 +100,7 @@ install_hook() {
         log "kernel gamemode proc API present (CONFIG_TINKER_GAMEMODE=y)"
     else
         log "NOTE: /proc/tinker/gamemode missing — this kernel lacks the"
-        log "  TinkerOS gamemode governor boost; hook logs & degrades safely."
+        log "  KorrinOS gamemode governor boost; hook logs & degrades safely."
     fi
 }
 
@@ -162,7 +162,7 @@ show_help() {
     echo "Usage: tinker-gamemode-setup"
     echo ""
     echo "  Sets up Feral GameMode as the default background performance"
-    echo "  service in the TinkerOS image."
+    echo "  service in the KorrinOS image."
     echo ""
     echo "  Status:  gamemoded running?  pgrep -x gamemoded"
     echo "  Boost a command:             gamemoderun <command>"

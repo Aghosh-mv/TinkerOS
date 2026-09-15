@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Predictive Pre-Caching
+# KorrinOS Predictive Pre-Caching
 # TECHNIQUE: Predictive File Anticipation (PFA)
 #
 # CONCEPT: Learns your file access patterns and PRE-LOADS files you'll

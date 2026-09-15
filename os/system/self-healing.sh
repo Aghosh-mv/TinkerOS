@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Self-Healing System Technology
+# KorrinOS Self-Healing System Technology
 # TECHNOLOGY: Autonomous System Repair (ASR)
 #
 # THIS IS A GENUINELY NEW TECHNOLOGY - DIFFERENT FROM DIGITAL TWIN

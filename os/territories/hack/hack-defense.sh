@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hack Defense Stack — make YOUR system much harder to hack
+# KorrinOS Hack Defense Stack — make YOUR system much harder to hack
 # while you operate inside the HACK world. This is the defensive side of
 # hack mode: not "unhackable" (that's impossible on any OS), but a layered
 # hardening that meaningfully raises the cost/difficulty of compromising the
@@ -123,7 +123,7 @@ enforce_lsm() {
 
 # ---- run all ---------------------------------------------------------------
 apply_all() {
-  echo "### TinkerOS Hack-Defense Stack — locking down your box ###"
+  echo "### KorrinOS Hack-Defense Stack — locking down your box ###"
   sysctl_harden
   no_new_privs
   harden_modules
@@ -165,7 +165,7 @@ case "${1:-}" in
   lsm) enforce_lsm ;;
   restore|off) restore ;;
   status) status ;;
-  *) echo "TinkerOS Hack Defense Stack
+  *) echo "KorrinOS Hack Defense Stack
 Usage: ${0##*/} <apply|sysctl|modules|audit|coredump|suid|fw|lsm|restore|status>
 Runs layered hardening so your box is much harder to hack while you work.
 Not unhackable — no OS is. Requires root." ;;

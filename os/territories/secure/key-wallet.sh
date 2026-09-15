@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Key Wallet — TPM-backed secret/key manager (SECURE territory)
+# KorrinOS Key Wallet — TPM-backed secret/key manager (SECURE territory)
 # Stores secrets (passphrases, API tokens, SSH keys) encrypted, optionally
 # sealed to TPM or the login key. Access requires unlocking the wallet.
 # Uses gpg (age optional) for file encryption; TPM via tpm2-tools if present.
@@ -53,7 +53,7 @@ list() {
   echo "Wallet secrets:"; ls -1 "$WALLET" 2>/dev/null | sed 's/\.gpg$//' | sed 's/^/  /' || echo "  (empty)"
 }
 
-usage() { echo "TinkerOS Key Wallet
+usage() { echo "KorrinOS Key Wallet
 Usage: ${0##*/} <init|store <name> <value>|get <name>|tpm-seal <file>|list>"; }
 
 case "${1:-}" in

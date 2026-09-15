@@ -1,8 +1,8 @@
-# TinkerOS ISO Build Image
+# KorrinOS ISO Build Image
 FROM ubuntu:24.04
 
-LABEL maintainer="TinkerOS Team <team@tinkeros.dev>"
-LABEL description="TinkerOS ISO Builder"
+LABEL maintainer="KorrinOS Team <team@korrinos.dev>"
+LABEL description="KorrinOS ISO Builder"
 LABEL version="7.2.0"
 
 USER root

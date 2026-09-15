@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GIF Recorder - Record screen as GIF
+# KorrinOS GIF Recorder - Record screen as GIF
 
 set -e
 

@@ -77,7 +77,7 @@ ve_store_total() {
 # ---- stats output -----------------------------------------------------------
 ve_store_stats() {
   echo "========================================"
-  echo "  TinkerOS Vibe Addressing — Store"
+  echo "  KorrinOS Vibe Addressing — Store"
   echo "========================================"
   echo "  Version       : $VIBE_VERSION"
   echo "  Engine format : $VIBE_FORMAT"

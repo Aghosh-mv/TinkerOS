@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Adaptive Power Grid Technology
+# KorrinOS Adaptive Power Grid Technology
 # TECHNOLOGY: Dynamic Power Distribution (DPD)
 #
 # THIS IS A NEW SOFTWARE TECHNOLOGY

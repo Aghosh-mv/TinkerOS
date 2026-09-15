@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Traffic Guard — network traffic inspection engine (SECURE territory)
+# KorrinOS Traffic Guard — network traffic inspection engine (SECURE territory)
 # Inspects active connections and flags suspicious/beacon-like behavior.
 # Wraps ss, tcpdump, and optional nethogs for per-process bandwidth, plus
 # fails-closed correlation with the amnesia policy.
@@ -41,7 +41,7 @@ leak_check() {  # DNS + IP leak sanity
   echo "  (verify these are only your trusted resolvers)"
 }
 
-usage() { echo "TinkerOS Traffic Guard
+usage() { echo "KorrinOS Traffic Guard
 Usage: ${0##*/} <conns|per-app|beacon|hosts|leak>"; }
 
 case "${1:-}" in

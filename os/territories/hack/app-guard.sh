@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS App Guard — HACK world rule: ONLY safe apps YOU approve run here.
+# KorrinOS App Guard — HACK world rule: ONLY safe apps YOU approve run here.
 # Anything not on your approved list is blocked from launching, so no
 # unknown/unsafe app can expose you while you hack. Mode-scoped to HACK.
 #
@@ -76,7 +76,7 @@ case "${1:-}" in
   revoke|remove|deny) revoke "${2:?usage: app-guard revoke <app>}" ;;
   enforce|on) enforce ;;
   list|show) list ;;
-  *) echo "TinkerOS App Guard
+  *) echo "KorrinOS App Guard
 Usage: ${0##*/} <approve <app>|revoke <app>|enforce|list>
 HACK world rule: only safe apps you approve may run — unapproved apps are
 blocked so nothing can expose you while hacking." ;;

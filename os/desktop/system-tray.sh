@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS System Tray
+# KorrinOS System Tray
 
 # Battery indicator
 show_battery() {

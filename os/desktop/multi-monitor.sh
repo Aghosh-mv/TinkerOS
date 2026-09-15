@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Multi-Monitor Support
+# KorrinOS Multi-Monitor Support
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Kill Switch + Monitor Mode engine (HACK territory)
+# KorrinOS Kill Switch + Monitor Mode engine (HACK territory)
 # 1) Kill switch: physically detach a network interface from the default
 #    system stack and hand it to a scoped workspace; blocks telemetry.
 # 2) Monitor mode: switch a wireless NIC into monitor mode (frame capture)
@@ -88,7 +88,7 @@ case "${1:-}" in
   monoff|monitor-off) shift; monitor_off "$@" ;;
   scan) scan_edr ;;
   status) status ;;
-  *) echo "TinkerOS Kill-Switch / Monitor engine
+  *) echo "KorrinOS Kill-Switch / Monitor engine
 Usage: ${0##*/} <list|kill <iface>|ns <iface> <namespace>|mac <iface>|monitor-on|monitor-off <iface>|scan|status>
 MONITORING/AUDITING UNOWNED NETWORKS WITHOUT AUTHORIZATION IS ILLEGAL. Test only your own hardware." ;;
 esac

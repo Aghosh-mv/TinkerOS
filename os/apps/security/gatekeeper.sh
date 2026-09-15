@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Gatekeeper - Application execution policy and security gating
+# KorrinOS Gatekeeper - Application execution policy and security gating
 
 set -e
 

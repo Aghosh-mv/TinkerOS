@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Notification Center
+# KorrinOS Notification Center
 
 set -e
 

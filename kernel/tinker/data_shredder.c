@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS data shredder — kernel-level privacy wipe helpers.
+ * KorrinOS data shredder — kernel-level privacy wipe helpers.
  *
  * Implements the "one-click nuclear privacy wipe" kernel portion:
  * swap wiping policy, rapid-memory truncation, and per-device
@@ -108,17 +108,17 @@ static int __init tinker_shred_init(void)
 	if (tinker_proc_root)
 		proc_create("shredder", 0644, tinker_proc_root, &shred_fops);
 
-	pr_info("TinkerOS: data shredder (privacy) at /proc/tinker/shredder\n");
+	pr_info("KorrinOS: data shredder (privacy) at /proc/tinker/shredder\n");
 	return 0;
 }
 
 static void __exit tinker_shred_exit(void)
 {
-	pr_info("TinkerOS: data shredder removed\n");
+	pr_info("KorrinOS: data shredder removed\n");
 }
 
 module_init(tinker_shred_init);
 module_exit(tinker_shred_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS kernel data shredder (privacy wipe)");
+MODULE_DESCRIPTION("KorrinOS kernel data shredder (privacy wipe)");

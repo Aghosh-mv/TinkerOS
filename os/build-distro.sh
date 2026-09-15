@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS REAL Distribution ISO Builder
+# KorrinOS REAL Distribution ISO Builder
 # Builds a genuine, full desktop Linux distribution (like Ubuntu/Arch/Kali)
 # with Xorg/Wayland, a desktop environment, browsers, applications, a real
 # package base, AND the 3 isolated worlds (HACK/GAME/NORMAL) baked in.
@@ -8,7 +8,7 @@
 #   rootfs/            <- debootstrap base + packages
 #     casper/filesystem.squashfs
 #     vmlinuz, initrd
-#   TinkerOS-v1.1.iso  <- bootable, multi-GB, real OS
+#   KorrinOS-v1.1.iso  <- bootable, multi-GB, real OS
 #
 # Requires: sudo + debootstrap + mksquashfs + xorriso + internet.
 
@@ -19,11 +19,15 @@ WORLDS="${WORLDS:-all}"
 ARCH="${ARCH:-amd64}"
 SUITE="${SUITE:-jammy}"                       # Ubuntu 22.04 (Pop base)
 MIRROR="${MIRROR:-http://in.archive.ubuntu.com/ubuntu/}"
-BUILD="${BUILD:-/home/tinkerspace/build-tinkeros}"
+BUILD="${BUILD:-/home/tinkerspace/build-korrinos}"
 ROOTFS="$BUILD/rootfs"
 IMAGE="$BUILD/image"
-OUT="${OUT:-/home/tinkerspace/linux-kernel/TinkerOS-v1.2.iso}"
+OUT="${OUT:-/home/tinkerspace/linux-kernel/KorrinOS-v1.3.iso}"
 SUDO="${SUDO:-sudo}"
+if ! sudo -n true 2>/dev/null; then
+  echo "ERROR: passwordless sudo required. Run: sudo -v" >&2
+  exit 1
+fi
 
 NEED="debootstrap mksquashfs xorriso chroot"
 for c in debootstrap mksquashfs xorriso; do
@@ -118,20 +122,171 @@ EOF
 }
 
 stage3_worlds() {
-  echo "### [3/6] Baking TinkerOS worlds + os layer into rootfs..."
-  "$SUDO" rm -rf "$ROOTFS/opt/tinkeros"
-  "$SUDO" mkdir -p "$ROOTFS/opt/tinkeros"
-  "$SUDO" cp -r /home/tinkerspace/linux-kernel/os "$ROOTFS/opt/tinkeros/os"
-  "$SUDO" cp /home/tinkerspace/linux-kernel/README.md "$ROOTFS/opt/tinkeros/" 2>/dev/null || true
-  "$SUDO" cp /home/tinkerspace/linux-kernel/LICENSE "$ROOTFS/opt/tinkeros/" 2>/dev/null || true
-  "$SUDO" cp /home/tinkerspace/linux-kernel/LICENSE "$ROOTFS/usr/share/doc/tinkeros-os-copyright" 2>/dev/null || true
-  # world launcher on PATH
-  "$SUDO" bash -c 'cat > "$ROOTFS/usr/local/bin/tinker-world" <<EOF
+  echo "### [3/6] Baking KorrinOS worlds + os layer into rootfs..."
+  "$SUDO" rm -rf "$ROOTFS/opt/korrinos"
+  "$SUDO" mkdir -p "$ROOTFS/opt/korrinos"
+  "$SUDO" cp -r /home/tinkerspace/linux-kernel/os "$ROOTFS/opt/korrinos/os"
+  "$SUDO" cp /home/tinkerspace/linux-kernel/README.md "$ROOTFS/opt/korrinos/" 2>/dev/null || true
+  "$SUDO" cp /home/tinkerspace/linux-kernel/LICENSE "$ROOTFS/opt/korrinos/" 2>/dev/null || true
+  "$SUDO" cp /home/tinkerspace/linux-kernel/LICENSE "$ROOTFS/usr/share/doc/korrinos-os-copyright" 2>/dev/null || true
+
+  # World launcher on PATH
+  "$SUDO" bash -c 'cat > "$ROOTFS/usr/local/bin/parc-world" <<EOF
 #!/bin/bash
-exec /opt/tinkeros/os/territories/modes.sh "\$@"
+exec /opt/korrinos/os/territories/modes.sh "\$@"
 EOF
-chmod +x /usr/local/bin/tinker-world' 2>/dev/null || true
-  echo "   worlds + os layer baked in."
+chmod +x /usr/local/bin/parc-world' 2>/dev/null || true
+
+  # KorrinOS CLI on PATH
+  "$SUDO" bash -c 'cat > "$ROOTFS/usr/local/bin/korrinos" <<EOF
+#!/bin/bash
+exec /opt/korrinos/os/parc-ai/parc-ai.sh "\$@"
+EOF
+chmod +x /usr/local/bin/korrinos' 2>/dev/null || true
+
+  # Systemd services for KorrinOS features
+  "$SUDO" mkdir -p "$ROOTFS/etc/systemd/system"
+
+  # Liquid Glass service
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-liquid-glass.service" <<EOF
+[Unit]
+Description=KorrinOS Liquid Glass Glassmorphism
+After=graphical.target
+Wants=graphical.target
+
+[Service]
+Type=forking
+ExecStart=/opt/korrinos/os/parc-ai/korrinos-liquid-glass.sh start
+ExecStop=/opt/korrinos/os/parc-ai/korrinos-liquid-glass.sh stop
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  # Widgets Panel service
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-widgets-panel.service" <<EOF
+[Unit]
+Description=KorrinOS Desktop Widgets Panel
+After=graphical.target korrinos-liquid-glass.service
+Wants=graphical.target
+
+[Service]
+Type=forking
+ExecStart=/opt/korrinos/os/parc-ai/korrinos-widgets-panel.sh start
+ExecStop=/opt/korrinos/os/parc-ai/korrinos-widgets-panel.sh stop
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  # Dock service
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-dock.service" <<EOF
+[Unit]
+Description=KorrinOS Application Dock
+After=graphical.target korrinos-liquid-glass.service
+Wants=graphical.target
+
+[Service]
+Type=forking
+ExecStart=/opt/korrinos/os/parc-ai/korrinos-dock.sh start
+ExecStop=/opt/korrinos/os/parc-ai/korrinos-dock.sh stop
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  # SmoothUI service
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-smoothui.service" <<EOF
+[Unit]
+Description=KorrinOS Smooth UI Compositor
+After=graphical.target
+Wants=graphical.target
+
+[Service]
+Type=forking
+ExecStart=/opt/korrinos/os/parc-ai/korrinos-smoothui.sh start
+ExecStop=/opt/korrinos/os/parc-ai/korrinos-smoothui.sh stop
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  # Enable services
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-liquid-glass.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-widgets-panel.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-dock.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-smoothui.service 2>/dev/null || true
+
+  # First-boot setup script
+  "$SUDO" bash -c 'cat > "$ROOTFS/usr/local/bin/korrinos-firstboot" <<'FBEOF'
+#!/bin/bash
+# KorrinOS First Boot Setup — runs once on first login
+MARKER="/etc/korrinos-firstboot-done"
+[ -f "$MARKER" ] && exit 0
+
+echo "Welcome to KorrinOS!"
+echo "Running first-boot setup..."
+
+# Set default wallpaper
+WALLPAPER_DIR="/usr/share/korrinos/wallpapers"
+mkdir -p "$WALLPAPER_DIR"
+if [ -f /opt/korrinos/os/branding/plymouth/logo.png ]; then
+  cp /opt/korrinos/os/branding/plymouth/logo.png "$WALLPAPER_DIR/default.png"
+fi
+
+# Set default background for XFCE
+if command -v xfconf-query &>/dev/null; then
+  xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image \
+    -s "$WALLPAPER_DIR/default.png" 2>/dev/null || true
+fi
+
+# Configure picom autostart
+mkdir -p ~/.config/autostart
+cat > ~/.config/autostart/korrinos-liquid-glass.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=KorrinOS Liquid Glass
+Exec=/opt/korrinos/os/parc-ai/korrinos-liquid-glass.sh start
+Hidden=false
+X-GNOME-Autostart-enabled=true
+EOF
+
+# Configure KorrinOS menu entry
+mkdir -p ~/.local/share/applications
+cat > ~/.local/share/applications/korrinos-terminal.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=KorrinOS Terminal
+Comment=Open KorrinOS Terminal
+Exec=xfce4-terminal
+Icon=utilities-terminal
+Terminal=false
+Categories=System;
+EOF
+
+touch "$MARKER"
+echo "First-boot setup complete."
+FBEOF
+chmod +x "$ROOTFS/usr/local/bin/korrinos-firstboot' 2>/dev/null || true
+
+  # Add firstboot to /etc/rc.local or autostart
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/profile.d/korrinos-firstboot.sh" <<EOF
+[ -x /usr/local/bin/korrinos-firstboot ] && /usr/local/bin/korrinos-firstboot &
+EOF'
+
+  # Default wallpaper
+  "$SUDO" mkdir -p "$ROOTFS/usr/share/korrinos/wallpapers"
+  "$SUDO" cp /home/tinkerspace/linux-kernel/os/branding/plymouth/logo.png "$ROOTFS/usr/share/korrinos/wallpapers/default.png" 2>/dev/null || true
+
+  echo "   worlds + os layer + services baked in."
 }
 
 stage4_live() {
@@ -142,29 +297,29 @@ stage4_live() {
 }
 
 stage_branding() {
-  echo "### [branding] Writing TinkerOS distribution identity into rootfs..."
+  echo "### [branding] Writing KorrinOS distribution identity into rootfs..."
   "$SUDO" bash -c "cat > '$ROOTFS/etc/os-release' <<'EOS'
-PRETTY_NAME=\"TinkerOS 1.2 (jammy)\"
-NAME=TinkerOS
-VERSION_ID=\"1.2\"
-VERSION=\"1.2 (jammy)\"
+PRETTY_NAME=\"KorrinOS 1.3 (jammy)\"
+NAME=KorrinOS
+VERSION_ID=\"1.3\"
+VERSION=\"1.3 (jammy)\"
 VERSION_CODENAME=jammy
-ID=tinkeros
+ID=korrinos
 ID_LIKE=ubuntu debian
-HOME_URL=https://sourceforge.net/projects/tinkeros/
-SUPPORT_URL=https://sourceforge.net/projects/tinkeros/
-BUG_REPORT_URL=https://sourceforge.net/projects/tinkeros/
+HOME_URL=https://sourceforge.net/projects/korrinos/
+SUPPORT_URL=https://sourceforge.net/projects/korrinos/
+BUG_REPORT_URL=https://sourceforge.net/projects/korrinos/
 EOS"
   "$SUDO" cp "$ROOTFS/etc/os-release" "$ROOTFS/etc/lsb-release"
-  "$SUDO" bash -c "echo 'TinkerOS 1.2 (jammy) \\\\l' > '$ROOTFS/etc/issue'"
+  "$SUDO" bash -c "echo 'KorrinOS 1.3 (jammy) \\\\l' > '$ROOTFS/etc/issue'"
   "$SUDO" cp "$ROOTFS/etc/issue" "$ROOTFS/etc/issue.net"
-  echo "   TinkerOS identity written (os-release/lsb-release/issue)."
+  echo "   KorrinOS identity written (os-release/lsb-release/issue)."
 }
 
 # install plymouth + the branded splash/GRUB theme into an existing rootfs
 # (used on incremental rebuilds; fresh builds get plymouth via stage2 apt)
 stage2b_branding() {
-  echo "### [branding] installing plymouth + TinkerOS boot theme into rootfs..."
+  echo "### [branding] installing plymouth + KorrinOS boot theme into rootfs..."
   "$SUDO" mkdir -p "$ROOTFS"/{proc,sys,dev,dev/pts}
   "$SUDO" mount --bind /proc "$ROOTFS/proc" 2>/dev/null || true
   "$SUDO" mount --bind /sys  "$ROOTFS/sys"  2>/dev/null || true
@@ -213,13 +368,26 @@ stage6_iso() {
   "$SUDO" chown -R "$(id -u):$(id -g)" "$IMAGE" "$BUILD" 2>/dev/null || true
   mkdir -p "$BUILD/grub-img"
   cat > "$BUILD/grub.cfg" <<EOF
-set timeout=10
-menuentry "TinkerOS — tinkerOS normal" {
-  linux /casper/vmlinuz boot=casper quiet splash verbose
+set timeout=5
+set default=0
+loadfont unicode
+insmod all_video
+insmod gfxterm
+terminal_output gfxterm
+
+# KorrinOS GRUB theme
+set theme="/boot/grub/themes/korrinos/theme.txt"
+
+menuentry "KorrinOS 1.3 — Start" {
+  linux /casper/vmlinuz boot=casper quiet splash
   initrd /casper/initrd
 }
-menuentry "TinkerOS — tinkerOS normal (safe graphics)" {
+menuentry "KorrinOS 1.3 — Safe Graphics" {
   linux /casper/vmlinuz boot=casper quiet splash nomodeset
+  initrd /casper/initrd
+}
+menuentry "KorrinOS 1.3 — Memory Test" {
+  linux /casper/vmlinuz boot=casper quiet splash memtest
   initrd /casper/initrd
 }
 menuentry "Boot from first HDD" {
@@ -241,7 +409,7 @@ EOF
   [ -s "$BUILD/efi.img" ] && mkdir -p "$IMAGE/boot/grub" && cp "$BUILD/efi.img" "$IMAGE/boot/grub/efi.img"
   ls -la "$IMAGE/isolinux/isolinux.bin" "$IMAGE/boot/grub/efi.img" 2>/dev/null | awk '{print $5,$9}'
   xorriso -as mkisofs -quiet \
-    -V TinkerOS \
+    -V KorrinOS \
     -iso-level 3 -R -J -joliet-long -full-iso9660-filenames \
     -b isolinux/isolinux.bin -c boot.cat -no-emul-boot \
     -boot-load-size 8 -boot-info-table \
@@ -252,22 +420,16 @@ EOF
 }
 
 run() {
-  stage1 && stage2_install && stage3_worlds && stage4_live \
-    && stage5_squashfs && stage6_iso
-  echo "DONE: TinkerOS full distribution ISO ready."
-}
-
-run() {
   stage1 && stage2_install && stage3_worlds && stage_branding && stage2b_branding && stage4_live \
     && stage5_squashfs && stage5_caspermaterials && stage6_iso
-  echo "DONE: TinkerOS full distribution ISO ready."
+  echo "DONE: KorrinOS full distribution ISO ready."
 }
 
 rebuild() {
   test -d "$ROOTFS/etc" || { echo "no rootfs yet — run full first"; exit 1; }
   stage2_install && stage3_worlds && stage_branding && stage2b_branding && stage4_live \
     && stage5_squashfs && stage5_caspermaterials && stage6_iso
-  echo "DONE: TinkerOS rebuild (kept base rootfs)."
+  echo "DONE: KorrinOS rebuild (kept base rootfs)."
 }
 
 # finalize: reuse an already-built rootfs + squashfs; just (re)materialize
@@ -279,7 +441,7 @@ finalize() {
   }
   echo "### [finalize] reusing existing squashfs, rebuilding casper materials + ISO"
   stage5_caspermaterials && stage6_iso
-  echo "DONE: TinkerOS ISO rebuilt from existing squashfs."
+  echo "DONE: KorrinOS ISO rebuilt from existing squashfs."
 }
 
 case "${1:-}" in
@@ -287,7 +449,7 @@ case "${1:-}" in
   rebuild) rebuild ;;
   finalize) finalize ;;
   base|stage1) stage1 ;;
-  *) echo "TinkerOS Distribution Builder
+  *) echo "KorrinOS Distribution Builder
 Usage: ${0##*/} <build|rebuild|finalize|base>
 Builds a real, full desktop Linux distribution ISO (Ubuntu/Kali-style) with
 Xorg/Wayland + desktop + apps + package base + the 3 worlds baked in.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Secure Password Manager
+# KorrinOS Secure Password Manager
 # Local-only password storage - YOUR data stays YOURS
 # No cloud. No tracking. No one else uses it.
 
@@ -373,7 +373,7 @@ notify_password_offer() {
     
     if command -v notify-send >/dev/null 2>&1; then
         notify-send -u normal -i password \
-            "TinkerOS Password Manager" \
+            "KorrinOS Password Manager" \
             "Password field detected!\n\nWould you like to generate a secure password?\n\nClick here to open Password Manager" \
             --action="generate=Generate Password" \
             --action="skip=Skip"
@@ -497,7 +497,7 @@ while true; do
             # Lock vault
             rm -f "$LOCK_FILE"
             if command -v notify-send >/dev/null 2>&1; then
-                notify-send -u warning "TinkerOS" "Password vault auto-locked"
+                notify-send -u warning "KorrinOS" "Password vault auto-locked"
             fi
         fi
     fi
@@ -648,7 +648,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Secure Password Manager${NC}"
+        echo -e "${YELLOW}KorrinOS Secure Password Manager${NC}"
         echo ""
         echo "  Your passwords stay on YOUR device."
         echo "  No cloud. No tracking. No exceptions."

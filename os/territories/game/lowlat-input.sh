@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Low-Latency Input pipeline tuner (GAME territory)
+# KorrinOS Low-Latency Input pipeline tuner (GAME territory)
 # Minimizes input latency: kernel params, IRQ affinity, scheduler RT priority,
 # and process niceness so the game + its input threads run at low latency.
 # Kernel link: see kernel/tinker/zero_latency_input.c (/proc/tinker).
@@ -44,7 +44,7 @@ kernel_hint() {
     echo "  /proc/tinker zero_latency not mounted (module not loaded in this env)."
 }
 
-usage() { echo "TinkerOS Low-Latency Input
+usage() { echo "KorrinOS Low-Latency Input
 Usage: ${0##*/} <tune|rt <prio> <cmd...>|isolate <cpu>|kernel>"; }
 
 case "${1:-}" in

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Rollback Recovery - BTRFS/LVM/Timeshift snapshot management
+# KorrinOS Rollback Recovery - BTRFS/LVM/Timeshift snapshot management
 
 set -e
 

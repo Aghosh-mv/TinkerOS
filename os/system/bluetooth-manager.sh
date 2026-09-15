@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Bluetooth Auto-Connect Manager
+# KorrinOS Bluetooth Auto-Connect Manager
 # Auto-connect Bluetooth devices + proximity detection
 
 set -e
@@ -28,7 +28,7 @@ init_bluetooth() {
     
     if [ ! -f $BT_CONFIG ]; then
         cat > $BT_CONFIG << 'EOF'
-# TinkerOS Bluetooth Configuration
+# KorrinOS Bluetooth Configuration
 
 # Auto-connect enabled
 AUTO_CONNECT=true
@@ -408,7 +408,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Bluetooth Manager${NC}"
+        echo -e "${YELLOW}KorrinOS Bluetooth Manager${NC}"
         echo ""
         echo "Auto-connect Bluetooth devices + proximity detection."
         echo ""

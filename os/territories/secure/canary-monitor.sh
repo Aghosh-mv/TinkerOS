@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Canary Monitor — intrusion canary + integrity watchdog (SECURE territory)
+# KorrinOS Canary Monitor — intrusion canary + integrity watchdog (SECURE territory)
 # Buried canaries (unusual files/ports) + a critical-file integrity baseline.
 # ANY touch of a canary or deviation from baseline = immediate alert, freeze
 # of the offending process, and a log. Defense-in-depth that works quietly.
@@ -64,7 +64,7 @@ watch_canary() {  # watch canary dir for any access
 
 alerts() { tail -20 "$CANARY/alerts.log" 2>/dev/null | sed 's/^/  /' || echo "  (no alerts)"; }
 
-usage() { echo "TinkerOS Canary Monitor
+usage() { echo "KorrinOS Canary Monitor
 Usage: ${0##*/} <plant|baseline|check|watch|alerts>
 Secure-side intrusion canaries + critical-file integrity watchdog."; }
 

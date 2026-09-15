@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS NFC Manager - NFC device support
+# KorrinOS NFC Manager - NFC device support
 
 set -e
 

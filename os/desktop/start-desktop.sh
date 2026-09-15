@@ -1,10 +1,10 @@
 #!/bin/bash
-# TinkerOS Desktop Shell
+# KorrinOS Desktop Shell
 # Main desktop environment process
 
 set -e
 
-echo "Starting TinkerOS Desktop..."
+echo "Starting KorrinOS Desktop..."
 
 # Start Wayland compositor
 echo "Starting Wayland compositor..."
@@ -49,13 +49,13 @@ echo "Starting notification daemon..."
 /usr/bin/tinker-notifications &
 NOTIFY_PID=$!
 
-echo "TinkerOS Desktop is ready!"
+echo "KorrinOS Desktop is ready!"
 
 # Wait for any process to exit
 wait -n $COMPOSITOR_PID $SHELL_PID $PANEL_PID $DOCK_PID $WALLPAPER_PID $SYSTRAY_PID $CLIPBOARD_PID $NOTIFY_PID
 
 # Clean shutdown
-echo "Shutting down TinkerOS Desktop..."
+echo "Shutting down KorrinOS Desktop..."
 kill $COMPOSITOR_PID $SHELL_PID $PANEL_PID $DOCK_PID $WALLPAPER_PID $SYSTRAY_PID $CLIPBOARD_PID $NOTIFY_PID 2>/dev/null
 
 echo "Goodbye!"

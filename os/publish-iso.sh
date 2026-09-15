@@ -1,12 +1,12 @@
 #!/bin/bash
-# TinkerOS ISO Publisher — uploads the finished ISO to SourceForge FRS.
+# KorrinOS ISO Publisher — uploads the finished ISO to SourceForge FRS.
 #
 # Policy (DISTRIBUTION_STRATEGY.md): the large ISO is NEVER pushed to git.
 # It lives only on SourceForge's mirrors and is linked from the GitHub README.
 #
 # Upload channel: SourceForge File Release System over SSH (sftp).
 #   host: frs.sourceforge.net
-#   path: /home/frs/project/tinkeros/
+#   path: /home/frs/project/korrinos/
 #
 # Usage:
 #   SF_USER=<your-sf-account> ./os/publish-iso.sh [path/to/file.iso]
@@ -20,12 +20,12 @@ set -euo pipefail
 HOST="${SF_HOST:-frs.sourceforge.net}"
 USER="${SF_USER:?set SF_USER to your SourceForge account name (or pass as 2nd arg)}"
 KEY="${SF_SSH_KEY:-$HOME/.ssh/id_ed25519}"
-PROJECT="${SF_PROJECT:-tinkeros}"
+PROJECT="${SF_PROJECT:-korrinos}"
 REMOTE_PATH="/home/frs/project/$PROJECT"
 
-ISO="${1:-$(ls -1 TinkerOS-*.iso 2>/dev/null | head -1)}"
+ISO="${1:-$(ls -1 KorrinOS-*.iso 2>/dev/null | head -1)}"
 if [ -z "$ISO" ] || [ ! -f "$ISO" ]; then
-  echo "no ISO found; provide a path: $0 /path/to/TinkerOS-*.iso" >&2
+  echo "no ISO found; provide a path: $0 /path/to/KorrinOS-*.iso" >&2
   exit 1
 fi
 

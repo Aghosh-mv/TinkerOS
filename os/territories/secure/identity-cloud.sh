@@ -1,6 +1,6 @@
 #!/bin/bash
-# TinkerOS Identity Cloud — locate/remote-identify your devices (SECURE territory)
-# "Find My Device" + remote identity for TinkerOS gear. Local-first: your
+# KorrinOS Identity Cloud — locate/remote-identify your devices (SECURE territory)
+# "Find My Device" + remote identity for KorrinOS gear. Local-first: your
 # keychain + an optional self-hosted endpoint you control. No third-party
 # data broker. On lock/theft, can report location to YOUR owned endpoint.
 
@@ -47,7 +47,7 @@ status() {
   echo "  Endpoint: $(grep '^endpoint=' "$ENDPOINT" 2>/dev/null | cut -d= -f2 || echo 'not set')"
 }
 
-usage() { echo "TinkerOS Identity Cloud
+usage() { echo "KorrinOS Identity Cloud
 Usage: ${0##*/} <id|set-endpoint <url> [token]|locate|status>
 Find-your-device / identify via YOUR OWN endpoint. No third-party broker."; }
 

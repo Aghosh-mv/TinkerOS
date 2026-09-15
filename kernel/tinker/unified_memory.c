@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS unified memory — software-defined heterogeneous memory pool.
+ * KorrinOS unified memory — software-defined heterogeneous memory pool.
  *
  * A higher-level view over CXL/hardware tiering: a pool registry with
  * per-device bandwidth/latency/priority used to hint tier placement.
@@ -104,17 +104,17 @@ static int __init tinker_um_init(void)
 	if (tinker_proc_root)
 		proc_create("unifiedmem", 0644, tinker_proc_root, &um_fops);
 
-	pr_info("TinkerOS: unified memory at /proc/tinker/unifiedmem (opt-in)\n");
+	pr_info("KorrinOS: unified memory at /proc/tinker/unifiedmem (opt-in)\n");
 	return 0;
 }
 
 static void __exit tinker_um_exit(void)
 {
-	pr_info("TinkerOS: unified memory removed\n");
+	pr_info("KorrinOS: unified memory removed\n");
 }
 
 module_init(tinker_um_init);
 module_exit(tinker_um_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS unified heterogeneous memory pool");
+MODULE_DESCRIPTION("KorrinOS unified heterogeneous memory pool");

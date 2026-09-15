@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Shell Theme - GNOME Shell themes
+# KorrinOS Shell Theme - GNOME Shell themes
 set -e
 SHELL_DIR="$HOME/.tinker/shell-theme"
 mkdir -p "$SHELL_DIR"

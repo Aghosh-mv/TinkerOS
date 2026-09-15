@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Disk Usage Visualizer - See what's using space
+# KorrinOS Disk Usage Visualizer - See what's using space
 
 set -e
 

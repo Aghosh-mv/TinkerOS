@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS acoustic dust dislodger — resonant fan pulse interface.
+ * KorrinOS acoustic dust dislodger — resonant fan pulse interface.
  *
  * Exposes a fan pulse program (forward/backward oscillation profile)
  * used to shake dust off heatsink fins. The kernel interface records
@@ -105,7 +105,7 @@ static int dust_recalc_envelope(unsigned int max_rpm,
 	dust_safe_amp_max_pct = min(100u, amp);
 
 	dust_spec = FAN_CALIBRATED;
-	pr_notice("TinkerOS: dust fan envelope calculated (max=%u rpm, "
+	pr_notice("KorrinOS: dust fan envelope calculated (max=%u rpm, "
 		  "measured=%u rpm @%u%% duty, slope=%u rpm/%%pwm, "
 		  "safe floor %u%%, pulse ceiling %u Hz, amp cap %u%%)\n",
 		  dust_decl_max_rpm, dust_measured_rpm, dust_measured_duty,
@@ -145,22 +145,22 @@ static int dust_show_seq(struct seq_file *m, void *v)
 static int dust_gate_run(void)
 {
 	if (dust_spec != FAN_CALIBRATED) {
-		pr_err("TinkerOS: refusing fan shake — spec not calculated; "
+		pr_err("KorrinOS: refusing fan shake — spec not calculated; "
 		       "write 'calibrate <max_rpm> [stall_guess]' first\n");
 		return -EAGAIN;
 	}
 	if (dust_pulse_hz > dust_safe_max_hz) {
-		pr_warn("TinkerOS: clamping pulse %u Hz -> %u Hz (resonance-safe)\n",
+		pr_warn("KorrinOS: clamping pulse %u Hz -> %u Hz (resonance-safe)\n",
 			dust_pulse_hz, dust_safe_max_hz);
 		dust_pulse_hz = dust_safe_max_hz;
 	}
 	if (dust_amplitude_pct > dust_safe_amp_max_pct) {
-		pr_warn("TinkerOS: clamping amplitude %u%% -> %u%% (trough-safe)\n",
+		pr_warn("KorrinOS: clamping amplitude %u%% -> %u%% (trough-safe)\n",
 			dust_amplitude_pct, dust_safe_amp_max_pct);
 		dust_amplitude_pct = dust_safe_amp_max_pct;
 	}
 	if (dust_only_when_idle)
-		pr_info("TinkerOS: fan shake scheduled idle-gated "
+		pr_info("KorrinOS: fan shake scheduled idle-gated "
 			"(pulse=%u Hz amp=%u%% dur=%us, safe floor %u%%)\n",
 			dust_pulse_hz, dust_amplitude_pct, dust_duration_s,
 			dust_safe_min_duty);
@@ -210,7 +210,7 @@ static ssize_t dust_write(struct file *file, const char __user *ubuf,
 		rc = dust_recalc_envelope((unsigned int)a,
 					  (unsigned int)a, 100u);
 		if (rc)
-			pr_err("TinkerOS: calibrate %d rejected (%d)\n", a, rc);
+			pr_err("KorrinOS: calibrate %d rejected (%d)\n", a, rc);
 	} else if (!strcmp(cmd, "rpm") && arg) {
 		/* measured tach point: recompute slope + floors against the
 		 * existing ceiling (falling back to the measurement if no
@@ -220,11 +220,11 @@ static ssize_t dust_write(struct file *file, const char __user *ubuf,
 		rc = dust_recalc_envelope((unsigned int)b,
 					  (unsigned int)a, 100u);
 		if (rc)
-			pr_err("TinkerOS: rpm %d rejected (%d)\n", a, rc);
+			pr_err("KorrinOS: rpm %d rejected (%d)\n", a, rc);
 	} else if (!strcmp(cmd, "run")) {
 		rc = dust_gate_run();
 		if (rc)
-			pr_err("TinkerOS: run blocked (%d)\n", rc);
+			pr_err("KorrinOS: run blocked (%d)\n", rc);
 		else
 			dust_runs++;
 	} else if (!strcmp(cmd, "pulse") && arg) {
@@ -256,18 +256,18 @@ static int __init tinker_dust_init(void)
 		proc_create("dust_dislodger", 0644, tinker_proc_root,
 			    &dust_fops);
 
-	pr_info("TinkerOS: dust dislodger (fan pulse) at /proc/tinker/dust_dislodger\n");
-	pr_info("TinkerOS: safety: write 'calibrate <max_rpm>' before 'run'\n");
+	pr_info("KorrinOS: dust dislodger (fan pulse) at /proc/tinker/dust_dislodger\n");
+	pr_info("KorrinOS: safety: write 'calibrate <max_rpm>' before 'run'\n");
 	return 0;
 }
 
 static void __exit tinker_dust_exit(void)
 {
-	pr_info("TinkerOS: dust dislodger removed\n");
+	pr_info("KorrinOS: dust dislodger removed\n");
 }
 
 module_init(tinker_dust_init);
 module_exit(tinker_dust_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS acoustic dust dislodger (spec-gated fan pulse)");
+MODULE_DESCRIPTION("KorrinOS acoustic dust dislodger (spec-gated fan pulse)");

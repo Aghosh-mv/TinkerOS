@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""TinkerOS first-party app seed: adopts Aether Workspace + Nibra as
-pre-approved, pre-installed TinkerOS apps (free / TinkerOS developer).
+"""KorrinOS first-party app seed: adopts Aether Workspace + Nibra as
+pre-approved, pre-installed KorrinOS apps (free / KorrinOS developer).
 Runs the app through the ISOLATED SANDBOX VET (firejail, no network) and
 only registers it if the vet passes or a sandbox is unavailable."""
 import os
@@ -71,10 +71,10 @@ def main() -> int:
         app = TinkerApp(
             id="", name=spec["name"], version=spec["version"],
             description=spec["description"],
-            developer="TinkerOS", developer_id="tinkeros",
+            developer="KorrinOS", developer_id="korrinos",
             category=spec["category"], tags=["first-party", "preinstalled", "sandboxed"],
-            icon="", screenshots=[], homepage="https://github.com/Aghosh-mv/TinkerOS",
-            repository="https://github.com/Aghosh-mv/TinkerOS",
+            icon="", screenshots=[], homepage="https://github.com/Aghosh-mv/KorrinOS",
+            repository="https://github.com/Aghosh-mv/KorrinOS",
             license="MIT", price=0.0,
         )
         if not sandbox_vet(src, spec["entry"]):

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Thunderbolt Manager - Thunderbolt device control
+# KorrinOS Thunderbolt Manager - Thunderbolt device control
 
 set -e
 

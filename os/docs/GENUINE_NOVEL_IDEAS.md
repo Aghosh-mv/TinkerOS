@@ -1,4 +1,4 @@
-# TinkerOS — GENUINE Novel Ideas (honest log)
+# KorrinOS — GENUINE Novel Ideas (honest log)
 
 This file separates what is genuinely NEW-generation from what is
 derivative (known tech rephrased). It is deliberately self-critical:

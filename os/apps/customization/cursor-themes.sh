@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Cursor Themes - Custom cursor themes
+# KorrinOS Cursor Themes - Custom cursor themes
 
 set -e
 

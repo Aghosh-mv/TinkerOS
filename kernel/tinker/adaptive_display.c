@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS adaptive display.
+ * KorrinOS adaptive display.
  *
  * Drives an adaptive display policy (refresh hint + brightness scaling
  * + color profile) which backlight/drm backends can honor. Exposes a
@@ -108,17 +108,17 @@ static int __init tinker_ad_init(void)
 	if (tinker_proc_root)
 		proc_create("adisplay", 0644, tinker_proc_root, &ad_fops);
 
-	pr_info("TinkerOS: adaptive display at /proc/tinker/adisplay\n");
+	pr_info("KorrinOS: adaptive display at /proc/tinker/adisplay\n");
 	return 0;
 }
 
 static void __exit tinker_ad_exit(void)
 {
-	pr_info("TinkerOS: adaptive display removed\n");
+	pr_info("KorrinOS: adaptive display removed\n");
 }
 
 module_init(tinker_ad_init);
 module_exit(tinker_ad_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS adaptive display");
+MODULE_DESCRIPTION("KorrinOS adaptive display");

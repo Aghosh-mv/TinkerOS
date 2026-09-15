@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Network Monitor - Real-time traffic, connections, and diagnostics
+# KorrinOS Network Monitor - Real-time traffic, connections, and diagnostics
 
 set -e
 

@@ -503,7 +503,7 @@ class TinkerHarness:
         return "Hello! I'm TinkerAI. I can check your system, control apps, operate the computer, or just chat. What do you need?"
 
     def _t_intro(self, _=None):
-        return "I'm TinkerAI, an on-device AI for TinkerOS. I run a local neural network, can control the computer, and act autonomously on your requests."
+        return "I'm TinkerAI, an on-device AI for KorrinOS. I run a local neural network, can control the computer, and act autonomously on your requests."
 
     def _t_joke(self, _=None):
         return "Why don't scientists trust atoms? Because they make up everything!"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Digital Twin - Virtual system replica for testing and simulation
+# KorrinOS Digital Twin - Virtual system replica for testing and simulation
 
 set -e
 

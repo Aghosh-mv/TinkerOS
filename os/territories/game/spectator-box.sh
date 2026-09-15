@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Spectator Box / streaming relay (GAME territory)
+# KorrinOS Spectator Box / streaming relay (GAME territory)
 # A privacy-first streaming/spectator relay: virtual camera source of your
 # gameplay, chat auto-feed, and a "spectator wall" that shares only what
 # you choose. Uses OBS/pipewire + v4l2loopback.
@@ -30,7 +30,7 @@ wall() {  # show who is watching + mute controls
   echo "  Privacy: only the chosen feed is shared; desktop/system UI excluded."
 }
 
-usage() { echo "TinkerOS Spectator Box
+usage() { echo "KorrinOS Spectator Box
 Usage: ${0##*/} <feed|relay <url>|wall>"; }
 
 case "${1:-}" in

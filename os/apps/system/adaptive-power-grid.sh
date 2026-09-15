@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Adaptive Power Grid - Intelligent power source distribution management
+# KorrinOS Adaptive Power Grid - Intelligent power source distribution management
 
 set -e
 

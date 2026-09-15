@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Modes — top-level territory coordinator / keybind matrix
+# KorrinOS Modes — top-level territory coordinator / keybind matrix
 # Binds the world-switching matrix and launches each world's default action.
 #
 #   Space+Shift+1  OR  Ctrl+Arrow-Left   -> Hackerspace mode
@@ -59,7 +59,7 @@ ctrl() {  # ctrl-left | ctrl-up | ctrl-right
 }
 
 matrix() {
-  echo "TinkerOS mode containment matrix:"
+  echo "KorrinOS mode containment matrix:"
   engine matrix
   echo ""
   echo "World definitions:"
@@ -102,7 +102,7 @@ case "${1:-}" in
   matrix|map) matrix ;;
   keybinds|bind) emit_keybinds ;;
   current) engine current ;;
-  *) echo "TinkerOS Modes
+  *) echo "KorrinOS Modes
 Usage: ${0##*/} <key 1|2|3|ctrl left|up|right|matrix|keybinds|current>
 World switch matrix for HACK / NORMAL(secure) / GAME terrains." ;;
 esac

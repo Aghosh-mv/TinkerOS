@@ -1,8 +1,8 @@
-# TinkerOS Plymouth theme script
-# Draws the TinkerOS logo (3 left-slanting lines) centered on the dark
+# KorrinOS Plymouth theme script
+# Draws the KorrinOS logo (3 left-slanting lines) centered on the dark
 # background with a teal progress bar, on boot and shutdown.
 
-Image logo = Image("tinkeros_logo.png");
+Image logo = Image("korrinos_logo.png");
 
 # ---- dark background ----
 Window.SetBackgroundTopColor (0.05, 0.05, 0.07);
@@ -28,7 +28,7 @@ fun update_bar (bar_pct) {
     int fill_w = bar_pct * bar_w / 100;
     if (fill_w > bar_w) { fill_w = bar_w; }
     if (fill_w < 0) { fill_w = 0; }
-    Rectangle.SetFillColor (0.0, 0.83, 0.67, 1.0);   # tinkeros teal
+    Rectangle.SetFillColor (0.0, 0.83, 0.67, 1.0);   # korrinos teal
     Rectangle.Draw (bar_x, bar_y, fill_w, bar_h);
     # glow
     Rectangle.SetFillColor (0.0, 0.83, 0.67, 0.15);

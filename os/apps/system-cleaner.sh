@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS System Cleaner
+# KorrinOS System Cleaner
 # Deep clean system with safety checks
 
 set -e

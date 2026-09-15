@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Smart File Manager
+# KorrinOS Smart File Manager
 
 set -e
 

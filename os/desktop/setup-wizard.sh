@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Setup Wizard
+# KorrinOS Setup Wizard
 # First boot configuration
 
 set -e
@@ -17,7 +17,7 @@ show_welcome() {
     clear
     echo "╔══════════════════════════════════════════════════════════╗"
     echo "║                                                          ║"
-    echo "║           Welcome to TinkerOS!                           ║"
+    echo "║           Welcome to KorrinOS!                           ║"
     echo "║           Your computer. Your rules.                     ║"
     echo "║                                                          ║"
     echo "╚══════════════════════════════════════════════════════════╝"
@@ -34,7 +34,7 @@ setup_user() {
     echo "  Step 1: User Profile"
     echo "═══════════════════════════════════════════════════════════"
     echo ""
-    echo "What will you primarily use TinkerOS for?"
+    echo "What will you primarily use KorrinOS for?"
     echo ""
     echo "  1) Developer     - Software development"
     echo "  2) Gamer         - Gaming optimized"
@@ -112,7 +112,7 @@ setup_privacy() {
     echo "  Step 3: Privacy & Security"
     echo "═══════════════════════════════════════════════════════════"
     echo ""
-    echo "TinkerOS respects your privacy. Configure:"
+    echo "KorrinOS respects your privacy. Configure:"
     echo ""
     echo "  1) Enable Firewall (Recommended)"
     echo "  2) Enable automatic updates"
@@ -158,7 +158,7 @@ setup_password() {
     echo "  Step 5: Password Manager"
     echo "═══════════════════════════════════════════════════════════"
     echo ""
-    echo "TinkerOS can manage your passwords securely."
+    echo "KorrinOS can manage your passwords securely."
     echo "All data stays on YOUR device - no cloud."
     echo ""
     echo "  1) Set up password manager now"
@@ -185,7 +185,7 @@ apply_settings() {
     
     # Save configuration
     cat > "$CONFIG_DIR/settings.conf" << EOF
-# TinkerOS Settings
+# KorrinOS Settings
 PROFILE=$PROFILE
 THEME=$THEME
 ACCENT=$ACCENT
@@ -216,7 +216,7 @@ show_completion() {
     echo "║                                                          ║"
     echo "║           Setup Complete!                                ║"
     echo "║                                                          ║"
-    echo "║           Your TinkerOS is ready.                        ║"
+    echo "║           Your KorrinOS is ready.                        ║"
     echo "║                                                          ║"
     echo "╚══════════════════════════════════════════════════════════╝"
     echo ""

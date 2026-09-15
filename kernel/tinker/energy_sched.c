@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS energy / DVFS hinting.
+ * KorrinOS energy / DVFS hinting.
  *
  * Implements the "contextual energy optimisation" and "microsecond-scale
  * voltage hint" ideas as a real kernel accounting interface. The user-
@@ -165,17 +165,17 @@ static int __init tinker_energy_init(void)
 	if (tinker_proc_root)
 		proc_create("energy", 0644, tinker_proc_root, &energy_fops);
 
-	pr_info("TinkerOS: energy/DVFS hints at /proc/tinker/energy\n");
+	pr_info("KorrinOS: energy/DVFS hints at /proc/tinker/energy\n");
 	return 0;
 }
 
 static void __exit tinker_energy_exit(void)
 {
-	pr_info("TinkerOS: energy/DVFS hints removed\n");
+	pr_info("KorrinOS: energy/DVFS hints removed\n");
 }
 
 module_init(tinker_energy_init);
 module_exit(tinker_energy_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS energy / DVFS hint governor");
+MODULE_DESCRIPTION("KorrinOS energy / DVFS hint governor");

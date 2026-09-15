@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Game Launcher - Unified game library
+# KorrinOS Game Launcher - Unified game library
 
 set -e
 

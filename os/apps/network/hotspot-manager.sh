@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hotspot Manager - Mobile hotspot
+# KorrinOS Hotspot Manager - Mobile hotspot
 
 set -e
 
@@ -13,8 +13,8 @@ init() {
         cat > "$CONFIG_FILE" << 'EOF'
 # Hotspot Manager Configuration
 ENABLED=false
-SSID=TinkerOS-Hotspot
-PASSWORD=tinkeros123
+SSID=KorrinOS-Hotspot
+PASSWORD=korrinos123
 INTERFACE=wlan0
 EOF
     fi
@@ -22,8 +22,8 @@ EOF
 
 # Start hotspot
 start() {
-    local ssid=${1:-TinkerOS-Hotspot}
-    local pass=${2:-tinkeros123}
+    local ssid=${1:-KorrinOS-Hotspot}
+    local pass=${2:-korrinos123}
     
     echo "Starting hotspot: $ssid"
     

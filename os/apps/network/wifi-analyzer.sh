@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Wi-Fi Analyzer - Signal strength, channel analysis, and optimization
+# KorrinOS Wi-Fi Analyzer - Signal strength, channel analysis, and optimization
 
 set -e
 

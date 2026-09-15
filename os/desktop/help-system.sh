@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Help System
+# KorrinOS Help System
 
 set -e
 
@@ -8,10 +8,10 @@ HELP_DIR="$HOME/.tinker/help"
 show_welcome() {
     clear
     echo "╔══════════════════════════════════════════════════════════╗"
-    echo "║            Welcome to TinkerOS Help                      ║"
+    echo "║            Welcome to KorrinOS Help                      ║"
     echo "╚══════════════════════════════════════════════════════════╝"
     echo ""
-    echo "  TinkerOS is designed to be easy to use while being"
+    echo "  KorrinOS is designed to be easy to use while being"
     echo "  powerful and secure. Here's how to get started."
     echo ""
     echo "  Quick Start:"
@@ -39,7 +39,7 @@ show_categories() {
     echo "  7)  Development"
     echo "  8)  Troubleshooting"
     echo "  9)  Tips & Tricks"
-    echo "  10) About TinkerOS"
+    echo "  10) About KorrinOS"
     echo ""
     echo "  0)  Exit"
     echo ""
@@ -67,7 +67,7 @@ show_getting_started() {
     echo "  Getting Started"
     echo "═══════════════════════════════════════════════════════════"
     echo ""
-    echo "  Welcome to TinkerOS! Here's what you need to know:"
+    echo "  Welcome to KorrinOS! Here's what you need to know:"
     echo ""
     echo "  Desktop:"
     echo "    - Click anywhere on desktop to see widgets"
@@ -290,10 +290,10 @@ show_tips() {
 show_about() {
     clear
     echo "═══════════════════════════════════════════════════════════"
-    echo "  About TinkerOS"
+    echo "  About KorrinOS"
     echo "═══════════════════════════════════════════════════════════"
     echo ""
-    echo "  TinkerOS v1.0"
+    echo "  KorrinOS v1.0"
     echo "  Built on Linux Kernel 7.2.0"
     echo ""
     echo "  Philosophy:"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS File Vault - Encrypted container management (cryptsetup/LUKS)
+# KorrinOS File Vault - Encrypted container management (cryptsetup/LUKS)
 
 set -e
 

@@ -1,4 +1,4 @@
-# TinkerOS — Master TODO / Tomorrow's Queue
+# KorrinOS — Master TODO / Tomorrow's Queue
 *(Saved session state, 2026-09-09)*
 
 ## Completed Today
@@ -12,7 +12,7 @@
 4. **ISO build complete + bootable**: rootfs squashfs (8.6 GB), casper vmlinuz (our bzImage,
    14.8 MB) + initrd, BIOS `isolinux.bin` (GRUB i386-pc core, initrd is baked into linux.mod
    on GRUB 2.06) + UEFI `efi.img`; El Torito BIOS/UEFI verified; `finalize` mode added;
-   fixed root-owned dir writes + `-V` xorriso option. `TinkerOS-v1.2.iso` ~8.9 GB.
+   fixed root-owned dir writes + `-V` xorriso option. `KorrinOS-v1.2.iso` ~8.9 GB.
 5. **Dual Source License v1.0** (`LICENSE`, README updated): Option A public / Option B
    private-source, no fee; kernel subtree keeps GPL-2.0 (COPYING); baked into the OS image.
 
@@ -50,5 +50,5 @@
    palette: blue/green/amber), styles (bold headers, italic quotes, code blocks with syntax
    highlighting); uses QTextBrowser or custom painted widgets for rich rendering.
 5. **TinkerAI: productivity hooks** — auto-suggest next actions, schedule reminders, draft
-   emails, summarize documents, generate code, brainstorm ideas; all from within the TinkerOS
+   emails, summarize documents, generate code, brainstorm ideas; all from within the KorrinOS
    desktop.

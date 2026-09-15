@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS DVFS shaver — microsecond-scale voltage/frequency hint.
+ * KorrinOS DVFS shaver — microsecond-scale voltage/frequency hint.
  *
  * Implements the "per-instruction energy shaving" idea: expose a
  * software-driven voltage/frequency profile (peak vs minimum-stable)
@@ -117,17 +117,17 @@ static int __init tinker_dvfs_init(void)
 	if (tinker_proc_root)
 		proc_create("dvfs", 0644, tinker_proc_root, &dvfs_fops);
 
-	pr_info("TinkerOS: DVFS shaver at /proc/tinker/dvfs\n");
+	pr_info("KorrinOS: DVFS shaver at /proc/tinker/dvfs\n");
 	return 0;
 }
 
 static void __exit tinker_dvfs_exit(void)
 {
-	pr_info("TinkerOS: DVFS shaver removed\n");
+	pr_info("KorrinOS: DVFS shaver removed\n");
 }
 
 module_init(tinker_dvfs_init);
 module_exit(tinker_dvfs_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS microsecond DVFS voltage shaver");
+MODULE_DESCRIPTION("KorrinOS microsecond DVFS voltage shaver");

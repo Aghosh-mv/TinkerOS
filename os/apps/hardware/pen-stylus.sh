@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Pen/Stylus - Stylus configuration
+# KorrinOS Pen/Stylus - Stylus configuration
 
 set -e
 

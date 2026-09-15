@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Secure Mode — master lockdown coordinator (SECURE territory)
+# KorrinOS Secure Mode — master lockdown coordinator (SECURE territory)
 # The daily-driver super-secure world. Unlike hack/offensive mode, secure
 # mode maximizes defense of the user's own machine. Wires together:
 #   - world-engine.sh (NORMAL world is the secure daily driver by default)
@@ -44,7 +44,7 @@ apply_allowlist() {
 }
 
 enter_secure() {
-  echo "=== TinkerOS SECURE MODE (NORMAL world) ==="
+  echo "=== KorrinOS SECURE MODE (NORMAL world) ==="
   echo "NORMAL = the MOST PROTECTED world: can still find/hack the user,"
   echo "        but CANNOT be hacked (bulletproof defense is applied)."
   "$TERR_ROOT/world-engine.sh" enter NORMAL
@@ -66,7 +66,7 @@ case "${1:-}" in
   enter|on|secure) enter_secure ;;
   exit|off) exit_secure ;;
   status) status ;;
-  *) echo "TinkerOS Secure Mode
+  *) echo "KorrinOS Secure Mode
 Usage: ${0##*/} <enter|exit|status>
 Secure = NORMAL world with full hardening + vault + firewall + allowlist." ;;
 esac

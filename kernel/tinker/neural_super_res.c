@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS neural super-resolution — upscale DSP frontend.
+ * KorrinOS neural super-resolution — upscale DSP frontend.
  *
  * Exposes an upscaling profile (target scale, sharpness, model tier)
  * and per-frame metrics. Heavy neural upscale runs in user space
@@ -101,17 +101,17 @@ static int __init tinker_nsr_init(void)
 	if (tinker_proc_root)
 		proc_create("nsr", 0644, tinker_proc_root, &nsr_fops);
 
-	pr_info("TinkerOS: neural super-res at /proc/tinker/nsr\n");
+	pr_info("KorrinOS: neural super-res at /proc/tinker/nsr\n");
 	return 0;
 }
 
 static void __exit tinker_nsr_exit(void)
 {
-	pr_info("TinkerOS: neural super-res removed\n");
+	pr_info("KorrinOS: neural super-res removed\n");
 }
 
 module_init(tinker_nsr_init);
 module_exit(tinker_nsr_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS neural super-resolution");
+MODULE_DESCRIPTION("KorrinOS neural super-resolution");

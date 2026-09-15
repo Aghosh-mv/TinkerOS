@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Audio Clarity System
+# KorrinOS Audio Clarity System
 # NEW TECHNIQUE: Adaptive Frequency Reconstruction (AFR)
 # Instead of just boosting or cutting frequencies, AFR analyzes
 # the audio stream in real-time and reconstructs missing harmonics
@@ -17,7 +17,7 @@ mkdir -p "$AUDIO_DIR" "$PROFILE_DIR"
 init_config() {
     if [ ! -f "$CONFIG_FILE" ]; then
         cat > "$CONFIG_FILE" << 'EOF'
-# TinkerOS Audio Clarity Configuration
+# KorrinOS Audio Clarity Configuration
 # Technique: Adaptive Frequency Reconstruction (AFR)
 
 # Enable AFR
@@ -132,13 +132,13 @@ afr_system() {
     # Create virtual sink with AFR
     if command -v pactl >/dev/null 2>&1; then
         # Load null sink for processing
-        pactl load-module module-null-sink sink_name=afr_processed sink_properties=device.description="TinkerOS_AFR"
+        pactl load-module module-null-sink sink_name=afr_processed sink_properties=device.description="KorrinOS_AFR"
         
         # Load AFR filter
         pactl load-module module-equalizer-sink sink=afr_processed channel_map=stereo
         
         echo "AFR system audio enabled"
-        echo "Set 'TinkerOS_AFR' as default sink for processed audio"
+        echo "Set 'KorrinOS_AFR' as default sink for processed audio"
     fi
 }
 

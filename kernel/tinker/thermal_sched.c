@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS thermal-aware scheduling hints.
+ * KorrinOS thermal-aware scheduling hints.
  *
  * Implements the "silicon thermal mapping" concept as a real kernel
  * feature: maintain a live per-CPU heat map, expose it via
@@ -174,18 +174,18 @@ static int __init tinker_thermal_init(void)
 	if (tinker_proc_root)
 		proc_create("thermal", 0644, tinker_proc_root, &thermal_fops);
 
-	pr_info("TinkerOS: thermal scheduler interface at /proc/tinker/thermal\n");
+	pr_info("KorrinOS: thermal scheduler interface at /proc/tinker/thermal\n");
 	return 0;
 }
 
 static void __exit tinker_thermal_exit(void)
 {
 	cancel_delayed_work_sync(&thermal_decay_work);
-	pr_info("TinkerOS: thermal scheduler interface removed\n");
+	pr_info("KorrinOS: thermal scheduler interface removed\n");
 }
 
 module_init(tinker_thermal_init);
 module_exit(tinker_thermal_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS thermal-aware scheduling hints");
+MODULE_DESCRIPTION("KorrinOS thermal-aware scheduling hints");

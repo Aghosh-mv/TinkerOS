@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Controller / Haptics mapper (GAME territory)
+# KorrinOS Controller / Haptics mapper (GAME territory)
 # Advanced gamepad mapping + haptic feedback engine. Detects controllers,
 # maps buttons/axes/triggers to virtual outputs, and drives L/R haptics
 # (rumble/LED). Uses evtest/evdev + xboxdrv/QtGamepad where present.
@@ -59,7 +59,7 @@ audio_haptic() {  # map game audio LFE -> rumble (bass shaker)
     echo "  sox not installed; bridge unavailable yet."
 }
 
-usage() { echo "TinkerOS Controller/Haptics
+usage() { echo "KorrinOS Controller/Haptics
 Usage: ${0##*/} <detect|map <dev> <profile>|haptic <0-1> [L|R|both]|audio>"; }
 
 case "${1:-}" in

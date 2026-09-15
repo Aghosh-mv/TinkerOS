@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Rollback & Recovery System
+# KorrinOS Rollback & Recovery System
 
 set -e
 

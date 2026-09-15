@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Default Apps Bundler
+# KorrinOS Default Apps Bundler
 # Pre-installs the essential native apps onto the OS image:
 # GitHub CLI, Chrome (or removable Brave), VS Code, Claude, and a
 # docker-like built-in sandbox helper. This runs during OS install,
@@ -51,7 +51,7 @@ install_sandbox_tool() {
     echo "sandbox helper installed: /usr/lib/tinker/sandbox/tinker-sandbox"
 }
 
-echo -e "${BLUE}── TinkerOS Default Apps Bundler ──${NC}"
+echo -e "${BLUE}── KorrinOS Default Apps Bundler ──${NC}"
 require_install_target
 install_github_cli
 install_vscode

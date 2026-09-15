@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Text Expander
+# KorrinOS Text Expander
 
 set -e
 
@@ -13,7 +13,7 @@ mkdir -p "$EXPANDER_DIR"
 init_snippets() {
     if [ ! -f "$SNIPPETS_FILE" ]; then
         cat > "$SNIPPETS_FILE" << 'EOF'
-# TinkerOS Text Snippets
+# KorrinOS Text Snippets
 # Format: abbreviation = expansion
 
 # Email shortcuts

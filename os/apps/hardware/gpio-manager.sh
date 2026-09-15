@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GPIO Manager - Raspberry Pi GPIO control
+# KorrinOS GPIO Manager - Raspberry Pi GPIO control
 
 set -e
 

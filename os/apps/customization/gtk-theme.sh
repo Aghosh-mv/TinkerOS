@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GTK Theme - GTK theme manager
+# KorrinOS GTK Theme - GTK theme manager
 set -e
 GTK_DIR="$HOME/.tinker/gtk-theme"
 mkdir -p "$GTK_DIR"

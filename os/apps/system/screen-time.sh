@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Screen Time - Usage statistics
+# KorrinOS Screen Time - Usage statistics
 
 set -e
 

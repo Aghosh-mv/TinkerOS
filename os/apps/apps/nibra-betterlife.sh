@@ -1,7 +1,7 @@
 #!/bin/bash
-# TinkerOS Nibra BetterLife launcher (Control Center integration)
+# KorrinOS Nibra BetterLife launcher (Control Center integration)
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/nibra-betterlife"
-echo "=== TinkerOS Nibra BetterLife ==="
+echo "=== KorrinOS Nibra BetterLife ==="
 case "${1:-status}" in
     status)
         [ -f "$APP_DIR/package.json" ] && echo "  Status: bundled (v$(grep -o '"version": *"[^"]*"' "$APP_DIR/package.json" | cut -d'"' -f4 2>/dev/null || echo 1.0.0))"

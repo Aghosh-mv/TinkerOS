@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Display Calibration - Color profile calibration
+# KorrinOS Display Calibration - Color profile calibration
 
 set -e
 

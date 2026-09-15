@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Software Center
+# KorrinOS Software Center
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Game Audio Focus engine (GAME territory)
+# KorrinOS Game Audio Focus engine (GAME territory)
 # Routes audio for gaming: 3D positional DSP, ducking for voice chat,
 # and system-sound suppression so game audio takes priority.
 # Uses PipeWire/pulse + sox for DSP where available.
@@ -54,7 +54,7 @@ preset() {  # preset <balanced|footsteps|voice-focus|immersion>
   esac
 }
 
-usage() { echo "TinkerOS Game Audio Focus
+usage() { echo "KorrinOS Game Audio Focus
 Usage: ${0##*/} <focus [sink]|duck|spatial [src]|clean|preset <p>>"; }
 
 case "${1:-}" in

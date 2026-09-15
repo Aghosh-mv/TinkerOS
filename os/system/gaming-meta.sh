@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Gaming Meta-Package
+# KorrinOS Gaming Meta-Package
 # ONE-CLICK "Enable Gaming Mode" - pulls in the entire gaming stack
 # in the background with a single command. Non-gamers never install it.
 #
@@ -17,7 +17,7 @@ log() { echo "[meta] $*"; }
 # The single meta-package that pulls everything in
 install_all() {
     echo "══════════════════════════════════════════════"
-    echo "   TinkerOS Gaming Meta-Package (Enable Gaming)"
+    echo "   KorrinOS Gaming Meta-Package (Enable Gaming)"
     echo "══════════════════════════════════════════════"
     echo ""
     echo "  This single step installs the complete gaming stack:"

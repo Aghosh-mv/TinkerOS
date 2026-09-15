@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS One-Step Drag-to-Install
+# KorrinOS One-Step Drag-to-Install
 # Install a downloaded .deb/.rpm/.AppImage by dragging/pointing at it.
 # One-step: pick the file, auto-detect package type, install.
 
@@ -32,7 +32,7 @@ install_file() {
     echo -e "${GREEN}Done.${NC}"
 }
 
-echo -e "${BLUE}── TinkerOS One-Step Drag-to-Install ──${NC}"
+echo -e "${BLUE}── KorrinOS One-Step Drag-to-Install ──${NC}"
 if [ $# -ge 1 ]; then
     install_file "$1"
 else

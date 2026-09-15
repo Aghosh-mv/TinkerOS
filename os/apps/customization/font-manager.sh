@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Font Manager - Install/manage fonts
+# KorrinOS Font Manager - Install/manage fonts
 set -e
 FONT_DIR="$HOME/.tinker/fonts"
 LOCAL_FONTS="$HOME/.local/share/fonts"

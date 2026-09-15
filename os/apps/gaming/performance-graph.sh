@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Performance Graph - Real-time performance overlay
+# KorrinOS Performance Graph - Real-time performance overlay
 
 set -e
 
@@ -30,7 +30,7 @@ show_graph() {
     
     while true; do
         clear
-        echo "=== TinkerOS Performance ==="
+        echo "=== KorrinOS Performance ==="
         echo ""
         
         # CPU

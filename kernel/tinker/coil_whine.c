@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS coil-whine killer — PWM frequency shifter hint.
+ * KorrinOS coil-whine killer — PWM frequency shifter hint.
  *
  * Exposes a PWM switching-frequency hint for power-delivery VRMs so it
  * can be shifted out of the human hearing band (or spread-spectrum).
@@ -138,18 +138,18 @@ static int __init tinker_cw_init(void)
 	if (tinker_proc_root)
 		proc_create("coil_whine", 0644, tinker_proc_root, &cw_fops);
 
-	pr_info("TinkerOS: coil-whine killer (PWM hint) at /proc/tinker/coil_whine\n");
+	pr_info("KorrinOS: coil-whine killer (PWM hint) at /proc/tinker/coil_whine\n");
 	return 0;
 }
 
 static void __exit tinker_cw_exit(void)
 {
 	timer_delete_sync(&cw_spread_timer);
-	pr_info("TinkerOS: coil-whine killer removed\n");
+	pr_info("KorrinOS: coil-whine killer removed\n");
 }
 
 module_init(tinker_cw_init);
 module_exit(tinker_cw_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS coil-whine PWM frequency shifter");
+MODULE_DESCRIPTION("KorrinOS coil-whine PWM frequency shifter");

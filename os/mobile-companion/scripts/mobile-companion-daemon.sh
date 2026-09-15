@@ -1,9 +1,9 @@
 #!/bin/bash
-# TinkerOS Mobile Companion Daemon
+# KorrinOS Mobile Companion Daemon
 # WebSocket server for mobile companion protocol (stdlib Python RFC 6455)
 
 DAEMON_PORT=8766
-DAEMON_TOKEN="tinkeros-default"
+DAEMON_TOKEN="korrinos-default"
 DAEMON_WS_DIR="$HOME/.tinker/mobile-companion"
 DAEMON_LOG="$HOME/.tinker/mobile-companion.log"
 SERVER="$HOME/.tinker/mobile-companion/mobile-companion-server.py"

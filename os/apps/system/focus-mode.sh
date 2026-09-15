@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Focus Mode - Block distractions
+# KorrinOS Focus Mode - Block distractions
 
 set -e
 

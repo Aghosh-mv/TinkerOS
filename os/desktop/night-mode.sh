@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Night Mode (Blue Light Filter)
+# KorrinOS Night Mode (Blue Light Filter)
 
 set -e
 

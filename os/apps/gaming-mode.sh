@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Gaming Mode
+# KorrinOS Gaming Mode
 # Optimizes system for gaming performance
 
 set -e
@@ -238,7 +238,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Gaming Mode${NC}"
+        echo -e "${YELLOW}KorrinOS Gaming Mode${NC}"
         echo ""
         echo "Optimizes your system for the best gaming experience."
         echo ""

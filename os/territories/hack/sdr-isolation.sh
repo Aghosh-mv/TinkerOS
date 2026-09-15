@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS SDR / Bluetooth Isolation (HACK + SECURE territory)
+# KorrinOS SDR / Bluetooth Isolation (HACK + SECURE territory)
 # Keeps the Bluetooth/SDR stack in an isolated user-space silo in secure mode;
 # in hack mode, unlocks raw access to Bluetooth / SDR dongles.
 #
@@ -79,7 +79,7 @@ case "${1:-}" in
   capture|rx) shift; sdr_capture "$@" ;;
   ble) ble_scan ;;
   status) status ;;
-  *) echo "TinkerOS SDR / Bluetooth isolation
+  *) echo "KorrinOS SDR / Bluetooth isolation
 Usage: ${0##*/} <detect|silo|pass <usb> <ns>|capture [freq] [gain]|ble|status>
 RF/BT isolation + raw access. Authorized/licensed bands only." ;;
 esac

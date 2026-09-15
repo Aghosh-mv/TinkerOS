@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Find My Device - Track device, send alert, and locate lost laptops
+# KorrinOS Find My Device - Track device, send alert, and locate lost laptops
 
 set -e
 

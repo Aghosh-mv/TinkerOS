@@ -1,8 +1,8 @@
-# TinkerOS CI Image
-FROM ghcr.io/tinkeros/tinkeros/base:latest
+# KorrinOS CI Image
+FROM ghcr.io/korrinos/korrinos/base:latest
 
-LABEL maintainer="TinkerOS Team <team@tinkeros.dev>"
-LABEL description="TinkerOS CI Environment"
+LABEL maintainer="KorrinOS Team <team@korrinos.dev>"
+LABEL description="KorrinOS CI Environment"
 LABEL version="7.2.0"
 
 USER root

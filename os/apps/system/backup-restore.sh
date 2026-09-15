@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Backup & Restore - Full system backup with encryption and scheduling
+# KorrinOS Backup & Restore - Full system backup with encryption and scheduling
 
 set -e
 
@@ -212,7 +212,7 @@ schedule() {
     
     cat > /etc/systemd/system/tinker-backup.service << EOF
 [Unit]
-Description=TinkerOS Backup
+Description=KorrinOS Backup
 After=network-online.target
 
 [Service]
@@ -231,7 +231,7 @@ EOF
     
     cat > /etc/systemd/system/tinker-backup.timer << EOF
 [Unit]
-Description=Run TinkerOS Backup $freq
+Description=Run KorrinOS Backup $freq
 
 [Timer]
 $timer_spec

@@ -1,8 +1,8 @@
 #!/bin/bash
-# TinkerOS Anticheat Consent helper (GAME territory)
+# KorrinOS Anticheat Consent helper (GAME territory)
 # Consent-gated anticheat tooling. Anticheat clients want deep system
 # access (kernel drivers, memory reads) which are privacy/intrusive.
-# TinkerOS wraps them behind an explicit consent gate so users know EXACTLY
+# KorrinOS wraps them behind an explicit consent gate so users know EXACTLY
 # what a game's anticheat will do before it gets kernel/ring0 access, and
 # can revoke it any time.
 #
@@ -52,7 +52,7 @@ list() {
   echo "Anticheat consents:"; ls -1 "$CONSENT_STORE" 2>/dev/null | sed 's/^/  /' || echo "  (none)"
 }
 
-usage() { echo "TinkerOS Anticheat Consent
+usage() { echo "KorrinOS Anticheat Consent
 Usage: ${0##*/} <declare <game> <scan...>|ask <game>|revoke <game>|list>"; }
 
 case "${1:-}" in

@@ -1,10 +1,10 @@
-# TinkerOS GRUB theme — branded boot menu on a dark background.
+# KorrinOS GRUB theme — branded boot menu on a dark background.
 # Builds on the real GRUB bootloader (modifies it with our theme).
 # Compile with: grub-mkfont for the font, or reuse an existing GRUB font.
 
-desktop-image: "tinkeros_boot.png"
+desktop-image: "korrinos_boot.png"
 desktop-color: "#0D0D12"
-title-text: "TinkerOS" "7.2.0-rc6"
+title-text: "KorrinOS" "7.2.0-rc6"
 title-color: "#00D4AA"
 title-font: "DejaVu Bold 16"
 

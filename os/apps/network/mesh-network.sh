@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Mesh Network - Tailscale/ZeroTier integration
+# KorrinOS Mesh Network - Tailscale/ZeroTier integration
 
 set -e
 

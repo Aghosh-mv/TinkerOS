@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Game Studio — capture/edit/monitor suite (GAME territory)
+# KorrinOS Game Studio — capture/edit/monitor suite (GAME territory)
 # A game content creation hub: hotkey capture, simple edits (clip, timestamp
 # overlay), audio commentary mix, and live stats overlay. Local-only.
 
@@ -43,7 +43,7 @@ ls_clips() {
   ls -lht "$STUDIO" 2>/dev/null | head -15 | sed 's/^/  /' || echo "  (empty)"
 }
 
-usage() { echo "TinkerOS Game Studio
+usage() { echo "KorrinOS Game Studio
 Usage: ${0##*/} <capture <sec> [name]|stamp <clip>|commentary <clip> <mic>|list>"; }
 
 case "${1:-}" in

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Temporal Resource Mapping (TRM) - Time-based resource scheduling
+# KorrinOS Temporal Resource Mapping (TRM) - Time-based resource scheduling
 
 set -e
 

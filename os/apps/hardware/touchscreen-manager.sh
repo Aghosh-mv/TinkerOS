@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Touchscreen Manager - Touch settings
+# KorrinOS Touchscreen Manager - Touch settings
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hardware Benchmark - Measure CPU, GPU, memory, and disk performance
+# KorrinOS Hardware Benchmark - Measure CPU, GPU, memory, and disk performance
 
 set -e
 
@@ -129,7 +129,7 @@ bench_network() {
 
 # Overall benchmark
 bench_all() {
-    echo "=== TinkerOS Full Hardware Benchmark ==="
+    echo "=== KorrinOS Full Hardware Benchmark ==="
     echo ""
     bench_cpu
     echo ""

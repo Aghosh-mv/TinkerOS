@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Cognitive Load Management
+# KorrinOS Cognitive Load Management
 # Context-aware Do Not Disturb: suppresses low-urgency notifications
 # during focused work, batches non-urgent pings, escalates urgent ones.
 
@@ -43,7 +43,7 @@ escalate() {
     notify-send -u critical "URGENT: $*" 2>/dev/null || echo "URGENT: $*"
 }
 
-echo -e "${BLUE}── TinkerOS Cognitive Load Manager ──${NC}"
+echo -e "${BLUE}── KorrinOS Cognitive Load Manager ──${NC}"
 load_config
 echo "mode: $MODE  batch_window: ${BATCH_WINDOW_MIN}min"
 case "${1:-status}" in

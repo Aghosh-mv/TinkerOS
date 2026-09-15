@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SEARCHIE — glass memory overlay for TinkerOS
+SEARCHIE — glass memory overlay for KorrinOS
 =============================================
 A spotlight-style, keyboard-driven glass panel over the desktop.
 Type a half-remembered phrase -> results stream in -> Enter opens.
@@ -34,7 +34,7 @@ ENGINE_DIR = os.environ.get("SEARCHIE_ENGINE",
                             os.path.dirname(os.path.abspath(__file__)))
 ENGINE = os.path.join(ENGINE_DIR, "vibe-address.sh")
 VIBE_HOME = os.environ.get("VIBE_HOME",
-                           os.path.expanduser("~/.local/share/tinkeros/vibe"))
+                           os.path.expanduser("~/.local/share/korrinos/vibe"))
 
 # ---------------------------------------------------------------- glass tones
 GLASS_BG      = QColor(26, 30, 42, 170)      # frosted near-black base
@@ -551,7 +551,7 @@ def main():
         sys.exit(selftest())
     app = QApplication(sys.argv)
     app.setApplicationName("Searchie")
-    app.setOrganizationName("TinkerOS")
+    app.setOrganizationName("KorrinOS")
     w = SearchieWindow()
     w.show()
     app.exec()

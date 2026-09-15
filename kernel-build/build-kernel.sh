@@ -1,13 +1,13 @@
 #!/bin/bash
-# TinkerOS Kernel v7.2.0-rc6 Build Script
-# Builds patched kernel with TinkerOS modules
+# KorrinOS Kernel v7.2.0-rc6 Build Script
+# Builds patched kernel with KorrinOS modules
 
 set -e
 
 KERNEL_VERSION="7.2.0-rc6"
 KERNEL_DIR="${KERNEL_DIR:-$(pwd)/linux-kernel}"
 BUILD_DIR="/tmp/tinker-kernel-build"
-OUTPUT_DIR="${OUTPUT_DIR:-$HOME/Desktop/TinkerOS-Kernel}"
+OUTPUT_DIR="${OUTPUT_DIR:-$HOME/Desktop/KorrinOS-Kernel}"
 JOBS=$(nproc)
 ARCH="x86_64"
 CROSS_COMPILE=""
@@ -45,9 +45,9 @@ clone_kernel() {
     fi
 }
 
-# Apply TinkerOS patches
+# Apply KorrinOS patches
 apply_patches() {
-    log "Applying TinkerOS kernel patches..."
+    log "Applying KorrinOS kernel patches..."
     
     local patches=(
         "kernel/sched/fair.c:NUMA_Balancing_fix.patch"
@@ -99,7 +99,7 @@ configure_kernel() {
     fi
     
     # Enable required options
-    log "Enabling TinkerOS kernel options..."
+    log "Enabling KorrinOS kernel options..."
     for cfg in \
         "CONFIG_TINKER_TERMINAL=y" \
         "CONFIG_TINKER_SMART_INPUT=m" \
@@ -140,9 +140,9 @@ build_modules() {
     success "Modules built"
 }
 
-# Build TinkerOS terminal modules
+# Build KorrinOS terminal modules
 build_terminal_modules() {
-    log "Building TinkerOS terminal modules..."
+    log "Building KorrinOS terminal modules..."
     
     # Build terminal modules
     (cd "$KERNEL_DIR" && make M=terminal -j"$JOBS" modules $ARCH $CROSS_COMPILE)
@@ -168,7 +168,7 @@ create_deb_package() {
 
 # Build everything
 build_all() {
-    log "Starting full kernel build for TinkerOS..."
+    log "Starting full kernel build for KorrinOS..."
     
     install_deps
     clone_kernel

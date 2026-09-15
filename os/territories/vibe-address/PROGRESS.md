@@ -1,13 +1,13 @@
-# TinkerOS v1.2 — MASTER PROGRESS / TODO (updated continuously)
+# KorrinOS v1.2 — MASTER PROGRESS / TODO (updated continuously)
 
 Legend: [x] done   [~] in progress   [ ] pending
 
 ## Global project tracks
-[x] Local repo http://github.com/Aghosh-mv/TinkerOS created + code pushed (520 files, os/ + kernel/tinker + README)
-[x] SourceForge project tinkeros exists (aghoshpratheesh) — ISO upload target
+[x] Local repo http://github.com/Aghosh-mv/KorrinOS created + code pushed (520 files, os/ + kernel/tinker + README)
+[x] SourceForge project korrinos exists (aghoshpratheesh) — ISO upload target
 [ ] Upload 10GB+ ISO to SourceForge + confirm download-page link
 [ ] Verify GitHub README download block points to the confirmed SourceForge link, re-push if needed
-[ ] Searchie installed inside TinkerOS (bind-f7 + autostart in the ISO rootfs)
+[ ] Searchie installed inside KorrinOS (bind-f7 + autostart in the ISO rootfs)
 
 ## v1.2 ISO build track
 [~] Kernel 7.2.0-rc6 + gamemode hook built & placed in ISO (vmlinuz)          ~95%

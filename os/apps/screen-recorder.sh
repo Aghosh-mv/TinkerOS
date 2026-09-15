@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Screen Recorder
+# KorrinOS Screen Recorder
 
 set -e
 

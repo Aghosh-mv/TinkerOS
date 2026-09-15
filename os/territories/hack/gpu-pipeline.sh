@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GPU Compute Pipeline (HACK territory)
+# KorrinOS GPU Compute Pipeline (HACK territory)
 # Direct RAM-disk -> GPU compute pipeline for high-throughput workloads
 # (e.g. hashcat at near bare-metal speeds offline), bypassing the visual
 # display server where possible.
@@ -86,7 +86,7 @@ case "${1:-}" in
   opencl) shift; run_opencl "$@" ;;
   bench) bench ;;
   status) status ;;
-  *) echo "TinkerOS GPU Compute Pipeline
+  *) echo "KorrinOS GPU Compute Pipeline
 Usage: ${0##*/} <gpu|stage <file>|hashcat <hashes> <wordlist>|opencl <kern.c>|bench|status>
 Stages working sets in RAM and runs GPU compute directly. Cracking only lawful on own/authorized hashes." ;;
 esac

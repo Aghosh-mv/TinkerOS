@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Invisible Sandboxing — Portals vs. Prompts (A6)
+# KorrinOS Invisible Sandboxing — Portals vs. Prompts (A6)
 # The "Rule of Intention": if a user explicitly interacts with a system
 # dialog (file picker, print menu), that action IS the permission. The app
 # only ever sees the specific item the user selected — no broad
@@ -64,7 +64,7 @@ portal_open() {  # portal_open <app> <capability>
   # Use zenity/kdialog if available for a real native picker; else stdin
   local picked=""
   if command -v zenity >/dev/null; then
-    picked=$(zenity --file-selection --title="TinkerOS — choose file ($cap) for $app" 2>/dev/null || true)
+    picked=$(zenity --file-selection --title="KorrinOS — choose file ($cap) for $app" 2>/dev/null || true)
   elif command -v kdialog >/dev/null; then
     picked=$(kdialog --getopenfilename . 2>/dev/null || true)
   else
@@ -110,7 +110,7 @@ case "${1:-}" in
   perms) shift; app_permissions "$@" ;;
   prune|gc) prune ;;
   status) status ;;
-  *) echo "TinkerOS Invisible Sandbox (Portals vs. Prompts)
+  *) echo "KorrinOS Invisible Sandbox (Portals vs. Prompts)
 Usage: ${0##*/} <open <app> <cap>|grant <app> <cap> <res>|use <tok> <app> <cap>|perms <app>|prune|status>
 Intent-is-permission model: explicit picker interaction grants a one-shot
 token for that single item — no blanket folder/device prompts." ;;

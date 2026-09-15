@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Docking Station - Dock management
+# KorrinOS Docking Station - Dock management
 
 set -e
 

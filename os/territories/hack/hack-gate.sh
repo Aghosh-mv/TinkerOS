@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hack Gate — selective send/email feature blocking (HACK territory)
+# KorrinOS Hack Gate — selective send/email feature blocking (HACK territory)
 # When hack mode is active, outbound "send" capabilities (email, cloud sync,
 # telemetry beacons) are gated OFF by default. The user may explicitly allow
 # specific senders per permission file.
@@ -24,7 +24,7 @@ mkdir -p "$(dirname "$PERMS")" "$(dirname "$GATED_LOG")"
 
 init_perms() {
   [ -f "$PERMS" ] || cat > "$PERMS" <<'EOF'
-# TinkerOS Hack Gate — send/email permissions
+# KorrinOS Hack Gate — send/email permissions
 # One approved sender per line:  <app-or-addr>
 # A sender is any app capable of OUTBOUND message/email/upload.
 # Lines starting with # are comments.
@@ -93,7 +93,7 @@ case "${1:-}" in
   send) shift; guard_send "$@" ;;
   lockdown) lockdown_inbox ;;
   status) status ;;
-  *) echo "TinkerOS Hack Gate
+  *) echo "KorrinOS Hack Gate
 Usage: ${0##*/} <init|allow <sender>|block <sender>|check <sender>|send <app> <dst> <cmd...>|lockdown|status>
 Gates outbound send/email by default; explicit yes/no per send or persistent approval." ;;
 esac

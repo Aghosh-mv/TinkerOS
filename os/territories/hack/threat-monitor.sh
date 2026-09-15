@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Threat + Code-Bug Monitor (HACK territory)
+# KorrinOS Threat + Code-Bug Monitor (HACK territory)
 # A live monitoring system that does two jobs while you operate in hack mode:
 #
 #   (A) INCOMING THREATS: watch your own box for incoming attacks and
@@ -126,7 +126,7 @@ case "${1:-}" in
   python|py) shift; bug_python "$@" ;;
   json) shift; bug_json "$@" ;;
   status) echo "Logs:"; tail -5 "$ALERT_LOG" 2>/dev/null || echo "  no threats logged"; tail -5 "$SCAN_LOG" 2>/dev/null || echo "  no code bugs logged" ;;
-  *) echo "TinkerOS Threat + Code-Bug Monitor
+  *) echo "KorrinOS Threat + Code-Bug Monitor
 Usage: ${0##*/} <threats|listeners|conns|auth|root|integrity|scan <dir>|shell <f>|py <f>|json <f>|status>
 Monitors incoming threats to YOUR box AND scans YOUR code for bugs so you
 can hack better while staying harder to hack." ;;

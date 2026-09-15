@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GRUB Theme - Boot screen themes
+# KorrinOS GRUB Theme - Boot screen themes
 
 set -e
 
@@ -14,7 +14,7 @@ init() {
         cat > "$CONFIG_FILE" << 'EOF'
 # GRUB Theme Configuration
 ENABLED=true
-DEFAULT_THEME=tinkeros
+DEFAULT_THEME=korrinos
 TIMEOUT=5
 EOF
     fi
@@ -29,7 +29,7 @@ list_themes() {
     
     echo ""
     echo "Popular themes to install:"
-    echo "  - TinkerOS (default)"
+    echo "  - KorrinOS (default)"
     echo "  - Vimix"
     echo "  - Polydark"
     echo "  - Stylish"

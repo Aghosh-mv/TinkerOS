@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Canary Honeypot engine (HACK + SECURE territory)
+# KorrinOS Canary Honeypot engine (HACK + SECURE territory)
 # Spins up fake, highly-enticing "vulnerable" folders and mock network ports
 # inside the system's own architecture. If any rogue/local process or
 # network scanner touches a canary, the OS immediately:
@@ -105,7 +105,7 @@ case "${1:-}" in
   alerts|report) alerts ;;
   stop|off) stop_all ;;
   status) status ;;
-  *) echo "TinkerOS Canary Honeypot
+  *) echo "KorrinOS Canary Honeypot
 Usage: ${0##*/} <folders [dir]|port [port]|watch [dir]|outward [target]|alerts|stop|status>
 Deception/IDS canaries that attract and detect intruders. Authorized testing only." ;;
 esac

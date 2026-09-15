@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Webcam Manager - Camera devices, capture, and testing
+# KorrinOS Webcam Manager - Camera devices, capture, and testing
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Predictive Pre-Caching (PFA) - Intelligent file/preload caching
+# KorrinOS Predictive Pre-Caching (PFA) - Intelligent file/preload caching
 
 set -e
 

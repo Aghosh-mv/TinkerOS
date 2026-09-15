@@ -1,12 +1,12 @@
 #!/bin/bash
-# TinkerOS DEB Package Builder
+# KorrinOS DEB Package Builder
 
 set -e
 
 ROOT_DIR=$(dirname "$(dirname "$(realpath "$0")")")
 OS_DIR="$ROOT_DIR/os"
 BUILD_DIR="/tmp/tinker-deb-build"
-OUTPUT_DIR="$HOME/Desktop/TinkerOS-Packages"
+OUTPUT_DIR="$HOME/Desktop/KorrinOS-Packages"
 VERSION="7.2.0"
 ARCH="amd64"
 
@@ -14,16 +14,16 @@ mkdir -p "$BUILD_DIR" "$OUTPUT_DIR"
 
 # Package definitions
 declare -A PACKAGES=(
-    ["tinkeros-desktop"]="tinkeros-desktop: XFCE desktop with TinkerOS branding"
-    ["tinkeros-system"]="tinkeros-system: Core system utilities and configuration"
-    ["tinkeros-apps"]="tinkeros-apps: Essential applications bundle"
-    ["tinkeros-security"]="tinkeros-security: Security hardening and tools"
-    ["tinkeros-gaming"]="tinkeros-gaming: Gaming optimizations and tools"
-    ["tinkeros-dev"]="tinkeros-dev: Development environment"
-    ["tinkeros-enterprise"]="tinkeros-enterprise: Enterprise features"
-    ["tinkeros-ai"]="tinkeros-ai: Local AI assistant (TinkerAI)"
-    ["tinkeros-cowork"]="tinkeros-cowork: Native cowork AI"
-    ["tinkeros-control-center"]="tinkeros-control-center: Unified control center"
+    ["korrinos-desktop"]="korrinos-desktop: XFCE desktop with KorrinOS branding"
+    ["korrinos-system"]="korrinos-system: Core system utilities and configuration"
+    ["korrinos-apps"]="korrinos-apps: Essential applications bundle"
+    ["korrinos-security"]="korrinos-security: Security hardening and tools"
+    ["korrinos-gaming"]="korrinos-gaming: Gaming optimizations and tools"
+    ["korrinos-dev"]="korrinos-dev: Development environment"
+    ["korrinos-enterprise"]="korrinos-enterprise: Enterprise features"
+    ["korrinos-ai"]="korrinos-ai: Local AI assistant (TinkerAI)"
+    ["korrinos-cowork"]="korrinos-cowork: Native cowork AI"
+    ["korrinos-control-center"]="korrinos-control-center: Unified control center"
 )
 
 # Function to create package
@@ -44,36 +44,36 @@ create_package() {
     
     # Copy relevant files based on package
     case "$pkg_name" in
-        "tinkeros-desktop")
+        "korrinos-desktop")
             cp -r "$OS_DIR/desktop"/* "$pkg_dir/usr/lib/tinker/desktop/"
-            cp -r "$OS_DIR/brand/output/"* "$pkg_dir/usr/share/themes/TinkerOS/" 2>/dev/null || true
+            cp -r "$OS_DIR/brand/output/"* "$pkg_dir/usr/share/themes/KorrinOS/" 2>/dev/null || true
             ;;
-        "tinkeros-system")
+        "korrinos-system")
             cp -r "$OS_DIR/system"/* "$pkg_dir/usr/lib/tinker/system/"
             cp -r "$OS_DIR/systemd"/* "$pkg_dir/lib/systemd/system/" 2>/dev/null || true
             ;;
-        "tinkeros-apps")
+        "korrinos-apps")
             cp -r "$OS_DIR/apps"/* "$pkg_dir/usr/lib/tinker/apps/"
             ;;
-        "tinkeros-security")
+        "korrinos-security")
             cp -r "$OS_DIR/security"/* "$pkg_dir/usr/lib/tinker/security/" 2>/dev/null || true
             ;;
-        "tinkeros-gaming")
+        "korrinos-gaming")
             cp -r "$OS_DIR/apps/gaming" "$pkg_dir/usr/lib/tinker/apps/gaming" 2>/dev/null || true
             ;;
-        "tinkeros-dev")
+        "korrinos-dev")
             cp -r "$OS_DIR/apps"/* "$pkg_dir/usr/lib/tinker/apps/" 2>/dev/null || true
             ;;
-        "tinkeros-enterprise")
+        "korrinos-enterprise")
             cp -r "$OS_DIR/enterprise" "$pkg_dir/usr/lib/tinker/" 2>/dev/null || true
             ;;
-        "tinkeros-ai")
+        "korrinos-ai")
             cp -r "$OS_DIR/tinkerai" "$pkg_dir/usr/lib/tinker/" 2>/dev/null || true
             ;;
-        "tinkeros-cowork")
+        "korrinos-cowork")
             cp -r "$OS_DIR/tinker-cowork" "$pkg_dir/usr/lib/tinker/" 2>/dev/null || true
             ;;
-        "tinkeros-control-center")
+        "korrinos-control-center")
             cp -r "$OS_DIR/control-center" "$pkg_dir/usr/lib/tinker/" 2>/dev/null || true
             ;;
     esac
@@ -83,14 +83,14 @@ create_package() {
 Package: $pkg_name
 Version: $VERSION
 Architecture: $ARCH
-Maintainer: TinkerOS Team <team@tinkeros.dev>
+Maintainer: KorrinOS Team <team@korrinos.dev>
 Description: $pkg_desc
- TinkerOS is a Linux-based operating system designed for everyone.
+ KorrinOS is a Linux-based operating system designed for everyone.
  It combines the power of Linux with the simplicity you expect.
 Depends: bash, python3, python3-pyqt6, systemd
 Section: utils
 Priority: optional
-Homepage: https://tinkeros.dev
+Homepage: https://korrinos.dev
 CONTROLEOF
     
     # Create postinst script
@@ -113,8 +113,8 @@ if command -v systemctl >/dev/null 2>&1; then
     systemctl daemon-reload 2>/dev/null || true
 fi
 
-# Enable services for tinkeros-system
-if [ "$DPKG_MAINTSCRIPT_PACKAGE" = "tinkeros-system" ]; then
+# Enable services for korrinos-system
+if [ "$DPKG_MAINTSCRIPT_PACKAGE" = "korrinos-system" ]; then
     systemctl enable NetworkManager systemd-timesyncd ufw 2>/dev/null || true
 fi
 
@@ -127,8 +127,8 @@ POSTINSTEOF
 #!/bin/bash
 set -e
 
-# Disable services for tinkeros-system
-if [ "$DPKG_MAINTSCRIPT_PACKAGE" = "tinkeros-system" ]; then
+# Disable services for korrinos-system
+if [ "$DPKG_MAINTSCRIPT_PACKAGE" = "korrinos-system" ]; then
     systemctl disable ufw 2>/dev/null || true
 fi
 

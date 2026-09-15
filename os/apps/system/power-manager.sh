@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Power Manager - Advanced power profile management
+# KorrinOS Power Manager - Advanced power profile management
 
 set -e
 
@@ -173,7 +173,7 @@ apply_profile() {
 
 # Get current status
 status() {
-    echo "=== TinkerOS Power Manager ==="
+    echo "=== KorrinOS Power Manager ==="
     echo ""
     
     # Current profile

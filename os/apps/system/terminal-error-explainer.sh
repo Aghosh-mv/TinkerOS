@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Terminal Error Explainer
+# KorrinOS Terminal Error Explainer
 # Explains common terminal/kernel error messages and suggests fixes.
 # Complements the kernel's terminal/typo_corrector + error_explainer.
 
@@ -44,7 +44,7 @@ explain() {
     esac
 }
 
-echo -e "${BLUE}── TinkerOS Terminal Error Explainer ──${NC}"
+echo -e "${BLUE}── KorrinOS Terminal Error Explainer ──${NC}"
 if [ $# -ge 1 ]; then
     explain "$*"
     exit 0

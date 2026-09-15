@@ -406,7 +406,7 @@ class TinkerAI:
     
     def generate_llm_response(self, prompt: str) -> str:
         # Build context
-        context = "You are TinkerAI, a helpful local AI assistant for TinkerOS Linux. "
+        context = "You are TinkerAI, a helpful local AI assistant for KorrinOS Linux. "
         context += "You can control the system, install apps, optimize performance, and answer questions. "
         context += "Be concise and helpful.\n\n"
         
@@ -438,7 +438,7 @@ class TinkerAI:
 • Apps: "install firefox", "remove vlc"
 • Settings: "dark mode", "light mode", "performance mode"
 • Info: "system status", "run benchmark"
-• Questions about TinkerOS features
+• Questions about KorrinOS features
 
 Just ask naturally!"""
         

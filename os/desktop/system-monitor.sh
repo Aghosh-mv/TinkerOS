@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS System Monitor GUI
+# KorrinOS System Monitor GUI
 
 set -e
 

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS hardware tuning — low-level tuning farm.
+ * KorrinOS hardware tuning — low-level tuning farm.
  *
  * Central knob for CPU/GPU/I/O tuning parameters (governor hint,
  * overclock intent, fan curve, latency mode). Exposes a single
@@ -100,17 +100,17 @@ static int __init tinker_tune_init(void)
 	if (tinker_proc_root)
 		proc_create("tuning", 0644, tinker_proc_root, &tune_fops);
 
-	pr_info("TinkerOS: hardware tuning at /proc/tinker/tuning\n");
+	pr_info("KorrinOS: hardware tuning at /proc/tinker/tuning\n");
 	return 0;
 }
 
 static void __exit tinker_tune_exit(void)
 {
-	pr_info("TinkerOS: hardware tuning removed\n");
+	pr_info("KorrinOS: hardware tuning removed\n");
 }
 
 module_init(tinker_tune_init);
 module_exit(tinker_tune_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS low-level hardware tuning");
+MODULE_DESCRIPTION("KorrinOS low-level hardware tuning");

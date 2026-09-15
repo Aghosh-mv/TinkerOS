@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-2.0
 #
-# TinkerOS core kernel features
+# KorrinOS core kernel features
 #
 # Hardware-throughput-code desktop OS features implemented as real
 # kernel C code, inside the Linux kernel. See AGENTS.md in the repo root
 # for the project origin and mission.
 
 menuconfig TINKER_FEATURES
-	bool "TinkerOS core kernel features"
+	bool "KorrinOS core kernel features"
 	help
-	  TinkerOS hardware-throughput-code features: thermal-aware
+	  KorrinOS hardware-throughput-code features: thermal-aware
 	  scheduling hints, game-mode boost knob, energy/DVFS governor
 	  hinting, and battery/backlight lifespan management.
 
@@ -19,10 +19,10 @@ menuconfig TINKER_FEATURES
 if TINKER_FEATURES
 
 config TINKER_CORE
-	bool "TinkerOS core interface (/proc/tinker)"
+	bool "KorrinOS core interface (/proc/tinker)"
 	default y
 	help
-	  Core TinkerOS procfs interface and sysctls. Provides
+	  Core KorrinOS procfs interface and sysctls. Provides
 	  /proc/tinker/{thermal,gamemode,energy,battery,oled,status}.
 
 config TINKER_THERMAL_SCHED

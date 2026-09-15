@@ -1,22 +1,22 @@
-# TinkerOS User Guide
+# KorrinOS User Guide
 
-## Welcome to TinkerOS
+## Welcome to KorrinOS
 
-TinkerOS is a Linux-based operating system designed for everyone. It combines the power of Linux with the simplicity of macOS and the familiarity of Windows.
+KorrinOS is a Linux-based operating system designed for everyone. It combines the power of Linux with the simplicity of macOS and the familiarity of Windows.
 
 ---
 
 ## Getting Started
 
 ### Installation
-1. Download the TinkerOS ISO
+1. Download the KorrinOS ISO
 2. Create a bootable USB using Rufus, Etcher, or `dd`
 3. Boot from USB
 4. Follow the installer
 5. Reboot and enjoy!
 
 ### First Boot
-On first boot, TinkerOS will:
+On first boot, KorrinOS will:
 - Run the Setup Wizard
 - Help you configure your system
 - Install essential applications
@@ -37,7 +37,7 @@ On first boot, TinkerOS will:
 - Show Desktop button
 
 ### App Launcher
-- Click the TinkerOS icon or press `Super` key
+- Click the KorrinOS icon or press `Super` key
 - Search for apps
 - Browse categories
 
@@ -105,7 +105,7 @@ tinker-pkg install <package-name>
 ## System Features
 
 ### Automatic Updates
-TinkerOS checks for updates daily. Enable in Settings > Updates.
+KorrinOS checks for updates daily. Enable in Settings > Updates.
 
 ### Backup & Restore
 Create backups:
@@ -158,12 +158,12 @@ tinker-help
 ```
 
 ### Documentation
-- User Guide: `/usr/share/doc/tinkeros/`
+- User Guide: `/usr/share/doc/korrinos/`
 - man pages: `man <command>`
 
 ### Community
-- Website: https://tinkeros.dev
-- Forum: https://forum.tinkeros.dev
+- Website: https://korrinos.dev
+- Forum: https://forum.korrinos.dev
 
 ---
 
@@ -177,7 +177,7 @@ Enable in Settings > Advanced:
 - Predictive Intelligence
 
 ### Command Line
-TinkerOS includes a powerful terminal with:
+KorrinOS includes a powerful terminal with:
 - Auto-correction
 - Error explanations
 - Smart suggestions
@@ -226,4 +226,4 @@ If you need help:
 3. Visit our website
 4. Join our community
 
-Welcome to TinkerOS! Enjoy your computing experience.
+Welcome to KorrinOS! Enjoy your computing experience.

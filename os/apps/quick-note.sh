@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Quick Note
+# KorrinOS Quick Note
 # Fast note-taking with categories, search, and sync
 
 set -e

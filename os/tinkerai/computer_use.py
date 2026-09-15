@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Computer Use - Desktop vision + control for TinkerOS
+TinkerAI Computer Use - Desktop vision + control for KorrinOS
 Lets the AI see the screen and interact with applications.
 
 Dependencies (optional):
@@ -22,7 +22,7 @@ from datetime import datetime
 
 
 class ComputerUse:
-    """Desktop vision + control agent for TinkerOS"""
+    """Desktop vision + control agent for KorrinOS"""
 
     def __init__(self, log_cb=None):
         self.log = log_cb or print

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hack Ways — large offensive techniques library (HACK territory)
+# KorrinOS Hack Ways — large offensive techniques library (HACK territory)
 # A structured library of many distinct authorized-testing techniques,
 # each with: a helper command, what it does, and a consent flag.
 #
@@ -71,7 +71,7 @@ show_way() {
 
 list_ways() {
   local i=1
-  echo "TinkerOS HACK WAYS library ($((${#WAYS[@]})) techniques)"
+  echo "KorrinOS HACK WAYS library ($((${#WAYS[@]})) techniques)"
   echo "--------------------------------------------------------"
   for w in "${WAYS[@]}"; do
     local n tool diff cons desc
@@ -123,7 +123,7 @@ case "${1:-}" in
   show|info) shift; show_way "$@" ;;
   easy|medium|hard) list_by_difficulty "$1" ;;
   run) shift; run_way "$@" ;;
-  *) echo "TinkerOS Hack Ways library
+  *) echo "KorrinOS Hack Ways library
 Usage: ${0##*/} <list|count|show <name>|easy|medium|hard|run <name>>
 A broad library of authorized-testing techniques with consent flags.
 AUTHORIZED USE ONLY. You are responsible for legality." ;;

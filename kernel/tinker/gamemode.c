@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS GameMode scheduling boost.
+ * KorrinOS GameMode scheduling boost.
  *
  * First-class kernel interface mirroring the Feral GameMode background
  * service: boost a process group (by TGID) to a high realtime priority
@@ -128,7 +128,7 @@ void tinker_gamemode_reap_finished(void)
 		gone = gamemode_tgid;
 		gamemode_enabled = 0;
 		gamemode_tgid = 0;
-		pr_notice("TinkerOS: gamemode boost reaped (tgid %d gone)\n", gone);
+		pr_notice("KorrinOS: gamemode boost reaped (tgid %d gone)\n", gone);
 	}
 out:
 	mutex_unlock(&gamemode_lock);
@@ -154,7 +154,7 @@ static int gamemode_show(struct seq_file *m, void *v)
 		}
 		rcu_read_unlock();
 		if (!alive) {
-			pr_notice("TinkerOS: gamemode reap on read (tgid gone)\n");
+			pr_notice("KorrinOS: gamemode reap on read (tgid gone)\n");
 			gamemode_enabled = 0;
 			gamemode_tgid = 0;
 		}
@@ -234,17 +234,17 @@ static int __init tinker_gamemode_init(void)
 		proc_create("gamemode", 0644, tinker_proc_root,
 			    &gamemode_fops);
 
-	pr_info("TinkerOS: gamemode boost at /proc/tinker/gamemode\n");
+	pr_info("KorrinOS: gamemode boost at /proc/tinker/gamemode\n");
 	return 0;
 }
 
 static void __exit tinker_gamemode_exit(void)
 {
-	pr_info("TinkerOS: gamemode boost removed\n");
+	pr_info("KorrinOS: gamemode boost removed\n");
 }
 
 module_init(tinker_gamemode_init);
 module_exit(tinker_gamemode_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS GameMode scheduling boost");
+MODULE_DESCRIPTION("KorrinOS GameMode scheduling boost");

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Pomodoro Timer - Work/break timer
+# KorrinOS Pomodoro Timer - Work/break timer
 
 set -e
 

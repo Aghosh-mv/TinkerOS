@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Fast Boot System
+# KorrinOS Fast Boot System
 
 set -e
 
@@ -11,7 +11,7 @@ mkdir -p "$BOOT_DIR"
 init_config() {
     if [ ! -f "$CONFIG_FILE" ]; then
         cat > "$CONFIG_FILE" << 'EOF'
-# TinkerOS Fast Boot Configuration
+# KorrinOS Fast Boot Configuration
 
 # Enable fast boot
 FAST_BOOT_ENABLED=true

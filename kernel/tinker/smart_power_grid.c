@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS smart power grid.
+ * KorrinOS smart power grid.
  *
  * Central utility/load-aware power scheduling across CPU subsystems.
  * Exposes a power-grid profile (balanced / performance / sustained /
@@ -116,17 +116,17 @@ static int __init tinker_pg_init(void)
 	if (tinker_proc_root)
 		proc_create("powergrid", 0644, tinker_proc_root, &pg_fops);
 
-	pr_info("TinkerOS: smart power grid at /proc/tinker/powergrid\n");
+	pr_info("KorrinOS: smart power grid at /proc/tinker/powergrid\n");
 	return 0;
 }
 
 static void __exit tinker_pg_exit(void)
 {
-	pr_info("TinkerOS: smart power grid removed\n");
+	pr_info("KorrinOS: smart power grid removed\n");
 }
 
 module_init(tinker_pg_init);
 module_exit(tinker_pg_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS smart power grid");
+MODULE_DESCRIPTION("KorrinOS smart power grid");

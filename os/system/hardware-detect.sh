@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hardware Detection Module
+# KorrinOS Hardware Detection Module
 # Smart on-demand hardware detection for the installer.
 # Runs DURING installation. Detects GPU type and installs ONLY the
 # drivers that match the hardware. No bloat, no wrong drivers.
@@ -179,7 +179,7 @@ main() {
     rm -f /tmp/tinker-gpu-raw /tmp/tinker-hw-profile /tmp/tinker-hw-layers
     : > "$HD_LOG"
     
-    section "TinkerOS Hardware Detection"
+    section "KorrinOS Hardware Detection"
     log "Detecting graphics hardware..."
     
     detect_gpus
@@ -198,7 +198,7 @@ main() {
         log "Driver installation complete. Summary written to /tmp/tinker-hw-summary"
         # Write summary
         {
-            echo "TinkerOS Hardware Detection Summary"
+            echo "KorrinOS Hardware Detection Summary"
             echo "Profile: $profile"
             echo "Layers: $(cat /tmp/tinker-hw-layers)"
             echo "A reboot is required to load any new GPU drivers."

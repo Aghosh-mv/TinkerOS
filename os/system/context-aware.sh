@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Context-Aware System Adaptation
+# KorrinOS Context-Aware System Adaptation
 # TECHNIQUE: Contextual System Symbiosis (CSS)
 #
 # CONCEPT: System detects WHAT you're doing (context) and automatically

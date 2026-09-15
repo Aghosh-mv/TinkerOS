@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Masked Process Trees (HACK + SECURE territory)
+# KorrinOS Masked Process Trees (HACK + SECURE territory)
 # Encrypts/randomizes process IDs and names in user-space introspection so
 # standard task managers and malware see chameleon identities.
 #
@@ -83,7 +83,7 @@ case "${1:-}" in
   proc|decoy) shift; decoy_proc "$@" ;;
   list) list_masks ;;
   status) status ;;
-  *) echo "TinkerOS Masked Process Trees
+  *) echo "KorrinOS Masked Process Trees
 Usage: ${0##*/} <map <real> <decoy>|mask <pid> <name>|proc [dir]|list|status>
 Chameleon PIDs/names for introspection masking." ;;
 esac

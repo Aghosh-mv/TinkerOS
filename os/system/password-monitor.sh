@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Password Monitor
+# KorrinOS Password Monitor
 # Detects password fields and offers secure generation
 
 set -e
@@ -267,7 +267,7 @@ install_browser_extension() {
     
     case "$ACTIVE_BROWSER" in
         firefox)
-            echo "For Firefox, install the TinkerOS extension:"
+            echo "For Firefox, install the KorrinOS extension:"
             echo "  1. Open Firefox"
             echo "  2. Go to about:debugging"
             echo "  3. Click 'Load Temporary Add-on'"
@@ -298,7 +298,7 @@ create_browser_extension() {
     cat > "$ext_dir/chrome/manifest.json" << 'EOF'
 {
     "manifest_version": 3,
-    "name": "TinkerOS Password Manager",
+    "name": "KorrinOS Password Manager",
     "version": "1.0",
     "description": "Secure password generation and storage",
     "permissions": ["activeTab", "storage", "notifications"],
@@ -321,7 +321,7 @@ EOF
     
     # Content script for detecting password fields
     cat > "$ext_dir/chrome/content.js" << 'EOF'
-// TinkerOS Password Manager - Content Script
+// KorrinOS Password Manager - Content Script
 // Detects password fields and communicates with native messaging
 
 (function() {
@@ -380,7 +380,7 @@ EOF
     
     # Background script
     cat > "$ext_dir/chrome/background.js" << 'EOF'
-// TinkerOS Password Manager - Background Script
+// KorrinOS Password Manager - Background Script
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'passwordFieldDetected' || 
@@ -390,7 +390,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         chrome.notifications.create({
             type: 'basic',
             iconUrl: 'icon.png',
-            title: 'TinkerOS Password Manager',
+            title: 'KorrinOS Password Manager',
             message: `Password field detected on ${message.domain}`,
             buttons: [
                 { title: 'Generate Password' },
@@ -414,7 +414,7 @@ EOF
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>TinkerOS Password Manager</title>
+    <title>KorrinOS Password Manager</title>
     <style>
         body {
             width: 300px;
@@ -459,7 +459,7 @@ EOF
     </style>
 </head>
 <body>
-    <h1>🔐 TinkerOS Password Manager</h1>
+    <h1>🔐 KorrinOS Password Manager</h1>
     <button class="btn btn-primary" id="generate">Generate Strong Password</button>
     <button class="btn btn-secondary" id="useExisting">Use Existing Password</button>
     <button class="btn btn-secondary" id="openManager">Open Password Manager</button>
@@ -536,7 +536,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Password Monitor${NC}"
+        echo -e "${YELLOW}KorrinOS Password Monitor${NC}"
         echo ""
         echo "Detects password fields and offers secure generation."
         echo ""

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Self-Watchdog (real external monitor, NOT a doc note)
+# KorrinOS Self-Watchdog (real external monitor, NOT a doc note)
 # A standalone daemon that watches the agent's CONCRETE WORK OUTPUT and
 # alerts when the agent appears IDLE for longer than a threshold.
 #
@@ -142,7 +142,7 @@ case "${1:-}" in
   status) status ;;
   clear) clear_stall ;;
   run) watch ;;
-  *) echo "TinkerOS Self-Watchdog
+  *) echo "KorrinOS Self-Watchdog
 Usage: ${0##*/} <start|stop|status|clear>
 +  Monitors the repo for agent work output; alerts if idle > ${IDLE_SECS}s.
 +  On a stall it INJECTS a SELF-WATCHDOG-STALL.md marker + stamps AGENTS.md

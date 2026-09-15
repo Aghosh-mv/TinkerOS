@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Login Theme - Display manager themes
+# KorrinOS Login Theme - Display manager themes
 
 set -e
 
@@ -13,7 +13,7 @@ init() {
         cat > "$CONFIG_FILE" << 'EOF'
 # Login Theme Configuration
 ENABLED=true
-DEFAULT_THEME=tinkeros
+DEFAULT_THEME=korrinos
 EOF
     fi
 }

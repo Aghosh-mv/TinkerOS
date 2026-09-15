@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Window Manager
+# KorrinOS Window Manager
 
 set -e
 

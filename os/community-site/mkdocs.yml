@@ -1,8 +1,8 @@
-site_name: TinkerOS Community
-site_description: Community hub for TinkerOS users
-site_url: https://community.tinkeros.dev
-site_author: TinkerOS Community
-copyright: Copyright &copy; 2024 TinkerOS Community
+site_name: KorrinOS Community
+site_description: Community hub for KorrinOS users
+site_url: https://community.korrinos.dev
+site_author: KorrinOS Community
+copyright: Copyright &copy; 2024 KorrinOS Community
 
 theme:
   name: material
@@ -75,8 +75,8 @@ markdown_extensions:
 nav:
   - Home: index.md
   - News: news/index.md
-  - Forum: https://forum.tinkeros.dev
-  - Discord: https://discord.gg/tinkeros
+  - Forum: https://forum.korrinos.dev
+  - Discord: https://discord.gg/korrinos
   - Contribute:
       - Get Started: contribute/getting-started.md
       - Code: contribute/code.md
@@ -93,7 +93,7 @@ nav:
       - FAQ: support/faq.md
       - Troubleshooting: support/troubleshooting.md
       - Hardware Compatibility: support/hardware.md
-      - Report Bug: https://github.com/tinkeros/tinkeros/issues
+      - Report Bug: https://github.com/korrinos/korrinos/issues
   - Governance:
       - Code of Conduct: governance/conduct.md
       - Maintainers: governance/maintainers.md
@@ -108,15 +108,15 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/tinkeros
+      link: https://github.com/korrinos
     - icon: fontawesome/brands/discord
-      link: https://discord.gg/tinkeros
+      link: https://discord.gg/korrinos
     - icon: fontawesome/brands/mastodon
-      link: https://fosstodon.org/@tinkeros
+      link: https://fosstodon.org/@korrinos
     - icon: fontawesome/brands/reddit
-      link: https://reddit.com/r/tinkeros
+      link: https://reddit.com/r/korrinos
     - icon: fontawesome/brands/youtube
-      link: https://youtube.com/@tinkeros
+      link: https://youtube.com/@korrinos
   analytics:
     provider: google
     property: G-XXXXXXXXXX

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Desktop Integration
+# KorrinOS Desktop Integration
 # Integrates with XFCE, GNOME, KDE for seamless experience
 
 set -e
@@ -23,13 +23,13 @@ AUTO_DETECT=true
 # Preferred DE (xfce, gnome, kde, mate, cinnamon)
 PREFERRED_DE=auto
 
-# Enable TinkerOS panel
+# Enable KorrinOS panel
 ENABLE_PANEL=true
 
-# Enable TinkerOS dock
+# Enable KorrinOS dock
 ENABLE_DOCK=true
 
-# Enable TinkerOS app launcher
+# Enable KorrinOS app launcher
 ENABLE_LAUNCHER=true
 
 # Enable global hotkeys
@@ -64,14 +64,14 @@ setup_xfce() {
         mkdir -p ~/.config/xfce4/panel
     fi
     
-    # Add TinkerOS items to panel
+    # Add KorrinOS items to panel
     xfce4-panel --add-item 2>/dev/null || true
     
     # Create desktop launcher
     cat > ~/Desktop/tinker-apps.desktop << 'EOF'
 [Desktop Entry]
-Name=TinkerOS Apps
-Comment=TinkerOS Application Launcher
+Name=KorrinOS Apps
+Comment=KorrinOS Application Launcher
 Exec=/usr/lib/tinker/desktop/app-launcher.sh
 Icon=applications-other
 Type=Application
@@ -82,8 +82,8 @@ EOF
     # Add to autostart
     cat > "$AUTOSTART_DIR/tinker-desktop.desktop" << 'EOF'
 [Desktop Entry]
-Name=TinkerOS Desktop
-Comment=TinkerOS Desktop Components
+Name=KorrinOS Desktop
+Comment=KorrinOS Desktop Components
 Exec=/usr/lib/tinker/desktop/start-desktop.sh
 Icon=tinker
 Type=Application
@@ -101,16 +101,16 @@ setup_gnome() {
     echo "Setting up GNOME integration..."
     
     # Create GNOME Shell extension
-    local ext_dir="$HOME/.local/share/gnome-shell/extensions/tinker@tinkeros"
+    local ext_dir="$HOME/.local/share/gnome-shell/extensions/tinker@korrinos"
     mkdir -p "$ext_dir"
     
     cat > "$ext_dir/metadata.json" << 'EOF'
 {
-    "uuid": "tinker@tinkeros",
-    "name": "TinkerOS Desktop",
-    "description": "TinkerOS desktop integration",
+    "uuid": "tinker@korrinos",
+    "name": "KorrinOS Desktop",
+    "description": "KorrinOS desktop integration",
     "shell-version": ["42", "43", "44"],
-    "url": "https://tinkeros.dev"
+    "url": "https://korrinos.dev"
 }
 EOF
     
@@ -132,7 +132,7 @@ function init() {
 function enable() {
     Main.panel._addToChrome(tinkerPanel);
     let indicator = new St.Button({
-        child: new St.Label({ text: "TinkerOS" }),
+        child: new St.Label({ text: "KorrinOS" }),
         style_class: 'tinker-button'
     });
     tinkerPanel.add(indicator);
@@ -146,8 +146,8 @@ EOF
     # Add to autostart
     cat > "$AUTOSTART_DIR/tinker-desktop.desktop" << 'EOF'
 [Desktop Entry]
-Name=TinkerOS Desktop
-Comment=TinkerOS Desktop Components
+Name=KorrinOS Desktop
+Comment=KorrinOS Desktop Components
 Exec=/usr/lib/tinker/desktop/start-desktop.sh
 Icon=tinker
 Type=Application
@@ -170,8 +170,8 @@ setup_kde() {
     
     cat > "$widget_dir/metadata.desktop" << 'EOF'
 [Desktop Entry]
-Name=TinkerOS
-Comment=TinkerOS Desktop Integration
+Name=KorrinOS
+Comment=KorrinOS Desktop Integration
 Type=PlasmaApplet
 X-KDE-PluginInfo-Name=tinker
 X-KDE-ParentApp=desktop
@@ -181,8 +181,8 @@ EOF
     # Add to autostart
     cat > "$AUTOSTART_DIR/tinker-desktop.desktop" << 'EOF'
 [Desktop Entry]
-Name=TinkerOS Desktop
-Comment=TinkerOS Desktop Components
+Name=KorrinOS Desktop
+Comment=KorrinOS Desktop Components
 Exec=/usr/lib/tinker/desktop/start-desktop.sh
 Icon=tinker
 Type=Application
@@ -239,7 +239,7 @@ create_shortcuts() {
         cat > ~/Desktop/$name.desktop << EOF
 [Desktop Entry]
 Name=$name
-Comment=TinkerOS $name
+Comment=KorrinOS $name
 Exec=/usr/lib/tinker/apps/$cmd.sh
 Icon=$icon
 Type=Application
@@ -252,7 +252,7 @@ EOF
 
 # Setup panel integration
 setup_panel() {
-    echo "Setting up TinkerOS panel..."
+    echo "Setting up KorrinOS panel..."
     
     local de=$(detect_de)
     
@@ -263,11 +263,11 @@ setup_panel() {
             ;;
         gnome|ubuntu)
             # GNOME panel integration
-            echo "GNOME panel uses built-in TinkerOS extension"
+            echo "GNOME panel uses built-in KorrinOS extension"
             ;;
         kde|plasma)
             # KDE panel integration
-            echo "KDE panel uses built-in TinkerOS widget"
+            echo "KDE panel uses built-in KorrinOS widget"
             ;;
     esac
     

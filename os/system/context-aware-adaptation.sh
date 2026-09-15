@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Context-Aware System Adaptation (CSS)
+# KorrinOS Context-Aware System Adaptation (CSS)
 # Detects WHAT you're doing and automatically adapts ALL system parameters
 
 CSS_CONTEXT="$HOME/.tinker/css_context.json"

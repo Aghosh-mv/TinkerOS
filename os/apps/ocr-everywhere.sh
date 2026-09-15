@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS OCR Everywhere
+# KorrinOS OCR Everywhere
 # Extract text from screen, images, PDFs, videos
 
 set -e
@@ -388,7 +388,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS OCR Everywhere${NC}"
+        echo -e "${YELLOW}KorrinOS OCR Everywhere${NC}"
         echo ""
         echo "Extract text from anything on your screen."
         echo ""

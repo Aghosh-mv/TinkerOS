@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Gatekeeper2 — trust-gated execution engine (SECURE territory)
+# KorrinOS Gatekeeper2 — trust-gated execution engine (SECURE territory)
 # Only runs binaries/scripts that are on the trust list (by hash or path).
 # Un-trusted executables are blocked unless the user gives an explicit,
 # one-time approval. Defense against running fresh/malicious binaries.
@@ -53,7 +53,7 @@ list_trust() {
 
 log() { echo "$(date -Iseconds) $*" >> "$LOGDIR/gate.log"; }
 
-usage() { echo "TinkerOS Gatekeeper2
+usage() { echo "KorrinOS Gatekeeper2
 Usage: ${0##*/} <trust <bin>|gate <bin> [args...]|list|untrusted-log>"; }
 
 case "${1:-}" in

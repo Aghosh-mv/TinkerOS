@@ -1,13 +1,13 @@
-# TinkerOS Docker Images
+# KorrinOS Docker Images
 
 ## Images
 
 | Image | Description | Use Case |
 |-------|-------------|----------|
-| `ghcr.io/tinkeros/tinkeros/base` | Minimal base | CI, minimal containers |
-| `ghcr.io/tinkeros/tinkeros/dev` | Full dev environment | Daily development |
-| `ghcr.io/tinkeros/tinkeros/ci` | CI environment | GitHub Actions, GitLab CI |
-| `ghcr.io/tinkeros/tinkeros/iso-builder` | ISO builder | Building release ISOs |
+| `ghcr.io/korrinos/korrinos/base` | Minimal base | CI, minimal containers |
+| `ghcr.io/korrinos/korrinos/dev` | Full dev environment | Daily development |
+| `ghcr.io/korrinos/korrinos/ci` | CI environment | GitHub Actions, GitLab CI |
+| `ghcr.io/korrinos/korrinos/iso-builder` | ISO builder | Building release ISOs |
 
 ## Quick Start
 
@@ -15,7 +15,7 @@
 ```bash
 # Start development container
 docker compose -f docker/docker-compose.yml up -d dev
-docker exec -it tinkeros-dev bash
+docker exec -it korrinos-dev bash
 
 # Or run directly
 docker run -it --rm \
@@ -23,7 +23,7 @@ docker run -it --rm \
   -v ~/.gitconfig:/home/tinkerer/.gitconfig:ro \
   -v ~/.ssh:/home/tinkerer/.ssh:ro \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  ghcr.io/tinkeros/tinkeros/dev:latest
+  ghcr.io/korrinos/korrinos/dev:latest
 ```
 
 ### CI Pipeline
@@ -32,7 +32,7 @@ docker run -it --rm \
 docker run -it --rm \
   -v $(pwd):/workspace \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  ghcr.io/tinkeros/tinkeros/ci:latest \
+  ghcr.io/korrinos/korrinos/ci:latest \
   /bin/bash -c "cd /workspace && ./build/tinker-build.py --profile standard"
 ```
 
@@ -42,7 +42,7 @@ docker run -it --rm \
 docker run -it --rm --privileged \
   -v $(pwd):/workspace \
   -v iso-output:/output \
-  ghcr.io/tinkeros/tinkeros/iso-builder:latest \
+  ghcr.io/korrinos/korrinos/iso-builder:latest \
   /bin/bash -c "cd /workspace && python3 build/tinker-build.py --profile standard"
 ```
 
@@ -52,7 +52,7 @@ docker run -it --rm --privileged \
 docker run -it --rm --privileged \
   -v iso-output:/iso \
   ubuntu:24.04 \
-  qemu-system-x86_64 -cdrom /iso/TinkerOS-standard-*.iso -m 2G -enable-kvm -display none
+  qemu-system-x86_64 -cdrom /iso/KorrinOS-standard-*.iso -m 2G -enable-kvm -display none
 ```
 
 ## Building Images

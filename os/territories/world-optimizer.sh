@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS World Optimizer — per-world system tuning (ALL territories)
+# KorrinOS World Optimizer — per-world system tuning (ALL territories)
 # Applies workload-specific optimization when entering a world, so each
 # territory runs at its best:
 #   NORMAL/secure : balanced — responsive desktop, efficient background

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Self Healing - Auto-detect and fix common system issues
+# KorrinOS Self Healing - Auto-detect and fix common system issues
 
 set -e
 
@@ -45,7 +45,7 @@ EOF
 
 # Run all checks
 run_checks() {
-    echo "=== TinkerOS Self Healing ==="
+    echo "=== KorrinOS Self Healing ==="
     echo ""
     echo "Running diagnostics..."
     

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Game Replay - Instant replay (last 5 minutes)
+# KorrinOS Game Replay - Instant replay (last 5 minutes)
 
 set -e
 

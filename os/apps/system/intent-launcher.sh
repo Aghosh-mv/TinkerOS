@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Intent-Driven Launcher
+# KorrinOS Intent-Driven Launcher
 # "Type or say what you're doing" — assembles the right tools onto a
 # unified canvas based on intent, then hands a working context to the
 # target apps. Approximates the intent-driven OS architecture idea while
@@ -37,7 +37,7 @@ launch_intent() {
     esac
 }
 
-echo -e "${BLUE}── TinkerOS Intent Launcher ──${NC}"
+echo -e "${BLUE}── KorrinOS Intent Launcher ──${NC}"
 if [ $# -ge 1 ]; then
     launch_intent "$*"
 else

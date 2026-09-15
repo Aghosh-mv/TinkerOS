@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS SIP Guard — System Integrity Protection engine (SECURE territory)
+# KorrinOS SIP Guard — System Integrity Protection engine (SECURE territory)
 # Protects critical system paths from unauthorized modification using
 # mount read-only binding + IMA/AppArmor policy + integrity checks.
 # Prevents tampering of /usr, /etc sensitive files by rogue processes.
@@ -54,7 +54,7 @@ audit() {  # snapshot critical file hashes for tamper detection
   echo "Integrity snapshot written to $snap ($(wc -l < "$snap/$(date +%F).hashes") files)."
 }
 
-usage() { echo "TinkerOS SIP Guard
+usage() { echo "KorrinOS SIP Guard
 Usage: ${0##*/} <protect|restore|ima|perm|audit>"; }
 
 case "${1:-}" in

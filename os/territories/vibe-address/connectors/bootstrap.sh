@@ -2,7 +2,7 @@
 # ===========================================================================
 #  connectors/bootstrap.sh — FIRST-BOOT MEMORY SWEEP (bootstrap seeding)
 # ---------------------------------------------------------------------------
-#  On a fresh TinkerOS install the vibe lattice has ZERO events.  This
+#  On a fresh KorrinOS install the vibe lattice has ZERO events.  This
 #  connector runs once (per user, on first Searchie launch / first login)
 #  and mines every high-signal source already present on the machine:
 #
@@ -289,20 +289,20 @@ ve_connectors_bind_f7() {
   if command -v gsettings >/dev/null 2>&1 \
      && gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings >/dev/null 2>&1; then
     local scheme="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding"
-    local path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/tinkeros-searchie/"
+    local path="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/korrinos-searchie/"
     local current; current=$(gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings)
     case "$current" in
-      *tinkeros-searchie*) : ;;
+      *korrinos-searchie*) : ;;
       *)
         gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
-          "[ '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/tinkeros-searchie/', ]" 2>/dev/null \
+          "[ '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/korrinos-searchie/', ]" 2>/dev/null \
         || gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "[]" 2>/dev/null || true
         ;;
     esac
     # (gsettings array overwrite is one-shot; do it unconditionally instead)
     gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
       "['$path']" >/dev/null 2>&1 || true
-    gsettings set "$scheme:$path/" name "TinkerOS Searchie" >/dev/null 2>&1 || true
+    gsettings set "$scheme:$path/" name "KorrinOS Searchie" >/dev/null 2>&1 || true
     gsettings set "$scheme:$path/" command "$cmd" >/dev/null 2>&1 || true
     gsettings set "$scheme:$path/" binding "<Control><Shift>space" >/dev/null 2>&1 || true
     bound=1
@@ -323,7 +323,7 @@ ve_connectors_bind_f7() {
 
   if [ "$bound" -eq 0 ]; then
     echo "Searchie: no binding mechanism found — press Tab+F7 is handled by the panel."
-    echo "  (On TinkerOS the default shell profile already aliases this.)"
+    echo "  (On KorrinOS the default shell profile already aliases this.)"
   fi
 }
 

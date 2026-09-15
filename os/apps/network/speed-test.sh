@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Speed Test - Internet bandwidth measurement and analysis
+# KorrinOS Speed Test - Internet bandwidth measurement and analysis
 
 set -e
 
@@ -67,7 +67,7 @@ test_quality() {
 # Run full test
 run_test() {
     local ts=$(date +%H:%M:%S)
-    echo "=== TinkerOS Speed Test ($ts) ==="
+    echo "=== KorrinOS Speed Test ($ts) ==="
     echo ""
     
     echo "Download tests:"

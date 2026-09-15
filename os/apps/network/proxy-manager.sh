@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Proxy Manager - Configure proxies
+# KorrinOS Proxy Manager - Configure proxies
 
 set -e
 

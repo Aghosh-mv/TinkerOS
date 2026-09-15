@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Ephemeral RAM Disks (HACK + SECURE territory)
+# KorrinOS Ephemeral RAM Disks (HACK + SECURE territory)
 # Runs a mode-world entirely in volatile RAM (tmpfs) so that all payloads,
 # logs, and state vanish on mode-switch off or power loss — zero trace left
 # on persistent SSD at the hardware level.
@@ -85,7 +85,7 @@ case "${1:-}" in
   wipe|off) wipe_ram ;;
   run) shift; run_in_ram "$@" ;;
   status) status ;;
-  *) echo "TinkerOS Ephemeral RAM Disks
+  *) echo "KorrinOS Ephemeral RAM Disks
 Usage: ${0##*/} <mount|bind <world>|noswap|stage <file>|wipe|run <cmd>|status>
 Volatile tmpfs workspace; disappears on unmount/power-loss. Not for /home data." ;;
 esac

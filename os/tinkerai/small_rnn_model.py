@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Small RNN - Lightweight LSTM for TinkerOS
+TinkerAI Small RNN - Lightweight LSTM for KorrinOS
 Runs locally with numpy only (no PyTorch/TensorFlow)
 """
 

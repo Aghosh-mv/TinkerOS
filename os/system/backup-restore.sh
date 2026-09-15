@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Backup & Restore System
+# KorrinOS Backup & Restore System
 
 set -e
 
@@ -12,7 +12,7 @@ mkdir -p "$BACKUP_DIR"
 init_config() {
     if [ ! -f "$BACKUP_CONFIG" ]; then
         cat > "$BACKUP_CONFIG" << 'EOF'
-# TinkerOS Backup Configuration
+# KorrinOS Backup Configuration
 
 # Backup location
 BACKUP_LOCATION=local

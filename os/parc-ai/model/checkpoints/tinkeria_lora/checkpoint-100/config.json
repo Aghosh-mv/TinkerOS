@@ -1,0 +1,8 @@
+{
+  "step": 100,
+  "epoch": 0,
+  "loss": 5.275152337960899,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_count": 129
+}

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS predictive render — ahead-of-time render hint.
+ * KorrinOS predictive render — ahead-of-time render hint.
  *
  * Exposes a render-prewarm profile (frame target, quality, predictive
  * frames) and hit/miss feedback so a renderer can pre-render frames the
@@ -105,17 +105,17 @@ static int __init tinker_pr_init(void)
 	if (tinker_proc_root)
 		proc_create("predictrender", 0644, tinker_proc_root, &pr_fops);
 
-	pr_info("TinkerOS: predictive render at /proc/tinker/predictrender\n");
+	pr_info("KorrinOS: predictive render at /proc/tinker/predictrender\n");
 	return 0;
 }
 
 static void __exit tinker_pr_exit(void)
 {
-	pr_info("TinkerOS: predictive render removed\n");
+	pr_info("KorrinOS: predictive render removed\n");
 }
 
 module_init(tinker_pr_init);
 module_exit(tinker_pr_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS predictive rendering");
+MODULE_DESCRIPTION("KorrinOS predictive rendering");

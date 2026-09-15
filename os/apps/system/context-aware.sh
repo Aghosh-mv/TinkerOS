@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Context-Aware Adaptation - Context detection and auto-configuration
+# KorrinOS Context-Aware Adaptation - Context detection and auto-configuration
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Flatpak Support
+# KorrinOS Flatpak Support
 
 set -e
 

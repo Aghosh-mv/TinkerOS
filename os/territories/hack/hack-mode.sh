@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hack Mode — master coordinator
+# KorrinOS Hack Mode — master coordinator
 # The single entry point for entering/leaving the HACK world. Wires together:
 #   - world-engine.sh      (isolated mode worlds)
 #   - hack-gate.sh         (send/email gating)
@@ -33,7 +33,7 @@ GUYFAWKES='
 intro() {
   clear
   echo "$GUYFAWKES"
-  echo "  TinkerOS HACK MODE — entering the offensive workspace"
+  echo "  KorrinOS HACK MODE — entering the offensive workspace"
   echo "  isolated from Normal/Game worlds. Cannot send anywhere"
   echo "  without your explicit approval."
   echo ""
@@ -83,7 +83,7 @@ case "${1:-}" in
   exit|off|normal) exit_mode ;;
   matrix|show) matrix ;;
   status) "$ENGINE" state ;;
-  *) echo "TinkerOS Hack Mode
+  *) echo "KorrinOS Hack Mode
 Usage: ${0##*/} <enter [nic]|exit|matrix|status>
 Space+Shift+1 / Ctrl+Arrow-Left to enter this world. All send-capable tools
 are gated (hack-gate). This is a themed offensive workspace for authorized

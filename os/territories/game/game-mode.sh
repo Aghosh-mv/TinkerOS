@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Game Mode — master coordinator for the GAME world
+# KorrinOS Game Mode — master coordinator for the GAME world
 # A fully-isolated gaming world: no trace of gaming in Normal/Hack, and no
 # trace of Normal/Hack in the game world. Entry/lock-downs launch here.
 #
@@ -19,7 +19,7 @@ COMMON="$TERR_ROOT/lib/common.sh"
 
 intro() {
   echo ""
-  echo "  === TinkerOS GAME WORLD ==="
+  echo "  === KorrinOS GAME WORLD ==="
   echo "  Isolated gaming territory. No traces bleed to Normal/Hack."
   echo ""
   "$ENGINE" enter GAME
@@ -78,7 +78,7 @@ case "${1:-}" in
   enter|on|game) enter_game ;;
   exit|off) exit_game ;;
   status) status ;;
-  *) echo "TinkerOS Game Mode
+  *) echo "KorrinOS Game Mode
 Usage: ${0##*/} <enter|exit|status>
 Space+Shift+3 / Ctrl+Arrow-Right opens this isolated gaming world." ;;
 esac

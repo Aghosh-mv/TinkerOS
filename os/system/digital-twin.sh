@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Digital Twin Technology
+# KorrinOS Digital Twin Technology
 # TECHNOLOGY: Digital Twin System (DTS)
 #
 # THIS IS A GENUINELY NEW TECHNOLOGY - NOT JUST A TECHNIQUE

@@ -1,4 +1,4 @@
-# TinkerOS — PROJECT MEMORY (do not delete; read at session start)
+# KorrinOS — PROJECT MEMORY (do not delete; read at session start)
 
 ## SELF-WATCHDOG (READ THIS EVERY SESSION)  <-- CUE ON 2026-09-06T11:01:48+05:30 -->
 - This is a very long-running autonomous build. The user will NOT prompt or
@@ -27,7 +27,7 @@
   human prompt.
 
 ## BUILD ON REAL LINUX (READ EVERY SESSION)
-- TinkerOS is BUILT ON TOP OF REAL LINUX, a real running Linux system. We
+- KorrinOS is BUILT ON TOP OF REAL LINUX, a real running Linux system. We
   do NOT re-invent the wheel.
 - Use Linux's native mechanisms as the DEFAULT and skin/theme/extend them:
   * Login page  = the real display manager greeter (GDM3/SDDM/LightDM).
@@ -86,13 +86,13 @@ Key commitment the user insists on (this keeps being forgotten):
 2. Continue the real kernel work: wire the kernel/tinker hint modules
    (gamemode/thermal/energy/oled/battery) into the actual scheduler,
    cpufreq governor, backlight driver, and power_supply paths.
-3. Build a genuine TinkerOS `.iso` from this tree.
+3. Build a genuine KorrinOS `.iso` from this tree.
 4. Ship to GitHub at the end.
 
 ## BUILD BOX ≠ TARGET DEVICE (NOTED 2026-09-06)
 - This machine (/home/tinkerspace) is ONLY a build/compile environment.
-- It will NEVER run TinkerOS. TinkerOS is a global project OS for the public.
+- It will NEVER run KorrinOS. KorrinOS is a global project OS for the public.
 - Do NOT install/searchie-launch/bind Tab+F7/set-up personal shortcuts on this box.
 - All shipped features (incl. Searchie + vibe addressing) are baked into the
-  TinkerOS user-space layer in the ISO and delivered to END USERS of the OS.
-- Runtime state here under ~/.local/share/tinkeros is only test scaffolding.
+  KorrinOS user-space layer in the ISO and delivered to END USERS of the OS.
+- Runtime state here under ~/.local/share/korrinos is only test scaffolding.

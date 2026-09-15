@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS App Launcher
+# KorrinOS App Launcher
 
 set -e
 

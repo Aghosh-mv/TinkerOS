@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Virtual Desktop Manager
+# KorrinOS Virtual Desktop Manager
 # Smart virtual desktops with auto-organization
 
 set -e
@@ -27,7 +27,7 @@ init_desktops() {
     
     if [ ! -f $DESKTOPS_CONFIG ]; then
         cat > $DESKTOPS_CONFIG << 'EOF'
-# TinkerOS Virtual Desktops Configuration
+# KorrinOS Virtual Desktops Configuration
 
 # Number of desktops
 NUM_DESKTOPS=5
@@ -397,7 +397,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Virtual Desktop Manager${NC}"
+        echo -e "${YELLOW}KorrinOS Virtual Desktop Manager${NC}"
         echo ""
         echo "Smart virtual desktops with auto-organization."
         echo ""

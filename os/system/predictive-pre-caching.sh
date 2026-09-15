@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Predictive Pre-Caching (PFA)
+# KorrinOS Predictive Pre-Caching (PFA)
 # Learns file access patterns and PRE-LOADS files you'll likely need
 
 PFA_HISTORY="$HOME/.tinker/pfa_history.json"

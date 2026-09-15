@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# TinkerOS Mobile Companion - WebSocket Server (stdlib only, RFC 6455)
+# KorrinOS Mobile Companion - WebSocket Server (stdlib only, RFC 6455)
 # Handles pairing token, remote control, file transfer, notification
 # mirroring, status requests, and second-screen layouts.
 
@@ -14,7 +14,7 @@ from urllib.parse import parse_qs, urlparse
 
 HOST = "0.0.0.0"
 PORT = int(os.environ.get("TINKER_WS_PORT", "8766"))
-EXPECTED_TOKEN = os.environ.get("TINKER_WS_TOKEN", "tinkeros-default")
+EXPECTED_TOKEN = os.environ.get("TINKER_WS_TOKEN", "korrinos-default")
 
 WS_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
@@ -204,7 +204,7 @@ def main():
     srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     srv.bind((HOST, PORT))
     srv.listen(16)
-    print(f"TinkerOS Mobile Companion WS listening on {HOST}:{PORT}",
+    print(f"KorrinOS Mobile Companion WS listening on {HOST}:{PORT}",
           flush=True)
     while True:
         conn, addr = srv.accept()

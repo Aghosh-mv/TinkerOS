@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Touchpad Gestures
+# KorrinOS Touchpad Gestures
 # macOS-like multi-touch gestures for Linux
 
 set -e
@@ -27,7 +27,7 @@ init_gestures() {
     
     if [ ! -f $GESTURES_CONFIG ]; then
         cat > $GESTURES_CONFIG << 'EOF'
-# TinkerOS Touchpad Gestures Configuration
+# KorrinOS Touchpad Gestures Configuration
 
 # Enable/disable gestures
 ENABLED=true
@@ -329,7 +329,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Touchpad Gestures${NC}"
+        echo -e "${YELLOW}KorrinOS Touchpad Gestures${NC}"
         echo ""
         echo "macOS-like multi-touch gestures for Linux."
         echo ""

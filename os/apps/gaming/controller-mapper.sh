@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Controller Mapper - Map keyboard/mouse to controller
+# KorrinOS Controller Mapper - Map keyboard/mouse to controller
 
 set -e
 

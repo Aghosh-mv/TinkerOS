@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Save Archiver / sync (GAME territory)
+# KorrinOS Save Archiver / sync (GAME territory)
 # Backs up, version-stamps, and (optionally, mirror-only) syncs game saves.
 # Privacy-first: local archive, optional user-chosen cloud mirror.
 
@@ -47,7 +47,7 @@ sync_mirror() {  # optional mirror to a user-specified rsync target
   rsync -a --delete "$ARCHIVE/" "$target/" 2>&1 | tail -3
 }
 
-usage() { echo "TinkerOS Save Archiver
+usage() { echo "KorrinOS Save Archiver
 Usage: ${0##*/} <find|archive <game> <dir>|versions <game>|restore <game> <file> [dest]|sync <target>>"; }
 
 case "${1:-}" in

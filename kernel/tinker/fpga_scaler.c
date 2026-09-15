@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS dynamic FPGA word-length (precision) scaler.
+ * KorrinOS dynamic FPGA word-length (precision) scaler.
  *
  * On real FPGA-accelerated systems this would reconfigure fabric
  * datapath widths at runtime. On stock hardware there is no FPGA, so
@@ -85,17 +85,17 @@ static int __init tinker_fpga_init(void)
 	if (tinker_proc_root)
 		proc_create("fpga", 0644, tinker_proc_root, &fpga_fops);
 
-	pr_info("TinkerOS: FPGA precision scaler at /proc/tinker/fpga\n");
+	pr_info("KorrinOS: FPGA precision scaler at /proc/tinker/fpga\n");
 	return 0;
 }
 
 static void __exit tinker_fpga_exit(void)
 {
-	pr_info("TinkerOS: FPGA precision scaler removed\n");
+	pr_info("KorrinOS: FPGA precision scaler removed\n");
 }
 
 module_init(tinker_fpga_init);
 module_exit(tinker_fpga_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS dynamic FPGA word-length scaler");
+MODULE_DESCRIPTION("KorrinOS dynamic FPGA word-length scaler");

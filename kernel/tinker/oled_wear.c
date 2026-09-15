@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS OLED burn-in wear compensation.
+ * KorrinOS OLED burn-in wear compensation.
  *
  * Exposes a proportional backlight dimming path used by the display
  * layer to balance sub-pixel wear on OLED panels. The kernel tracks a
@@ -143,18 +143,18 @@ static int __init tinker_oled_init(void)
 	if (tinker_proc_root)
 		proc_create("oled", 0644, tinker_proc_root, &oled_fops);
 
-	pr_info("TinkerOS: OLED wear compensation at /proc/tinker/oled\n");
+	pr_info("KorrinOS: OLED wear compensation at /proc/tinker/oled\n");
 	return 0;
 }
 
 static void __exit tinker_oled_exit(void)
 {
 	cancel_delayed_work_sync(&oled_wear_work);
-	pr_info("TinkerOS: OLED wear compensation removed\n");
+	pr_info("KorrinOS: OLED wear compensation removed\n");
 }
 
 module_init(tinker_oled_init);
 module_exit(tinker_oled_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS OLED burn-in wear compensation");
+MODULE_DESCRIPTION("KorrinOS OLED burn-in wear compensation");

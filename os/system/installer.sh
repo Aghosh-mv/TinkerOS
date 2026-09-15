@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Installer & Partition Manager
+# KorrinOS Installer & Partition Manager
 
 set -e
 
@@ -125,13 +125,13 @@ resize_partition() {
     echo "Resize complete: $partition"
 }
 
-# Auto-install TinkerOS (real: debootstrap base + config)
+# Auto-install KorrinOS (real: debootstrap base + config)
 auto_install() {
     local disk=$1
     local suite=${TINKER_SUITE:-noble}
     local mirror=${TINKER_MIRROR:-http://archive.ubuntu.com/ubuntu/}
 
-    echo "Installing TinkerOS to $disk"
+    echo "Installing KorrinOS to $disk"
     echo ""
     echo "This will:"
     echo "  1. Partition the disk"
@@ -172,7 +172,7 @@ auto_install() {
     sudo mount --bind /run /mnt/run
 
     echo "Configuring system (hostname, fstab, clock)..."
-    echo "tinkeros" | sudo tee /mnt/etc/hostname >/dev/null
+    echo "korrinos" | sudo tee /mnt/etc/hostname >/dev/null
     sudo systemd-machine-id-setup --root=/mnt 2>/dev/null || true
     printf '%s\n' \
         "${disk}2  /            ext4    defaults,noatime 0 1" \
@@ -180,9 +180,9 @@ auto_install() {
         | sudo tee /mnt/etc/fstab >/dev/null
 
     # Install the Tinker kernel + user-space layer (from this repo)
-    echo "Deploying TinkerOS kernel packages + Control Center..."
+    echo "Deploying KorrinOS kernel packages + Control Center..."
     if [ -d /home/tinkerspace/linux-kernel ]; then
-        sudo cp -a /home/tinkerspace/linux-kernel/os /mnt/opt/tinkeros 2>/dev/null || \
+        sudo cp -a /home/tinkerspace/linux-kernel/os /mnt/opt/korrinos 2>/dev/null || \
             echo "  (os/ not copied — source tree unavailable on target)"
     fi
 
@@ -190,7 +190,7 @@ auto_install() {
     echo "Configuring bootloader..."
     if command -v grub-install >/dev/null 2>&1 || [ -d /mnt/usr/lib/grub ]; then
         sudo chroot /mnt /bin/bash -c \
-            "grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=TinkerOS || true; \
+            "grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=KorrinOS || true; \
              grub-mkconfig -o /boot/grub/grub.cfg || true"
     else
         # Fallback: copy kernel if provided
@@ -219,7 +219,7 @@ show_help() {
     echo "  info <part>       Partition info"
     echo "  check <part>      Check filesystem"
     echo "  resize <part> [size] Resize partition"
-    echo "  install <disk>    Auto-install TinkerOS"
+    echo "  install <disk>    Auto-install KorrinOS"
     echo "  help              Show this help"
 }
 

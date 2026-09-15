@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Scanner Manager - Scanner support
+# KorrinOS Scanner Manager - Scanner support
 
 set -e
 

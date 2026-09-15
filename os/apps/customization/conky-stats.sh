@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Conky/System Stats - Desktop widgets
+# KorrinOS Conky/System Stats - Desktop widgets
 set -e
 CONKY_DIR="$HOME/.tinker/conky"
 CONKYRC="$CONKY_DIR/conky.conf"

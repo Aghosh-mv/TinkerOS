@@ -1,4 +1,4 @@
-# TinkerOS Installation Guide
+# KorrinOS Installation Guide
 
 ## System Requirements
 
@@ -24,19 +24,19 @@
 lsblk
 
 # Write ISO to USB (replace /dev/sdX with your USB)
-sudo dd if=TinkerOS.iso of=/dev/sdX bs=4M status=progress
+sudo dd if=KorrinOS.iso of=/dev/sdX bs=4M status=progress
 sync
 ```
 
 ### Windows
 1. Download Rufus or Etcher
-2. Select TinkerOS ISO
+2. Select KorrinOS ISO
 3. Select USB device
 4. Click Start
 
 ### macOS
 1. Download Etcher
-2. Select TinkerOS ISO
+2. Select KorrinOS ISO
 3. Select USB device
 4. Click Flash!
 
@@ -57,12 +57,12 @@ sync
 
 ## Installation Steps
 
-### Step 1: Boot TinkerOS
-1. Select "Install TinkerOS"
+### Step 1: Boot KorrinOS
+1. Select "Install KorrinOS"
 2. Wait for live desktop to load
 
 ### Step 2: Start Installer
-1. Double-click "Install TinkerOS"
+1. Double-click "Install KorrinOS"
 2. Select language
 3. Click Continue
 
@@ -130,10 +130,10 @@ sudo ufw enable
 
 ## Dual Boot Setup
 
-### Windows + TinkerOS
+### Windows + KorrinOS
 1. Install Windows first
 2. Shrink Windows partition
-3. Install TinkerOS on free space
+3. Install KorrinOS on free space
 4. GRUB will show both OS
 
 ### Boot Order
@@ -183,4 +183,4 @@ If you encounter issues:
 4. Search online forums
 5. Ask community for help
 
-Welcome to TinkerOS!
+Welcome to KorrinOS!

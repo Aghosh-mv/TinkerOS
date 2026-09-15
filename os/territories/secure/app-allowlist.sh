@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS App Allowlist — application allow/deny list engine (SECURE territory)
+# KorrinOS App Allowlist — application allow/deny list engine (SECURE territory)
 # Enforces that ONLY apps on the allowlist can run at all. Anything else is
 # blocked by default (deny-by-default execution) unless explicitly allowed.
 # This is a strong defense against running unapproved/unknown software.
@@ -17,7 +17,7 @@ mkdir -p "$(dirname "$DENYDIR")"
 
 init() {
   [ -f "$ALLOWLIST" ] || cat > "$ALLOWLIST" <<'EOF'
-# TinkerOS App Allowlist — one approved executable per line (full path or name)
+# KorrinOS App Allowlist — one approved executable per line (full path or name)
 # ONLY these may run when enforcement is active.
 # Default is DENY-ALL for non-listed apps.
 /bin/ls
@@ -87,7 +87,7 @@ status() {
   echo "  Enforcement PATH if active:"; case "$PATH" in *"$DENYDIR"*) echo "    ACTIVE";; *) echo "    not active (run 'enforce')";; esac
 }
 
-usage() { echo "TinkerOS App Allowlist
+usage() { echo "KorrinOS App Allowlist
 Usage: ${0##*/} <init|allow <bin>|deny <bin>|enforce|status>
 Deny-by-default execution: only allowed apps run. Hard layer = PATH shim (+ firejail optional)."; }
 

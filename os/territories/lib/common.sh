@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Territory common library
+# KorrinOS Territory common library
 # Shared helpers for the hack / game / secure world engines.
 # Source from scripts:   . "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS System Monitor - Real-time resource monitoring with graphs
+# KorrinOS System Monitor - Real-time resource monitoring with graphs
 
 set -e
 
@@ -96,7 +96,7 @@ get_top_processes() {
 # Full status
 status() {
     clear
-    echo "=== TinkerOS System Monitor ==="
+    echo "=== KorrinOS System Monitor ==="
     echo "$(date)"
     echo ""
     

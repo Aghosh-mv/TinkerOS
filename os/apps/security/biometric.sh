@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Biometric - Fingerprint and biometric authentication setup
+# KorrinOS Biometric - Fingerprint and biometric authentication setup
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Command Palette - VS Code-like command palette
+# KorrinOS Command Palette - VS Code-like command palette
 
 set -e
 

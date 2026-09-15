@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS File Search (Spotlight-like)
+# KorrinOS File Search (Spotlight-like)
 
 set -e
 

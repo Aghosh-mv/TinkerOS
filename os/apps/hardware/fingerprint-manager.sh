@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Fingerprint Manager - Fingerprint reader setup
+# KorrinOS Fingerprint Manager - Fingerprint reader setup
 
 set -e
 

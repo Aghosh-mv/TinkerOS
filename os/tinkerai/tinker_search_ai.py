@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerSearchAI - local retrieval + summarisation AI for TinkerOS
+TinkerSearchAI - local retrieval + summarisation AI for KorrinOS
 ===============================================================
 Answers queries by hybrid retrieval (BM42 word tokens + char n-grams blended
 with RNN hidden-state embeddings) over a local knowledge corpus, then
@@ -22,14 +22,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 MODEL_DIR = Path.home() / ".tinker" / "ai" / "models"
 INDEX_PATH = MODEL_DIR / "search-index.json"
 
-# Static TinkerOS knowledge facts, paired with the dynamic QA corpus below.
+# Static KorrinOS knowledge facts, paired with the dynamic QA corpus below.
 FACTS = [
-    ("tinkeros", "TinkerOS is a lightweight Linux distribution built for x86 tablets and convertibles. It ships a local AI assistant and on-device tools."),
-    ("tinkerspace", "TinkerSpace is the project root and user workspace for the TinkerOS build."),
+    ("korrinos", "KorrinOS is a lightweight Linux distribution built for x86 tablets and convertibles. It ships a local AI assistant and on-device tools."),
+    ("tinkerspace", "TinkerSpace is the project root and user workspace for the KorrinOS build."),
     ("local ai", "TinkerAI runs entirely on-device using a small numpy LSTM (char-level). No cloud calls are made for assistant answers."),
     ("computer use", "TinkerAI can use the computer: capture the screen, read it with OCR, and drive mouse and keyboard."),
     ("power", "Power tools: gaming for max performance and fps, balanced for normal use, battery saver to save power."),
-    ("themes", "TinkerOS supports dark and light themes - dark mode and light mode."),
+    ("themes", "KorrinOS supports dark and light themes - dark mode and light mode."),
     ("apps", "Install, remove and launch applications like firefox, steam, terminal and file manager."),
     ("training", "The model trains in two stages: base Adam, then GaLore low-rank fine-tune, then a merge."),
     ("ai training", "Both TinkerAI (LSTM) and TinkerSearchAI (retrieval index) can be trained separately."),

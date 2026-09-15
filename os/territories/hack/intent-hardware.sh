@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Intent-Driven Hardware Toggles (HACK + SECURE territory)
+# KorrinOS Intent-Driven Hardware Toggles (HACK + SECURE territory)
 # Kernel-level control of camera/mic power + hardware loopback simulation.
 #
 # CONCEPT:
@@ -113,7 +113,7 @@ case "${1:-}" in
   loop-mic) loopback_mic ;;
   stop) stop_loopback ;;
   status) status ;;
-  *) echo "TinkerOS Intent Hardware Toggles
+  *) echo "KorrinOS Intent Hardware Toggles
 Usage: ${0##*/} <cam-off|cam-on|mic-off|mic-on|loop-cam [src]|loop-mic|stop|status>
 De-powers or loopback-feeds camera/mic to defeat phishing. Requires root + ffmpeg/v4l2loopback." ;;
 esac

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Game Saves Sync - Cloud sync for game saves
+# KorrinOS Game Saves Sync - Cloud sync for game saves
 
 set -e
 

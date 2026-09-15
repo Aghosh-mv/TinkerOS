@@ -1,4 +1,8 @@
-# 🦝 TinkerOS — Your Computer. Your Rules.
+# 🦝 KorrinOS — Your Computer. Your Rules.
+
+> **"Boot as whoever you need to be today."**
+>
+> **"You can take a name. You can't take momentum."**
 
 > A hardware-throughput desktop OS layered on a real Linux kernel
 > (code inside the Linux code). Three isolated worlds: **HACK**, **NORMAL**,
@@ -10,7 +14,7 @@
 
 | Option | Link |
 |---|---|
-| **Primary ISO (SourceForge Global CDN)** | [Download TinkerOS-v1.3.iso](https://sourceforge.net/projects/tinkeros/files/v1.3/TinkerOS-v1.3.iso/download) |
+| **Primary ISO (SourceForge Global CDN)** | [Download KorrinOS-v1.3.iso](https://sourceforge.net/projects/korrinos/files/v1.3/KorrinOS-v1.3.iso/download) |
 | **SHA256** | `82bd9012fdd21ad96f8b1dabc60992ca07928807a5fe07db393e58e01a1999b6` |
 
 > The ISO is ~7.6 GB. Verify the SHA256 after download.
@@ -29,8 +33,8 @@
 
 `Space+Shift+Esc` = **panic wipe**.
 
-**Enter any world, press `Ctrl+Alt+Gr` to pop the preinstalled TinkerOS
-agent (opencode) as a tiny agentic AI sir.**
+**Enter any world, press `Ctrl+Alt+Gr` to pop the preinstalled KorrinOS
+agent (Tinkeria) as a tiny agentic AI sir.**
 
 ---
 
@@ -62,12 +66,12 @@ Space+Shift+1  / Ctrl+Arrow-Left   -> HACK
 Space+Shift+2  / Ctrl+Arrow-Up     -> NORMAL (most protected)
 Space+Shift+3  / Ctrl+Arrow-Right  -> GAME  (max optimized)
 Space+Shift+Escape                  -> panic wipe
-Ctrl+Alt+Gr                         -> pop TinkerOS agent
+Ctrl+Alt+Gr                         -> pop KorrinOS agent
 ```
 
 ## License
 
-The TinkerOS distribution and its user-space layer are licensed under the
+The KorrinOS distribution and its user-space layer are licensed under the
 **Dual Source License, Version 1.0** (see `LICENSE`). You may choose either:
 
 - **Option A — Public Source License** (use, modify, and sell freely; modified

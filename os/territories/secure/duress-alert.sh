@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Duress Alert — presence-verification + duress response (SECURE territory)
+# KorrinOS Duress Alert — presence-verification + duress response (SECURE territory)
 # Monitors physical-presence signals (keystroke dynamics, idle, lid, USB)
 # and triggers actions when the real user seems absent or under duress:
 #   - unusual typing cadence / wrong duress password
@@ -16,7 +16,7 @@ mkdir -p "$(dirname "$CONF")"
 
 init() {
   [ -f "$CONF" ] || cat > "$CONF" <<'EOF'
-# TinkerOS Duress configuration
+# KorrinOS Duress configuration
 # master:    the trusted passphrase (or "none")
 # duress:    a password that, if typed, triggers DURESS action
 # action:    lock | wipe | decoy | poweroff | notify:<url>
@@ -65,7 +65,7 @@ status() {
   echo "  (master/duress passwords not shown for security)"
 }
 
-usage() { echo "TinkerOS Duress Alert
+usage() { echo "KorrinOS Duress Alert
 Usage: ${0##*/} <init|set <duress-pass> [action]|trigger|watch|status>
 Presence/duress response: lock, wipe, decoy, poweroff, or notify on duress."; }
 

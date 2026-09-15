@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS DNS Manager - Change DNS servers
+# KorrinOS DNS Manager - Change DNS servers
 
 set -e
 
@@ -37,7 +37,7 @@ set_dns() {
     echo "  Secondary: $secondary"
     
     sudo bash -c "cat > /etc/resolv.conf" << EOF
-# TinkerOS DNS Configuration
+# KorrinOS DNS Configuration
 nameserver $primary
 nameserver $secondary
 EOF

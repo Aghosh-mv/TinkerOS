@@ -227,7 +227,7 @@ ve_connectors_bind_f7() {
   local kbconf="$HOME/.config/xbindkeys/tinker-vibe"
   mkdir -p "$(dirname "$kbconf")"
   cat > "$kbconf" <<EOF
-# TinkerOS Vibe Addressing  Tab+F7
+# KorrinOS Vibe Addressing  Tab+F7
 "echo F7 > /tmp/vibe-f7.pressed & $vah ask-complete"
   Tab+F7
 EOF

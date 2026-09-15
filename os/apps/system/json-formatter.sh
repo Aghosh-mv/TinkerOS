@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS JSON Formatter - Format/validate JSON
+# KorrinOS JSON Formatter - Format/validate JSON
 
 set -e
 

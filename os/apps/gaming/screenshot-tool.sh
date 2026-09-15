@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Screenshot Tool - Capture, annotate, and share screenshots
+# KorrinOS Screenshot Tool - Capture, annotate, and share screenshots
 
 set -e
 

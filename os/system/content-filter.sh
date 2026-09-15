@@ -1,6 +1,6 @@
 #!/bin/bash
 # ===========================================================================
-#  TinkerOS Content Filter  —  ships OFF for adult users; opt-in screening.
+#  KorrinOS Content Filter  —  ships OFF for adult users; opt-in screening.
 # ---------------------------------------------------------------------------
 #  The OS does NOT sanitize your browsing by default (no world-of-Apple
 #  always-on filtering).  Adults get the full, unfiltered web.  Parents can
@@ -14,9 +14,9 @@
 # ===========================================================================
 set -euo pipefail
 
-CF_CONF="$HOME/.config/tinkeros/content-filter.conf"
+CF_CONF="$HOME/.config/korrinos/content-filter.conf"
 CF_HOSTS_MARK="/etc/hosts.tinkos-cf"
-CF_BLOCKLIST="$HOME/.config/tinkeros/cf-domain-blocklist.txt"
+CF_BLOCKLIST="$HOME/.config/korrinos/cf-domain-blocklist.txt"
 CF_STATE_OFF="0" CF_STATE_ON="1"
 
 # Explicit, editable, small-by-design blocklist. Users own it 100%.
@@ -32,7 +32,7 @@ cf_read_state() {
 cf_seed() {
   mkdir -p "$(dirname "$CF_CONF")"
   [ -f "$CF_CONF" ] || cat > "$CF_CONF" <<EOF
-# TinkerOS content filter
+# KorrinOS content filter
 ENABLED=0
 # 0 = unfiltered (adult default)   1 = family-safe screening (opt-in)
 EOF

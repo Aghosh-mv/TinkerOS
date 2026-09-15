@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Latency-Clean (GAME territory)
+# KorrinOS Latency-Clean (GAME territory)
 # Cleans background noise that adds latency/jank during gaming: suspends
 # non-essential services, stops heavy background apps, and returns the
 # machine to full game-first state. Safe, reversible list.
@@ -49,7 +49,7 @@ status() {
   cat "${TINKER_STATE}/latency-clean/mask" 2>/dev/null | sed 's/^/  /' || echo "  (none currently paused)"
 }
 
-usage() { echo "TinkerOS Latency-Clean
+usage() { echo "KorrinOS Latency-Clean
 Usage: ${0##*/} <clean|kill <apps...>|restore|status>"; }
 
 case "${1:-}" in

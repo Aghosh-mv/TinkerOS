@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS USB Manager - Device management, power control, and identification
+# KorrinOS USB Manager - Device management, power control, and identification
 
 set -e
 

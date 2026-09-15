@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Temporal Resource Mapping (TRM)
+# KorrinOS Temporal Resource Mapping (TRM)
 # Creates a "time map" of resource usage and forecasts future needs
 
 TRM_HISTORY="$HOME/.tinker/trm_history.json"

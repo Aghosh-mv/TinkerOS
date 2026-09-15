@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS FileVault2 — full-disk / file encryption engine (SECURE territory)
+# KorrinOS FileVault2 — full-disk / file encryption engine (SECURE territory)
 # Wraps LUKS + LVM full-disk encryption setup and per-file gpg encryption.
 # PRE-BOOT: lock the boot key (TPM/LUKS passphrase) with a duress-capable
 # setup (see split-personality) so the disk is unreadable without the key.
@@ -47,7 +47,7 @@ luks_add_detached() {  # store a detached LUKS header backup
   echo "Detached header backup saved to $keystore"
 }
 
-usage() { echo "TinkerOS FileVault2
+usage() { echo "KorrinOS FileVault2
 Usage: ${0##*/} <encrypt <file>|decrypt <file.gpg>|dir <dir>|fde-check|luks-add <device>>"; }
 
 case "${1:-}" in

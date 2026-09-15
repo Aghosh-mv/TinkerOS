@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Global Keyboard Shortcuts
+# KorrinOS Global Keyboard Shortcuts
 # System-wide keyboard shortcuts that work everywhere
 
 set -e
@@ -28,7 +28,7 @@ init_shortcuts() {
     
     if [ ! -f $SHORTCUTS_CONFIG ]; then
         cat > $SHORTCUTS_CONFIG << 'EOF'
-# TinkerOS Global Keyboard Shortcuts
+# KorrinOS Global Keyboard Shortcuts
 # Format: key combo = action
 
 # System shortcuts
@@ -533,7 +533,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Keyboard Shortcuts${NC}"
+        echo -e "${YELLOW}KorrinOS Keyboard Shortcuts${NC}"
         echo ""
         echo "System-wide shortcuts that work in any application."
         echo ""

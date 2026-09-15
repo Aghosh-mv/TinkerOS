@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Audio Mixer - Device, volume, and per-application audio control
+# KorrinOS Audio Mixer - Device, volume, and per-application audio control
 
 set -e
 

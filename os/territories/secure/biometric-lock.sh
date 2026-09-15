@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Biometric Lock — biometric authentication engine (SECURE territory)
+# KorrinOS Biometric Lock — biometric authentication engine (SECURE territory)
 # Uses PAM biometric modules (pam_fprintd / fprintd) to lock/unlock sessions
 # and sensitive operations with a fingerprint. Falls back gracefully to
 # passphrase if no reader present.
@@ -47,7 +47,7 @@ status() {
   has fprintd-verify && echo "  fprintd present (enroll+verify available)" || echo "  fprintd absent"
 }
 
-usage() { echo "TinkerOS Biometric Lock
+usage() { echo "KorrinOS Biometric Lock
 Usage: ${0##*/} <detect|enroll [finger]|verify|lock|status>"; }
 
 case "${1:-}" in

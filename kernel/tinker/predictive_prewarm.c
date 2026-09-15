@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS predictive pre-warm.
+ * KorrinOS predictive pre-warm.
  *
  * Implements "predictive memory/process prewarm" as a kernel interface:
  * a user-space predictor marks a set of PIDs/apps that are likely to be
@@ -109,17 +109,17 @@ static int __init tinker_pw_init(void)
 	if (tinker_proc_root)
 		proc_create("prewarm", 0644, tinker_proc_root, &pw_fops);
 
-	pr_info("TinkerOS: predictive prewarm at /proc/tinker/prewarm\n");
+	pr_info("KorrinOS: predictive prewarm at /proc/tinker/prewarm\n");
 	return 0;
 }
 
 static void __exit tinker_pw_exit(void)
 {
-	pr_info("TinkerOS: predictive prewarm removed\n");
+	pr_info("KorrinOS: predictive prewarm removed\n");
 }
 
 module_init(tinker_pw_init);
 module_exit(tinker_pw_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS predictive prewarm");
+MODULE_DESCRIPTION("KorrinOS predictive prewarm");

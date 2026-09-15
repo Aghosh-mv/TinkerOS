@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Window Snapping & Tiling Manager
+# KorrinOS Window Snapping & Tiling Manager
 # Windows-style snapping + automatic tiling
 
 set -e
@@ -27,7 +27,7 @@ init_tiling() {
     
     if [ ! -f $TILING_CONFIG ]; then
         cat > $TILING_CONFIG << 'EOF'
-# TinkerOS Tiling Configuration
+# KorrinOS Tiling Configuration
 
 # Tiling mode: manual, auto, smart
 MODE=smart
@@ -352,7 +352,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Window Tiling Manager${NC}"
+        echo -e "${YELLOW}KorrinOS Window Tiling Manager${NC}"
         echo ""
         echo "Windows-style snapping + automatic tiling."
         echo ""

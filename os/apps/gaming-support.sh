@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Gaming Support
+# KorrinOS Gaming Support
 
 set -e
 

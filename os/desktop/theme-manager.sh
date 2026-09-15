@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Theme Manager
+# KorrinOS Theme Manager
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Screen Tools (Recorder + Screenshot)
+# KorrinOS Screen Tools (Recorder + Screenshot)
 
 set -e
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Settings GUI
+# KorrinOS Settings GUI
 
 set -e
 
@@ -492,7 +492,7 @@ show_about() {
     echo "  ABOUT TINKEROS"
     echo "═══════════════════════════════════════════════════════════"
     echo ""
-    echo "  TinkerOS v1.0"
+    echo "  KorrinOS v1.0"
     echo "  Built on Linux Kernel 7.2.0"
     echo ""
     echo "  Your computer. Your rules."

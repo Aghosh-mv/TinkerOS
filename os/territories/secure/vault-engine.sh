@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Vault Engine — encrypted container manager (SECURE territory)
+# KorrinOS Vault Engine — encrypted container manager (SECURE territory)
 # Manages encrypted vaults (LUKS/cryptsetup or gocryptfs) for sensitive
 # files. Each world can have its own vault so nothing bleeds between
 # normalize/hack/game. Storage-scoped, keyed by user passphrase.
@@ -48,7 +48,7 @@ list() {
   echo "Mounted:"; mount | grep tinker_ || echo "  (none mounted)"
 }
 
-usage() { echo "TinkerOS Vault Engine
+usage() { echo "KorrinOS Vault Engine
 Usage: ${0##*/} <init <name> [size]|open <name> [mp]|close <name>|list>"; }
 
 case "${1:-}" in

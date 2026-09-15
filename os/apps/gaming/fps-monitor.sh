@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS FPS Monitor - Real-time frames-per-second and game performance tracking
+# KorrinOS FPS Monitor - Real-time frames-per-second and game performance tracking
 
 set -e
 

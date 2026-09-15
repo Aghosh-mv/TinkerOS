@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Firewall - Comprehensive firewall management (UFW/firewalld/iptables)
+# KorrinOS Firewall - Comprehensive firewall management (UFW/firewalld/iptables)
 
 set -e
 
@@ -42,7 +42,7 @@ detect_backend() {
 # Status
 status() {
     local tool=$(detect_backend)
-    echo "=== TinkerOS Firewall (backend: $tool) ==="
+    echo "=== KorrinOS Firewall (backend: $tool) ==="
     echo ""
     
     case $tool in

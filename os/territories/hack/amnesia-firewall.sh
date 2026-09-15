@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Amnesia Firewall (driver-level network policy engine)
+# KorrinOS Amnesia Firewall (driver-level network policy engine)
 # Deny-by-default network policy: unless a connection is explicitly allowed
 # in the policy set, ALL inbound and outbound telemetry is dropped at the
 # kernel/routing level. Any app that attempts to beacon/phish is silently
@@ -145,6 +145,6 @@ case "${1:-}" in
   block) block_and_report ;;
   mac|spoof) spoof_mac_all ;;
   status) status ;;
-  *) echo "TinkerOS Amnesia Firewall
+  *) echo "KorrinOS Amnesia Firewall
 Usage: ${0##*/} <on|off|allow <proto:port:dir>|block|mac|status>" ;;
 esac

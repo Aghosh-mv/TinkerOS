@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Power Profile Switcher
+# KorrinOS Power Profile Switcher
 # Battery optimization + power profiles
 
 set -e
@@ -27,7 +27,7 @@ init_power() {
     
     if [ ! -f $POWER_CONFIG ]; then
         cat > $POWER_CONFIG << 'EOF'
-# TinkerOS Power Configuration
+# KorrinOS Power Configuration
 
 # Power profiles: performance, balanced, power-saver, custom
 DEFAULT_PROFILE=balanced
@@ -383,7 +383,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Power Manager${NC}"
+        echo -e "${YELLOW}KorrinOS Power Manager${NC}"
         echo ""
         echo "Battery optimization + power profiles."
         echo ""

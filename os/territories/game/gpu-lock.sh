@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GPU Lock / undervolt profile engine (GAME territory)
+# KorrinOS GPU Lock / undervolt profile engine (GAME territory)
 # Locks/undervolts the GPU to stable clocks for consistent frametimes,
 # reduces heat/noise, and can unlock higher overclocks. Uses:
 #   - nvidia-smi (NVIDIA)
@@ -55,7 +55,7 @@ perf_state() {
 }
 
 usage() {
-  echo "TinkerOS GPU Lock / undervolt
+  echo "KorrinOS GPU Lock / undervolt
 Usage: ${0##*/} <nv-lock <gpu> <core> <mem>|nv-reset <gpu>|amd <profile>|intel|status|detect>"
 }
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS World Arsenal Installer
+# KorrinOS World Arsenal Installer
 # Populates each isolated mode-world with its mode-scoped toolset:
 #   HACK   -> offensive (black-hat) + defensive (white-hat) hacking toolset
 #   GAME   -> NVIDIA drivers, GameMode, Proton/Wine, game launchers, overlays
@@ -105,7 +105,7 @@ stage_definition() {  # stage_definition <world_dir> <name:desc...>
     IFS=: read -r name desc <<< "$entry"
     IFS=' ' read -r name _ <<< "$name"
     cat > "$world/apps/$name.meta" <<EOF
-# TinkerOS world app definition
+# KorrinOS world app definition
 name=$name
 desc=$desc
 world=$(basename "$world")
@@ -151,7 +151,7 @@ case "${1:-}" in
     stage_definition "$WORLD_NORMAL" "${NORMAL_TOOLS[@]}"
     echo "Staged all three world tool-sets."
     ;;
-  *) echo "TinkerOS World Arsenal Installer
+  *) echo "KorrinOS World Arsenal Installer
 Usage: ${0##*/} <hack|game|normal|all|report-hack|report-game|report-normal>
 Populates each isolated mode-world with its mode-scoped toolset.
 Tools are staged as metadata + detection; run the matching package manager

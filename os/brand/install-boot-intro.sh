@@ -1,28 +1,28 @@
 #!/bin/bash
-# TinkerOS Boot Intro installer — wires the branded plymouth intro into real
+# KorrinOS Boot Intro installer — wires the branded plymouth intro into real
 # Linux as the DEFAULT boot/reboot/restart/shutdown splash. Builds on what
 # Linux already provides (plymouth + initramfs); we only add our theme.
 #
-#   install   : copy theme to /usr/share/plymouth/themes/tinkeros, set default
+#   install   : copy theme to /usr/share/plymouth/themes/korrinos, set default
 #   uninstall : revert to the OS's default plymouth theme
 #   status    : show current plymouth theme
 
 set -euo pipefail
-THEME_DIR=/usr/share/plymouth/themes/tinkeros
-SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/plymouth-tinkeros"
+THEME_DIR=/usr/share/plymouth/themes/korrinos
+SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/plymouth-korrinos"
 [ -d "$SRC" ] || SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 need_root() { [ "$(id -u)" -eq 0 ]; }
 
 install_theme() {
-    echo "Installing TinkerOS plymouth theme..."
+    echo "Installing KorrinOS plymouth theme..."
     mkdir -p "$THEME_DIR"
-    cp "$SRC/tinkeros.plymouth" "$SRC/tinkeros.script" "$SRC/tinkeros_logo.png" "$THEME_DIR/"
+    cp "$SRC/korrinos.plymouth" "$SRC/korrinos.script" "$SRC/korrinos_logo.png" "$THEME_DIR/"
 
     # register theme with plymouth
     if command -v plymouth-set-default-theme >/dev/null 2>&1; then
-        cp "$THEME_DIR/tinkeros.plymouth" /usr/share/plymouth/themes/
-        plymouth-set-default-theme tinkeros -R
+        cp "$THEME_DIR/korrinos.plymouth" /usr/share/plymouth/themes/
+        plymouth-set-default-theme korrinos -R
     fi
 
     # ensure plymouth boot splash is enabled in the bootloader config
@@ -39,13 +39,13 @@ install_theme() {
         dracut --force || true
     fi
 
-    echo "TinkerOS boot intro installed and set as default."
+    echo "KorrinOS boot intro installed and set as default."
 }
 
 uninstall_theme() {
-    echo "Removing TinkerOS plymouth theme..."
+    echo "Removing KorrinOS plymouth theme..."
     rm -rf "$THEME_DIR"
-    rm -f /usr/share/plymouth/themes/tinkeros.plymouth
+    rm -f /usr/share/plymouth/themes/korrinos.plymouth
     if command -v plymouth-set-default-theme >/dev/null 2>&1; then
         plymouth-set-default-theme --reset || plymouth-set-default-theme default || true
     fi
@@ -64,7 +64,7 @@ case "${1:-}" in
     install|apply|on) need_root && install_theme || echo "Re-run with sudo." ;;
     uninstall|remove|off) need_root && uninstall_theme || echo "Re-run with sudo." ;;
     status) status ;;
-    *) echo "TinkerOS Boot Intro
+    *) echo "KorrinOS Boot Intro
 Usage: ${0##*/} <install|uninstall|status>
 Wires the branded plymouth intro into real Linux as the default boot/shutdown splash." ;;
 esac

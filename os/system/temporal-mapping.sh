@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Temporal Resource Mapping
+# KorrinOS Temporal Resource Mapping
 # TECHNIQUE: Temporal Resource Mapping (TRM)
 #
 # CONCEPT: Creates a "time map" of resource usage across your entire

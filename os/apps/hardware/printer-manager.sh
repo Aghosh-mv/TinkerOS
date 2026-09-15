@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Printer Manager - Manage printers, print jobs, and queues
+# KorrinOS Printer Manager - Manage printers, print jobs, and queues
 
 set -e
 
@@ -73,9 +73,9 @@ test() {
                 # Generate a test document
                 local testdir="$PM_DIR/test"
                 mkdir -p "$testdir"
-                echo "TinkerOS Printer Test $1" > "$testdir/test.txt"
+                echo "KorrinOS Printer Test $1" > "$testdir/test.txt"
                 echo "Date: $(date)" >> "$testdir/test.txt"
-                echo "Printer test page for TinkerOS Control Center." >> "$testdir/test.txt"
+                echo "Printer test page for KorrinOS Control Center." >> "$testdir/test.txt"
                 
                 if command -v enscript &>/dev/null; then
                     enscript -p - "$testdir/test.txt" 2>/dev/null | lp - 2>&1 | sed 's/^/  /'

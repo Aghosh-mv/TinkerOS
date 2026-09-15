@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Privacy Ledger — audit what accessed your data (SECURE territory)
+# KorrinOS Privacy Ledger — audit what accessed your data (SECURE territory)
 # Maintains a local tamper-evident ledger of privacy-relevant events:
 # who/what touched your files, camera/mic, clipboard, location, etc.
 # Based on auditd + filesystem watching. You own the log; nothing leaves
@@ -59,7 +59,7 @@ integrity() {  # verify the hash chain
   echo "  Line count: $(wc -l < "$LEDGER" 2>/dev/null || echo 0)"
 }
 
-usage() { echo "TinkerOS Privacy Ledger
+usage() { echo "KorrinOS Privacy Ledger
 Usage: ${0##*/} <watch <dir>|audit|query <term>|integrity>
 Tamper-evident local log of data access for privacy auditing."; }
 

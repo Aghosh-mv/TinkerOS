@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * TinkerOS neural audio — audio enhancement DSP.
+ * KorrinOS neural audio — audio enhancement DSP.
  *
  * Exposes an audio-enhancement chain (gain normalization, noise floor,
  * EQ profile) as a kernel DSP frontend. The actual heavy neural model
@@ -105,17 +105,17 @@ static int __init tinker_na_init(void)
 	if (tinker_proc_root)
 		proc_create("neuralaudio", 0644, tinker_proc_root, &na_fops);
 
-	pr_info("TinkerOS: neural audio DSP at /proc/tinker/neuralaudio\n");
+	pr_info("KorrinOS: neural audio DSP at /proc/tinker/neuralaudio\n");
 	return 0;
 }
 
 static void __exit tinker_na_exit(void)
 {
-	pr_info("TinkerOS: neural audio DSP removed\n");
+	pr_info("KorrinOS: neural audio DSP removed\n");
 }
 
 module_init(tinker_na_init);
 module_exit(tinker_na_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("TinkerOS neural audio enhancement");
+MODULE_DESCRIPTION("KorrinOS neural audio enhancement");

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Window Animations - Custom animations
+# KorrinOS Window Animations - Custom animations
 
 set -e
 
@@ -31,7 +31,7 @@ set_speed() {
             ;;
         slow|normal|fast)
             gsettings set org.gnome.desktop.interface enable-animations true 2>/dev/null || true
-            gsettings set org.gnome.shell enabled-extensions "['animations@tinkeros.dev']" 2>/dev/null || true
+            gsettings set org.gnome.shell enabled-extensions "['animations@korrinos.dev']" 2>/dev/null || true
             ;;
     esac
     

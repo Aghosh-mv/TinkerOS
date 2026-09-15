@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Territories installer — promotes all 45 territory scripts (18 hack
+# KorrinOS Territories installer — promotes all 45 territory scripts (18 hack
 # + 13 game + 14 secure + the world engine layer) from repo files into REAL,
 # launchable code on your live Linux system, as user-level commands with a
 # single `tinker-world` launcher. Fully reversible (uninstall).
@@ -53,7 +53,7 @@ case "${1:-}" in
   install|on|add) install_all ;;
   uninstall|off|remove) uninstall_all ;;
   status) status ;;
-  *) echo "TinkerOS Territories installer
+  *) echo "KorrinOS Territories installer
 Usage: ${0##*/} <install|uninstall|status>
 Promotes all 45 territory scripts to real, launchable user commands." ;;
 esac

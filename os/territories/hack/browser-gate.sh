@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Browser Gate — HACK world rule: ONLY Tor Browser works here.
+# KorrinOS Browser Gate — HACK world rule: ONLY Tor Browser works here.
 # Enforces a world-scoped shim: every known non-Tor browser is blocked from
 # launching while in the HACK world, leaving tor-browser / -torbrowser /
 # tor (the Tor Browser bundle) as the only working browser. This maximizes
@@ -51,7 +51,7 @@ case "${1:-}" in
   enforce|on) enforce ;;
   unenforce|off|clear) unenforce ;;
   status) status ;;
-  *) echo "TinkerOS Browser Gate
+  *) echo "KorrinOS Browser Gate
 Usage: ${0##*/} <enforce|unenforce|status>
 HACK world rule: only Tor Browser is permitted. Blocks all non-Tor browsers
 while in the hack territory via a world-scoped shim." ;;

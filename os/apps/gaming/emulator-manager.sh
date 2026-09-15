@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Emulator Manager - RetroArch/Dolphin integration
+# KorrinOS Emulator Manager - RetroArch/Dolphin integration
 
 set -e
 
