@@ -144,6 +144,21 @@ exec /opt/korrinos/os/parc-ai/parc-ai.sh "\$@"
 EOF
 chmod +x /usr/local/bin/korrinos' 2>/dev/null || true
 
+  # KorrinOS Apps — make all os/apps/ scripts directly runnable
+  "$SUDO" bash -c 'mkdir -p "$ROOTFS/usr/local/bin"
+  for f in /opt/korrinos/os/apps/*.sh; do
+    [ -f "$ROOTFS\$f" ] || continue
+    name=$(basename "\$f" .sh)
+    ln -sf "\$f" "$ROOTFS/usr/local/bin/korrinos-\$name" 2>/dev/null || true
+  done
+  for d in customization gaming hardware network security system; do
+    for f in /opt/korrinos/os/apps/\$d/*.sh; do
+      [ -f "$ROOTFS\$f" ] || continue
+      name=$(basename "\$f" .sh)
+      ln -sf "\$f" "$ROOTFS/usr/local/bin/korrinos-\$name" 2>/dev/null || true
+    done
+  done' 2>/dev/null || true
+
   # Systemd services for KorrinOS features
   "$SUDO" mkdir -p "$ROOTFS/etc/systemd/system"
 
@@ -268,6 +283,73 @@ Name=KorrinOS Terminal
 Comment=Open KorrinOS Terminal
 Exec=xfce4-terminal
 Icon=utilities-terminal
+Terminal=false
+Categories=System;
+EOF
+
+# Desktop entries for os/apps/ tools
+cat > ~/.local/share/applications/korrinos-app-store.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=KorrinOS App Store
+Comment=Browse and install apps
+Exec=/opt/korrinos/os/apps/app-store.sh gui
+Icon=system-software-install
+Terminal=false
+Categories=System;
+EOF
+
+cat > ~/.local/share/applications/korrinos-software-center.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=Software Center
+Comment=KorrinOS Software Center
+Exec=/opt/korrinos/os/apps/software-center.sh gui
+Icon=system-software-install
+Terminal=false
+Categories=System;
+EOF
+
+cat > ~/.local/share/applications/korrinos-ocr.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=OCR Everywhere
+Comment=Extract text from screen, images, PDFs
+Exec=/opt/korrinos/os/apps/ocr-everywhere.sh gui
+Icon=text-x-generic
+Terminal=false
+Categories=Utility;
+EOF
+
+cat > ~/.local/share/applications/korrinos-clipboard.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=Smart Clipboard
+Comment=Multi-item clipboard with search
+Exec=/opt/korrinos/os/apps/smart-clipboard.sh gui
+Icon=edit-paste
+Terminal=false
+Categories=Utility;
+EOF
+
+cat > ~/.local/share/applications/korrinos-screen-recorder.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=Screen Recorder
+Comment=Record your screen
+Exec=/opt/korrinos/os/apps/screen-recorder.sh gui
+Icon=media-record
+Terminal=false
+Categories=AudioVideo;
+EOF
+
+cat > ~/.local/share/applications/korrinos-game-mode.desktop << EOF
+[Desktop Entry]
+Type=Application
+Name=Game Mode
+Comment=Optimize system for gaming
+Exec=/opt/korrinos/os/apps/gaming-mode.sh gui
+Icon=preferences-system-gaming
 Terminal=false
 Categories=System;
 EOF

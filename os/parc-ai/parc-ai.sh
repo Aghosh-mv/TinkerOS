@@ -1428,6 +1428,146 @@ case "${1:-help}" in
   dock-toggle)   "$AI_DIR/korrinos-dock.sh" toggle ;;
   dock-status)   "$AI_DIR/korrinos-dock.sh" status ;;
 
+  # --- os/apps: app store & software ---
+  app-store)     shift; "$AI_DIR/../apps/app-store.sh" "$@" ;;
+  install)       shift; "$AI_DIR/../apps/app-store.sh" install "$@" ;;
+  uninstall)     shift; "$AI_DIR/../apps/app-store.sh" uninstall "$@" ;;
+  software)      shift; "$AI_DIR/../apps/software-center.sh" "$@" ;;
+  pkg)           shift; "$AI_DIR/../apps/package-manager.sh" "$@" ;;
+
+  # --- os/apps: battery & power ---
+  battery)       shift; "$AI_DIR/../apps/battery-monitor.sh" "$@" ;;
+
+  # --- os/apps: clipboard ---
+  clipboard)     shift; "$AI_DIR/../apps/smart-clipboard.sh" "$@" ;;
+  clip)          shift; "$AI_DIR/../apps/smart-clipboard.sh" "$@" ;;
+
+  # --- os/apps: ocr ---
+  ocr)           shift; "$AI_DIR/../apps/ocr-everywhere.sh" "$@" ;;
+
+  # --- os/apps: notes ---
+  note)          shift; "$AI_DIR/../apps/quick-note.sh" "$@" ;;
+  quicknote)     shift; "$AI_DIR/../apps/quick-note.sh" "$@" ;;
+
+  # --- os/apps: screen recording ---
+  record)        shift; "$AI_DIR/../apps/screen-recorder.sh" "$@" ;;
+  screencast)    shift; "$AI_DIR/../apps/screen-recorder.sh" "$@" ;;
+
+  # --- os/apps: voice commands ---
+  voicecmd)      shift; "$AI_DIR/../apps/voice-commands.sh" "$@" ;;
+
+  # --- os/apps: file manager ---
+  files)         shift; "$AI_DIR/../apps/file-manager.sh" "$@" ;;
+  fm)            shift; "$AI_DIR/../apps/file-manager.sh" "$@" ;;
+
+  # --- os/apps: system cleaner ---
+  cleaner)       shift; "$AI_DIR/../apps/system-cleaner.sh" "$@" ;;
+
+  # --- os/apps: gaming ---
+  game-mode)     shift; "$AI_DIR/../apps/gaming-mode.sh" "$@" ;;
+  game-support)  shift; "$AI_DIR/../apps/gaming-support.sh" "$@" ;;
+  fps)           shift; "$AI_DIR/../apps/gaming/fps-monitor.sh" "$@" ;;
+  game-launcher) shift; "$AI_DIR/../apps/gaming/game-launcher.sh" "$@" ;;
+  game-replay)   shift; "$AI_DIR/../apps/gaming/game-replay.sh" "$@" ;;
+  game-saves)    shift; "$AI_DIR/../apps/gaming/game-saves-sync.sh" "$@" ;;
+  controller)    shift; "$AI_DIR/../apps/gaming/controller-mapper.sh" "$@" ;;
+  emulator)      shift; "$AI_DIR/../apps/gaming/emulator-manager.sh" "$@" ;;
+  wine)          shift; "$AI_DIR/../apps/gaming/wine-manager.sh" "$@" ;;
+  benchmark)     shift; "$AI_DIR/../apps/gaming/hardware-benchmark.sh" "$@" ;;
+  game-gif)      shift; "$AI_DIR/../apps/gaming/gif-recorder.sh" "$@" ;;
+  game-stream)   shift; "$AI_DIR/../apps/gaming/streaming-manager.sh" "$@" ;;
+  game-perf)     shift; "$AI_DIR/../apps/gaming/performance-graph.sh" "$@" ;;
+  game-screenshot) shift; "$AI_DIR/../apps/gaming/screenshot-tool.sh" "$@" ;;
+  anticheat)     shift; "$AI_DIR/../apps/gaming/anticheat-helper.sh" "$@" ;;
+  game-audio)    shift; "$AI_DIR/../apps/gaming/audio-mixer.sh" "$@" ;;
+  discord)       shift; "$AI_DIR/../apps/gaming/discord-presence.sh" "$@" ;;
+
+  # --- os/apps: customization ---
+  theme)         shift; "$AI_DIR/../apps/customization/gtk-theme.sh" "$@" ;;
+  gtk-theme)     shift; "$AI_DIR/../apps/customization/gtk-theme.sh" "$@" ;;
+  qt-theme)      shift; "$AI_DIR/../apps/customization/qt-theme.sh" "$@" ;;
+  icon-pack)     shift; "$AI_DIR/../apps/customization/icon-packs.sh" "$@" ;;
+  cursor)        shift; "$AI_DIR/../apps/customization/cursor-themes.sh" "$@" ;;
+  shell-theme)   shift; "$AI_DIR/../apps/customization/shell-theme.sh" "$@" ;;
+  font)          shift; "$AI_DIR/../apps/customization/font-manager.sh" "$@" ;;
+  wallpaper)     shift; "$AI_DIR/../apps/customization/wallpaper-manager.sh" "$@" ;;
+  effects)       shift; "$AI_DIR/../apps/customization/desktop-effects.sh" "$@" ;;
+  animations)    shift; "$AI_DIR/../apps/customization/window-animations.sh" "$@" ;;
+  login-theme)   shift; "$AI_DIR/../apps/customization/login-theme.sh" "$@" ;;
+  grub-theme)    shift; "$AI_DIR/../apps/customization/grub-theme.sh" "$@" ;;
+  conky)         shift; "$AI_DIR/../apps/customization/conky-stats.sh" "$@" ;;
+
+  # --- os/apps: hardware ---
+  display)       shift; "$AI_DIR/../apps/hardware/display-calibration.sh" "$@" ;;
+  hdr)           shift; "$AI_DIR/../apps/hardware/hdr-manager.sh" "$@" ;;
+  fingerprint)   shift; "$AI_DIR/../apps/hardware/fingerprint-manager.sh" "$@" ;;
+  gpio)          shift; "$AI_DIR/../apps/hardware/gpio-manager.sh" "$@" ;;
+  nfc)           shift; "$AI_DIR/../apps/hardware/nfc-manager.sh" "$@" ;;
+  serial)        shift; "$AI_DIR/../apps/hardware/serial-uart.sh" "$@" ;;
+  usb-dev)       shift; "$AI_DIR/../apps/hardware/usb-manager.sh" "$@" ;;
+  webcam)        shift; "$AI_DIR/../apps/hardware/webcam-manager.sh" "$@" ;;
+  printer)       shift; "$AI_DIR/../apps/hardware/printer-manager.sh" "$@" ;;
+  scanner)       shift; "$AI_DIR/../apps/hardware/scanner-manager.sh" "$@" ;;
+  docking)       shift; "$AI_DIR/../apps/hardware/docking-station.sh" "$@" ;;
+  kvm)           shift; "$AI_DIR/../apps/hardware/kvm-switch.sh" "$@" ;;
+  thunderbolt)   shift; "$AI_DIR/../apps/hardware/thunderbolt-manager.sh" "$@" ;;
+  touchscreen)   shift; "$AI_DIR/../apps/hardware/touchscreen-manager.sh" "$@" ;;
+  stylus)        shift; "$AI_DIR/../apps/hardware/pen-stylus.sh" "$@" ;;
+
+  # --- os/apps: network ---
+  bandwidth)     shift; "$AI_DIR/../apps/network/bandwidth-limiter.sh" "$@" ;;
+  dns)           shift; "$AI_DIR/../apps/network/dns-manager.sh" "$@" ;;
+  fw-gui)        shift; "$AI_DIR/../apps/network/firewall-gui.sh" "$@" ;;
+  hotspot)       shift; "$AI_DIR/../apps/network/hotspot-manager.sh" "$@" ;;
+  mesh)          shift; "$AI_DIR/../apps/network/mesh-network.sh" "$@" ;;
+  netmon)        shift; "$AI_DIR/../apps/network/network-monitor.sh" "$@" ;;
+  proxy)         shift; "$AI_DIR/../apps/network/proxy-manager.sh" "$@" ;;
+  speedtest)     shift; "$AI_DIR/../apps/network/speed-test.sh" "$@" ;;
+  vpn)           shift; "$AI_DIR/../apps/network/vpn-manager.sh" "$@" ;;
+  wifi)          shift; "$AI_DIR/../apps/network/wifi-analyzer.sh" "$@" ;;
+
+  # --- os/apps: security ---
+  bio)           shift; "$AI_DIR/../apps/security/biometric.sh" "$@" ;;
+  vault)         shift; "$AI_DIR/../apps/security/filevault.sh" "$@" ;;
+  findmy)        shift; "$AI_DIR/../apps/security/findmydevice.sh" "$@" ;;
+  fw)            shift; "$AI_DIR/../apps/security/firewall.sh" "$@" ;;
+  gatekeeper)    shift; "$AI_DIR/../apps/security/gatekeeper.sh" "$@" ;;
+  passman)       shift; "$AI_DIR/../apps/security/password-manager.sh" "$@" ;;
+  privacy)       shift; "$AI_DIR/../apps/security/privacy.sh" "$@" ;;
+  sec-suite)     shift; "$AI_DIR/../apps/security/security-suite.sh" "$@" ;;
+
+  # --- os/apps: system tools ---
+  cmd-palette)   shift; "$AI_DIR/../apps/system/command-palette.sh" "$@" ;;
+  disk-viz)      shift; "$AI_DIR/../apps/system/disk-visualizer.sh" "$@" ;;
+  dupes)         shift; "$AI_DIR/../apps/system/duplicate-finder.sh" "$@" ;;
+  focus-app)     shift; "$AI_DIR/../apps/system/focus-mode.sh" "$@" ;;
+  search)        shift; "$AI_DIR/../apps/system/global-search.sh" "$@" ;;
+  intent)        shift; "$AI_DIR/../apps/system/intent-launcher.sh" "$@" ;;
+  json)          shift; "$AI_DIR/../apps/system/json-formatter.sh" "$@" ;;
+  markdown)      shift; "$AI_DIR/../apps/system/markdown-editor.sh" "$@" ;;
+  parental)      shift; "$AI_DIR/../apps/system/parental-controls.sh" "$@" ;;
+  pomodoro)      shift; "$AI_DIR/../apps/system/pomodoro-timer.sh" "$@" ;;
+  regex)         shift; "$AI_DIR/../apps/system/regex-tool.sh" "$@" ;;
+  screen-time)   shift; "$AI_DIR/../apps/system/screen-time.sh" "$@" ;;
+  time-tracker)  shift; "$AI_DIR/../apps/system/time-tracker.sh" "$@" ;;
+  terminal-explain) shift; "$AI_DIR/../apps/system/terminal-error-explainer.sh" "$@" ;;
+  drag-install)  shift; "$AI_DIR/../apps/system/drag-to-install.sh" "$@" ;;
+  file-version)  shift; "$AI_DIR/../apps/system/file-versioning.sh" "$@" ;;
+  cognitive)     shift; "$AI_DIR/../apps/system/cognitive-load.sh" "$@" ;;
+  context)       shift; "$AI_DIR/../apps/system/context-aware.sh" "$@" ;;
+  digital-twin)  shift; "$AI_DIR/../apps/system/digital-twin.sh" "$@" ;;
+  self-heal)     shift; "$AI_DIR/../apps/system/self-healing.sh" "$@" ;;
+  predictive)    shift; "$AI_DIR/../apps/system/predictive-intelligence.sh" "$@" ;;
+  precache)      shift; "$AI_DIR/../apps/system/predictive-caching.sh" "$@" ;;
+  temporal)      shift; "$AI_DIR/../apps/system/temporal-mapping.sh" "$@" ;;
+  rollback)      shift; "$AI_DIR/../apps/system/rollback-recovery.sh" "$@" ;;
+  auto-update)   shift; "$AI_DIR/../apps/system/auto-updates.sh" "$@" ;;
+  quick-actions) shift; "$AI_DIR/../apps/system/quick-actions.sh" "$@" ;;
+  adaptive-power) shift; "$AI_DIR/../apps/system/adaptive-power-grid.sh" "$@" ;;
+
+  # --- os/apps: aether workspace ---
+  aether)        shift; "$AI_DIR/../apps/apps/aether-workspace.sh" "$@" ;;
+
   # --- help ---
   help|*)        cmd_help ;;
 esac
