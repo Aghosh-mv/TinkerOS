@@ -1568,6 +1568,126 @@ case "${1:-help}" in
   # --- os/apps: aether workspace ---
   aether)        shift; "$AI_DIR/../apps/apps/aether-workspace.sh" "$@" ;;
 
+  # --- os/system: 10 major KorrinOS systems ---
+  # Package Manager
+  pkg-install)   shift; bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" install "$@" ;;
+  pkg-remove)    shift; bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" remove "$@" ;;
+  pkg-search)    shift; bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" search "$@" ;;
+  pkg-update)    bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" update ;;
+  pkg-upgrade)   bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" upgrade ;;
+  pkg-list)      bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" list ;;
+  pkg-check)     bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" check ;;
+  pkg-status)    bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" status ;;
+  pkg-snapshot)  bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" snapshot ;;
+  pkg-rollback)  shift; bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" rollback "$@" ;;
+  pkg-orphans)   bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" orphans ;;
+  pkg-clean)     bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" clean ;;
+  pkg-history)   bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" history ;;
+  pkg-sources)   bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" sources ;;
+  pkg-gui)       bash "$AI_DIR/../system/package-manager/korrinos-pkg.sh" gui ;;
+
+  # Update System
+  update-full)       bash "$AI_DIR/../system/update-system/korrinos-update.sh" full ;;
+  update-security)   bash "$AI_DIR/../system/update-system/korrinos-update.sh" security ;;
+  update-check)      bash "$AI_DIR/../system/update-system/korrinos-update.sh" check ;;
+  update-snapshot)   bash "$AI_DIR/../system/update-system/korrinos-update.sh" snapshot ;;
+  update-rollback)   shift; bash "$AI_DIR/../system/update-system/korrinos-update.sh" rollback "$@" ;;
+  update-history)    bash "$AI_DIR/../system/update-system/korrinos-update.sh" history ;;
+  update-status)     bash "$AI_DIR/../system/update-system/korrinos-update.sh" status ;;
+  update-auto)       bash "$AI_DIR/../system/update-system/korrinos-update.sh" setup-auto ;;
+  update-kernels)    bash "$AI_DIR/../system/update-system/korrinos-update.sh" kernel-list ;;
+  update-progress)   bash "$AI_DIR/../system/update-system/korrinos-update.sh" progress ;;
+
+  # Cloud Sync
+  cloud-setup)   shift; bash "$AI_DIR/../system/cloud-sync/korrinos-cloud.sh" setup "$@" ;;
+  cloud-push)    shift; bash "$AI_DIR/../system/cloud-sync/korrinos-cloud.sh" push "$@" ;;
+  cloud-pull)    shift; bash "$AI_DIR/../system/cloud-sync/korrinos-cloud.sh" pull "$@" ;;
+  cloud-sync)    bash "$AI_DIR/../system/cloud-sync/korrinos-cloud.sh" sync ;;
+  cloud-status)  bash "$AI_DIR/../system/cloud-sync/korrinos-cloud.sh" status ;;
+  cloud-storage) bash "$AI_DIR/../system/cloud-sync/korrinos-cloud.sh" storage ;;
+  cloud-auto)    bash "$AI_DIR/../system/cloud-sync/korrinos-cloud.sh" setup-auto ;;
+
+  # Mobile Companion
+  mobile-detect)     bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" detect ;;
+  mobile-mirror)     shift; bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" mirror "$@" ;;
+  mobile-clipboard)  shift; bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" clipboard "$@" ;;
+  mobile-send)       shift; bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" send "$@" ;;
+  mobile-receive)    bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" receive ;;
+  mobile-sms)        shift; bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" sms "$@" ;;
+  mobile-call)       shift; bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" call "$@" ;;
+  mobile-battery)    bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" battery ;;
+  mobile-status)     bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" status ;;
+  mobile-setup)      bash "$AI_DIR/../system/mobile-companion/korrinos-mobile.sh" setup ;;
+
+  # Enterprise
+  ent-ad-join)    shift; bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" ad-join "$@" ;;
+  ent-ad-leave)   bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" ad-leave ;;
+  ent-ldap-join)  shift; bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" ldap-join "$@" ;;
+  ent-gpo)        bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" gpo ;;
+  ent-sso)        bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" sso ;;
+  ent-mfa)        bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" mfa ;;
+  ent-vpn)        bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" vpn ;;
+  ent-vpn-on)     bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" vpn-on ;;
+  ent-vpn-off)    bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" vpn-off ;;
+  ent-user-add)   shift; bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" create-user "$@" ;;
+  ent-user-del)   shift; bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" delete-user "$@" ;;
+  ent-group-add)  shift; bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" create-group "$@" ;;
+  ent-audit)      bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" audit ;;
+  ent-status)     bash "$AI_DIR/../system/enterprise/korrinos-enterprise.sh" status ;;
+
+  # Driver Manager
+  drv-detect)     bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" detect ;;
+  drv-nvidia)     shift; bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" nvidia "$@" ;;
+  drv-amd)        bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" amd ;;
+  drv-intel)      bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" intel ;;
+  drv-wifi)       shift; bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" wifi "$@" ;;
+  drv-bt)         bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" bluetooth ;;
+  drv-gpu)        shift; bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" gpu-switch "$@" ;;
+  drv-list)       bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" list ;;
+  drv-status)     bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" status ;;
+  drv-backup)     shift; bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" backup "$@" ;;
+  drv-restore)    shift; bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" restore "$@" ;;
+  drv-check)      bash "$AI_DIR/../system/driver-manager/korrinos-drivers.sh" check-update ;;
+
+  # Hardware Cert
+  cert-detect)    bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" detect ;;
+  cert-test)      shift; bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" test "$@" ;;
+  cert-certify)   shift; bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" certify "$@" ;;
+  cert-report)    shift; bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" report "$@" ;;
+  cert-stress)    shift; bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" stress "$@" ;;
+  cert-thermal)   bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" thermal ;;
+  cert-power)     bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" power ;;
+  cert-search)    shift; bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" search "$@" ;;
+  cert-status)    bash "$AI_DIR/../system/hardware-cert/korrinos-cert.sh" status ;;
+
+  # Installer
+  inst-detect)    bash "$AI_DIR/../system/installer/korrinos-installer.sh" detect-env ;;
+  inst-disks)     bash "$AI_DIR/../system/installer/korrinos-installer.sh" list-disks ;;
+  inst-partition) shift; bash "$AI_DIR/../system/installer/korrinos-installer.sh" partition "$@" ;;
+  inst-mount)     shift; bash "$AI_DIR/../system/installer/korrinos-installer.sh" mount "$@" ;;
+  inst-install)   bash "$AI_DIR/../system/installer/korrinos-installer.sh" install ;;
+  inst-validate)  bash "$AI_DIR/../system/installer/korrinos-installer.sh" validate ;;
+  inst-calamares) bash "$AI_DIR/../system/installer/korrinos-installer.sh" setup-calamares ;;
+  inst-status)    bash "$AI_DIR/../system/installer/korrinos-installer.sh" status ;;
+
+  # App Store
+  store-search)   shift; bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" search "$@" ;;
+  store-browse)   shift; bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" browse "$@" ;;
+  store-info)     shift; bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" info "$@" ;;
+  store-install)  shift; bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" install "$@" ;;
+  store-remove)   shift; bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" remove "$@" ;;
+  store-list)     bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" list ;;
+  store-updates)  bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" updates ;;
+  store-sync)     bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" sync ;;
+  store-featured) bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" featured ;;
+  store-review)   shift; bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" review "$@" ;;
+  store-status)   bash "$AI_DIR/../system/appstore/korrinos-appstore.sh" status ;;
+
+  # Desktop Environment
+  desktop-env)    bash "$AI_DIR/../system/desktop-env/korrinos-desktop.sh" start ;;
+  desktop-stop)   bash "$AI_DIR/../system/desktop-env/korrinos-desktop.sh" stop ;;
+  desktop-status) bash "$AI_DIR/../system/desktop-env/korrinos-desktop.sh" status ;;
+
   # --- help ---
   help|*)        cmd_help ;;
 esac

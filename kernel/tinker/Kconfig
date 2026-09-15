@@ -218,4 +218,85 @@ config TINKER_FINANCE_AUDIT
 	help
 	  Unused-subscription ledger hooks for the user-space auditor.
 
+config TINKER_PKG_TRACKER
+	bool "Package state tracker"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level package install/update/remove event tracking.
+	  Provides /proc/tinker/pkg interface for the user-space
+	  package manager.
+
+config TINKER_UPDATE_MONITOR
+	bool "Update state monitor"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level update scheduling and state tracking.
+	  Provides /proc/tinker/update interface for the update system.
+
+config TINKER_CLOUD_SYNC
+	bool "Cloud sync state tracker"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level cloud provider sync state tracking.
+	  Provides /proc/tinker/cloud interface.
+
+config TINKER_MOBILE_COMPANION
+	bool "Mobile companion state"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level phone connection and companion state.
+	  Provides /proc/tinker/mobile interface.
+
+config TINKER_ENTERPRISE
+	bool "Enterprise domain state"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level enterprise domain/SSO/MFA/GPO state tracking.
+	  Provides /proc/tinker/enterprise interface.
+
+config TINKER_DRIVER_MONITOR
+	bool "Driver state monitor"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level driver load/unload and version tracking.
+	  Provides /proc/tinker/drivers interface.
+
+config TINKER_HW_CERT
+	bool "Hardware certification state"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level hardware test results and certification tracking.
+	  Provides /proc/tinker/cert interface.
+
+config TINKER_APP_STORE
+	bool "App ecosystem state"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level app store installed apps and sync tracking.
+	  Provides /proc/tinker/apps interface.
+
+config TINKER_INSTALLER_STATE
+	bool "Installer state tracker"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level OS installation progress and state tracking.
+	  Provides /proc/tinker/installer interface.
+
+config TINKER_DESKTOP_STATE
+	bool "Desktop environment state"
+	depends on TINKER_CORE
+	default y
+	help
+	  Kernel-level desktop panel/dock/theme/compositor state.
+	  Provides /proc/tinker/desktop interface.
+
 endif # TINKER_FEATURES

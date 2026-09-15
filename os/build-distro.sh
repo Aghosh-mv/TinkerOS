@@ -239,6 +239,82 @@ EOF'
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-widgets-panel.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-dock.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-smoothui.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-autoupdate.timer 2>/dev/null || true
+
+  # Auto-update service (new systems)
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-autoupdate.service" <<EOF
+[Unit]
+Description=KorrinOS Automatic Updates
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/korrinos/os/system/update-system/korrinos-update.sh full
+Nice=19
+IOSchedulingClass=idle
+TimeoutStartSec=3600
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-autoupdate.timer" <<EOF
+[Unit]
+Description=KorrinOS Automatic Updates Timer
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+RandomizedDelaySec=1800
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF'
+
+  # Cloud sync service
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-cloud-sync.service" <<EOF
+[Unit]
+Description=KorrinOS Cloud Sync
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/korrinos/os/system/cloud-sync/korrinos-cloud.sh auto-sync
+Nice=19
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-cloud-sync.timer" <<EOF
+[Unit]
+Description=KorrinOS Cloud Sync Timer
+
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF'
+
+  # Enable new services
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-autoupdate.timer 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-cloud-sync.timer 2>/dev/null || true
+
+  # KorrinOS system CLI symlinks (new systems)
+  "$SUDO" bash -c 'mkdir -p "$ROOTFS/usr/local/bin"
+  for sys in package-manager update-system cloud-sync mobile-companion enterprise driver-manager hardware-cert installer appstore desktop-env; do
+    for f in /opt/korrinos/os/system/$sys/*.sh; do
+      [ -f "$ROOTFS\$f" ] || continue
+      name=$(basename "\$f" .sh)
+      ln -sf "\$f" "$ROOTFS/usr/local/bin/\$name" 2>/dev/null || true
+    done
+  done' 2>/dev/null || true
 
   # First-boot setup script
   "$SUDO" bash -c 'cat > "$ROOTFS/usr/local/bin/korrinos-firstboot" <<'FBEOF'
