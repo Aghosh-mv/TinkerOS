@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="leafGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#27ae60;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e8449;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="leafGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#58d68d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2ecc71;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1abc9c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stemGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e8449;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#145a32;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <filter id="innerGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background circle (optional, for icon use) -->
+  <circle cx="256" cy="256" r="240" fill="#0d1117" opacity="0.9"/>
+  <circle cx="256" cy="256" r="230" fill="none" stroke="#2ecc71" stroke-width="2" opacity="0.3"/>
+
+  <!-- Main N letterform - left vertical stroke with leaf texture -->
+  <g filter="url(#shadow)">
+    <!-- Left vertical bar -->
+    <path d="M 120 130 L 120 382 L 145 382 L 145 130 Z" fill="url(#stemGrad)" rx="4"/>
+
+    <!-- Right vertical bar -->
+    <path d="M 367 130 L 367 382 L 392 382 L 392 130 Z" fill="url(#stemGrad)" rx="4"/>
+
+    <!-- Diagonal stroke (left-bottom to right-top) -->
+    <path d="M 120 382 L 155 382 L 392 160 L 392 130 L 367 130 L 145 355 L 120 355 Z" fill="url(#leafGrad1)" rx="2"/>
+  </g>
+
+  <!-- Leaf decoration top-left -->
+  <g transform="translate(85, 95) rotate(-25)">
+    <path d="M 0 40 Q 20 0 50 5 Q 35 25 40 45 Q 15 35 0 40 Z" fill="url(#leafGrad2)" opacity="0.9"/>
+    <path d="M 5 40 Q 20 15 45 12" fill="none" stroke="#1e8449" stroke-width="1.5" opacity="0.6"/>
+    <!-- Leaf veins -->
+    <path d="M 15 35 Q 25 22 38 18" fill="none" stroke="#1e8449" stroke-width="0.8" opacity="0.4"/>
+    <path d="M 10 38 Q 18 28 28 24" fill="none" stroke="#1e8449" stroke-width="0.6" opacity="0.3"/>
+  </g>
+
+  <!-- Leaf decoration top-right -->
+  <g transform="translate(375, 80) rotate(15)">
+    <path d="M 0 35 Q 25 -5 55 0 Q 40 20 35 40 Q 10 30 0 35 Z" fill="url(#leafGrad2)" opacity="0.85"/>
+    <path d="M 5 35 Q 25 10 50 8" fill="none" stroke="#1e8449" stroke-width="1.5" opacity="0.6"/>
+    <path d="M 12 30 Q 28 15 42 12" fill="none" stroke="#1e8449" stroke-width="0.8" opacity="0.4"/>
+  </g>
+
+  <!-- Small leaf bottom-right -->
+  <g transform="translate(380, 370) rotate(40)">
+    <path d="M 0 20 Q 12 -2 30 2 Q 22 14 18 24 Q 6 18 0 20 Z" fill="url(#leafGrad1)" opacity="0.7"/>
+    <path d="M 3 20 Q 14 8 26 6" fill="none" stroke="#1e8449" stroke-width="1" opacity="0.5"/>
+  </g>
+
+  <!-- Tiny leaf bottom-left -->
+  <g transform="translate(95, 385) rotate(-10)">
+    <path d="M 0 15 Q 10 -1 22 1 Q 16 10 13 18 Q 4 13 0 15 Z" fill="url(#leafGrad2)" opacity="0.6"/>
+  </g>
+
+  <!-- Vine/tendril accents -->
+  <path d="M 110 120 Q 95 110 90 95 Q 85 80 95 75" fill="none" stroke="#2ecc71" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 395 125 Q 410 115 415 100 Q 420 85 410 78" fill="none" stroke="#2ecc71" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+
+  <!-- Sparkle/glow dots -->
+  <circle cx="100" cy="80" r="2.5" fill="#58d68d" opacity="0.7"/>
+  <circle cx="415" cy="72" r="2" fill="#58d68d" opacity="0.6"/>
+  <circle cx="395" cy="395" r="2" fill="#2ecc71" opacity="0.5"/>
+  <circle cx="88" cy="390" r="1.5" fill="#2ecc71" opacity="0.4"/>
+
+  <!-- Text: KorrinOS (optional) -->
+  <text x="256" y="460" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#ecf0f1" letter-spacing="4">KorrinOS</text>
+</svg>
