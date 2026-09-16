@@ -1,0 +1,158 @@
+# KorrinOS System Monitor — Demo App
+# Written entirely in Korlang
+
+import std.io
+import std.math
+
+# ---- Data Structures ----
+
+struct CpuInfo {
+    model: string
+    cores: i32
+    usage: f64
+}
+
+struct MemInfo {
+    total_mb: i64
+    used_mb: i64
+    free_mb: i64
+}
+
+struct SystemStatus {
+    hostname: string
+    uptime_hours: f64
+    cpu: CpuInfo
+    memory: MemInfo
+    gpu_emulated: bool
+}
+
+# ---- Functions ----
+
+fn get_cpu_info() -> CpuInfo {
+    let model = proc.read("/proc/cpuinfo | grep 'model name' | head -1 | cut -d: -f2")
+    let cores = proc.read("/proc/cpuinfo | grep processor | wc -l")
+    let usage = proc.read("/proc/stat | head -1")
+    
+    return CpuInfo {
+        model: "Intel Core i7",
+        cores: 8,
+        usage: 23.5
+    }
+}
+
+fn get_mem_info() -> MemInfo {
+    let total = proc.read("/proc/meminfo | grep MemTotal | awk '{print $2}'")
+    
+    return MemInfo {
+        total_mb: 16384,
+        used_mb: 8192,
+        free_mb: 8192
+    }
+}
+
+fn format_bytes(bytes: i64) -> string {
+    if bytes >= 1073741824 {
+        return "{bytes / 1073741824} GB"
+    } elif bytes >= 1048576 {
+        return "{bytes / 1048576} MB"
+    } else {
+        return "{bytes} KB"
+    }
+}
+
+fn draw_bar(percent: f64, width: i32) -> string {
+    let filled = (percent / 100.0 * width as f64) as i32
+    let empty = width - filled
+    let bar = ""
+    for i in filled {
+        bar += "█"
+    }
+    for i in empty {
+        bar += "░"
+    }
+    return bar
+}
+
+fn print_header() {
+    print("")
+    print("╔══════════════════════════════════════════════════════════╗")
+    print("║          KorrinOS System Monitor v1.3                   ║")
+    print("║          Written in Korlang                             ║")
+    print("╚══════════════════════════════════════════════════════════╝")
+    print("")
+}
+
+fn print_cpu(cpu: CpuInfo) {
+    print("┌─ CPU ─────────────────────────────────────────────────┐")
+    print("│  Model:  {cpu.model}")
+    print("│  Cores:  {cpu.cores}")
+    print("│  Usage:  {cpu.usage}%  {draw_bar(cpu.usage, 30)}")
+    print("└───────────────────────────────────────────────────────┘")
+    print("")
+}
+
+fn print_memory(mem: MemInfo) {
+    let used_percent = (mem.used_mb as f64 / mem.total_mb as f64) * 100.0
+    print("┌─ Memory ──────────────────────────────────────────────┐")
+    print("│  Total:  {format_bytes(mem.total_mb * 1048576)}")
+    print("│  Used:   {format_bytes(mem.used_mb * 1048576)}  ({used_percent}%)")
+    print("│  Free:   {format_bytes(mem.free_mb * 1048576)}")
+    print("│  Bar:    {draw_bar(used_percent, 30)}")
+    print("└───────────────────────────────────────────────────────┘")
+    print("")
+}
+
+fn print_processes() {
+    print("┌─ Top Processes ───────────────────────────────────────┐")
+    print("│  PID    CPU%    MEM%    NAME")
+    print("│  1234   12.5    4.2     korrinos-hyperdrive")
+    print("│  5678    8.3    3.1     tinkeria-ai")
+    print("│  9012    5.1    2.8     korrinos-desktop")
+    print("│  3456    3.2    1.5     lightdm")
+    print("│  7890    2.1    1.2     xfce4-panel")
+    print("└───────────────────────────────────────────────────────┘")
+    print("")
+}
+
+fn print_network() {
+    print("┌─ Network ─────────────────────────────────────────────┐")
+    print("│  eth0:  192.168.1.100  ↑ 1.2 MB/s  ↓ 3.4 MB/s")
+    print("│  wlan0: disconnected")
+    print("│  lo:    127.0.0.1")
+    print("└───────────────────────────────────────────────────────┘")
+    print("")
+}
+
+fn print_gpu_status() {
+    print("┌─ GPU (HyperDrive Emulated) ───────────────────────────┐")
+    print("│  Status:   ACTIVE — software rendering")
+    print("│  Mode:     Adaptive Resolution Engine")
+    print("│  Render:   720p → upscale to 1080p")
+    print("│  Frame:    45 fps (predicted)")
+    print("│  Memory:   zRAM 3x compression active")
+    print("│  Cache:    128 MB predictive asset cache")
+    print("└───────────────────────────────────────────────────────┘")
+    print("")
+}
+
+fn main() {
+    print_header()
+    
+    let cpu = get_cpu_info()
+    let mem = get_mem_info()
+    
+    print_cpu(cpu)
+    print_memory(mem)
+    print_processes()
+    print_network()
+    print_gpu_status()
+    
+    # AI feature — Tinkeria analyzes system
+    let model = ai.load("tinkeria.3b")
+    let analysis = model.infer("Analyze this system: CPU {cpu.usage}%, RAM {mem.used_mb}/{mem.total_mb}MB. Give optimization suggestions.")
+    print("┌─ Tinkeria AI Analysis ────────────────────────────────┐")
+    print("│  {analysis}")
+    print("└───────────────────────────────────────────────────────┘")
+    print("")
+    print("Press Ctrl+C to exit")
+}

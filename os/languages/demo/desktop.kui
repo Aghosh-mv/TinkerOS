@@ -1,0 +1,541 @@
+# KorrinOS Desktop — Written in KorrinUILang
+# Compiles to Korlang → C → Native binary
+
+import korrinui
+import korrinui.theme
+import korrinui.components
+
+# ---- Main App Component ----
+component App {
+    state currentPage: string = "home"
+    state isDarkMode: bool = true
+    state notifications: int = 7
+    state username: string = "KorrinOS User"
+    state sidebarOpen: bool = true
+    
+    build {
+        Nav {
+            # Top Panel
+            HStack(spacing: 8) {
+                # Logo
+                Text("KorrinOS")
+                    .font(.title)
+                    .color(.violet)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                # App buttons
+                HStack(spacing: 4) {
+                    Button("Files") { currentPage = "files" }
+                        .background(currentPage == "files" ? .violet : .transparent)
+                        .cornerRadius(6)
+                    
+                    Button("Terminal") { currentPage = "terminal" }
+                        .background(currentPage == "terminal" ? .violet : .transparent)
+                        .cornerRadius(6)
+                    
+                    Button("Settings") { currentPage = "settings" }
+                        .background(currentPage == "settings" ? .violet : .transparent)
+                        .cornerRadius(6)
+                }
+                
+                Spacer()
+                
+                # Universe Widget
+                UniverseWidget(count: notifications)
+                
+                # Clock
+                Text("{currentTime()}")
+                    .font(.caption)
+                    .color(.white)
+            }
+            .padding(8)
+            .background(.glass)
+            
+            # Main Content
+            HStack {
+                # Sidebar
+                if sidebarOpen {
+                    Sidebar()
+                        .frame(width: 200)
+                        .background(.dark)
+                }
+                
+                # Content Area
+                VStack(spacing: 16) {
+                    if currentPage == "home" {
+                        HomePage()
+                    } elif currentPage == "files" {
+                        FileManager()
+                    } elif currentPage == "terminal" {
+                        Terminal()
+                    } elif currentPage == "settings" {
+                        Settings()
+                    }
+                }
+                .padding(16)
+                .background(.dark)
+            }
+        }
+    }
+}
+
+# ---- Sidebar Component ----
+component Sidebar {
+    state activeItem: string = "home"
+    
+    build {
+        VStack(spacing: 4) {
+            SidebarItem(icon: "home", label: "Home", active: activeItem == "home") {
+                activeItem = "home"
+            }
+            SidebarItem(icon: "folder", label: "Files", active: activeItem == "files") {
+                activeItem = "files"
+            }
+            SidebarItem(icon: "terminal", label: "Terminal", active: activeItem == "terminal") {
+                activeItem = "terminal"
+            }
+            SidebarItem(icon: "settings", label: "Settings", active: activeItem == "settings") {
+                activeItem = "settings"
+            }
+            
+            # Separator
+            Divider()
+            
+            SidebarItem(icon: "shield", label: "Security", active: activeItem == "security") {
+                activeItem = "security"
+            }
+            SidebarItem(icon: "cpu", label: "HyperDrive", active: activeItem == "hyperdrive") {
+                activeItem = "hyperdrive"
+            }
+            SidebarItem(icon: "brain", label: "Tinkeria AI", active: activeItem == "tinkeria") {
+                activeItem = "tinkeria"
+            }
+        }
+        .padding(8)
+    }
+}
+
+component SidebarItem {
+    prop icon: string
+    prop label: string
+    prop active: bool
+    prop onTap: () -> void
+    
+    build {
+        HStack(spacing: 10) {
+            Image(icon)
+                .frame(width: 18, height: 18)
+                .color(active ? .violet : .gray)
+            
+            Text(label)
+                .font(.body)
+                .color(active ? .white : .gray)
+        }
+        .padding(10)
+        .cornerRadius(8)
+        .background(active ? .violet.opacity(0.15) : .transparent)
+        .onTap { onTap() }
+        .animation(.ease(duration: 0.2))
+    }
+}
+
+# ---- Home Page ----
+component HomePage {
+    state systemName: string = "KorrinOS"
+    state version: string = "1.3"
+    state cpuUsage: float = 23.5
+    state memUsed: int = 8192
+    state memTotal: int = 16384
+    state gpuActive: bool = true
+    
+    computed memPercent: float = (memUsed / memTotal) * 100
+    
+    build {
+        VStack(spacing: 20) {
+            # Welcome card
+            Card {
+                VStack(spacing: 12) {
+                    Text("Welcome to {systemName} v{version}")
+                        .font(.title)
+                        .color(.white)
+                    
+                    Text("Your AI-powered operating system")
+                        .font(.subtext)
+                        .color(.gray)
+                    
+                    HStack(spacing: 12) {
+                        Button("Get Started") { }
+                            .background(.violet)
+                            .cornerRadius(8)
+                        
+                        Button("Documentation") { }
+                            .background(.glass)
+                            .cornerRadius(8)
+                    }
+                }
+                .padding(20)
+            }
+            .background(.glass)
+            .cornerRadius(12)
+            
+            # System stats
+            HStack(spacing: 16) {
+                StatCard(title: "CPU", value: "{cpuUsage}%", icon: "cpu", color: .violet)
+                StatCard(title: "Memory", value: "{memPercent}%", icon: "memory", color: .cyan)
+                StatCard(title: "GPU", value: gpuActive ? "Active" : "None", icon: "gpu", color: .orange)
+                StatCard(title: "AI", value: "Online", icon: "brain", color: .pink)
+            }
+            
+            # HyperDrive status
+            if gpuActive {
+                HyperDriveCard()
+            }
+        }
+    }
+}
+
+component StatCard {
+    prop title: string
+    prop value: string
+    prop icon: string
+    prop color: Color
+    
+    build {
+        VStack(spacing: 8) {
+            Image(icon)
+                .color(color)
+                .frame(width: 24, height: 24)
+            
+            Text(value)
+                .font(.title)
+                .color(.white)
+                .fontWeight(.bold)
+            
+            Text(title)
+                .font(.caption)
+                .color(.gray)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(.glass)
+        .cornerRadius(12)
+        .shadow(radius: 4)
+    }
+}
+
+component HyperDriveCard {
+    build {
+        Card {
+            VStack(spacing: 12) {
+                HStack {
+                    Text("HyperDrive GPU Emulation")
+                        .font(.heading)
+                        .color(.orange)
+                    Spacer()
+                    Text("ACTIVE")
+                        .font(.caption)
+                        .color(.green)
+                        .padding(4)
+                        .background(.green.opacity(0.2))
+                        .cornerRadius(4)
+                }
+                
+                VStack(spacing: 8) {
+                    ProgressBar(label: "Render Quality", percent: 72, color: .violet)
+                    ProgressBar(label: "Frame Rate", percent: 75, color: .cyan)
+                    ProgressBar(label: "Memory Compress", percent: 85, color: .orange)
+                    ProgressBar(label: "Asset Cache", percent: 60, color: .pink)
+                }
+            }
+            .padding(16)
+        }
+        .background(.glass)
+        .cornerRadius(12)
+    }
+}
+
+component ProgressBar {
+    prop label: string
+    prop percent: float
+    prop color: Color
+    
+    build {
+        VStack(spacing: 4) {
+            HStack {
+                Text(label)
+                    .font(.caption)
+                    .color(.gray)
+                Spacer()
+                Text("{percent}%")
+                    .font(.caption)
+                    .color(color)
+            }
+            
+            ZStack(alignment: .leading) {
+                Rectangle()
+                    .fill(.white.opacity(0.1))
+                    .frame(height: 6)
+                    .cornerRadius(3)
+                
+                Rectangle()
+                    .fill(color)
+                    .frame(width: percent * 2.5, height: 6)
+                    .cornerRadius(3)
+                    .animation(.spring(damping: 0.7))
+            }
+        }
+    }
+}
+
+# ---- File Manager ----
+component FileManager {
+    state selectedFile: string = ""
+    
+    build {
+        Card {
+            HStack {
+                # Sidebar
+                VStack(spacing: 4) {
+                    FMNavItem(icon: "folder", label: "Home", active: true)
+                    FMNavItem(icon: "doc", label: "Documents")
+                    FMNavItem(icon: "download", label: "Downloads")
+                    FMNavItem(icon: "image", label: "Pictures")
+                }
+                .frame(width: 160)
+                .padding(8)
+                
+                # Divider
+                Divider()
+                
+                # Files grid
+                VStack(spacing: 12) {
+                    # Toolbar
+                    HStack {
+                        Text("/home/korrinos")
+                            .font(.caption)
+                            .color(.gray)
+                        Spacer()
+                    }
+                    .padding(8)
+                    
+                    # File grid
+                    Grid(columns: 4, spacing: 8) {
+                        FileItem(name: "Documents", type: "folder", color: .violet)
+                        FileItem(name: "Downloads", type: "folder", color: .cyan)
+                        FileItem(name: "Pictures", type: "folder", color: .orange)
+                        FileItem(name: "Music", type: "folder", color: .pink)
+                        FileItem(name: "Videos", type: "folder", color: .green)
+                        FileItem(name: "notes.txt", type: "file", color: .gray)
+                    }
+                    .padding(12)
+                }
+            }
+            .frame(height: 400)
+        }
+        .background(.glass)
+        .cornerRadius(12)
+    }
+}
+
+component FMNavItem {
+    prop icon: string
+    prop label: string
+    prop active: bool = false
+    
+    build {
+        HStack(spacing: 8) {
+            Image(icon)
+                .color(active ? .violet : .gray)
+                .frame(width: 16, height: 16)
+            Text(label)
+                .font(.caption)
+                .color(active ? .white : .gray)
+        }
+        .padding(8)
+        .cornerRadius(6)
+        .background(active ? .violet.opacity(0.15) : .transparent)
+    }
+}
+
+component FileItem {
+    prop name: string
+    prop type: string
+    prop color: Color
+    
+    build {
+        VStack(spacing: 6) {
+            Image(type == "folder" ? "folder" : "doc")
+                .color(color)
+                .frame(width: 32, height: 32)
+            Text(name)
+                .font(.caption)
+                .color(.white)
+                .lineLimit(1)
+        }
+        .padding(10)
+        .cornerRadius(8)
+        .background(.glass)
+        .onTap { }
+        .animation(.ease(duration: 0.15))
+    }
+}
+
+# ---- Terminal ----
+component Terminal {
+    build {
+        Card {
+            VStack(spacing: 0) {
+                # Terminal header
+                HStack {
+                    Text("Terminal")
+                        .font(.caption)
+                        .color(.gray)
+                    Spacer()
+                    Text("korrinos@korrinos:~")
+                        .font(.mono)
+                        .color(.green)
+                }
+                .padding(10)
+                .background(.black.opacity(0.3))
+                
+                # Terminal body
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("korrinos@korrinos:~$ neofetch")
+                        .font(.mono)
+                        .color(.green)
+                    Text("")
+                    Text("       ▄▄▄▄▄▄▄       korrinos@korrinos")
+                        .font(.mono)
+                        .color(.violet)
+                    Text("      ██╔═══██╗      OS: KorrinOS 1.3")
+                        .font(.mono)
+                        .color(.violet)
+                    Text("      ██║   ██║      Kernel: 6.5.0-korrinos")
+                        .font(.mono)
+                        .color(.violet)
+                    Text("      ██║   ██║      Shell: bash 5.2")
+                        .font(.mono)
+                        .color(.violet)
+                    Text("      ╚██████╔╝      DE: KorrinUILang Native")
+                        .font(.mono)
+                        .color(.violet)
+                    Text("       ╚═════╝       Theme: KorrinOS Violet")
+                        .font(.mono)
+                        .color(.violet)
+                    Text("")
+                    Text("korrinos@korrinos:~$ _")
+                        .font(.mono)
+                        .color(.green)
+                        .opacity(0.8)
+                }
+                .padding(12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+        .background(.black.opacity(0.6))
+        .cornerRadius(12)
+    }
+}
+
+# ---- Settings ----
+component Settings {
+    build {
+        VStack(spacing: 16) {
+            Text("Settings")
+                .font(.title)
+                .color(.white)
+            
+            SettingsGroup(title: "Appearance") {
+                SettingsRow(icon: "palette", title: "Theme", value: "Dark Violet")
+                SettingsRow(icon: "display", title: "Resolution", value: "1920x1080")
+                SettingsRow(icon: "wallpaper", title: "Wallpaper", value: "Japanese City")
+            }
+            
+            SettingsGroup(title: "System") {
+                SettingsRow(icon: "cpu", title: "HyperDrive", value: "Active")
+                SettingsRow(icon: "memory", title: "zRAM", value: "3x compression")
+                SettingsRow(icon: "shield", title: "Firewall", value: "Enabled")
+            }
+            
+            SettingsGroup(title: "AI") {
+                SettingsRow(icon: "brain", title: "Tinkeria", value: "Online")
+                SettingsRow(icon: "model", title: "Model", value: "3B parameters")
+            }
+        }
+    }
+}
+
+component SettingsGroup {
+    prop title: string
+    prop children: () -> void
+    
+    build {
+        VStack(spacing: 8) {
+            Text(title)
+                .font(.heading)
+                .color(.violet)
+                .padding(.leading, 4)
+            
+            Card {
+                VStack(spacing: 0) {
+                    children()
+                }
+                .padding(4)
+            }
+            .background(.glass)
+            .cornerRadius(12)
+        }
+    }
+}
+
+component SettingsRow {
+    prop icon: string
+    prop title: string
+    prop value: string
+    
+    build {
+        HStack {
+            Image(icon)
+                .color(.gray)
+                .frame(width: 20, height: 20)
+            
+            Text(title)
+                .font(.body)
+                .color(.white)
+            
+            Spacer()
+            
+            Text(value)
+                .font(.caption)
+                .color(.gray)
+        }
+        .padding(12)
+    }
+}
+
+# ---- Universe Widget ----
+component UniverseWidget {
+    prop count: int
+    
+    build {
+        HStack(spacing: 6) {
+            Image("bell")
+                .color(.white)
+                .frame(width: 14, height: 14)
+            
+            if count > 0 {
+                Text("{count}")
+                    .font(.caption)
+                    .color(.white)
+                    .fontWeight(.bold)
+                    .padding(4)
+                    .background(.red)
+                    .cornerRadius(8)
+                    .shadow(radius: 4)
+            }
+        }
+        .onTap { }
+    }
+}
