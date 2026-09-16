@@ -51,6 +51,14 @@
 - This prevents building the wrong thing and ensures alignment.
 - Cool stuff deserves deep thinking first, not rushed implementation.
 
+## HYPERDRIVE — GPU EMULATION ONLY
+- HyperDrive emulates ONLY the GPU. All other hardware (CPU, RAM, storage,
+  network, audio, input) runs on REAL physical hardware.
+- The goal: make a potato PC with no dedicated GPU feel like it has one,
+  purely through software optimization (adaptive resolution, frame
+  prediction, memory compression, CPU micro-optimization).
+- Zero cloud, zero money spent. Pure local software.
+
 ## The one true mission (verbatim, from the founding session)
 
 ## The one true mission (verbatim, from the founding session)
