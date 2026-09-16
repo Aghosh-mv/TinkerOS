@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Audio Tuning - ALSA mixer, PipeWire, spatial, microphone, speaker protection
+# KorrinOS Audio Tuning - ALSA mixer, PipeWire, spatial, microphone, speaker protection
 case "${1:-status}" in
   status)
     echo "=== Audio Status ==="

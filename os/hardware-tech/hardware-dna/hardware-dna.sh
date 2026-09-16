@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hardware DNA - fingerprint hardware and auto-apply optimal configs
+# KorrinOS Hardware DNA - fingerprint hardware and auto-apply optimal configs
 # Community-shared profiles for every hardware combination
 DNA_DIR="$HOME/.tinker/hardware-dna"; mkdir -p "$DNA_DIR"
 init(){

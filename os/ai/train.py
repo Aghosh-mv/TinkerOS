@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS AI Training Script
+KorrinOS AI Training Script
 Trains a small neural network for voice command recognition
 """
 

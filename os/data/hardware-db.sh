@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Hardware Compatibility Database
+# KorrinOS Hardware Compatibility Database
 # Real hardware support data
 
 HARDWARE_DB="$HOME/.tinker/hardware.db"
@@ -8,7 +8,7 @@ init_hardware_db() {
     mkdir -p "$(dirname "$HARDWARE_DB")"
     
     cat > "$HARDWARE_DB" << 'DB'
-# TinkerOS Hardware Database
+# KorrinOS Hardware Database
 # Format: type:model:vendor:driver:status:notes
 
 # NVIDIA GPUs

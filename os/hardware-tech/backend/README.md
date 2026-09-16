@@ -1,6 +1,6 @@
-# TinkerOS Hardware Backends (C)
+# KorrinOS Hardware Backends (C)
 
-Real compiled C drivers for TinkerOS hardware features. Each binary is
+Real compiled C drivers for KorrinOS hardware features. Each binary is
 **capability-probing**: it detects what this specific machine actually supports,
 operates the real hardware register/interface when it can, and degrades to a
 safe no-op (never crashing, never misconfiguring) when it cannot.

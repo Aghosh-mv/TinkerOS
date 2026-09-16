@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Privacy Permissions
+# KorrinOS Privacy Permissions
 
 set -e
 

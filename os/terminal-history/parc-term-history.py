@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS Terminal History Restore
+KorrinOS Terminal History Restore
 Full terminal session restore with context awareness
 """
 

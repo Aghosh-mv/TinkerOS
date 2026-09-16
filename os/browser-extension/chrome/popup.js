@@ -1,4 +1,4 @@
-// TinkerOS Password Manager - Popup Script
+// KorrinOS Password Manager - Popup Script
 
 document.getElementById('generate').addEventListener('click', () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';

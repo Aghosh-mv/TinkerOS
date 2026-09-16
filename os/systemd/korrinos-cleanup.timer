@@ -1,5 +1,5 @@
 [Unit]
-Description=Run TinkerOS Cleanup Weekly
+Description=Run KorrinOS Cleanup Weekly
 
 [Timer]
 OnCalendar=weekly

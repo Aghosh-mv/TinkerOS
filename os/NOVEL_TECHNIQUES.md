@@ -1,4 +1,4 @@
-# TinkerOS: 4 Novel Techniques
+# KorrinOS: 4 Novel Techniques
 
 ## 1. Predictive System Intelligence (PSI)
 **File:** `system/predictive-intelligence.sh`

@@ -1,10 +1,10 @@
 [Unit]
-Description=TinkerOS System Monitor
+Description=KorrinOS System Monitor
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/lib/tinker/system/predictive-intelligence.sh monitor
+ExecStart=/opt/korrinos/os/system/predictive-intelligence.sh monitor
 Restart=on-failure
 RestartSec=30
 

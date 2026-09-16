@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GPU Phone Toggle - Turn GPU on/off from your phone via API key
+# KorrinOS GPU Phone Toggle - Turn GPU on/off from your phone via API key
 # This is the feature: user gets API key in settings, creates apps to control GPU remotely
 GPT_CONFIG="$HOME/.tinker/gpu-toggle.json"; GPT_KEY="$HOME/.tinker/gpu-api-key.txt"
 PORT=8768; mkdir -p "$HOME/.tinker"
@@ -14,7 +14,7 @@ EOF
   echo "  API Key: $KEY"
   echo "  Port: $PORT"
   echo "  Phone URL: ws://$(hostname -I 2>/dev/null | awk '{print $1}'):$PORT/gpu?key=$KEY"
-  echo "  Settings entry: TinkerOS Settings > API Keys > GPU Control"
+  echo "  Settings entry: KorrinOS Settings > API Keys > GPU Control"
 }
 
 # The actual GPU toggle via runtime PM

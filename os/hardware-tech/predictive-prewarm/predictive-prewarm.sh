@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Predictive Pre-warming Engine
+# KorrinOS Predictive Pre-warming Engine
 # Learns usage patterns, pre-loads apps/data into RAM/cache before you need them
 # Cooperative with memory tiering + energy scheduler
 PW_DIR="$HOME/.tinker/predictive-prewarm"; PW_CONFIG="$PW_DIR/config.json"

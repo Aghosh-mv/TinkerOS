@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Storage Tuning - I/O scheduler, readahead, writeback, NVMe
+# KorrinOS Storage Tuning - I/O scheduler, readahead, writeback, NVMe
 case "${1:-status}" in
   status)
     echo "=== Storage Status ==="

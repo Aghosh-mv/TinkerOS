@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS USB Tuning - power budgeting, quirks, autosuspend, UAS
+# KorrinOS USB Tuning - power budgeting, quirks, autosuspend, UAS
 BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
 if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
 

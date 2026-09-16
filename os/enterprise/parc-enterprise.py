@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS Enterprise Features
+KorrinOS Enterprise Features
 Fleet management, compliance, centralized control
 """
 
@@ -154,7 +154,7 @@ class EnterpriseCLI:
     
     def enroll(self, hostname: str, ip: str, user: str):
         device = FleetDevice(id=f"dev_{hashlib.md5(hostname.encode()).hexdigest()[:8]}",
-            hostname=hostname, ip=ip, os="TinkerOS", os_version="7.2",
+            hostname=hostname, ip=ip, os="KorrinOS", os_version="7.2",
             kernel="7.2.0-rc6", hardware={}, status=DeviceStatus.ONLINE,
             compliance={}, last_checkin=datetime.utcnow().isoformat(),
             assigned_user=user, location="", tags=["auto"], enrolled_at=datetime.utcnow().isoformat())

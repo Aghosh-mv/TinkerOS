@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Remote Hardware API - Control hardware from phone via WebSocket + API key
+# KorrinOS Remote Hardware API - Control hardware from phone via WebSocket + API key
 RAPI_CONFIG="$HOME/.tinker/remote-api.json"; RAPI_KEY="$HOME/.tinker/api-key.txt"
 PORT=8767; mkdir -p "$HOME/.tinker"
 init(){ 

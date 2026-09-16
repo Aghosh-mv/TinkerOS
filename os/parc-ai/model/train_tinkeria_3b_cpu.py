@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 TinkerIA 3B Model Training — CPU Mode
-Full fine-tuning with BAdam optimizer on ParcOS training data.
+Full fine-tuning with BAdam optimizer on KorrinOS training data.
 Runs on CPU since GPU is occupied by other training jobs.
 """
 import os, sys, json, time, math, random

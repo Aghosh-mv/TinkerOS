@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Subscription Audit - Local-only financial vulnerability scanner
+# KorrinOS Subscription Audit - Local-only financial vulnerability scanner
 # Scans emails, receipts, file system for subscriptions and alerts on waste
 # NO bank APIs. NO cloud. NO compliance. Just local privacy-first tracking.
 SA_DIR="$HOME/.tinker/finance"; SA_DB="$SA_DIR/finance.db"
@@ -405,7 +405,7 @@ PYEOF
 # Dashboard - the financial overview
 dashboard(){
   echo "╔══════════════════════════════════════════════════════════╗"
-  echo "║        TinkerOS SUBSCRIPTION AUDIT DASHBOARD          ║"
+  echo "║        KorrinOS SUBSCRIPTION AUDIT DASHBOARD          ║"
   echo "╚══════════════════════════════════════════════════════════╝"
   echo ""
   python3 - << 'PYEOF'

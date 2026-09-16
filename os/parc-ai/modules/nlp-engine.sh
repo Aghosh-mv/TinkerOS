@@ -41,7 +41,7 @@ nlp_respond() {
 - Answer any question (science, history, tech, whatever)
 - Write code, emails, essays, or creative content
 - Control your computer (open apps, take screenshots, manage files)
-- Help with TinkerOS features and settings
+- Help with KorrinOS features and settings
 - Set reminders and manage your contacts
 - Search the web for information
 - Translate between languages
@@ -60,14 +60,14 @@ Just ask me anything — I'm here to help!"
       echo "${responses[$((RANDOM % ${#responses[@]}))]}"
       ;;
     identity)
-      echo "I'm TinkerAI — your built-in assistant for TinkerOS. I can answer questions, help you use your computer, write things, search for info, and lots more. Think of me as your friendly tech helper!"
+      echo "I'm TinkerAI — your built-in assistant for KorrinOS. I can answer questions, help you use your computer, write things, search for info, and lots more. Think of me as your friendly tech helper!"
       ;;
     os_help)
       local os_tips=(
-        "TinkerOS has three worlds — Game Station for gaming, Hackerspace for coding, and Normal for everyday use. You can switch between them anytime."
+        "KorrinOS has three worlds — Game Station for gaming, Hackerspace for coding, and Normal for everyday use. You can switch between them anytime."
         "You can search all your files instantly with Tab+F7 — that opens Searchie, your personal search engine."
         "Press Ctrl+Alt+Gr to open TinkerAI anytime. Just ask me anything!"
-        "The Control Center has over 224 tools. Open it with tinkeros-control-center."
+        "The Control Center has over 224 tools. Open it with korrinos-control-center."
         "Game Mode automatically boosts performance when you start a game. It's enabled by default in the Game Station world."
         "Your files are indexed automatically. Use Tab+F7 to search through everything."
       )
@@ -77,7 +77,7 @@ Just ask me anything — I'm here to help!"
       echo "I can't do that right now, but I can help you find another way. What are you trying to accomplish?"
       ;;
     confused)
-      echo "I'm not quite sure what you mean. Could you rephrase that? I can help with questions about your computer, the TinkerOS features, or pretty much any topic."
+      echo "I'm not quite sure what you mean. Could you rephrase that? I can help with questions about your computer, the KorrinOS features, or pretty much any topic."
       ;;
     *)
       echo ""
@@ -85,10 +85,10 @@ Just ask me anything — I'm here to help!"
   esac
 }
 
-# Detect if query is about TinkerOS specifically
+# Detect if query is about KorrinOS specifically
 nlp_is_os_question() {
   local query="${1,,}"
-  [[ "$query" =~ (tinkeros|tinker\s*os|our\s*os|this\s*os|the\s*os|operating\s*system|desktop|control\s*center|world|game\s*station|hackerspace) ]] && return 0
+  [[ "$query" =~ (korrinos|tinker\s*os|our\s*os|this\s*os|the\s*os|operating\s*system|desktop|control\s*center|world|game\s*station|hackerspace) ]] && return 0
   return 1
 }
 

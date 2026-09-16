@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS OLED Burn-In Shield
+# KorrinOS OLED Burn-In Shield
 # Sub-pixel voltage wear balancing - uniformly degrades OLED material
 # Tracks cumulative sub-pixel usage, applies inverted masks on idle
 OLED_DIR="$HOME/.tinker/oled-shield"; OLED_CONFIG="$OLED_DIR/config.json"
@@ -414,7 +414,7 @@ PYEOF
 # ── Dashboard ────────────────────────────────────────────────────────────
 dashboard(){
   echo "╔══════════════════════════════════════════════════════════╗"
-  echo "║       TinkerOS OLED BURN-IN SHIELD                    ║"
+  echo "║       KorrinOS OLED BURN-IN SHIELD                    ║"
   echo "╠══════════════════════════════════════════════════════════╣"
   echo "║  Sub-pixel voltage wear balancing                      ║"
   echo "║  Tracks usage, applies inverted masks on idle          ║"

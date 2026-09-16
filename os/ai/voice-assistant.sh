@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Voice Assistant
+# KorrinOS Voice Assistant
 # Hybrid AI: Rule-based + Fuzzy matching + ML backup
 
 set -e
@@ -170,7 +170,7 @@ if [ "$1" = "--text" ]; then
     process_command "$*"
 elif [ "$1" = "--interactive" ]; then
     # Interactive mode
-    echo "TinkerOS Voice Assistant (type 'quit' to exit)"
+    echo "KorrinOS Voice Assistant (type 'quit' to exit)"
     echo ""
     
     while true; do

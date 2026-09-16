@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS LED Tuning - keyboard backlight, RGB, hardware LEDs, OpenRazer
+# KorrinOS LED Tuning - keyboard backlight, RGB, hardware LEDs, OpenRazer
 case "${1:-status}" in
   status)
     echo "=== LED Status ==="

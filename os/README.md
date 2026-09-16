@@ -1,10 +1,10 @@
-# TinkerOS — The Hardware-Through-Code Operating System
+# KorrinOS — The Hardware-Through-Code Operating System
 
 > "A desktop Linux OS that lets you reshape hardware behavior entirely through software."
 
-## What Makes TinkerOS Different
+## What Makes KorrinOS Different
 
-Most operating systems treat hardware as fixed. TinkerOS treats it as **malleable** — every fan curve, every GPU clock, every microphone gain, every LED color can be controlled, tuned, and optimized through code. Not just "settings menus" — real, programmatic hardware control.
+Most operating systems treat hardware as fixed. KorrinOS treats it as **malleable** — every fan curve, every GPU clock, every microphone gain, every LED color can be controlled, tuned, and optimized through code. Not just "settings menus" — real, programmatic hardware control.
 
 ---
 
@@ -127,7 +127,7 @@ One-click privacy wipe that scrubs your entire digital footprint:
 - **Preserves active sessions** — browsers, documents, running apps stay open
 - **Restore command** — undo everything if needed
 - **Audit logged** — every shred is recorded
-- **Why it exists:** Major OS creators rely on telemetry. TinkerOS gives you the nuclear option they won't.
+- **Why it exists:** Major OS creators rely on telemetry. KorrinOS gives you the nuclear option they won't.
 
 ### GPU Phone Toggle
 Turn your GPU on/off from your phone with a single tap:

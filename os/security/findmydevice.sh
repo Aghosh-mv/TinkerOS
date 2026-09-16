@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Find My Device
+# KorrinOS Find My Device
 
 set -e
 

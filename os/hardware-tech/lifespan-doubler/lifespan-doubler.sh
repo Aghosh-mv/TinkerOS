@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Lifespan Doubler - Battery Micro-Current Throttle
+# KorrinOS Lifespan Doubler - Battery Micro-Current Throttle
 # Trickle charge at 200mA instead of 3000mA, ramp to 100% before alarm
 # Reads battery thermal sensors + voltage curves every second
 LIFE_DIR="$HOME/.tinker/lifespan-doubler"; LIFE_CONFIG="$LIFE_DIR/config.json"
@@ -120,7 +120,7 @@ PYEOF
    export TINKER_BATTERY_BACKEND="$BAT_BIN"
   python3 - << 'PYEOF'
 #!/usr/bin/env python3
-"""TinkerOS Lifespan Doubler - micro-current charging daemon"""
+"""KorrinOS Lifespan Doubler - micro-current charging daemon"""
 import os, json, time, subprocess, signal, sys, glob
 
 CONFIG_PATH = os.path.expanduser("~/.tinker/lifespan-doubler/config.json")

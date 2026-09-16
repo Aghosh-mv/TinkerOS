@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Adaptive Display - AI-powered frame interpolation + dynamic color + predictive refresh
+# KorrinOS Adaptive Display - AI-powered frame interpolation + dynamic color + predictive refresh
 BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
 if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
 AD_CONFIG="$HOME/.tinker/adaptive-display.json"; mkdir -p "$HOME/.tinker"

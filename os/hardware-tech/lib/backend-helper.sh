@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS backend-helper - shared C backend discovery + consent integration
+# KorrinOS backend-helper - shared C backend discovery + consent integration
 # Sources: os/hardware-tech/lib/hardware-consent.sh
 # Provides: hardware_backend_probe, hardware_backend_try, hardware_write_gate
 HBE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"    # os/hardware-tech

@@ -1,11 +1,11 @@
 #!/bin/bash
-# TinkerOS ISO Builder
+# KorrinOS ISO Builder
 # Creates bootable ISO image
 
 set -e
 
 BUILD_DIR="$HOME/.tinker/iso-build"
-ISO_NAME="TinkerOS-$(date +%Y%m%d)-$(uname -m).iso"
+ISO_NAME="KorrinOS-$(date +%Y%m%d)-$(uname -m).iso"
 CONFIG_FILE="$BUILD_DIR/config.conf"
 
 mkdir -p "$BUILD_DIR"
@@ -17,7 +17,7 @@ init() {
 # ISO Builder Configuration
 
 # ISO label
-ISO_LABEL=TinkerOS
+ISO_LABEL=KorrinOS
 
 # Base system (ubuntu, debian, arch, fedora)
 BASE_SYSTEM=ubuntu
@@ -94,10 +94,10 @@ $de
 xorg
 lightdm
 lightdm-gtk-greeter
-tinkeros-desktop
-tinkeros-system
-tinkeros-apps
-tinkeros-security
+korrinos-desktop
+korrinos-system
+korrinos-apps
+korrinos-security
 EOF
     
     # Build squashfs
@@ -122,22 +122,22 @@ create_boot() {
 set default=0
 set timeout=10
 
-menuentry "TinkerOS" {
+menuentry "KorrinOS" {
     linux /casper/vmlinuz boot=casper quiet splash ---
     initrd /casper/initrd
 }
 
-menuentry "TinkerOS (Safe Graphics)" {
+menuentry "KorrinOS (Safe Graphics)" {
     linux /casper/vmlinuz boot=casper quiet splash nomodeset ---
     initrd /casper/initrd
 }
 
-menuentry "TinkerOS (Check Disk)" {
+menuentry "KorrinOS (Check Disk)" {
     linux /casper/vmlinuz boot=casper quiet splash fsck.mode=force ---
     initrd /casper/initrd
 }
 
-menuentry "TinkerOS (RAM Test)" {
+menuentry "KorrinOS (RAM Test)" {
     linux /casper/vmlinuz boot=casper quiet splash memtest86+ ---
     initrd /casper/initrd
 }
@@ -231,7 +231,7 @@ create_iso() {
 
 # Build ISO
 build_iso() {
-    echo "Building TinkerOS ISO..."
+    echo "Building KorrinOS ISO..."
     echo ""
     
     check_deps || return 1

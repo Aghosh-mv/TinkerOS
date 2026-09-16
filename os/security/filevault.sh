@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS FileVault - Full Disk Encryption
+# KorrinOS FileVault - Full Disk Encryption
 # macOS-like encryption for Linux
 
 set -e

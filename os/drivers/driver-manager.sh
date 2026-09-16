@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Driver Manager
+# KorrinOS Driver Manager
 # Auto-detect hardware and install drivers
 
 set -e
@@ -277,7 +277,7 @@ case "$1" in
         ;;
     *)
         show_header
-        echo -e "${YELLOW}TinkerOS Driver Manager${NC}"
+        echo -e "${YELLOW}KorrinOS Driver Manager${NC}"
         echo ""
         echo "Auto-detects and installs drivers for your hardware."
         echo ""

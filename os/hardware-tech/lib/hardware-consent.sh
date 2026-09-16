@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS hardware-consent - shared liability + consent gate
+# KorrinOS hardware-consent - shared liability + consent gate
 # Sourced by every hardware-tech script before ANY raw register/sysfs write.
 # Logs explicit user acceptance; without it, hardware writes are refused.
 # 100% local - zero network. This is the OSS liability shield.
@@ -14,7 +14,7 @@ hardware_warn() {
   local feature="$1"
   cat << EOF
 
-  ⚠️  TinkerOS HARDWARE LIABILITY WARNING
+  ⚠️  KorrinOS HARDWARE LIABILITY WARNING
   ──────────────────────────────────────────────────────────
   Feature : $feature
   Risk    : This operates intended hardware outside its factory

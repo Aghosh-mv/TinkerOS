@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Display Tuning - brightness, color profiles, gamma, VRR, EDID
+# KorrinOS Display Tuning - brightness, color profiles, gamma, VRR, EDID
 BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
 if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
 

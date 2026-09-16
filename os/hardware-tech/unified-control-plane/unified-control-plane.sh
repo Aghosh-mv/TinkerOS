@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Unified Hardware Control Plane - single API for ALL hardware
+# KorrinOS Unified Hardware Control Plane - single API for ALL hardware
 UCP_CONFIG="$HOME/.tinker/ucp.json"; mkdir -p "$HOME/.tinker"
 init(){ cat > "$UCP_CONFIG" << 'EOF'
 {"version":1,"hardware_classes":["cpu","gpu","memory","storage","display","audio","input","network","thermal","power","usb","thunderbolt","led","camera","battery"],"permission_model":"tiered","logging":true}

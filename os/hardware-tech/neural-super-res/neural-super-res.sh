@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Neural Super Resolution - AI upscaling any window in real-time
+# KorrinOS Neural Super Resolution - AI upscaling any window in real-time
 NSR_CONFIG="$HOME/.tinker/neural-super-res.json"; mkdir -p "$HOME/.tinker"
 
 # Shared liability/consent gate + C backend integration

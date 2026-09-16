@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Unified Contextual Memory (UCM)
+# KorrinOS Unified Contextual Memory (UCM)
 # Local-only, offline indexing engine that connects text, images, email, calendar, web links
 # Privacy guarantee: ALL indexing runs on local hardware, ZERO cloud dependency
 UCM_DIR="$HOME/.tinker/ucm"; UCM_DB="$UCM_DIR/memory.db"

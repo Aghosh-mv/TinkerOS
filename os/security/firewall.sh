@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Firewall Manager
+# KorrinOS Firewall Manager
 
 set -e
 

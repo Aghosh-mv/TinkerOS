@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Coil-Whine Killer - PWM Frequency Shifter
+# KorrinOS Coil-Whine Killer - PWM Frequency Shifter
 # Shifts VRM switching frequency out of human hearing range
 # Shows on-screen popup when activating to alert user
 CW_DIR="$HOME/.tinker/coil-whine-killer"; CW_CONFIG="$CW_DIR/config.json"

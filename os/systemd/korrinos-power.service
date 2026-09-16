@@ -1,10 +1,10 @@
 [Unit]
-Description=TinkerOS Adaptive Power Grid
+Description=KorrinOS Adaptive Power Grid
 After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/usr/lib/tinker/system/adaptive-power-grid.sh monitor
+ExecStart=/opt/korrinos/os/system/adaptive-power-grid.sh monitor
 Restart=on-failure
 RestartSec=10
 

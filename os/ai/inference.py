@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS AI Inference Engine
+KorrinOS AI Inference Engine
 Runs trained model for voice command recognition
 """
 
@@ -12,7 +12,7 @@ import subprocess
 from typing import Tuple, Optional
 
 class VoiceAssistant:
-    """Local AI voice assistant for TinkerOS"""
+    """Local AI voice assistant for KorrinOS"""
     
     def __init__(self, model_dir: str):
         self.model_dir = model_dir
@@ -155,7 +155,7 @@ class VoiceAssistant:
     
     def interactive_mode(self):
         """Run interactive mode"""
-        print("TinkerOS Voice Assistant (type 'quit' to exit)")
+        print("KorrinOS Voice Assistant (type 'quit' to exit)")
         print("Type commands or speak naturally...")
         print()
         

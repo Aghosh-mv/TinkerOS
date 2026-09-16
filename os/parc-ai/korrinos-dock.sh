@@ -41,7 +41,7 @@ create_plank_theme() {
   mkdir -p "$theme_dir"
 
   cat > "$theme_dir/dock.theme" << 'THEME'
-[Korrinos Liquid Glass]
+[KorrinOS Liquid Glass]
 Name=KorrinOS Liquid Glass
 Description=Liquid glass glassmorphism dock theme for KorrinOS
 Author=KorrinOS

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Power Tuning - PCIe ASPM, SATA ALPM, USB autosuspend, C-states, NVMe
+# KorrinOS Power Tuning - PCIe ASPM, SATA ALPM, USB autosuspend, C-states, NVMe
 case "${1:-status}" in
   status)
     echo "=== Power Management ==="

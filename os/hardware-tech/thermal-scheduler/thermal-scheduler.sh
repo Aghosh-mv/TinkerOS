@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Silicon Thermal Mapping Scheduler
+# KorrinOS Silicon Thermal Mapping Scheduler
 # Reads thermal sensors, builds live heat map, dances workloads across cool cores
 TSS_DIR="$HOME/.tinker/thermal-scheduler"; TSS_CONFIG="$TSS_DIR/config.json"
 TSS_LOG="$TSS_DIR/scheduler.log"; TSS_STATE="$TSS_DIR/state.json"
@@ -587,7 +587,7 @@ monitor(){
   while true; do
     clear
     echo "╔══════════════════════════════════════════════════════════╗"
-    echo "║     TinkerOS SILICON THERMAL MAP - LIVE               ║"
+    echo "║     KorrinOS SILICON THERMAL MAP - LIVE               ║"
     echo "║     $(date '+%Y-%m-%d %H:%M:%S')                                  ║"
     echo "╚══════════════════════════════════════════════════════════╝"
     echo ""
@@ -601,7 +601,7 @@ monitor(){
 # ── Dashboard ───────────────────────────────────────────────────────────
 dashboard(){
   echo "╔══════════════════════════════════════════════════════════╗"
-  echo "║   TinkerOS SILICON THERMAL MAPPING SCHEDULER          ║"
+  echo "║   KorrinOS SILICON THERMAL MAPPING SCHEDULER          ║"
   echo "╠══════════════════════════════════════════════════════════╣"
   echo "║  Reads thermal sensors 1000x/sec                       ║"
   echo "║  Builds live heat map of silicon die                   ║"

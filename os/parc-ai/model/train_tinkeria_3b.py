@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Tinkeria 3B Model Training Script
-Full fine-tuning with BAdam optimizer on ParcOS training data.
+Full fine-tuning with BAdam optimizer on KorrinOS training data.
 """
 import os
 import sys

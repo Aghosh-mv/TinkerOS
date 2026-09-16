@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS System Agent - OpenCode as native AI backbone
+# KorrinOS System Agent - OpenCode as native AI backbone
 # Ctrl+Space opens sidebar, type/speak intent, OS assembles everything
 AGENT_DIR="$HOME/.tinker/agent"; AGENT_CONFIG="$AGENT_DIR/config.json"
 AGENT_LOG="$AGENT_DIR/agent.log"; AGENT_HISTORY="$AGENT_DIR/history.json"
@@ -49,7 +49,7 @@ hotkey_daemon(){
   
   cat > /tmp/tinker_hotkey.py << 'PYKEY'
 #!/usr/bin/env python3
-"""TinkerOS Hotkey Daemon - Ctrl+Space toggles AI sidebar"""
+"""KorrinOS Hotkey Daemon - Ctrl+Space toggles AI sidebar"""
 import subprocess, sys, os, json, time
 
 try:
@@ -96,7 +96,7 @@ PYKEY
 sidebar_ui(){
   cat > "$AGENT_DIR/sidebar.py" << 'PYSIDEBAR'
 #!/usr/bin/env python3
-"""TinkerOS AI Sidebar - Ctrl+Space triggered intent interface"""
+"""KorrinOS AI Sidebar - Ctrl+Space triggered intent interface"""
 import sys, os, json, subprocess, time
 from datetime import datetime
 
@@ -241,7 +241,7 @@ def main():
     canvas = UnifiedCanvas()
     
     print("╔══════════════════════════════════════════════════════════╗")
-    print("║         TinkerOS AI SIDEBAR (Ctrl+Space)              ║")
+    print("║         KorrinOS AI SIDEBAR (Ctrl+Space)              ║")
     print("╠══════════════════════════════════════════════════════════╣")
     print("║  Type or speak what you want to do.                   ║")
     print("║  Examples:                                            ║")
@@ -323,7 +323,7 @@ PYSIDEBAR
 intent_router(){
   cat > "$AGENT_DIR/intent-router.sh" << 'ROUTER'
 #!/bin/bash
-# TinkerOS Intent Router - maps natural language to system actions
+# KorrinOS Intent Router - maps natural language to system actions
 AGENT_DIR="$HOME/.tinker/agent"
 
 route(){
@@ -401,7 +401,7 @@ ROUTER
 voice_handler(){
   cat > "$AGENT_DIR/voice-handler.sh" << 'VOICE'
 #!/bin/bash
-# TinkerOS Voice Handler - speech-to-text -> intent -> action
+# KorrinOS Voice Handler - speech-to-text -> intent -> action
 AGENT_DIR="$HOME/.tinker/agent"
 
 listen(){

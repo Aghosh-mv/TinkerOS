@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Dynamic Energy-to-Value Scheduler
+# KorrinOS Dynamic Energy-to-Value Scheduler
 # Kernel-level power manager: calculates task value vs battery life
 # Guarantees essential apps survive, deprioritizes background noise
 ES_DIR="$HOME/.tinker/energy-scheduler"; ES_CONFIG="$ES_DIR/config.json"
@@ -308,7 +308,7 @@ PYEOF
 # ── The Full Energy Optimization Run ───────────────────────────────────
 optimize(){
   echo "╔══════════════════════════════════════════════════════════╗"
-  echo "║    TinkerOS ENERGY-TO-VALUE SCHEDULER                 ║"
+  echo "║    KorrinOS ENERGY-TO-VALUE SCHEDULER                 ║"
   echo "╠══════════════════════════════════════════════════════════╣"
   echo "║  Calculating: which tasks deserve your battery        ║"
   echo "╚══════════════════════════════════════════════════════════╝"

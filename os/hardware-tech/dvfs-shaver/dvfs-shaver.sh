@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Per-Instruction Energy Shaving
+# KorrinOS Per-Instruction Energy Shaving
 # Microsecond-scale DVFS: drops voltage to bare minimum between heavy instructions
 # Fully automatic - software detects workload, adjusts voltage, no user input
 DVFS_DIR="$HOME/.tinker/dvfs-shaver"; DVFS_CONFIG="$DVFS_DIR/config.json"
@@ -70,7 +70,7 @@ EOF
    export TINKER_MSR_BACKEND="$MSR_BIN"
   python3 - << 'PYEOF'
 #!/usr/bin/env python3
-"""TinkerOS DVFS Shaver - microsecond-scale voltage governor (fully auto)"""
+"""KorrinOS DVFS Shaver - microsecond-scale voltage governor (fully auto)"""
 import os, json, time, threading, struct, ctypes, subprocess, signal, sys
 
 CONFIG_PATH = os.path.expanduser("~/.tinker/dvfs-shaver/config.json")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS Onboarding Wizard
+KorrinOS Onboarding Wizard
 5-minute setup experience for new users
 """
 
@@ -43,7 +43,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
     def __init__(self):
         if PYQT_AVAILABLE:
             super().__init__()
-            self.setWindowTitle("Welcome to TinkerOS")
+            self.setWindowTitle("Welcome to KorrinOS")
             self.setMinimumSize(800, 600)
             self.setWizardStyle(QWizard.WizardStyle.ModernStyle)
             self.state = OnboardingState()
@@ -53,7 +53,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
     def setup_pages(self):
         # Page 1: Welcome
         welcome = QWizardPage()
-        welcome.setTitle("Welcome to TinkerOS")
+        welcome.setTitle("Welcome to KorrinOS")
         welcome.setSubTitle("Your Computer. Your Rules.")
         
         layout = QVBoxLayout(welcome)
@@ -62,7 +62,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         mascot.setFont(QFont("Noto Sans", 72))
         mascot.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        title = QLabel("TinkerOS")
+        title = QLabel("KorrinOS")
         title.setFont(QFont("Inter", 32, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("color: #00D4AA;")
@@ -73,7 +73,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         tagline.setStyleSheet("color: #888;")
         
         desc = QLabel(
-            "TinkerOS is a Linux-based operating system designed for everyone.\n"
+            "KorrinOS is a Linux-based operating system designed for everyone.\n"
             "It combines the power of Linux with the simplicity you expect.\n\n"
             "This wizard will help you set up your system in just a few minutes."
         )
@@ -176,14 +176,14 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         self.privacy_balanced.setToolTip("Anonymous usage stats, crash reports")
         
         self.privacy_full = QRadioButton("Full")
-        self.privacy_full.setToolTip("Help improve TinkerOS with detailed analytics")
+        self.privacy_full.setToolTip("Help improve KorrinOS with detailed analytics")
         
         layout.addWidget(self.privacy_minimal)
         layout.addWidget(self.privacy_balanced)
         layout.addWidget(self.privacy_full)
         
         note = QLabel(
-            "🔒 TinkerOS never sells your data. All telemetry is anonymous and optional.\n"
+            "🔒 KorrinOS never sells your data. All telemetry is anonymous and optional.\n"
             "You can change this anytime in Settings > Privacy."
         )
         note.setWordWrap(True)
@@ -224,7 +224,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         # Page 6: Advanced Features
         features = QWizardPage()
         features.setTitle("Advanced Features")
-        features.setSubTitle("Enable powerful TinkerOS features (optional)")
+        features.setSubTitle("Enable powerful KorrinOS features (optional)")
         
         layout = QVBoxLayout(features)
         
@@ -250,7 +250,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         # Page 7: Ready
         ready = QWizardPage()
         ready.setTitle("Ready to Go!")
-        ready.setSubTitle("Your TinkerOS is almost ready")
+        ready.setSubTitle("Your KorrinOS is almost ready")
         
         layout = QVBoxLayout(ready)
         
@@ -445,7 +445,7 @@ def run_cli_onboarding():
     print("\nStep 5: Privacy Level")
     print("  1) Minimal - No telemetry")
     print("  2) Balanced - Anonymous stats (recommended)")
-    print("  3) Full - Help improve TinkerOS")
+    print("  3) Full - Help improve KorrinOS")
     privacy = input("Choice [1/2/3] (2): ") or "2"
     state.privacy_level = ["minimal", "balanced", "full"][int(privacy)-1]
     

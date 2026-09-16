@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS AI Training Dataset Generator
+KorrinOS AI Training Dataset Generator
 Generates 100,000+ dialogue examples for voice command training
 """
 

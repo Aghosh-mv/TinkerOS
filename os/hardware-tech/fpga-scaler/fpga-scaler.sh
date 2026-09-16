@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Dynamic FPGA Word-Length Allocation
+# KorrinOS Dynamic FPGA Word-Length Allocation
 # Runtime precision scaling: shrinks hardware logic gates to match needed precision
 # 4-bit for mouse coords, 8-bit for UI, 32-bit for scientific calc
 FPGA_DIR="$HOME/.tinker/fpga-scaler"; FPGA_CONFIG="$FPGA_DIR/config.json"

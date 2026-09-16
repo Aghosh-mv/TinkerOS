@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS CPU Tuning - frequency scaling, core parking, turbo, governor, C-states
+# KorrinOS CPU Tuning - frequency scaling, core parking, turbo, governor, C-states
 case "${1:-status}" in
   status)
     echo "=== CPU Status ==="

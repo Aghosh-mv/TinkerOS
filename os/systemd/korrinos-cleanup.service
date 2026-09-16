@@ -1,10 +1,10 @@
 [Unit]
-Description=TinkerOS System Cleanup
+Description=KorrinOS System Cleanup
 After=multi-user.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/lib/tinker/apps/system-cleaner.sh quick
+ExecStart=/opt/korrinos/os/apps/system-cleaner.sh quick
 
 [Install]
 WantedBy=multi-user.target

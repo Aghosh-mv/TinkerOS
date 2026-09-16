@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Gatekeeper - App Verification
+# KorrinOS Gatekeeper - App Verification
 # macOS-like app verification system
 
 set -e

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Ray Traced Audio - system-level acoustic ray casting engine
+# KorrinOS Ray Traced Audio - system-level acoustic ray casting engine
 # Simulates realistic sound propagation, reflections, occlusion, muffling
 # Integrates with PipeWire/PulseAudio spatial audio output
 RTA_DIR="$HOME/.tinker/ray-traced-audio"; RTA_CONFIG="$RTA_DIR/config.json"
@@ -74,7 +74,7 @@ EOF
 # ── Ray Tracer Core (Python) ───────────────────────────────────────────
 cat > "$RTA_DIR/ray_tracer.py" << 'PYRT'
 #!/usr/bin/env python3
-"""TinkerOS Ray Traced Audio - geometric ray casting for sound propagation"""
+"""KorrinOS Ray Traced Audio - geometric ray casting for sound propagation"""
 import math, json, os, time, threading
 from dataclasses import dataclass, field
 from typing import List, Tuple, Optional
@@ -508,7 +508,7 @@ if __name__ == "__main__":
     
     if cmd == "demo":
         print("╔══════════════════════════════════════════════════════════╗")
-        print("║       TinkerOS RAY TRACED AUDIO ENGINE                ║")
+        print("║       KorrinOS RAY TRACED AUDIO ENGINE                ║")
         print("╠══════════════════════════════════════════════════════════╣")
         print("║  Geometric ray casting for realistic sound simulation  ║")
         print("╚══════════════════════════════════════════════════════════╝")

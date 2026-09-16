@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Voice Engine
+# KorrinOS Voice Engine
 # Hybrid: Rules + Fuzzy + Context
 
 set -e
@@ -193,7 +193,7 @@ case "$1" in
         process_command "$*"
         ;;
     --interactive|-i)
-        echo "TinkerOS Voice (say 'quit' to exit)"
+        echo "KorrinOS Voice (say 'quit' to exit)"
         while true; do
             read -p "> " input
             [ "$input" = "quit" ] && break

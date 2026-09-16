@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Thermal Tuning - fan curves, thermal zones, throttling
+# KorrinOS Thermal Tuning - fan curves, thermal zones, throttling
 BHELPER="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/backend-helper.sh"
 if [[ -f "$BHELPER" ]]; then source "$BHELPER"; fi
 

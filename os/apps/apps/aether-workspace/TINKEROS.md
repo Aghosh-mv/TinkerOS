@@ -1,9 +1,9 @@
-# Aether Workspace — TinkerOS (first-party)
+# Aether Workspace — KorrinOS (first-party)
 
 Zero-knowledge AES-256-GCM encrypted workspace. Offline-first sync, native
 local automations. No cloud backdoors, no telemetry, no account for local use.
 
-Adopted into TinkerOS as a first-party, pre-installed app. Bundled source is
+Adopted into KorrinOS as a first-party, pre-installed app. Bundled source is
 the upstream Aether Workspace project, maintained inside this tree under
 `os/apps/apps/aether-workspace`.
 

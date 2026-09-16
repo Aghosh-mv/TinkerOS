@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Unified Virtual Memory Over CXL
+# KorrinOS Unified Virtual Memory Over CXL
 # Maps RAM + VRAM + networked memory into one pool
 # NOT DEFAULT - must toggle on explicitly
 CXL_DIR="$HOME/.tinker/cxl-memory"; CXL_CONFIG="$CXL_DIR/config.json"

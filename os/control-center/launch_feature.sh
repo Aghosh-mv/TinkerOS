@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Feature Launcher for TinkerOS Control Center
+# Feature Launcher for KorrinOS Control Center
 # Matches the Control Center's run_feature() directory search logic
 
 BASE_DIR="/home/tinkerspace/linux-kernel/os/apps"
@@ -147,7 +147,7 @@ map_feature() {
 }
 
 # Launch all features by category
-echo "=== TinkerOS Control Center Feature Launcher ==="
+echo "=== KorrinOS Control Center Feature Launcher ==="
 echo ""
 
 echo "--- System ---"

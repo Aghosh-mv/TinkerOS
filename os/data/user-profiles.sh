@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS User Profile Templates
+# KorrinOS User Profile Templates
 
 PROFILES_DB="$HOME/.tinker/profiles.db"
 
@@ -7,7 +7,7 @@ init_profiles() {
     mkdir -p "$(dirname "$PROFILES_DB")"
     
     cat > "$PROFILES_DB" << 'DB'
-# TinkerOS User Profiles
+# KorrinOS User Profiles
 # Format: name:description:packages
 
 # Developer Profile

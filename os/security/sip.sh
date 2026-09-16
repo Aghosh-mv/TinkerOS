@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS System Integrity Protection
+# KorrinOS System Integrity Protection
 
 set -e
 

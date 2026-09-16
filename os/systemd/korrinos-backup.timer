@@ -1,5 +1,5 @@
 [Unit]
-Description=Run TinkerOS Backup Daily
+Description=Run KorrinOS Backup Daily
 
 [Timer]
 OnCalendar=daily

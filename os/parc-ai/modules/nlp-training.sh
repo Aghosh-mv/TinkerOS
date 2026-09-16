@@ -20,15 +20,15 @@ nlp_training_data() {
     },
     "identity": {
       "patterns": ["who are you", "what are you", "your name", "tell me about yourself"],
-      "responses": ["I'm TinkerAI, your built-in assistant for TinkerOS."]
+      "responses": ["I'm TinkerAI, your built-in assistant for KorrinOS."]
     },
     "capabilities": {
       "patterns": ["what can you do", "help me", "your features", "what do you know"],
       "responses": ["I can help with text, code, productivity, web search, system control, and more."]
     },
     "os_help": {
-      "patterns": ["how do i install", "system settings", "update my system", "tinkeros help"],
-      "responses": ["I can walk you through TinkerOS features and settings."]
+      "patterns": ["how do i install", "system settings", "update my system", "korrinos help"],
+      "responses": ["I can walk you through KorrinOS features and settings."]
     }
   },
   "quality_rules": [
@@ -97,7 +97,7 @@ nlp_common_response() {
     *"hello"*|*"hi"*|*"hey"*) echo "Hey there! What can I help with?" ;;
     *"bye"*|*"goodbye"*|*"see you"*) echo "Goodbye! Take care!" ;;
     *"thank"*) echo "You're welcome!" ;;
-    *"who are you"*|*"what are you"*) echo "I'm TinkerAI, your TinkerOS assistant." ;;
+    *"who are you"*|*"what are you"*) echo "I'm TinkerAI, your KorrinOS assistant." ;;
     *"what can you do"*) echo "I can help with text, code, productivity, web search, and system control." ;;
     *"i don't know"*|*"idk"*) echo "That's okay! I'm here to help figure it out." ;;
     *) echo "" ;; # No match, return empty for Ollama fallback

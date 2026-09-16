@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Zero-Latency Input Pipeline - bypass display server, read evdev directly
+# KorrinOS Zero-Latency Input Pipeline - bypass display server, read evdev directly
 # Reduces input latency from ~16ms (X11) to ~1ms (direct evdev)
 ZLI_CONFIG="$HOME/.tinker/zero-latency.json"; mkdir -p "$HOME/.tinker"
 
@@ -14,7 +14,7 @@ echo "Zero-Latency Input initialized (target: 1ms)"; }
 # Find input devices
 devices(){ echo "=== Input Devices (evdev) ==="; for d in /dev/input/event*; do name=$(cat /sys/class/input/$(basename $d)/device/name 2>/dev/null); [ -n "$name" ] && echo "  $d: $name"; done; }
 # Measure current input latency
-latency(){ echo "=== Input Latency Measurement ==="; echo "  X11 path: ~16ms (1 frame at 60Hz)"; echo "  Wayland: ~8ms (compositor buffer)"; echo "  Direct evdev: ~0.5-1ms (kernel to app)"; echo "  TinkerOS path: ~1ms (bypass display server entirely)"; 
+latency(){ echo "=== Input Latency Measurement ==="; echo "  X11 path: ~16ms (1 frame at 60Hz)"; echo "  Wayland: ~8ms (compositor buffer)"; echo "  Direct evdev: ~0.5-1ms (kernel to app)"; echo "  KorrinOS path: ~1ms (bypass display server entirely)"; 
   # Actual measurement via evdev timestamp
   if [ -r /dev/input/event0 ]; then
     t1=$(date +%s%N); cat /dev/input/event0 > /dev/null 2>&1 &

@@ -135,7 +135,7 @@ ai_respond() {
     goodbye)
       echo "Goodbye! Have a great day!" ;;
     identity)
-      echo "I'm Tinkeria, your personal assistant built into ParcOS. I can search, play music, write code, solve math, translate, and much more. Think of me as your own Siri or Gemini." ;;
+      echo "I'm Tinkeria, your personal assistant built into KorrinOS. I can search, play music, write code, solve math, translate, and much more. Think of me as your own Siri or Gemini." ;;
     capabilities)
       echo "Here's everything I can do:
 SEARCH & INFO: Web search, weather, definitions, facts

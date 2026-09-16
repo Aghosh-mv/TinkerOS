@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# parcos-features.sh — New ParcOS features
+# korrinos-features.sh — New KorrinOS features
 
 # Feature 1: System Health Dashboard
 tk_health_dashboard() {
-  echo "=== ParcOS Health Dashboard ==="
+  echo "=== KorrinOS Health Dashboard ==="
   echo ""
 
   # CPU
@@ -94,7 +94,7 @@ tk_project_template() {
 import sys
 
 def main():
-    print("Hello from ParcOS!")
+    print("Hello from KorrinOS!")
 
 if __name__ == "__main__":
     main()
@@ -115,7 +115,7 @@ EOF
       cat > "$name"/README.md << EOF
 # $name
 
-A Python project created with ParcOS.
+A Python project created with KorrinOS.
 
 ## Installation
 \`\`\`bash
@@ -150,7 +150,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello from ParcOS!');
+  res.send('Hello from KorrinOS!');
 });
 
 app.listen(PORT, () => {
@@ -171,7 +171,7 @@ edition = "2021"
 EOF
       cat > "$name"/src/main.rs << 'EOF'
 fn main() {
-    println!("Hello from ParcOS!");
+    println!("Hello from KorrinOS!");
 }
 EOF
       echo "Rust project created: $name/"
@@ -183,7 +183,7 @@ EOF
 set -euo pipefail
 
 main() {
-  echo "Hello from ParcOS!"
+  echo "Hello from KorrinOS!"
 }
 
 main "$@"
@@ -201,7 +201,7 @@ tk_system_monitor() {
   echo "System monitor (Ctrl+C to stop)..."
   for i in $(seq 1 "$duration"); do
     clear
-    echo "=== ParcOS Monitor (update $i/$duration) ==="
+    echo "=== KorrinOS Monitor (update $i/$duration) ==="
     echo "Time: $(date)"
     echo ""
     echo "CPU:"
@@ -235,7 +235,7 @@ tk_backup() {
 }
 
 # Feature 6: Quick Notes
-tk_notes_dir="$HOME/.parcos/notes"
+tk_notes_dir="$HOME/.korrinos/notes"
 tk_notes_init() { mkdir -p "$tk_notes_dir"; }
 
 tk_notes_add() {
@@ -301,7 +301,7 @@ PYEOF
 }
 
 # Feature 8: Clipboard Manager
-tk_clipboard_history="/tmp/parcos_clipboard.txt"
+tk_clipboard_history="/tmp/korrinos_clipboard.txt"
 
 tk_clip_save() {
   local text="${*:-$(xclip -o 2>/dev/null)}"
@@ -322,4 +322,4 @@ tk_clip_clear() {
   echo "Clipboard history cleared"
 }
 
-echo "[parcos-features] loaded — health dashboard, quick actions, project templates, monitor, backup, notes, themes, clipboard"
+echo "[korrinos-features] loaded — health dashboard, quick actions, project templates, monitor, backup, notes, themes, clipboard"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Memory Tuning - swappiness, huge pages, KSM, zRAM, NUMA
+# KorrinOS Memory Tuning - swappiness, huge pages, KSM, zRAM, NUMA
 case "${1:-status}" in
   status)
     echo "=== Memory Status ==="

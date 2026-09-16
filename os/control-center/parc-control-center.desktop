@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=TinkerOS Control Center
-Comment=Unified control center for TinkerOS
+Name=KorrinOS Control Center
+Comment=Unified control center for KorrinOS
 Exec=python3 /usr/lib/tinker/control-center/tinker-control-center.py
 Icon=tinker-control-center
 Terminal=false

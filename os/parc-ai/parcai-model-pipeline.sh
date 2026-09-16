@@ -65,8 +65,8 @@ if os.path.exists(nlp_file):
         except:
             pass
 
-# 2. Extract from TinkerOS Q&A
-qa_file = os.environ.get('QA_FILE', 'os/tinker-ai/model/training_data/tinkeros_qa.json')
+# 2. Extract from KorrinOS Q&A
+qa_file = os.environ.get('QA_FILE', 'os/tinker-ai/model/training_data/korrinos_qa.json')
 if os.path.exists(qa_file):
     with open(qa_file) as f:
         qa_data = json.load(f)
@@ -74,8 +74,8 @@ if os.path.exists(qa_file):
         training_pairs.append({
             'input': pair.get('question', ''),
             'output': pair.get('answer', ''),
-            'intent': 'tinkeros_knowledge',
-            'source': 'tinkeros_qa'
+            'intent': 'korrinos_knowledge',
+            'source': 'korrinos_qa'
         })
 
 # 3. Extract from general Q&A
@@ -105,7 +105,7 @@ if os.path.exists(conv_file):
         })
 
 # 5. Extract from knowledge base
-knowledge_file = os.environ.get('KNOWLEDGE_FILE', 'os/tinker-ai/modules/knowledge-tinkeros.sh')
+knowledge_file = os.environ.get('KNOWLEDGE_FILE', 'os/tinker-ai/modules/knowledge-korrinos.sh')
 if os.path.exists(knowledge_file):
     with open(knowledge_file) as f:
         content = f.read()
@@ -115,7 +115,7 @@ if os.path.exists(knowledge_file):
         training_pairs.append({
             'input': q,
             'output': a,
-            'intent': 'tinkeros_knowledge',
+            'intent': 'korrinos_knowledge',
             'source': 'knowledge_base'
         })
 
@@ -247,7 +247,7 @@ class QADataset(Dataset):
 # Load training data
 training_file = os.environ.get('TRAINING_DATA', 'os/tinker-ai/model/training_data/all_training_data.json')
 if not os.path.exists(training_file):
-    training_file = 'os/tinker-ai/model/training_data/tinkeros_qa.json'
+    training_file = 'os/tinker-ai/model/training_data/korrinos_qa.json'
 
 with open(training_file) as f:
     training_data = json.load(f)
@@ -382,7 +382,7 @@ model.eval()
 
 # Export to ONNX
 dummy_input = torch.randint(0, checkpoint['vocab_size'], (1, 128))
-onnx_path = 'os/tinker-ai/model/release/tinkeros_ai.onnx'
+onnx_path = 'os/tinker-ai/model/release/korrinos_ai.onnx'
 
 os.makedirs('os/tinker-ai/model/release', exist_ok=True)
 
@@ -603,7 +603,7 @@ step5_package_release() {
   cp "$CHECKPOINT_DIR/base_model.pt" "$RELEASE_DIR/" 2>/dev/null || true
   cp "$CHECKPOINT_DIR/tokenizer.json" "$RELEASE_DIR/" 2>/dev/null || true
   cp "$LORA_DIR/lora_weights.pt" "$RELEASE_DIR/" 2>/dev/null || true
-  cp "$MODEL_DIR/release/tinkeros_ai.onnx" "$RELEASE_DIR/" 2>/dev/null || true
+  cp "$MODEL_DIR/release/korrinos_ai.onnx" "$RELEASE_DIR/" 2>/dev/null || true
 
   # Create model card
   cat > "$RELEASE_DIR/MODEL_CARD.md" << 'EOF'
@@ -614,13 +614,13 @@ step5_package_release() {
 - **Version:** 1.0
 - **Architecture:** Transformer (6 layers, 8 heads, 256 dim)
 - **Parameters:** ~5.9M
-- **Training Data:** 725+ intent patterns, TinkerOS knowledge, general Q&A
+- **Training Data:** 725+ intent patterns, KorrinOS knowledge, general Q&A
 
 ## Features
 - Intent classification (30+ intents)
 - Entity extraction
 - Conversation understanding
-- TinkerOS-specific knowledge
+- KorrinOS-specific knowledge
 - Self-learning capability
 
 ## Usage
@@ -645,7 +645,7 @@ EOF
 
   # Create release archive
   cd "$RELEASE_DIR"
-  tar -czf "../tinkeros_ai_v1.0.tar.gz" *
+  tar -czf "../korrinos_ai_v1.0.tar.gz" *
   cd "$AI_DIR"
 
   success "Release packaged: $RELEASE_DIR"

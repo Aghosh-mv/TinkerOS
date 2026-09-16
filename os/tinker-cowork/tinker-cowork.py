@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS Native Cowork AI
+KorrinOS Native Cowork AI
 Claude-level intelligence, local-first, system-native
 Works like Cursor/Claude Code but native to the OS
 """
@@ -169,7 +169,7 @@ class ContextGatherer:
 class CoworkEngine:
     """Main cowork engine - the brain"""
     
-    SYSTEM_PROMPT = """You are TinkerCowork, a native AI assistant for TinkerOS.
+    SYSTEM_PROMPT = """You are TinkerCowork, a native AI assistant for KorrinOS.
 You have full access to the system and can:
 - Read/write/edit files
 - Run commands in terminal

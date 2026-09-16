@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Camera Tuning - exposure, gain, white balance, frame rate, autofocus
+# KorrinOS Camera Tuning - exposure, gain, white balance, frame rate, autofocus
 case "${1:-status}" in
   status)
     echo "=== Camera Status ==="

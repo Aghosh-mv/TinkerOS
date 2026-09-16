@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Smart Power Grid - schedule tasks by electricity price/availability
+# KorrinOS Smart Power Grid - schedule tasks by electricity price/availability
 SPG_CONFIG="$HOME/.tinker/smart-power.json"; mkdir -p "$HOME/.tinker"
 init(){ cat > "$SPG_CONFIG" << 'EOF'
 {"enabled":false,"schedule_heavy_tasks":true,"peak_hours":[17,21],"off_peak_hours":[0,6],"battery_priority":true,"solar_integration":false,"grid_api":"","task_queue":[]}

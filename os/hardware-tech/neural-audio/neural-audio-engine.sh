@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Neural Audio Engine - AI-powered real-time audio enhancement
+# KorrinOS Neural Audio Engine - AI-powered real-time audio enhancement
 # Noise cancellation, de-reverb, spatial audio, speaker protection
 NAE_CONFIG="$HOME/.tinker/neural-audio.json"; mkdir -p "$HOME/.tinker"
 

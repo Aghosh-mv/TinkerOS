@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Acoustic Dust Dislodger - Resonant Fan Scraper
+# KorrinOS Acoustic Dust Dislodger - Resonant Fan Scraper
 # Pulses fans forward/backward at resonant frequency to shatter dust
 # Miniature physical paint-shaker for heatsink fins
 DUST_DIR="$HOME/.tinker/dust-dislodger"; DUST_CONFIG="$DUST_DIR/config.json"

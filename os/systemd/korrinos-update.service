@@ -1,0 +1,10 @@
+[Unit]
+Description=KorrinOS Automatic Update Check
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/korrinos/os/system/auto-updates.sh check
+
+[Install]
+WantedBy=multi-user.target

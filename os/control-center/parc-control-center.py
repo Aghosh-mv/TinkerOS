@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-TinkerOS Control Center
-Unified GUI for all 130+ TinkerOS features
+KorrinOS Control Center
+Unified GUI for all 130+ KorrinOS features
 """
 
 import sys
@@ -18,10 +18,10 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtSvg import *
 
-class TinkerOSControlCenter(QMainWindow):
+class KorrinOSControlCenter(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("TinkerOS Control Center")
+        self.setWindowTitle("KorrinOS Control Center")
         self.setMinimumSize(1200, 800)
         self.setup_ui()
         self.load_features()
@@ -66,7 +66,7 @@ class TinkerOSControlCenter(QMainWindow):
         logo.setFont(QFont("Noto Sans", 32))
         logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        title = QLabel("TinkerOS")
+        title = QLabel("KorrinOS")
         title.setFont(QFont("Inter", 18, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("color: #00D4AA;")
@@ -147,7 +147,7 @@ class TinkerOSControlCenter(QMainWindow):
         layout.addStretch()
         
         # Version info
-        version = QLabel("TinkerOS v7.2.0-rc6")
+        version = QLabel("KorrinOS v7.2.0-rc6")
         version.setAlignment(Qt.AlignmentFlag.AlignCenter)
         version.setStyleSheet("color: #555; font-size: 11px; padding: 10px;")
         layout.addWidget(version)
@@ -454,14 +454,14 @@ class TinkerOSControlCenter(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
-    app.setApplicationName("TinkerOS Control Center")
+    app.setApplicationName("KorrinOS Control Center")
     app.setApplicationVersion("1.0")
     
     # Set font
     font = QFont("Inter", 10)
     app.setFont(font)
     
-    window = TinkerOSControlCenter()
+    window = KorrinOSControlCenter()
     window.show()
     
     sys.exit(app.exec())

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS GPU Tuning - clock speeds, power limit, undervolt, runtime PM
+# KorrinOS GPU Tuning - clock speeds, power limit, undervolt, runtime PM
 case "${1:-status}" in
   status)
     echo "=== GPU Status ==="

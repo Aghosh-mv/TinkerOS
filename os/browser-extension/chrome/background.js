@@ -1,4 +1,4 @@
-// TinkerOS Password Manager - Background Script
+// KorrinOS Password Manager - Background Script
 
 // Listen for messages from content scripts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         chrome.notifications.create({
             type: 'basic',
             iconUrl: 'icon.png',
-            title: 'TinkerOS Password Manager',
+            title: 'KorrinOS Password Manager',
             message: `Password field detected on ${message.hostname}`,
             buttons: [
                 { title: 'Generate Password' },

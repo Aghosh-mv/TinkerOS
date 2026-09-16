@@ -1,7 +1,7 @@
-# TinkerOS Mobile Companion Protocol
+# KorrinOS Mobile Companion Protocol
 
 ## Overview
-The TinkerOS Mobile Companion Protocol enables seamless integration between TinkerOS desktop and mobile devices (phone, tablet, watch).
+The KorrinOS Mobile Companion Protocol enables seamless integration between KorrinOS desktop and mobile devices (phone, tablet, watch).
 
 ## Features
 

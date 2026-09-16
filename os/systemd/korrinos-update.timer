@@ -1,5 +1,5 @@
 [Unit]
-Description=Check for TinkerOS Updates Daily
+Description=Check for KorrinOS Updates Daily
 
 [Timer]
 OnCalendar=daily

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Security Hardware Tuning - TPM, Secure Boot, IOMMU, CPU mitigations
+# KorrinOS Security Hardware Tuning - TPM, Secure Boot, IOMMU, CPU mitigations
 case "${1:-status}" in
   status)
     echo "=== Security Hardware ==="

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# knowledge-parcos.sh — ParcOS complete knowledge base for AI responses
+# knowledge-korrinos.sh — KorrinOS complete knowledge base for AI responses
 # This file is sourced by the AI engine to answer questions about the OS
 
 tk_knowledge() {
@@ -7,9 +7,9 @@ tk_knowledge() {
   case "$topic" in
     overview)
       cat <<'EOF'
-ParcOS is a hardware-throughput desktop OS layered on a real Linux kernel — code
+KorrinOS is a hardware-throughput desktop OS layered on a real Linux kernel — code
 inside the Linux code, not a separate layer. It is designed for people who want a
-powerful, beautiful, and helpful desktop experience. ParcOS comes with three
+powerful, beautiful, and helpful desktop experience. KorrinOS comes with three
 isolated "worlds" that transform the entire OS for different purposes, and ships
 with Tinkeria, a built-in agentic AI assistant accessible from any world.
 
@@ -23,13 +23,13 @@ Key facts:
 - 224+ tools in the Control Center
 - Custom Plymouth boot animation and GRUB branded boot menu
 - Glassmorphism design language throughout
-- Ships as a bootable ISO (~7.6 GB) — ParcOS-v1.3.iso
+- Ships as a bootable ISO (~7.6 GB) — KorrinOS-v1.3.iso
 - Dual Source License v1.0 (Option A public / Option B private, no fee)
 EOF
       ;;
     worlds)
       cat <<'EOF'
-ParcOS has THREE isolated worlds — each one transforms the entire desktop:
+KorrinOS has THREE isolated worlds — each one transforms the entire desktop:
 
 1. HACK (Space+Shift+1 / Ctrl+Left):
    - The world that does the most work PROTECTING the hacker while HELPING them hack more.
@@ -63,7 +63,7 @@ EOF
       ;;
     features)
       cat <<'EOF'
-ParcOS Features:
+KorrinOS Features:
 
 AI & ASSISTANT:
 - Tinkeria: built-in agentic AI assistant. Ask anything, control the computer, get help.
@@ -106,7 +106,7 @@ TERRITORY TOOLS (45 tools):
 BOOT & BRANDING:
 - Custom Plymouth boot animation (boot/reboot/shutdown splash)
 - GRUB branded boot menu
-- GDM greeter themed for ParcOS
+- GDM greeter themed for KorrinOS
 - Three selectable worlds at login
 
 DESIGN:
@@ -126,7 +126,7 @@ EOF
       ;;
     commands)
       cat <<'EOF'
-ParcOS Commands:
+KorrinOS Commands:
 
 WORLD SWITCHING:
   Space+Shift+1  / Ctrl+Left    Switch to HACK world
@@ -159,7 +159,7 @@ SEARCHIE (File Search):
   searchie subsystem list        List search subsystems
 
 SYSTEM:
-  parcos-control-center        Open the Control Center (224+ tools)
+  korrinos-control-center        Open the Control Center (224+ tools)
   tinker-hardware-info           Show hardware details
   tinker-power save              Set power saving mode
   tinker-power performance       Set performance mode
@@ -180,7 +180,7 @@ SECURITY:
   tinker-privacy scan            Scan privacy settings
 
 MAINTENANCE:
-  tinker-update                  Update ParcOS
+  tinker-update                  Update KorrinOS
   tinker-backup                  Backup your data
   tinker-cleanup                 Clean up disk space
   tinker-dust run                Run dust dislodger (calibrate first)
@@ -188,14 +188,14 @@ EOF
       ;;
     ui-layout)
       cat <<'EOF'
-ParcOS Desktop Layout:
+KorrinOS Desktop Layout:
 
 TOP BAR (Panel):
-- Left: Application menu (ParcOS logo)
+- Left: Application menu (KorrinOS logo)
 - Center: Clock and date
 - Right: System tray (WiFi, Bluetooth, Volume, Battery, User menu)
 
-APPLICATION MENU (click the ParcOS logo):
+APPLICATION MENU (click the KorrinOS logo):
 - Applications grid (all installed apps)
 - Search bar (type to find apps)
 - Three world buttons: HACK | NORMAL | GAME
@@ -216,7 +216,7 @@ CONTROL CENTER:
 TERMINAL:
 - Custom themed terminal with transparency
 - Pre-configured with useful aliases
-- Tab completion for ParcOS commands
+- Tab completion for KorrinOS commands
 
 NOTIFICATION CENTER:
 - Slide-in panel from the right
@@ -225,7 +225,7 @@ NOTIFICATION CENTER:
 DESKTOP:
 - Clean, minimal glassmorphism design
 - Widget support (clock, weather, system monitors)
-- Right-click context menu with ParcOS tools
+- Right-click context menu with KorrinOS tools
 
 TINKERAI POPUP:
 - Spotlight-style popup (680px wide, top-center) or expandable side panel
@@ -238,7 +238,7 @@ EOF
       ;;
     troubleshooting)
       cat <<'EOF'
-Common ParcOS Issues & Solutions:
+Common KorrinOS Issues & Solutions:
 
 SLOW PERFORMANCE:
 - Run: tinker-power performance
@@ -290,14 +290,14 @@ EOF
       ;;
     version)
       cat <<'EOF'
-ParcOS v1.3.0
+KorrinOS v1.3.0
 Kernel: Linux 6.x with 27 custom kernel modules (kernel/tinker/)
 Desktop: GNOME (glassmorphism themed)
 Based on: Ubuntu/Debian
 AI Engine: Tinkeria (Ctrl+Alt+Gr)
 ISO Size: ~7.6 GB
 License: Dual Source License v1.0 (Option A public / Option B private)
-Download: https://sourceforge.net/projects/parcos/files/v1.3/ParcOS-v1.3.iso/
+Download: https://sourceforge.net/projects/korrinos/files/v1.3/KorrinOS-v1.3.iso/
 EOF
       ;;
     *) echo "Unknown topic: $topic. Available: overview, worlds, features, commands, ui-layout, troubleshooting, version" ;;
@@ -306,21 +306,21 @@ EOF
 
 tk_random_fact() {
   local facts=(
-    "ParcOS has three isolated worlds — HACK for security, NORMAL for everyday use, GAME for maximum gaming performance."
+    "KorrinOS has three isolated worlds — HACK for security, NORMAL for everyday use, GAME for maximum gaming performance."
     "Switch worlds anytime with Space+Shift+1/2/3 or Ctrl+Arrow keys."
     "Tinkeria pops up in any world with Ctrl+Alt+Gr — it can take screenshots and read what's on your screen."
     "The Searchie engine indexes your files so you can find anything instantly with Tab+F7."
-    "ParcOS has 224+ built-in system tools in the Control Center and 45 territory tools."
+    "KorrinOS has 224+ built-in system tools in the Control Center and 45 territory tools."
     "GAME world automatically enables perf governor, low-latency scheduler, and GPU/IO priority."
     "The OLED protection feature shifts pixels to prevent burn-in on OLED screens."
-    "ParcOS uses glassmorphism design — frosted glass with blur effects and 18px rounded corners."
+    "KorrinOS uses glassmorphism design — frosted glass with blur effects and 18px rounded corners."
     "You can ask Tinkeria to set reminders, manage contacts, or track your budget."
     "The dust dislodger spins fans at special intervals to clean dust — but you must calibrate first."
-    "ParcOS is built on a real Linux kernel with 27 custom C modules wired into the real scheduler."
+    "KorrinOS is built on a real Linux kernel with 27 custom C modules wired into the real scheduler."
     "NORMAL world is the most protected — it can find/hack the user but cannot be hacked."
     "HACK world only allows Tor Browser and safe approved apps to run."
     "Space+Shift+Escape triggers a panic wipe — emergency data destruction."
-    "ParcOS ships as a bootable ISO with branded Plymouth splash and GRUB menu."
+    "KorrinOS ships as a bootable ISO with branded Plymouth splash and GRUB menu."
     "The kernel modules include thermal_sched, gamemode, energy_sched, battery_life, oled_wear, and more."
   )
   echo "${facts[$((RANDOM % ${#facts[@]}))]}"
@@ -328,7 +328,7 @@ tk_random_fact() {
 
 tk_version() {
   cat <<'EOF'
-ParcOS v1.3.0
+KorrinOS v1.3.0
 Kernel: Linux 6.x with 27 custom kernel modules
 Desktop: GNOME (glassmorphism themed)
 Based on: Ubuntu/Debian

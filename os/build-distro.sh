@@ -69,46 +69,232 @@ set -e
 export DEBIAN_FRONTEND=noninteractive
 WORLDS="$WORLDS"
 apt-get update -y
-# ---- desktop (always installed, with --no-install-recommends to reduce ISO size) ----
-apt-get install -y --no-install-recommends xfce4 xfce4-terminal lightdm lightdm-gtk-greeter \
-  xorg xserver-xorg-input-all xserver-xorg-video-all \
-  pulseaudio pavucontrol network-manager dbus plymouth plymouth-themes \
-  plymouth-x11 \
-  || echo "desktop group had issues"
-# ---- applications / package base (REAL full desktop, always installed) ----
-apt-get install -y --no-install-recommends firefox vim nano less file htop curl wget git \
-  openssh-client fonts-dejavu xdg-utils tree \
-  ca-certificates gnupg \
-  libreoffice-core libreoffice-writer libreoffice-calc libreoffice-impress \
-  gimp vlc thunderbird inkscape blender \
-  build-essential python3 python3-pip gcc make cmake \
-  || echo "apps group had issues"
-# ---- SECURE world (gated) ----
-if [ "\$WORLDS" = "all" ] || echo "\$WORLDS" | grep -qw "secure"; then
-  apt-get install -y --no-install-recommends ufw apparmor firejail keepassxc cryptsetup \
-    fail2ban gnome-screensaver tor torbrowser-launcher \
-    lynis rkhunter chkrootkit apktool \
-    || echo "secure group had issues"
-fi
-# ---- GAME world (gated) ----
-if [ "\$WORLDS" = "all" ] || echo "\$WORLDS" | grep -qw "game"; then
-  dpkg --add-architecture i386
-  apt-get update -y
-  apt-get install -y --no-install-recommends steam steam-devices lutris wine \
-    wine32:i386 wine64 vulkan-tools mesa-vulkan-drivers mangohud \
-    0ad supertuxkart warzone2100 minetest game-data-packager \
-    || echo "game group had issues"
-fi
-# ---- HACK world (gated) ----
-if [ "\$WORLDS" = "all" ] || echo "\$WORLDS" | grep -qw "hack"; then
-  apt-get install -y --no-install-recommends nmap sqlmap hydra john hashcat gobuster nikto \
-    wireshark-common wireshark netcat-openbsd ncat dsniff macchanger tcpdump \
-    dirb wfuzz masscan recon-ng smbmap smbclient ldap-utils \
-    || echo "hack group had issues"
-fi
-# ---- cleanup: reduce ISO size ----
+
+# ============================================================
+#  KorrinOS v1.3 — FULL 30GB DESKTOP DISTRIBUTION
+#  Installing EVERYTHING with recommends for a complete OS
+# ============================================================
+
+# ---- KERNEL + BOOT ----
+echo ">>> Installing kernel and boot system..."
+apt-get install -y linux-image-generic linux-headers-generic \
+  initramfs-tools initramfs-tools-core initramfs-tools-bin \
+  casper live-boot live-config \
+  grub-efi-amd64-bin shim-signed mokutil \
+  || echo "kernel/boot had issues"
+# Note: grub-pc removed — conflicts with grub-efi in chroot
+
+# ---- FULL XFCE DESKTOP (with recommends) ----
+echo ">>> Installing XFCE4 desktop..."
+apt-get install -y xfce4 xfce4-goodies xfce4-terminal xfce4-panel \
+  xfce4-session xfce4-settings xfce4-power-manager \
+  lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings \
+  xorg xserver-xorg xserver-xorg-input-all xserver-xorg-video-all \
+  xserver-xorg-input-libinput xserver-xorg-input-synaptics \
+  x11-xserver-utils x11-utils x11-apps xdg-utils xdg-desktop-portal \
+  || echo "desktop had issues"
+
+# ---- DISPLAY MANAGER + COMPOSITOR ----
+echo ">>> Installing compositor and display tools..."
+apt-get install -y picom dunst xfwm4 \
+  arandr autorandr xrandr xprop xdotool xclip xsel \
+  nitrogen feh imwheel \
+  || echo "compositor had issues"
+
+# ---- AUDIO STACK ----
+echo ">>> Installing audio system..."
+apt-get install -y pulseaudio pulseaudio-utils pulseaudio-module-bluetooth \
+  pavucontrol pavumeter alsa-utils alsa-tools alsa-firmware \
+  pipewire pipewire-pulse wireplumber \
+  volumeicon sound-theme-freedesktop \
+  audacity audacious lmms \
+  || echo "audio had issues"
+
+# ---- NETWORKING ----
+echo ">>> Installing networking..."
+apt-get install -y network-manager network-manager-gnome \
+  net-tools wireless-tools iw wpasupplicant \
+  openssh-client openssh-server ssh \
+  curl wget aria2 axel \
+  smbclient samba-common-bin \
+  dnsutils traceroute nmap \
+  openvpn wireguard-tools \
+  bluetooth bluez bluez-tools blueman \
+  || echo "networking had issues"
+
+# ---- FILE MANAGER + FILES ----
+echo ">>> Installing file managers..."
+apt-get install -y thunar thunar-archive-plugin thunar-volman \
+  nemo nautilus pcmanfm \
+  mousepad leafpad xfburn \
+  file-roller engrampa \
+  gvfs gvfs-backends gvfs-fuse \
+  udisks2 udiskie \
+  || echo "file managers had issues"
+
+# ---- WEB BROWSERS ----
+echo ">>> Installing browsers..."
+apt-get install -y firefox \
+  || echo "browsers had issues"
+
+# ---- OFFICE SUITE ----
+echo ">>> Installing LibreOffice full..."
+apt-get install -y libreoffice libreoffice-l10n-en-us libreoffice-help-en-us \
+  libreoffice-writer libreoffice-calc libreoffice-impress \
+  libreoffice-draw libreoffice-base libreoffice-math \
+  libreoffice-style-adwaita libreoffice-style-colibre \
+  libreoffice-gtk3 libreoffice-pdfimport \
+  || echo "libreoffice had issues"
+
+# ---- CREATIVE SUITE ----
+echo ">>> Installing creative tools..."
+apt-get install -y gimp gimp-data gimp-plugin-fig \
+  inkscape darktable rawtherapee \
+  blender \
+  krita \
+  obs-studio \
+  shotwell shotwell-common \
+  eog eog-plugins \
+  rhythmbox celluloid mpv \
+  imagemagick imagemagick-6.q16 \
+  || echo "creative had issues"
+
+# ---- DEVELOPMENT TOOLS ----
+echo ">>> Installing development tools..."
+apt-get install -y build-essential gcc g++ make cmake \
+  python3 python3-pip python3-venv python3-dev python3-numpy \
+  default-jdk default-jre \
+  git gitk git-gui \
+  vim vim-common nano neovim \
+  code || true \
+  nodejs npm \
+  php php-cli \
+  ruby \
+  go || true \
+  rustc cargo || true \
+  valgrind gdb strace ltrace \
+  cloc sloccount \
+  || echo "dev tools had issues"
+
+# ---- SYSTEM TOOLS ----
+echo ">>> Installing system tools..."
+apt-get install -y htop btop atop glances \
+  sysstat iotop iostat \
+  lsof lshw lshw-gtk \
+  hardinfo inxi neofetch \
+  gnome-disk-activity gparted \
+  synaptic aptitude dconf-editor \
+  gparted testdisk foremost scalpel \
+  rsync rdiff-backup \
+  timeshift \
+  ncdu \
+  || echo "sys tools had issues"
+
+# ---- MULTIMEDIA CODECS ----
+echo ">>> Installing multimedia codecs..."
+apt-get install -y \
+  ubuntu-restricted-extras \
+  gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+  gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
+  gstreamer1.0-libav gstreamer1.0-tools \
+  ffmpeg ffmpeg-doc \
+  libavcodec-extra libavformat-dev libavutil-dev \
+  lame flac libvorbis-utils \
+  || echo "codecs had issues"
+
+# ---- FONTS ----
+echo ">>> Installing fonts..."
+apt-get install -y \
+  fonts-dejavu fonts-liberation fonts-freefont-ttf \
+  fonts-noto fonts-noto-color-emoji fonts-noto-cjk \
+  fonts-ubuntu fonts-liberation2 \
+  fonts-firacode fonts-hack \
+  fonts-croscore fonts-crosextra-carlito \
+  msttcorefonts || true \
+  || echo "fonts had issues"
+
+# ---- UTILITIES ----
+echo ">>> Installing utilities..."
+apt-get install -y \
+  galculator mate-calc \
+  terminator gnome-terminal xfce4-terminal \
+  screenshot flameshot \
+  clipman parcellite \
+  keepassxc \
+  filezilla \
+  transmission-gtk \
+  || echo "utilities had issues"
+
+# ---- SECURITY ----
+echo ">>> Installing security tools..."
+apt-get install -y ufw gufw apparmor apparmor-utils \
+  firejail firetools \
+  keepassxc \
+  fail2ban \
+  lynis rkhunter chkrootkit \
+  cryptsetup ecryptfs-utils \
+  || echo "security had issues"
+
+# ---- GAMES ----
+echo ">>> Installing games..."
+dpkg --add-architecture i386 || true
+apt-get update -y || true
+apt-get install -y \
+  steam-installer steam-devices || true \
+  lutris || true \
+  wine wine32 wine64 || true \
+  vulkan-tools mesa-vulkan-drivers mesa-utils \
+  mangohud || true \
+  0ad 0ad-data \
+  supertuxkart supertuxkart-data \
+  warzone2100 \
+  minetest minetest-server \
+  ExtremeTuxRacer \
+  freedoom \
+  foobillard++ || true \
+  || echo "games had issues"
+
+# ---- VIRTUALIZATION ----
+echo ">>> Installing virtualization..."
+apt-get install -y \
+  qemu-kvm qemu-system-x86 qemu-utils \
+  libvirt-daemon-system libvirt-clients \
+  virt-manager virtinst \
+  bridge-utils \
+  || echo "virt had issues"
+
+# ---- CONTAINERS ----
+echo ">>> Installing containers..."
+apt-get install -y \
+  docker.io docker-compose || true \
+  podman podman-compose || true \
+  || echo "containers had issues"
+
+# ---- DOCUMENTATION ----
+echo ">>> Installing documentation..."
+apt-get install -y \
+  man-db manpages manpages-dev manpages-posix manpages-posix-dev \
+  info \
+  debian-handbook \
+  || echo "docs had issues"
+
+# ---- THEMES + ICONS ----
+echo ">>> Installing themes..."
+apt-get install -y \
+  arc-theme arc-icons \
+  papirus-icon-theme \
+  numix-gtk-theme numix-icon-theme \
+  light-themes \
+  adwaita-icon-theme adwaita-qt \
+  qt5ct qt6ct \
+  || echo "themes had issues"
+
+# ---- FINAL CLEANUP (keep big packages, remove caches) ----
+echo ">>> Cleaning up..."
+apt-get autoremove -y
 apt-get clean
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt/*.bin
+echo ">>> DONE: $(dpkg-query -W -f='\${Installed-Size}\n' | awk '{s+=$1}END{printf "%.0f MB\n", s/1024}') installed"
 EOF
   "$SUDO" cp "$BUILD/apt.sh" "$ROOTFS/apt-setup.sh"
   "$SUDO" chroot "$ROOTFS" bash /apt-setup.sh || echo "   apt install had warnings (continuing)"
@@ -312,6 +498,38 @@ EOF'
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-firewall.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-health.timer 2>/dev/null || true
 
+  # Health check service (timer references this)
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-health.service" <<EOF
+[Unit]
+Description=KorrinOS System Health Check
+
+[Service]
+Type=oneshot
+ExecStart=/opt/korrinos/os/system/security/korrinos-health.sh check
+EOF'
+
+  # Enable display manager (LightDM)
+  "$SUDO" chroot "$ROOTFS" systemctl enable lightdm.service 2>/dev/null || true
+
+  # Create live user for ISO (korrinos/korrinos)
+  "$SUDO" chroot "$ROOTFS" bash -c '
+    useradd -m -s /bin/bash -G sudo,adm,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev korrinos 2>/dev/null || true
+    echo "korrinos:korrinos" | chpasswd 2>/dev/null || true
+    echo "root:korrinos" | chpasswd 2>/dev/null || true
+    # Auto-login for live session
+    mkdir -p /etc/lightdm/lightdm.conf.d
+    cat > /etc/lightdm/lightdm.conf.d/autologin.conf << LGDM
+[Seat:*]
+autologin-user=korrinos
+autologin-user-timeout=0
+user-session=xfce
+greeter-session=lightdm-gtk-greeter
+LGDM
+  ' 2>/dev/null || echo "   live user setup had warnings"
+
+  # Configure hostname
+  "$SUDO" chroot "$ROOTFS" bash -c 'echo "korrinos" > /etc/hostname && echo "127.0.1.1 korrinos" >> /etc/hosts' 2>/dev/null || true
+
   # Auto-update service (new systems)
   "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-autoupdate.service" <<EOF
 [Unit]
@@ -397,18 +615,71 @@ MARKER="/etc/korrinos-firstboot-done"
 echo "Welcome to KorrinOS!"
 echo "Running first-boot setup..."
 
-# Set default wallpaper
+# Set default wallpaper (anime city)
 WALLPAPER_DIR="/usr/share/korrinos/wallpapers"
 mkdir -p "$WALLPAPER_DIR"
+if [ -f /opt/korrinos/os/branding/wallpaper/default.jpg ]; then
+  cp /opt/korrinos/os/branding/wallpaper/default.jpg "$WALLPAPER_DIR/default.jpg"
+fi
 if [ -f /opt/korrinos/os/branding/plymouth/logo.png ]; then
-  cp /opt/korrinos/os/branding/plymouth/logo.png "$WALLPAPER_DIR/default.png"
+  cp /opt/korrinos/os/branding/plymouth/logo.png "$WALLPAPER_DIR/korrinos-logo.png"
 fi
 
 # Set default background for XFCE
 if command -v xfconf-query &>/dev/null; then
   xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image \
-    -s "$WALLPAPER_DIR/default.png" 2>/dev/null || true
+    -s "$WALLPAPER_DIR/default.jpg" 2>/dev/null || true
+  xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/image-style \
+    -s 5 2>/dev/null || true
 fi
+
+# Set default theme
+if command -v xfconf-query &>/dev/null; then
+  xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita-dark" 2>/dev/null || true
+  xfconf-query -c xsettings -p /Net/IconThemeName -s "Adwaita" 2>/dev/null || true
+  xfconf-query -c xsettings -p /Gtk/FontName -s "Sans 10" 2>/dev/null || true
+fi
+
+# Auto-mount USB drives
+mkdir -p ~/.config/autostart
+cat > ~/.config/autostart/korrinos-automount.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=KorrinOS Auto-Mount
+Exec=/usr/bin/udiskie --automount --notify
+Hidden=false
+X-GNOME-Autostart-enabled=true
+EOF
+
+# Clipboard manager
+cat > ~/.config/autostart/korrinos-clipboard.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=KorrinOS Clipboard
+Exec=clipman
+Hidden=false
+X-GNOME-Autostart-enabled=true
+EOF
+
+# Network manager applet
+cat > ~/.config/autostart/korrinos-nm-applet.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=Network Manager
+Exec=nm-applet --indicator
+Hidden=false
+X-GNOME-Autostart-enabled=true
+EOF
+
+# Volume control applet
+cat > ~/.config/autostart/korrinos-volume.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=Volume Control
+Exec=volumeicon
+Hidden=false
+X-GNOME-Autostart-enabled=true
+EOF
 
 # Configure picom autostart
 mkdir -p ~/.config/autostart
@@ -504,7 +775,7 @@ EOF
 touch "$MARKER"
 echo "First-boot setup complete."
 FBEOF
-chmod +x "$ROOTFS/usr/local/bin/korrinos-firstboot' 2>/dev/null || true
+chmod +x "$ROOTFS/usr/local/bin/korrinos-firstboot" 2>/dev/null || true
 
   # Add firstboot to /etc/rc.local or autostart
   "$SUDO" bash -c 'cat > "$ROOTFS/etc/profile.d/korrinos-firstboot.sh" <<EOF
@@ -572,21 +843,52 @@ stage5_squashfs() {
     -comp xz -b 1M -no-xattrs -processors "$(nproc)" 2>&1 | tail -4
 }
 
-# kernel + initrd into casper (fresh copy; image dir may be root-owned)
+# kernel + initrd into casper (fresh copy from rootfs)
 stage5_caspermaterials() {
   "$SUDO" mkdir -p "$IMAGE/casper"
-  if [ -f /home/tinkerspace/linux-kernel/arch/x86/boot/bzImage ]; then
-    "$SUDO" cp /home/tinkerspace/linux-kernel/arch/x86/boot/bzImage "$IMAGE/casper/vmlinuz"
-  else
-    "$SUDO" cp /boot/vmlinuz-* "$IMAGE/casper/vmlinuz"
-  fi
-  local got=""
-  for i in /boot/initrd.img-*; do
-    if [ -f "$i" ] && [ ! -s "$IMAGE/casper/initrd" ]; then
-      "$SUDO" cp "$i" "$IMAGE/casper/initrd" && got=1
+  # Copy kernel from rootfs (installed via apt)
+  local kernel_found=""
+  for k in "$ROOTFS/boot"/vmlinuz-*; do
+    if [ -f "$k" ]; then
+      "$SUDO" cp "$k" "$IMAGE/casper/vmlinuz"
+      kernel_found=1
+      echo "   kernel: $k"
+      break
     fi
   done
-  [ -n "$got" ] || echo "   WARN: no initrd copied"
+  if [ -z "$kernel_found" ]; then
+    # Fallback: host kernel
+    for k in /boot/vmlinuz-*; do
+      if [ -f "$k" ]; then
+        "$SUDO" cp "$k" "$IMAGE/casper/vmlinuz"
+        kernel_found=1
+        echo "   kernel (host fallback): $k"
+        break
+      fi
+    done
+  fi
+  [ -z "$kernel_found" ] && echo "   ERROR: no kernel found!"
+  # Copy initrd from rootfs
+  local initrd_found=""
+  for i in "$ROOTFS/boot"/initrd.img-*; do
+    if [ -f "$i" ] && [ ! -s "$IMAGE/casper/initrd" ]; then
+      "$SUDO" cp "$i" "$IMAGE/casper/initrd"
+      initrd_found=1
+      echo "   initrd: $i"
+      break
+    fi
+  done
+  if [ -z "$initrd_found" ]; then
+    for i in /boot/initrd.img-*; do
+      if [ -f "$i" ] && [ ! -s "$IMAGE/casper/initrd" ]; then
+        "$SUDO" cp "$i" "$IMAGE/casper/initrd"
+        initrd_found=1
+        echo "   initrd (host fallback): $i"
+        break
+      fi
+    done
+  fi
+  [ -z "$initrd_found" ] && echo "   WARN: no initrd copied"
   ls -la "$IMAGE/casper/" | awk '{print $5,$9}'
 }
 

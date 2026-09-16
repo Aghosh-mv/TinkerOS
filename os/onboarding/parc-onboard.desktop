@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=TinkerOS Setup
+Name=KorrinOS Setup
 Comment=First-run setup wizard
 Exec=python3 /usr/lib/tinker/onboarding/tinker-onboard.py
 Icon=tinker-onboard

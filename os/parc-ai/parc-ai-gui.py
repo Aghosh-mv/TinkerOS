@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TINKER AI — glassmorphism AI assistant for ParcOS
+TINKER AI — glassmorphism AI assistant for KorrinOS
 ====================================================
 Spotlight-style, keyboard-driven glass panel over the desktop.
 Type a question -> AI searches local context -> rich HTML card response.
@@ -440,7 +440,7 @@ def main():
 
     app = QApplication(sys.argv)
     app.setApplicationName("Tinker AI")
-    app.setOrganizationName("ParcOS")
+    app.setOrganizationName("KorrinOS")
 
     w = TinkeriaWindow()
     w.show()

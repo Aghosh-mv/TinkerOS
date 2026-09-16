@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Input Tuning - keyboard repeat, mouse accel, touchpad, gestures, Wacom
+# KorrinOS Input Tuning - keyboard repeat, mouse accel, touchpad, gestures, Wacom
 case "${1:-status}" in
   status)
     echo "=== Input Devices ==="

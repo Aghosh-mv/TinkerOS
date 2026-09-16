@@ -2,7 +2,7 @@
 
 ## Download
 
-Visit [tinkeros.dev/download](https://tinkeros.dev/download) and download the latest ISO for your architecture.
+Visit [korrinos.dev/download](https://korrinos.dev/download) and download the latest ISO for your architecture.
 
 ## Creating Installation Media
 
@@ -12,13 +12,13 @@ Visit [tinkeros.dev/download](https://tinkeros.dev/download) and download the la
 lsblk
 
 # Write ISO (replace /dev/sdX with your USB)
-sudo dd if=TinkerOS.iso of=/dev/sdX bs=4M status=progress
+sudo dd if=KorrinOS.iso of=/dev/sdX bs=4M status=progress
 sync
 ```
 
 ### Windows
 1. Download [Rufus](https://rufus.ie) or [Etcher](https://etcher.io)
-2. Select the TinkerOS ISO
+2. Select the KorrinOS ISO
 3. Select your USB drive
 3. Click **Start**
 
@@ -31,7 +31,7 @@ sync
 
 ## Installation Steps
 
-1. Select **"Install TinkerOS"** from GRUB menu
+1. Select **"Install KorrinOS"** from GRUB menu
 2. Choose language
 3. Connect to WiFi (optional)
 4. Select installation type:
@@ -51,4 +51,4 @@ On first boot, the **Setup Wizard** will guide you through:
 
 ---
 
-*Need help? Join our [Discord](https://discord.gg/tinkeros) for live support.*
+*Need help? Join our [Discord](https://discord.gg/korrinos) for live support.*

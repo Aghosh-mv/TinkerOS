@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Predictive Pre-Rendering - render frames before you need them
+# KorrinOS Predictive Pre-Rendering - render frames before you need them
 PR_CONFIG="$HOME/.tinker/predictive-render.json"; mkdir -p "$HOME/.tinker"
 init(){ cat > "$PR_CONFIG" << 'EOF'
 {"enabled":false,"buffer_frames":3,"predict_scrolling":true,"predict_mouse":true,"predict_window_switch":true,"lookahead_ms":50,"cache_size_mb":256}

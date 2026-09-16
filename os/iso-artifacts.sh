@@ -1,14 +1,14 @@
 #!/bin/bash
-# iso-artifacts — generates the sha256 + sizes manifest for a finished TinkerOS
+# iso-artifacts — generates the sha256 + sizes manifest for a finished KorrinOS
 # ISO, for the SourceForge release notes. Purely local; writes <iso>.sha256 next
 # to the ISO (never commits the ISO itself).
 #
-# Usage: os/iso-artifacts.sh [path/to/TinkerOS-*.iso]
+# Usage: os/iso-artifacts.sh [path/to/KorrinOS-*.iso]
 
 set -euo pipefail
 
 ISO="${1:-}"
-[ -z "$ISO" ] && ISO=$(ls -1 /home/tinkerspace/linux-kernel/TinkerOS-*.iso 2>/dev/null | head -1)
+[ -z "$ISO" ] && ISO=$(ls -1 /home/tinkerspace/linux-kernel/KorrinOS-*.iso 2>/dev/null | head -1)
 [ -n "$ISO" ] && [ -f "$ISO" ] || { echo "no ISO found: $0 [path]"; exit 1; }
 
 echo "Artifacts manifest for $ISO"

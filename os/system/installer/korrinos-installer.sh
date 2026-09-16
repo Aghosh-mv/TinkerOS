@@ -50,6 +50,15 @@ DEFAULTS
   fi
 }
 
+# ---- config helper ----
+cfg() {
+  local key="$1" default="$2"
+  local val
+  val=$(grep -o "\"$key\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$CFG" 2>/dev/null \
+        | head -1 | sed 's/.*"'"$key"'"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
+  if [ -z "$val" ]; then echo "$default"; else echo "$val"; fi
+}
+
 # ---- detect installation environment ----
 detect_install_env() {
   echo "============================================="
@@ -464,7 +473,7 @@ welcomeSubtitle: "Install KorrinOS on your computer"
 welcomeShowSupport: true
 welcomeReleaseNotesUrl: ""
 welcomeKnownIssuesUrl: ""
-supportUrl: "https://github.com/Aghosh-mv/TinkerOS/issues"
+supportUrl: "https://github.com/Aghosh-mv/KorrinOS/issues"
 
 slideshowPath: "/usr/share/calamares/slides"
 
@@ -484,9 +493,9 @@ strings:
   versionedShortName: "KorrinOS 1.3"
   bootloaderName: "KorrinOS"
   bootloaderEntryName: "KorrinOS"
-  productUrl: "https://github.com/Aghosh-mv/TinkerOS"
-  bugzillaUrl: "https://github.com/Aghosh-mv/TinkerOS/issues"
-  contactUrl: "https://github.com/Aghosh-mv/TinkerOS/issues"
+  productUrl: "https://github.com/Aghosh-mv/KorrinOS"
+  bugzillaUrl: "https://github.com/Aghosh-mv/KorrinOS/issues"
+  contactUrl: "https://github.com/Aghosh-mv/KorrinOS/issues"
 
 images:
   productLogo: "/usr/share/korrinos/logo.png"

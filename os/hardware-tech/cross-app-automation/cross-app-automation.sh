@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Cross-App Automation (CAA) - Zero-code macros that work across ALL apps
+# KorrinOS Cross-App Automation (CAA) - Zero-code macros that work across ALL apps
 # Natural language commands -> automated workflows -> executed through kernel interfaces
 # Security: permission tokens + sandboxed execution + audit log
 CAA_DIR="$HOME/.tinker/automations"; CAA_LOG="$CAA_DIR/audit.log"

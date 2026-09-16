@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Data Shredder — One-click nuclear privacy wipe
+# KorrinOS Data Shredder — One-click nuclear privacy wipe
 # Obfuscates HW ID, randomizes MAC, feeds dummy telemetry, clears caches
 # Does NOT touch active browser sessions or running processes
 DS_DIR="$HOME/.tinker/data-shredder"; DS_LOG="$DS_DIR/shred.log"
@@ -222,7 +222,7 @@ shred_logs(){
 # ── The Master Shred ───────────────────────────────────────────────────
 shred(){
   echo "╔══════════════════════════════════════════════════════════╗"
-  echo "║          TinkerOS DATA SHREDDER — NUCLEAR MODE         ║"
+  echo "║          KorrinOS DATA SHREDDER — NUCLEAR MODE         ║"
   echo "╠══════════════════════════════════════════════════════════╣"
   echo "║  This will:                                            ║"
   echo "║  • Randomize your MAC address                         ║"

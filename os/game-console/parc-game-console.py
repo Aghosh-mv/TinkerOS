@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS Game Console Mode
+KorrinOS Game Console Mode
 Boot-to-Steam-Deck-like experience, controller-first UI
 """
 

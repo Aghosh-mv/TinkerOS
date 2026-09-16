@@ -1,12 +1,12 @@
 #!/bin/bash
-# Install TinkerOS systemd services
+# Install KorrinOS systemd services
 
 set -e
 
 SERVICE_DIR="/etc/systemd/system"
-LIB_DIR="/usr/lib/tinker"
+LIB_DIR="/opt/korrinos/os"
 
-echo "Installing TinkerOS services..."
+echo "Installing KorrinOS services..."
 
 # Copy scripts to lib directory
 sudo mkdir -p "$LIB_DIR"
@@ -23,24 +23,24 @@ sudo cp *.timer "$SERVICE_DIR/"
 sudo systemctl daemon-reload
 
 # Enable services
-sudo systemctl enable tinker-desktop.service
-sudo systemctl enable tinker-monitor.service
-sudo systemctl enable tinker-heal.service
-sudo systemctl enable tinker-power.service
-sudo systemctl enable tinker-backup.timer
-sudo systemctl enable tinker-update.timer
-sudo systemctl enable tinker-cleanup.timer
+sudo systemctl enable korrinos-desktop.service
+sudo systemctl enable korrinos-monitor.service
+sudo systemctl enable korrinos-heal.service
+sudo systemctl enable korrinos-power.service
+sudo systemctl enable korrinos-backup.timer
+sudo systemctl enable korrinos-update.timer
+sudo systemctl enable korrinos-cleanup.timer
 
 echo "Services installed!"
 echo ""
 echo "To start services:"
-echo "  sudo systemctl start tinker-desktop"
-echo "  sudo systemctl start tinker-monitor"
-echo "  sudo systemctl start tinker-heal"
-echo "  sudo systemctl start tinker-power"
+echo "  sudo systemctl start korrinos-desktop"
+echo "  sudo systemctl start korrinos-monitor"
+echo "  sudo systemctl start korrinos-heal"
+echo "  sudo systemctl start korrinos-power"
 echo ""
 echo "To enable auto-start:"
-echo "  sudo systemctl enable tinker-desktop"
-echo "  sudo systemctl enable tinker-monitor"
-echo "  sudo systemctl enable tinker-heal"
-echo "  sudo systemctl enable tinker-power"
+echo "  sudo systemctl enable korrinos-desktop"
+echo "  sudo systemctl enable korrinos-monitor"
+echo "  sudo systemctl enable korrinos-heal"
+echo "  sudo systemctl enable korrinos-power"

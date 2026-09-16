@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Network Tuning - WiFi power, ring buffers, offloads, WoL, interrupt coalescing
+# KorrinOS Network Tuning - WiFi power, ring buffers, offloads, WoL, interrupt coalescing
 case "${1:-status}" in
   status)
     echo "=== Network Status ==="

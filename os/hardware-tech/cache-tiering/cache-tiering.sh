@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Software-Defined Cache and Memory Tiering
+# KorrinOS Software-Defined Cache and Memory Tiering
 # Dynamically reconfigures CPU cache layout based on active application
 # Intel CAT / AMD way partitioning / ARM MPAM
 CT_DIR="$HOME/.tinker/cache-tiering"; CT_CONFIG="$CT_DIR/config.json"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Security Suite - Main Controller
+# KorrinOS Security Suite - Main Controller
 
 set -e
 

@@ -121,7 +121,7 @@ class TinkerInference:
             return
         
         test_questions = [
-            "What is TinkerOS?",
+            "What is KorrinOS?",
             "How do I switch worlds?",
             "What is Searchie?",
             "How do I open the Control Center?",
@@ -167,6 +167,6 @@ if __name__ == "__main__":
             print(f"TinkerAI: {result['answer']}")
     else:
         # Single question mode
-        q = ' '.join(sys.argv[1:]) or "What is TinkerOS?"
+        q = ' '.join(sys.argv[1:]) or "What is KorrinOS?"
         result = engine.answer(q)
         print(json.dumps(result, indent=2))

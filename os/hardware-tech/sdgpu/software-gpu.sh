@@ -1,5 +1,5 @@
 #!/bin/bash
-# TinkerOS Software-Defined GPU (SDGPU) - CPU vector rendering + LD_PRELOAD interceptor
+# KorrinOS Software-Defined GPU (SDGPU) - CPU vector rendering + LD_PRELOAD interceptor
 SDGPU_CONFIG="$HOME/.tinker/sdgpu.json"; mkdir -p "$HOME/.tinker" /tmp/sdgpu_cache
 
 # Shared liability/consent gate + C backend integration

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS Brand Identity System
+KorrinOS Brand Identity System
 Complete brand guidelines and asset generator
 """
 
@@ -94,7 +94,7 @@ class TinkerBrand:
         self.shadows = Shadows()
         self.transitions = Transitions()
         self.mascot = "🦝"
-        self.name = "TinkerOS"
+        self.name = "KorrinOS"
         self.tagline = "Your Computer. Your Rules."
         self.version = "7.2.0-rc6"
     
@@ -125,7 +125,7 @@ class TinkerBrand:
     
     def generate_gtk_theme(self) -> str:
         return f"""
-/* TinkerOS GTK Theme */
+/* KorrinOS GTK Theme */
 @define-color bg_color {self.colors.bg_primary};
 @define-color fg_color {self.colors.text_primary};
 @define-color base_color {self.colors.bg_card};
@@ -139,7 +139,7 @@ class TinkerBrand:
     
     def generate_qt_stylesheet(self) -> str:
         return f"""
-/* TinkerOS Qt Stylesheet */
+/* KorrinOS Qt Stylesheet */
 QWidget {{ background-color: {self.colors.bg_primary}; color: {self.colors.text_primary}; font-family: "{self.typography.font_sans}"; }}
 QPushButton {{ background-color: {self.colors.primary}; color: #000000; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; }}
 QPushButton:hover {{ background-color: {self.colors.primary_light}; }}
@@ -205,6 +205,6 @@ module.exports = {{
 if __name__ == "__main__":
     brand = TinkerBrand()
     brand.save_all_assets()
-    print("TinkerOS Brand Identity System generated!")
+    print("KorrinOS Brand Identity System generated!")
     print(f"Name: {brand.name}, Tagline: {brand.tagline}")
     print(f"Primary: {brand.colors.primary}, Mascot: {brand.mascot}")

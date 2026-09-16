@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerOS ISO Builder Pro
+KorrinOS ISO Builder Pro
 Professional ISO creation with customization, testing, and deployment
 """
 
@@ -37,7 +37,7 @@ class ISOProfile:
     timezone: str = "UTC"
     locale: str = "en_US.UTF-8"
     keyboard: str = "us"
-    hostname: str = "tinkeros"
+    hostname: str = "korrinos"
     enable_secure_boot: bool = False
     enable_efi: bool = True
     enable_bios: bool = True
@@ -55,7 +55,7 @@ class ISOProfile:
         if self.services_disabled is None: self.services_disabled = []
         if self.users is None: self.users = []
         if not self.output_name:
-            self.output_name = f"TinkerOS-{self.name}-{datetime.now().strftime('%Y%m%d')}"
+            self.output_name = f"KorrinOS-{self.name}-{datetime.now().strftime('%Y%m%d')}"
 
 class ISOBuilder:
     def __init__(self, work_dir: str = None):
@@ -63,14 +63,14 @@ class ISOBuilder:
         self.work_dir.mkdir(parents=True, exist_ok=True)
         self.profiles_dir = Path.home() / ".tinker" / "iso-profiles"
         self.profiles_dir.mkdir(parents=True, exist_ok=True)
-        self.output_dir = Path.home() / "Desktop" / "TinkerOS-ISOs"
+        self.output_dir = Path.home() / "Desktop" / "KorrinOS-ISOs"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         
         # Built-in profiles
         self.builtin_profiles = {
             "minimal": ISOProfile(
                 name="minimal",
-                description="Minimal TinkerOS - core system only",
+                description="Minimal KorrinOS - core system only",
                 packages=["linux-generic", "linux-firmware", "grub-efi-amd64", "grub-pc",
                          "systemd", "network-manager", "openssh-server", "sudo", "vim",
                          "curl", "wget", "git", "htop", "btop", "neofetch"],
@@ -79,7 +79,7 @@ class ISOBuilder:
             ),
             "standard": ISOProfile(
                 name="standard",
-                description="Standard TinkerOS - XFCE desktop with essentials",
+                description="Standard KorrinOS - XFCE desktop with essentials",
                 desktop="xfce",
                 packages=["xfce4", "xfce4-goodies", "lightdm", "lightdm-gtk-greeter",
                          "thunar", "mousepad", "xfce4-terminal", "ristretto",
@@ -93,7 +93,7 @@ class ISOBuilder:
             ),
             "gaming": ISOProfile(
                 name="gaming",
-                description="Gaming TinkerOS - optimized for gaming",
+                description="Gaming KorrinOS - optimized for gaming",
                 desktop="xfce",
                 kernel_params=["mitigations=off", "processor.max_cstate=1", "intel_idle.max_cstate=0",
                               "nvme_core.default_ps_max_latency_us=0"],
@@ -107,7 +107,7 @@ class ISOBuilder:
             ),
             "developer": ISOProfile(
                 name="developer",
-                description="Developer TinkerOS - full development environment",
+                description="Developer KorrinOS - full development environment",
                 desktop="xfce",
                 packages=["xfce4", "lightdm", "code", "git", "docker.io", "docker-compose",
                          "nodejs", "npm", "python3", "python3-pip", "python3-venv",
@@ -123,7 +123,7 @@ class ISOBuilder:
             ),
             "enterprise": ISOProfile(
                 name="enterprise",
-                description="Enterprise TinkerOS - hardened, managed, compliant",
+                description="Enterprise KorrinOS - hardened, managed, compliant",
                 desktop="xfce",
                 packages=["xfce4", "lightdm", "firefox-esr", "libreoffice", "thunderbird",
                          "timeshift", "apparmor", "auditd", "aide", "rkhunter", "clamav",
@@ -163,7 +163,7 @@ class ISOBuilder:
         
         output_file = output or str(self.output_dir / f"{profile.output_name}.iso")
         
-        print(f"Building TinkerOS {profile.name} ISO...")
+        print(f"Building KorrinOS {profile.name} ISO...")
         print(f"  Base: {profile.base} {profile.base_version}")
         print(f"  Desktop: {profile.desktop}")
         print(f"  Kernel: {profile.kernel}")
@@ -332,17 +332,17 @@ class ISOBuilder:
 set default=0
 set timeout=10
 
-menuentry "TinkerOS {profile.name}" {{
+menuentry "KorrinOS {profile.name}" {{
     linux /casper/vmlinuz boot=casper quiet splash ---
     initrd /casper/initrd
 }}
 
-menuentry "TinkerOS {profile.name} (Safe Graphics)" {{
+menuentry "KorrinOS {profile.name} (Safe Graphics)" {{
     linux /casper/vmlinuz boot=casper quiet splash nomodeset ---
     initrd /casper/initrd
 }}
 
-menuentry "TinkerOS {profile.name} (Install)" {{
+menuentry "KorrinOS {profile.name} (Install)" {{
     linux /casper/vmlinuz boot=casper only-ubiquity quiet splash ---
     initrd /casper/initrd
 }}
@@ -377,7 +377,7 @@ menuentry "TinkerOS {profile.name} (Install)" {{
             "xorriso", "-as", "mkisofs",
             "-iso-level", "3",
             "-full-iso9660-filenames",
-            "-volid", f"TinkerOS_{profile.name}",
+            "-volid", f"KorrinOS_{profile.name}",
             "-output", output_file,
             "-eltorito-boot", "boot/grub/bios.img",
             "-no-emul-boot", "-boot-load-size", "4",
@@ -413,7 +413,7 @@ menuentry "TinkerOS {profile.name} (Install)" {{
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="TinkerOS ISO Builder Pro")
+    parser = argparse.ArgumentParser(description="KorrinOS ISO Builder Pro")
     parser.add_argument("profile", help="Profile name")
     parser.add_argument("-o", "--output", help="Output file")
     parser.add_argument("--test", action="store_true", help="Test in QEMU")
