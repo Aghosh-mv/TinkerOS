@@ -42,6 +42,15 @@
 - This commitment is a standing rule: never forget we are building on a
   real, booting Linux distribution.
 
+## BRAINSTORM FIRST (MANDATORY FOR ALL NOVEL FEATURES)
+- ALWAYS brainstorm and reflect on new novel features BEFORE building them.
+- When the user proposes something new (new language, new system, new
+  capability), STOP and present a brainstorm: what it is, why it exists,
+  how it works, syntax/design sketch, ecosystem impact.
+- Get user feedback on the brainstorm before writing any code.
+- This prevents building the wrong thing and ensures alignment.
+- Cool stuff deserves deep thinking first, not rushed implementation.
+
 ## The one true mission (verbatim, from the founding session)
 
 ## The one true mission (verbatim, from the founding session)
