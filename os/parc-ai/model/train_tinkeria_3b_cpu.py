@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerIA 3B Model Training — CPU Mode
+TinkerAI 3B Model Training — CPU Mode
 Full fine-tuning with BAdam optimizer on KorrinOS training data.
 Runs on CPU since GPU is occupied by other training jobs.
 """
@@ -12,14 +12,14 @@ from pathlib import Path
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s',
-    handlers=[logging.FileHandler('/tmp/tinkeria_train.log'), logging.StreamHandler()])
+    handlers=[logging.FileHandler('/tmp/tinkerai_train.log'), logging.StreamHandler()])
 log = logging.getLogger(__name__)
 
 # ── Config ──────────────────────────────────────────────────────────────
 MODEL_DIR   = os.path.expanduser('~/models/phi-3.5-mini')
 DATA_FILE   = '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/wiki_training.jsonl'
 DATA_FILE2  = '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/merged_all.jsonl'
-OUT_DIR     = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/tinkeria_3b'
+OUT_DIR     = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/tinkerai_3b'
 MAX_LEN     = 128       # Reduced for CPU speed + memory
 BATCH       = 1
 GRAD_ACCUM  = 2         # effective batch = 2 (minimum for gradient checkpointing)
@@ -100,7 +100,7 @@ def main():
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     log.info("=" * 60)
-    log.info("TinkerIA 3B Training (CPU mode)")
+    log.info("TinkerAI 3B Training (CPU mode)")
     log.info("=" * 60)
     device = 'cpu'
     log.info(f"Device: {device}")

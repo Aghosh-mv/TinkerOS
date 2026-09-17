@@ -20,7 +20,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('/tmp/tinkeria_training.log'),
+        logging.FileHandler('/tmp/tinkerai_training.log'),
         logging.StreamHandler()
     ]
 )
@@ -39,7 +39,7 @@ CONFIG = {
     'max_grad_norm': 1.0,
     'fp16': True,
     'gradient_checkpointing': True,
-    'output_dir': '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/tinkeria_3b',
+    'output_dir': '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/tinkerai_3b',
     'training_data': '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/merged_all.jsonl',
     'save_steps': 500,
     'eval_steps': 100,

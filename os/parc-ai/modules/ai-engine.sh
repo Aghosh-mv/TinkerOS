@@ -4,7 +4,7 @@
 
 OLLAMA_HOST="${OLLAMA_HOST:-http://localhost:11434}"
 OLLAMA_MODEL="${OLLAMA_MODEL:-llama3.1:8b}"
-TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinkeria}"
+TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinkerai}"
 CONV_FILE="$TINKER_AI_HOME/conversation_history.json"
 [ -f "$CONV_FILE" ] || echo '{"history":[],"system":""}' > "$CONV_FILE"
 

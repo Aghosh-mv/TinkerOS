@@ -18,7 +18,7 @@ cmd_backup_dotfiles() {
         .bashrc .bash_profile .profile \
         .gitconfig .gitignore_global \
         .vimrc .tmux.conf \
-        .config/tinkeria \
+        .config/tinkerai \
         .config/korrinos \
         2>/dev/null || true
     

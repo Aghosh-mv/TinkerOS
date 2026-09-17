@@ -54,8 +54,8 @@ declare -A DEFAULT_SHORTCUTS=(
   ["ctrl+alt+left"]="prev-track"
   
   # Tinkeria AI
-  ["super+space+space"]="tinkeria-quick"
-  ["ctrl+shift+space"]="tinkeria-chat"
+  ["super+space+space"]="tinkerai-quick"
+  ["ctrl+shift+space"]="tinkerai-chat"
   
   # KorrinOS specific
   ["super+k"]="korrinos-dashboard"
@@ -120,7 +120,7 @@ categories = {
     'Workspaces': ['workspace-1', 'workspace-2', 'workspace-3', 'workspace-4', 'workspace-5', 'workspace-prev', 'workspace-next'],
     'Screenshots': ['screenshot-full', 'screenshot-area', 'screenshot-window', 'screenshot-clipboard'],
     'Media': ['mute', 'volume-up', 'volume-down', 'play-pause', 'next-track', 'prev-track'],
-    'Tinkeria AI': ['tinkeria-quick', 'tinkeria-chat'],
+    'Tinkeria AI': ['tinkerai-quick', 'tinkerai-chat'],
     'KorrinOS': ['korrinos-dashboard', 'korrinos-cleanup', 'korrinos-backup', 'korrinos-monitor']
 }
 
