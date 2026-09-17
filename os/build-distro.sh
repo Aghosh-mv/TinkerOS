@@ -840,7 +840,7 @@ stage2b_branding() {
     || echo "   branding install had warnings"
   "$SUDO" chroot "$ROOTFS" update-initramfs -u 2>&1 | tail -1 || echo "   initramfs not updated"
   for m in dev/pts proc sys dev; do
-    mountpoint -q "$ROOTFS/$m" && "$SUDO" umount "$ROOTFS/$m" 2>/dev/null || true
+    [ -d "$ROOTFS/$m" ] && mountpoint -q "$ROOTFS/$m" && "$SUDO" umount "$ROOTFS/$m" 2>/dev/null || true
   done
   echo "   boot branding installed (Plymouth + GRUB theme)."
 }
