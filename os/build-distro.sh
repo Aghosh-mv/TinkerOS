@@ -22,7 +22,7 @@ MIRROR="${MIRROR:-http://in.archive.ubuntu.com/ubuntu/}"
 BUILD="${BUILD:-/home/tinkerspace/build-korrinos}"
 ROOTFS="$BUILD/rootfs"
 IMAGE="$BUILD/image"
-OUT="${OUT:-/home/tinkerspace/linux-kernel/KorrinOS-v1.3.iso}"
+OUT="${OUT:-/home/tinkerspace/linux-kernel/KorrinOS-v2.0.iso}"
 SUDO="${SUDO:-sudo}"
 if ! sudo -n true 2>/dev/null; then
   echo "ERROR: passwordless sudo required. Run: sudo -v" >&2
@@ -76,9 +76,10 @@ apt-get update -y
 # ============================================================
 
 # ---- KERNEL + BOOT ----
+# Our KorrinOS kernel (Linux v7.2-rc6 + Tinker) is built on the host and
+# dropped into the rootfs in stage3. apt charset only provides boot/firmware.
 echo ">>> Installing kernel and boot system..."
-apt-get install -y linux-image-generic linux-headers-generic \
-  initramfs-tools initramfs-tools-core initramfs-tools-bin \
+apt-get install -y initramfs-tools initramfs-tools-core initramfs-tools-bin \
   casper live-boot live-config \
   grub-efi-amd64-bin shim-signed mokutil \
   || echo "kernel/boot had issues"
@@ -641,10 +642,10 @@ stage4_live() {
 stage_branding() {
   echo "### [branding] Writing KorrinOS distribution identity into rootfs..."
   "$SUDO" bash -c "cat > '$ROOTFS/etc/os-release' <<'EOS'
-PRETTY_NAME=\"KorrinOS 1.3 (jammy)\"
+PRETTY_NAME=\"KorrinOS 2.0 (jammy)\"
 NAME=KorrinOS
-VERSION_ID=\"1.3\"
-VERSION=\"1.3 (jammy)\"
+VERSION_ID=\"2.0\"
+VERSION=\"2.0 (jammy)\"
 VERSION_CODENAME=jammy
 ID=korrinos
 ID_LIKE=ubuntu debian
@@ -653,7 +654,7 @@ SUPPORT_URL=https://sourceforge.net/projects/korrinos/
 BUG_REPORT_URL=https://sourceforge.net/projects/korrinos/
 EOS"
   "$SUDO" cp "$ROOTFS/etc/os-release" "$ROOTFS/etc/lsb-release"
-  "$SUDO" bash -c "echo 'KorrinOS 1.3 (jammy) \\\\l' > '$ROOTFS/etc/issue'"
+  "$SUDO" bash -c "echo 'KorrinOS 2.0 (jammy) \\\\l' > '$ROOTFS/etc/issue'"
   "$SUDO" cp "$ROOTFS/etc/issue" "$ROOTFS/etc/issue.net"
   echo "   KorrinOS identity written (os-release/lsb-release/issue)."
 }
@@ -688,16 +689,26 @@ stage5_squashfs() {
 # kernel + initrd into casper (fresh copy from rootfs)
 stage5_caspermaterials() {
   "$SUDO" mkdir -p "$IMAGE/casper"
-  # Copy kernel from rootfs (installed via apt)
+  # Copy kernel from rootfs — PREFER our KorrinOS kernel (-korrinos)
   local kernel_found=""
-  for k in "$ROOTFS/boot"/vmlinuz-*; do
+  for k in "$ROOTFS/boot"/vmlinuz-*-korrinos; do
     if [ -f "$k" ]; then
       "$SUDO" cp "$k" "$IMAGE/casper/vmlinuz"
       kernel_found=1
-      echo "   kernel: $k"
+      echo "   kernel (KorrinOS): $k"
       break
     fi
   done
+  if [ -z "$kernel_found" ]; then
+    for k in "$ROOTFS/boot"/vmlinuz-*; do
+      if [ -f "$k" ]; then
+        "$SUDO" cp "$k" "$IMAGE/casper/vmlinuz"
+        kernel_found=1
+        echo "   kernel: $k"
+        break
+      fi
+    done
+  fi
   if [ -z "$kernel_found" ]; then
     # Fallback: host kernel
     for k in /boot/vmlinuz-*; do
@@ -710,16 +721,26 @@ stage5_caspermaterials() {
     done
   fi
   [ -z "$kernel_found" ] && echo "   ERROR: no kernel found!"
-  # Copy initrd from rootfs
+  # Copy initrd from rootfs — prefer -korrinos
   local initrd_found=""
-  for i in "$ROOTFS/boot"/initrd.img-*; do
+  for i in "$ROOTFS/boot"/initrd.img-*-korrinos; do
     if [ -f "$i" ] && [ ! -s "$IMAGE/casper/initrd" ]; then
       "$SUDO" cp "$i" "$IMAGE/casper/initrd"
       initrd_found=1
-      echo "   initrd: $i"
+      echo "   initrd (KorrinOS): $i"
       break
     fi
   done
+  if [ -z "$initrd_found" ]; then
+    for i in "$ROOTFS/boot"/initrd.img-*; do
+      if [ -f "$i" ] && [ ! -s "$IMAGE/casper/initrd" ]; then
+        "$SUDO" cp "$i" "$IMAGE/casper/initrd"
+        initrd_found=1
+        echo "   initrd: $i"
+        break
+      fi
+    done
+  fi
   if [ -z "$initrd_found" ]; then
     for i in /boot/initrd.img-*; do
       if [ -f "$i" ] && [ ! -s "$IMAGE/casper/initrd" ]; then

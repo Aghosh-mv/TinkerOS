@@ -129,7 +129,7 @@ class Handler(BaseHTTPRequestHandler):
         if url.path == "/api/launch":
             app = data.get("app", "")
             acts = {
-                "vokk": f"python3 {VOKK_CTRL} &",
+                "vokk": "firefox http://127.0.0.1:8085/ &",
                 "browser": "firefox &",
                 "terminal": "xfce4-terminal &",
                 "files": "thunar &",
