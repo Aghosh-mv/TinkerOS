@@ -281,38 +281,32 @@ apt-get install -y \
 # ---- THEMES + ICONS ----
 echo ">>> Installing themes..."
 apt-get install -y \
-  arc-theme arc-icons \
+  arc-theme \
   papirus-icon-theme \
   numix-gtk-theme numix-icon-theme \
   light-themes \
   adwaita-icon-theme adwaita-qt \
-  qt5ct qt6ct \
+  qt5ct \
   || echo "themes had issues"
 
 # ---- AI / MACHINE LEARNING ----
 echo ">>> Installing AI/ML tools..."
 apt-get install -y \
-  python3-tensorflow python3-torch python3-sklearn python3-pandas \
-  jupyter-notebook jupyterlab \
+  python3-sklearn python3-pandas python3-numpy \
   || echo "ai/ml had issues"
 
 # ---- ADDITIONAL DEVELOPMENT ----
 echo ">>> Installing additional dev tools..."
 apt-get install -y \
-  dbeaver-ce \
-  mysql-workbench \
-  insomnia httpie \
-  postman || true \
+  sqlitebrowser \
+  httpie \
   || echo "additional dev had issues"
 
 # ---- ADDITIONAL CREATIVE ----
 echo ">>> Installing additional creative tools..."
 apt-get install -y \
   scribus scribus-doc \
- openshot \
-  pitivi \
-  shotcut \
-  natron || true \
+  shotcut || true \
   || echo "additional creative had issues"
 
 # ---- ADDITIONAL GAMES ----
@@ -322,7 +316,6 @@ apt-get install -y \
   armagetronad \
   assaultcube \
   openarena openarena-data \
-  xonotic \
   || echo "additional games had issues"
 
 # ---- DOCUMENTATION ----
@@ -413,17 +406,17 @@ chmod +x /usr/local/bin/korrinos' 2>/dev/null || true
   # Systemd services for KorrinOS features
   "$SUDO" mkdir -p "$ROOTFS/etc/systemd/system"
 
-  # Liquid Glass service
-  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-liquid-glass.service" <<EOF
+  # === UNIFIED DESKTOP SERVICE (replaces liquid-glass + widgets + dock + smoothui) ===
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-desktop.service" <<EOF
 [Unit]
-Description=KorrinOS Liquid Glass Glassmorphism
+Description=KorrinOS Desktop — Frosted Glass, Widgets, Sidebar, Dock
 After=graphical.target
 Wants=graphical.target
 
 [Service]
 Type=forking
-ExecStart=/opt/korrinos/os/parc-ai/korrinos-liquid-glass.sh start
-ExecStop=/opt/korrinos/os/parc-ai/korrinos-liquid-glass.sh stop
+ExecStart=/opt/korrinos/os/desktop/nibra-style/nibra-shell.sh start
+ExecStop=/opt/korrinos/os/desktop/nibra-style/nibra-shell.sh stop
 Restart=on-failure
 RestartSec=5
 
@@ -431,53 +424,16 @@ RestartSec=5
 WantedBy=multi-user.target
 EOF'
 
-  # Widgets Panel service
-  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-widgets-panel.service" <<EOF
+  # === TINKERAI SYSTEM CONTROLLER ===
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/tinkerai.service" <<EOF
 [Unit]
-Description=KorrinOS Desktop Widgets Panel
-After=graphical.target korrinos-liquid-glass.service
+Description=TinkerAI v2.0 — System Controller + Image Gen + Chat
+After=graphical.target korrinos-desktop.service
 Wants=graphical.target
 
 [Service]
-Type=forking
-ExecStart=/opt/korrinos/os/parc-ai/korrinos-widgets-panel.sh start
-ExecStop=/opt/korrinos/os/parc-ai/korrinos-widgets-panel.sh stop
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF'
-
-  # Dock service
-  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-dock.service" <<EOF
-[Unit]
-Description=KorrinOS Application Dock
-After=graphical.target korrinos-liquid-glass.service
-Wants=graphical.target
-
-[Service]
-Type=forking
-ExecStart=/opt/korrinos/os/parc-ai/korrinos-dock.sh start
-ExecStop=/opt/korrinos/os/parc-ai/korrinos-dock.sh stop
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF'
-
-  # SmoothUI service
-  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/korrinos-smoothui.service" <<EOF
-[Unit]
-Description=KorrinOS Smooth UI Compositor
-After=graphical.target
-Wants=graphical.target
-
-[Service]
-Type=forking
-ExecStart=/opt/korrinos/os/parc-ai/korrinos-smoothui.sh start
-ExecStop=/opt/korrinos/os/parc-ai/korrinos-smoothui.sh stop
+Type=simple
+ExecStart=/usr/bin/python3 /opt/korrinos/os/tinkerai/tinker_ai_controller.py
 Restart=on-failure
 RestartSec=5
 
@@ -544,10 +500,8 @@ WantedBy=timers.target
 EOF'
 
   # Enable services
-  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-liquid-glass.service 2>/dev/null || true
-  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-widgets-panel.service 2>/dev/null || true
-  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-dock.service 2>/dev/null || true
-  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-smoothui.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-desktop.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable tinkerai.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-autoupdate.timer 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-backup.timer 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-firewall.service 2>/dev/null || true
@@ -736,13 +690,13 @@ Hidden=false
 X-GNOME-Autostart-enabled=true
 EOF
 
-# Configure picom autostart
+# Configure KorrinOS Desktop autostart
 mkdir -p ~/.config/autostart
-cat > ~/.config/autostart/korrinos-liquid-glass.desktop << EOF
+cat > ~/.config/autostart/korrinos-desktop.desktop << EOF
 [Desktop Entry]
 Type=Application
-Name=KorrinOS Liquid Glass
-Exec=/opt/korrinos/os/parc-ai/korrinos-liquid-glass.sh start
+Name=KorrinOS Desktop
+Exec=/opt/korrinos/os/desktop/nibra-style/nibra-shell.sh start
 Hidden=false
 X-GNOME-Autostart-enabled=true
 EOF
