@@ -289,6 +289,61 @@ apt-get install -y \
   qt5ct qt6ct \
   || echo "themes had issues"
 
+# ---- AI / MACHINE LEARNING ----
+echo ">>> Installing AI/ML tools..."
+apt-get install -y \
+  python3-tensorflow python3-torch python3-sklearn python3-pandas \
+  jupyter-notebook jupyterlab \
+  || echo "ai/ml had issues"
+
+# ---- ADDITIONAL DEVELOPMENT ----
+echo ">>> Installing additional dev tools..."
+apt-get install -y \
+  dbeaver-ce \
+  mysql-workbench \
+  insomnia httpie \
+  postman || true \
+  || echo "additional dev had issues"
+
+# ---- ADDITIONAL CREATIVE ----
+echo ">>> Installing additional creative tools..."
+apt-get install -y \
+  scribus scribus-doc \
+ openshot \
+  pitivi \
+  shotcut \
+  natron || true \
+  || echo "additional creative had issues"
+
+# ---- ADDITIONAL GAMES ----
+echo ">>> Installing additional games..."
+apt-get install -y \
+  neverball neverball-data \
+  armagetronad \
+  assaultcube \
+  openarena openarena-data \
+  xonotic \
+  || echo "additional games had issues"
+
+# ---- DOCUMENTATION ----
+echo ">>> Installing documentation..."
+apt-get install -y \
+  man-db manpages manpages-dev manpages-posix manpages-posix-dev \
+  info \
+  debian-handbook \
+  || echo "docs had issues"
+
+# ---- THEMES + ICONS ----
+echo ">>> Installing themes..."
+apt-get install -y \
+  arc-theme arc-icons \
+  papirus-icon-theme \
+  numix-gtk-theme numix-icon-theme \
+  light-themes \
+  adwaita-icon-theme adwaita-qt \
+  qt5ct qt6ct \
+  || echo "themes had issues"
+
 # ---- FINAL CLEANUP (keep big packages, remove caches) ----
 echo ">>> Cleaning up..."
 apt-get autoremove -y
