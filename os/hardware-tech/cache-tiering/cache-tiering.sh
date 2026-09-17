@@ -251,7 +251,7 @@ for tier_name, tier in sorted(tiers.items(), key=lambda x: -x[1]["priority"]):
 remaining = total_ways - allocated
 print(f"\n  Unallocated: {remaining} ways")
 if remaining < 0:
-    print(f"  ⚠️  WARNING: Over-allocated by {abs(remaining)} ways!")
+    print(f"    WARNING: Over-allocated by {abs(remaining)} ways!")
 PYEOF
 }
 
@@ -335,7 +335,7 @@ import subprocess, json, os
 config = json.load(open(os.path.expanduser("~/.tinker/cache-tiering/config.json")))
 
 if not config.get("enabled", True):
-    print("  ⏹️  Cache tiering OFF")
+    print("    Cache tiering OFF")
     exit()
 
 if config.get("gaming_mode", False):
@@ -426,7 +426,7 @@ else:
         else:
             print(f"  {tier['name']}: NORMAL ({ways} ways)")
 
-print("\n  ✅ Cache tiering applied")
+print("\n   Cache tiering applied")
 PYEOF
 }
 
@@ -525,10 +525,10 @@ case "${1:-help}" in
   monitor) monitor_cache ;;
   on)
     hardware_write_gate "cache-tiering" "$2" || exit 1
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=True; c['gaming_mode']=False; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('  ✅ Cache Tiering: ON')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=True; c['gaming_mode']=False; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('   Cache Tiering: ON')"
     apply_tiering ;;
   off)
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('  ⏹️  Cache Tiering: OFF')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('    Cache Tiering: OFF')"
     ;;
   gaming)
     python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=True; c['gaming_mode']=True; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('   Gaming Mode: all cache ways equal')"

@@ -154,7 +154,7 @@ main() {
     test_gamemode
     
     echo ""
-    echo "  ✓ GameMode built into the OS."
+    echo "   GameMode built into the OS."
     echo "  Launch any heavy app normally, or wrap with 'gamemoderun <cmd>'."
 }
 

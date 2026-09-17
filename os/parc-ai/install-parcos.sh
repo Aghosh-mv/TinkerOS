@@ -10,8 +10,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 RED='\033[0;31m'; GREEN='\033[0;32m'; BLUE='\033[0;34m'; NC='\033[0m'
 log()  { echo -e "${BLUE}[korrinos]${NC} $1"; }
-ok()   { echo -e "${GREEN}[✓]${NC} $1"; }
-fail() { echo -e "${RED}[✗]${NC} $1"; exit 1; }
+ok()   { echo -e "${GREEN}[]${NC} $1"; }
+fail() { echo -e "${RED}[]${NC} $1"; exit 1; }
 
 [ "$EUID" -ne 0 ] && fail "Run with sudo: sudo bash install-korrinos.sh"
 

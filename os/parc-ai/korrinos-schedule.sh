@@ -113,7 +113,7 @@ if not tasks:
     print('  No scheduled tasks')
 else:
     for t in tasks:
-        status = '✓' if t.get('enabled') else '✗'
+        status = '' if t.get('enabled') else ''
         name = t.get('name', 'unnamed')
         schedule = t.get('schedule', 'once')
         next_run = t.get('next_run', 'N/A')[:19]
@@ -178,7 +178,7 @@ with open('$SCHEDULE_TASKS', 'w') as f:
 " 2>/dev/null
     
     echo ""
-    echo "✓ Task completed"
+    echo " Task completed"
   fi
 }
 

@@ -192,7 +192,7 @@ PYEOF
      c_t="$(backend_run thermal_control 2>/dev/null | grep -oP 'max_c=\K[0-9.]+' | head -1)"
      if [[ -n "$c_t" ]]; then
        if awk -v t="$c_t" 'BEGIN { exit !(t >= 85) }'; then
-         echo "  ⛔ [C-backend] max ${c_t}°C too hot to shift PWM. Aborting for safety."
+         echo "   [C-backend] max ${c_t}°C too hot to shift PWM. Aborting for safety."
          return 1
        else
          echo "  [C-backend] thermal OK (max ${c_t}°C), proceeding"
@@ -320,7 +320,7 @@ try:
         freq_est = crossings / 2  # estimated frequency
         
         if 1000 <= freq_est <= 8000:
-            print(f"  ⚠️  COIL WHINE DETECTED at ~{freq_est}Hz!")
+            print(f"    COIL WHINE DETECTED at ~{freq_est}Hz!")
             print(f"  Action: shifting PWM to 400kHz + spread spectrum")
             
             # Show popup
@@ -332,10 +332,10 @@ try:
             config["stats"]["whine_events_detected"] += 1
             json.dump(config, open(os.path.expanduser("~/.tinker/coil-whine-killer/config.json"), "w"), indent=2)
             
-            print(f"  ✅ PWM shifted to 400kHz + spread spectrum")
+            print(f"   PWM shifted to 400kHz + spread spectrum")
             print(f"  Vibration now at {400000}Hz (inaudible)")
         else:
-            print(f"  ✅ No coil whine detected (estimated freq: {freq_est}Hz)")
+            print(f"   No coil whine detected (estimated freq: {freq_est}Hz)")
 except Exception as e:
     print(f"  Audio scan: {e}")
     print(f"  Falling back to frequency check...")

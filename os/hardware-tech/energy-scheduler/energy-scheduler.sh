@@ -182,7 +182,7 @@ processes.sort(key=lambda x: x["value_score"], reverse=True)
 print(f"  {'PID':>6} {'Value':>6} {'CPU%':>5} {'Energy':>6} {'Keep':>4} {'Classification':>15} {'Command':<30}")
 print("  " + "-" * 95)
 for p in processes[:15]:
-    keep_icon = "✅" if p["keep"] else "❌"
+    keep_icon = "" if p["keep"] else ""
     print(f"  {p['pid']:>6} {p['value_score']:>6} {p['cpu_pct']:>5.1f} {p['energy_w']:>5.1f}W {keep_icon:>4} {p['classification']:>15} {p['cmd']:<30}")
 
 # Summary
@@ -244,7 +244,7 @@ if power_w > 0 and status == "Discharging":
     print(f"  Estimated time remaining: {minutes_left:.0f} minutes")
     
     if minutes_left < 30:
-        print(f"  ⚠️  CRITICAL: Less than 30 minutes!")
+        print(f"    CRITICAL: Less than 30 minutes!")
         print(f"  Action: Aggressive background killing")
         print(f"  Action: Compressing non-essential apps")
         print(f"  Action: Guaranteeing note-taking/terminal survival")
@@ -259,7 +259,7 @@ else:
     print(f"  AC power: No scheduling needed")
 
 # Show sacrifice candidates
-print(f"\n  🎯 Sacrifice candidates (value < threshold):")
+print(f"\n   Sacrifice candidates (value < threshold):")
 sacrifice_order = config["sacrifice_order"]
 for i, app_type in enumerate(sacrifice_order):
     print(f"    {i+1}. {app_type} (priority: {i+1}/{len(sacrifice_order)})")
@@ -329,7 +329,7 @@ c['stats']['battery_extended_min'] += 15
 json.dump(c,open('$ES_CONFIG','w'),indent=2)
 "
   echo ""
-  echo "✅ Optimization complete"
+  echo " Optimization complete"
 }
 
 # ── Flight Mode Optimization ───────────────────────────────────────────
@@ -366,7 +366,7 @@ print(f'  Background budget: <{available_per_hour * 0.1:.1f}W')
   echo "  Applying flight optimizations..."
   compress_apps
   echo ""
-  echo "  ✅ Flight mode optimized for ${hours} hours"
+  echo "   Flight mode optimized for ${hours} hours"
 }
 
 # ── Status ──────────────────────────────────────────────────────────────

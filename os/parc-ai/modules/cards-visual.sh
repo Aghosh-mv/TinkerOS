@@ -134,14 +134,14 @@ ai_card_code() {
 
   local header=""
   [ -n "$title" ] && header="<div style='padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;color:#c9d1d9;font-size:12px;display:flex;justify-content:space-between;'><span>${title}</span><span style='color:#8b949e;'>${lang}</span></div>"
-  [ -n "$filename" ] && header="<div style='padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;color:#c9d1d9;font-size:12px;display:flex;justify-content:space-between;'><span>📄 ${filename}</span><span style='color:#8b949e;'>${lang}</span></div>"
+  [ -n "$filename" ] && header="<div style='padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;color:#c9d1d9;font-size:12px;display:flex;justify-content:space-between;'><span> ${filename}</span><span style='color:#8b949e;'>${lang}</span></div>"
 
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:700px;border-radius:12px;overflow:hidden;border:1px solid #21262d;">
   ${header}
   <div style="position:relative;">
     <pre style='margin:0;padding:12px;background:#0d1117;color:#c9d1d9;font-family:"JetBrains Mono",monospace;font-size:12px;line-height:1.5;overflow-x:auto;white-space:pre-wrap;word-break:break-word;'>${numbered}</pre>
-    <button onclick="navigator.clipboard.writeText(decodeURIComponent('${(python3 -c "import urllib.parse; print(urllib.parse.quote('''$code'''))" 2>/dev/null || echo "$code" | sed 's/"/\\"/g')}'))" style="position:absolute;top:4px;right:4px;padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:6px;cursor:pointer;font-size:11px;">📋 Copy</button>
+    <button onclick="navigator.clipboard.writeText(decodeURIComponent('${(python3 -c "import urllib.parse; print(urllib.parse.quote('''$code'''))" 2>/dev/null || echo "$code" | sed 's/"/\\"/g')}'))" style="position:absolute;top:4px;right:4px;padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:6px;cursor:pointer;font-size:11px;"> Copy</button>
   </div>
 </div>
 EOHTML
@@ -159,10 +159,10 @@ ai_card_snapshot() {
     local name=$(basename "$f")
     local size=$(wc -c < "$f" 2>/dev/null)
     local ext="${name##*.}"
-    local icon="📄"
-    [[ "$ext" =~ ^(py|js|ts|c|cpp|rs|go|sh)$ ]] && icon="💻"
+    local icon=""
+    [[ "$ext" =~ ^(py|js|ts|c|cpp|rs|go|sh)$ ]] && icon=""
     [[ "$ext" =~ ^(md|txt|doc)$ ]] && icon=""
-    [[ "$ext" =~ ^(png|jpg|gif|svg)$ ]] && icon="🖼️"
+    [[ "$ext" =~ ^(png|jpg|gif|svg)$ ]] && icon=""
     [[ "$ext" =~ ^(json|yaml|yml|toml)$ ]] && icon=""
     [[ "$ext" =~ ^(html|css)$ ]] && icon=""
 

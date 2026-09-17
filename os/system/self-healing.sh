@@ -8,8 +8,8 @@
 # user intervention. It's like having a mechanic living inside your computer.
 #
 # WHAT MAKES THIS A NEW TECHNOLOGY:
-# - Current systems: User finds problem → User fixes problem
-# - ASR: System finds problem → System fixes problem automatically
+# - Current systems: User finds problem  User fixes problem
+# - ASR: System finds problem  System fixes problem automatically
 #
 # HOW IT WORKS:
 # 1. CONTINUOUS MONITORING: Watches all system components 24/7

@@ -5,32 +5,32 @@ The KorrinOS Mobile Companion Protocol enables seamless integration between Korr
 
 ## Features
 
-### 🎮 Remote Control
+###  Remote Control
 - Media playback control (play/pause/next/prev)
 - Volume control
 - System power (lock/sleep/shutdown/reboot)
 - Keyboard/mouse input
 - Custom commands
 
-### 📱 Notification Mirroring
+###  Notification Mirroring
 - Real-time desktop notification mirroring
 - Action buttons on notifications
 - Notification history sync
 - Priority filtering
 
-### 📁 File Transfer
+###  File Transfer
 - Bidirectional file transfer
 - Progress tracking
 - Resume support
 - Multiple files
 
-### 🖥️ System Monitoring
+###  System Monitoring
 - CPU/RAM/Disk usage
 - Battery status
 - Network status
 - Temperature sensors
 
-### 🎨 Second Screen
+###  Second Screen
 - Extend desktop to mobile
 - Touch input
 - Custom layouts

@@ -76,15 +76,15 @@ enable_gaming_mode() {
     touch $GAMING_MODE_FILE
     
     echo ""
-    echo -e "${GREEN}✓ Gaming Mode Enabled!${NC}"
+    echo -e "${GREEN} Gaming Mode Enabled!${NC}"
     echo -e "${YELLOW}System optimized for gaming performance.${NC}"
     echo ""
     echo "Features enabled:"
-    echo "  ✓ CPU set to performance mode"
-    echo "  ✓ GPU set to maximum performance"
-    echo "  ✓ Power saving disabled"
-    echo "  ✓ Notifications paused"
-    echo "  ✓ Network optimized"
+    echo "   CPU set to performance mode"
+    echo "   GPU set to maximum performance"
+    echo "   Power saving disabled"
+    echo "   Notifications paused"
+    echo "   Network optimized"
     echo ""
 }
 
@@ -138,7 +138,7 @@ disable_gaming_mode() {
     rm -f $GAMING_MODE_FILE
     
     echo ""
-    echo -e "${GREEN}✓ Gaming Mode Disabled!${NC}"
+    echo -e "${GREEN} Gaming Mode Disabled!${NC}"
     echo -e "${YELLOW}System restored to normal mode.${NC}"
     echo ""
 }
@@ -148,9 +148,9 @@ show_status() {
     echo ""
     
     if [ -f $GAMING_MODE_FILE ]; then
-        echo -e "  ${GREEN}✓${NC} Gaming Mode: ${GREEN}ENABLED${NC}"
+        echo -e "  ${GREEN}${NC} Gaming Mode: ${GREEN}ENABLED${NC}"
     else
-        echo -e "  ${RED}✗${NC} Gaming Mode: ${RED}DISABLED${NC}"
+        echo -e "  ${RED}${NC} Gaming Mode: ${RED}DISABLED${NC}"
     fi
     
     # CPU Governor
@@ -192,7 +192,7 @@ optimize_for_game() {
             ;;
     esac
     
-    echo -e "${GREEN}✓ Game optimizations applied!${NC}"
+    echo -e "${GREEN} Game optimizations applied!${NC}"
 }
 
 show_help() {

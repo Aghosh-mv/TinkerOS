@@ -19,9 +19,9 @@ check_updates() {
     if command -v apt &>/dev/null; then
         local updates=$(apt list --upgradable 2>/dev/null | grep -c upgradable)
         if [ "$updates" -gt 0 ]; then
-            echo "⚠️  $updates packages pending (run: tinker-updates)"
+            echo "  $updates packages pending (run: tinker-updates)"
         else
-            echo "✓ System up to date"
+            echo " System up to date"
         fi
     elif command -v dnf &>/dev/null; then
         local updates=$(dnf check-update 2>/dev/null | grep -c "^[a-z]")
@@ -54,7 +54,7 @@ check_users() {
     getent group sudo 2>/dev/null | cut -d: -f4 | tr ',' '\n' | sed 's/^/  /' || echo "  none"
     echo ""
     echo "Users with empty passwords (security risk):"
-    awk -F: '$2=="" {print "  ⚠️  "$1}' /etc/shadow 2>/dev/null || echo "  (cannot read /etc/shadow)"
+    awk -F: '$2=="" {print "    "$1}' /etc/shadow 2>/dev/null || echo "  (cannot read /etc/shadow)"
 }
 
 # Check file permissions
@@ -132,13 +132,13 @@ harden() {
     echo "=== Applying Security Hardening ==="
     echo ""
     echo "1. Disable SSH root login..."
-    [ -f /etc/ssh/sshd_config ] && sudo sed -i 's/^#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config 2>/dev/null && echo "   ✓ done"
+    [ -f /etc/ssh/sshd_config ] && sudo sed -i 's/^#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config 2>/dev/null && echo "    done"
     echo ""
     echo "2. Enable firewall..."
-    command -v ufw &>/dev/null && sudo ufw enable 2>/dev/null && echo "   ✓ done" || echo "   - skipped"
+    command -v ufw &>/dev/null && sudo ufw enable 2>/dev/null && echo "    done" || echo "   - skipped"
     echo ""
     echo "3. Core dumps (disable to prevent memory leak)..."
-    sudo bash -c 'echo "hard core 0" > /etc/security/limits.d/core.conf' 2>/dev/null && echo "   ✓ done" || echo "   - requires root"
+    sudo bash -c 'echo "hard core 0" > /etc/security/limits.d/core.conf' 2>/dev/null && echo "    done" || echo "   - requires root"
     echo ""
     echo "Note: Some hardenings require manual review before reboot."
 }

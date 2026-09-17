@@ -102,15 +102,15 @@ When all 4 techniques work together:
 
 ## Why These Are Genuinely New
 
-1. **Reactive → Predictive:** All current systems respond to requests. These techniques prepare BEFORE requests.
+1. **Reactive  Predictive:** All current systems respond to requests. These techniques prepare BEFORE requests.
 
-2. **Snapshot → Temporal:** Current systems check current state. These techniques check state ACROSS TIME.
+2. **Snapshot  Temporal:** Current systems check current state. These techniques check state ACROSS TIME.
 
-3. **Manual → Automatic:** Current systems require manual mode switching. These techniques detect context automatically.
+3. **Manual  Automatic:** Current systems require manual mode switching. These techniques detect context automatically.
 
-4. **Post-cache → Pre-cache:** Current systems cache AFTER access. These techniques cache BEFORE access.
+4. **Post-cache  Pre-cache:** Current systems cache AFTER access. These techniques cache BEFORE access.
 
-5. **Static → Adaptive:** Current systems use fixed parameters. These techniques learn and adapt over time.
+5. **Static  Adaptive:** Current systems use fixed parameters. These techniques learn and adapt over time.
 
 ---
 

@@ -45,7 +45,7 @@ scan() {
         for bin in "$dir"/*; do
             [ -x "$bin" ] || continue
             if [ "$(stat -c %a "$bin" 2>/dev/null | cut -c3)" = "2" ] || [ "$(stat -c %a "$bin" 2>/dev/null | cut -c3)" = "6" ]; then
-                echo "  ⚠️  World-writable in PATH: $bin"
+                echo "    World-writable in PATH: $bin"
                 found=$((found+1))
             fi
         done
@@ -56,12 +56,12 @@ scan() {
     for loc in $(echo "$untrusted" | tr ',' ' '); do
         for pat in "$loc"/*.sh "$loc"/*.py; do
             [ -e "$pat" ] || continue
-            echo "  ⚠️  Script in untrusted location: $pat"
+            echo "    Script in untrusted location: $pat"
             found=$((found+1))
         done
     done
     
-    [ $found -eq 0 ] && echo "  ✓ No suspicious files detected"
+    [ $found -eq 0 ] && echo "   No suspicious files detected"
     echo ""
     echo "  Note: Gatekeeper can't fully sandbox; use enforcement with care."
 }
@@ -78,14 +78,14 @@ check() {
     
     # Allowlist
     if grep -qx "$cmd" "$ALLOW_LIST" 2>/dev/null || grep -qx "$bin" "$ALLOW_LIST" 2>/dev/null; then
-        echo "  ✓ ALLOWED (allowlist)"
+        echo "   ALLOWED (allowlist)"
         grep -q LOG_EVENTS "$CONFIG_FILE" && echo "$(date +%s)|allow|$cmd" >> "$LOG_FILE"
         return 0
     fi
     
     # Denylist
     if grep -qx "$cmd" "$DENY_LIST" 2>/dev/null || grep -qx "$bin" "$DENY_LIST" 2>/dev/null; then
-        echo "  ✗ BLOCKED (denylist)"
+        echo "   BLOCKED (denylist)"
         grep -q LOG_EVENTS "$CONFIG_FILE" && echo "$(date +%s)|deny|$cmd" >> "$LOG_FILE"
         return 1
     fi
@@ -99,7 +99,7 @@ allow() {
     local cmd=$1
     [ -z "$cmd" ] && { echo "Usage: $0 allow <command>"; return 1; }
     echo "$cmd" >> "$ALLOW_LIST"
-    echo "  ✓ Added '$cmd' to allowlist"
+    echo "   Added '$cmd' to allowlist"
 }
 
 # Add to denylist
@@ -107,7 +107,7 @@ deny() {
     local cmd=$1
     [ -z "$cmd" ] && { echo "Usage: $0 deny <command>"; return 1; }
     echo "$cmd" >> "$DENY_LIST"
-    echo "  ✗ Added '$cmd' to denylist"
+    echo "   Added '$cmd' to denylist"
 }
 
 # Remove from deny list
@@ -115,19 +115,19 @@ unblock() {
     local cmd=$1
     [ -z "$cmd" ] && { echo "Usage: $0 unblock <command>"; return 1; }
     sed -i "/^$cmd$/d" "$DENY_LIST"
-    echo "  ✓ Removed '$cmd' from denylist"
+    echo "   Removed '$cmd' from denylist"
 }
 
 # Enable enforcement mode
 enforce() {
     sed -i 's/^MODE=.*/MODE=enforce/' "$CONFIG_FILE"
-    echo "  ✓ Enforcement mode enabled (beware: may block legitimate apps)"
+    echo "   Enforcement mode enabled (beware: may block legitimate apps)"
 }
 
 # Monitor mode
 monitor() {
     sed -i 's/^MODE=.*/MODE=monitor/' "$CONFIG_FILE"
-    echo "  ✓ Monitor mode enabled (report only)"
+    echo "   Monitor mode enabled (report only)"
 }
 
 # Show logs

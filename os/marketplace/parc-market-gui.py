@@ -41,7 +41,7 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         sidebar_layout.setContentsMargins(0, 0, 0, 0)
         
         # Logo
-        logo = QLabel("🦝  KorrinOS Marketplace")
+        logo = QLabel("  KorrinOS Marketplace")
         logo.setFont(QFont("Inter", 14, QFont.Weight.Bold))
         logo.setStyleSheet("color: #00D4AA; padding: 20px;")
         logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -49,16 +49,16 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         
         # Categories
         categories = [
-            ("🏠", "Home"),
+            ("", "Home"),
             ("", "Discover"),
             ("", "Gaming"),
-            ("💻", "Development"),
-            ("🎨", "Creative"),
-            ("📦", "Productivity"),
+            ("", "Development"),
+            ("", "Creative"),
+            ("", "Productivity"),
             ("", "Utilities"),
-            ("🛡️", "Security"),
-            ("⭐", "Top Rated"),
-            ("🆕", "New Releases"),
+            ("", "Security"),
+            ("", "Top Rated"),
+            ("", "New Releases"),
         ]
         
         for icon, name in categories:
@@ -77,7 +77,7 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         sidebar_layout.addStretch()
         
         # User profile
-        profile = QPushButton("👤  My Account")
+        profile = QPushButton("  My Account")
         profile.setStyleSheet("""
             QPushButton { text-align: left; padding: 12px 16px;
                 border: none; color: #888; font-size: 13px; }
@@ -128,18 +128,18 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         
         # Sample apps
         sample_apps = [
-            ("🦊", "Firefox", "Web Browser", "Mozilla", "Free", "⭐ 4.8", "productivity"),
-            ("", "VS Code", "Code Editor", "Microsoft", "Free", "⭐ 4.9", "development"),
-            ("", "Steam", "Game Platform", "Valve", "Free", "⭐ 4.7", "gaming"),
-            ("🎨", "GIMP", "Image Editor", "GIMP Team", "Free", "⭐ 4.6", "creative"),
-            ("", "Discord", "Chat & Voice", "Discord Inc.", "Free", "⭐ 4.8", "communication"),
-            ("", "Spotify", "Music Streaming", "Spotify", "Free", "⭐ 4.5", "media"),
-            ("📦", "Flatseal", "Flatpak Permissions", "Flatpak", "Free", "⭐ 4.7", "utilities"),
-            ("🛡️", "Bitwarden", "Password Manager", "8bit Solutions", "Free", "⭐ 4.9", "security"),
-            ("", "LibreOffice", "Office Suite", "TDF", "Free", "⭐ 4.6", "productivity"),
-            ("🐳", "Docker", "Container Platform", "Docker Inc.", "Free", "⭐ 4.8", "development"),
-            ("🎥", "OBS Studio", "Streaming/Recording", "OBS Project", "Free", "⭐ 4.9", "creative"),
-            ("", "Stacer", "System Optimizer", "Stacer", "Free", "⭐ 4.5", "utilities"),
+            ("", "Firefox", "Web Browser", "Mozilla", "Free", " 4.8", "productivity"),
+            ("", "VS Code", "Code Editor", "Microsoft", "Free", " 4.9", "development"),
+            ("", "Steam", "Game Platform", "Valve", "Free", " 4.7", "gaming"),
+            ("", "GIMP", "Image Editor", "GIMP Team", "Free", " 4.6", "creative"),
+            ("", "Discord", "Chat & Voice", "Discord Inc.", "Free", " 4.8", "communication"),
+            ("", "Spotify", "Music Streaming", "Spotify", "Free", " 4.5", "media"),
+            ("", "Flatseal", "Flatpak Permissions", "Flatpak", "Free", " 4.7", "utilities"),
+            ("", "Bitwarden", "Password Manager", "8bit Solutions", "Free", " 4.9", "security"),
+            ("", "LibreOffice", "Office Suite", "TDF", "Free", " 4.6", "productivity"),
+            ("", "Docker", "Container Platform", "Docker Inc.", "Free", " 4.8", "development"),
+            ("", "OBS Studio", "Streaming/Recording", "OBS Project", "Free", " 4.9", "creative"),
+            ("", "Stacer", "System Optimizer", "Stacer", "Free", " 4.5", "utilities"),
         ]
         
         for i, (icon, name, desc, dev, price, rating, cat) in enumerate(sample_apps):

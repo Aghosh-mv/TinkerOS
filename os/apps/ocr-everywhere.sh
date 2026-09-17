@@ -67,7 +67,7 @@ ocr_screen_region() {
         
         # Copy to clipboard
         echo "$text" | xclip -selection clipboard 2>/dev/null
-        echo -e "${GREEN}✓ Copied to clipboard${NC}"
+        echo -e "${GREEN} Copied to clipboard${NC}"
         
         # Save to history
         log_ocr "screen_region" "$text"
@@ -99,7 +99,7 @@ ocr_full_screen() {
         
         # Copy to clipboard
         echo "$text" | xclip -selection clipboard 2>/dev/null
-        echo -e "${GREEN}✓ Copied to clipboard${NC}"
+        echo -e "${GREEN} Copied to clipboard${NC}"
         
         # Save to history
         log_ocr "full_screen" "$text"
@@ -154,7 +154,7 @@ ocr_file() {
         
         # Copy to clipboard
         echo "$text" | xclip -selection clipboard 2>/dev/null
-        echo -e "${GREEN}✓ Copied to clipboard${NC}"
+        echo -e "${GREEN} Copied to clipboard${NC}"
         
         # Save to history
         log_ocr "file:$file" "$text"
@@ -184,7 +184,7 @@ ocr_clipboard() {
             
             # Copy to clipboard
             echo "$text" | xclip -selection clipboard 2>/dev/null
-            echo -e "${GREEN}✓ Copied to clipboard${NC}"
+            echo -e "${GREEN} Copied to clipboard${NC}"
             
             # Save to history
             log_ocr "clipboard" "$text"
@@ -228,7 +228,7 @@ ocr_video() {
             
             # Copy to clipboard
             echo "$text" | xclip -selection clipboard 2>/dev/null
-            echo -e "${GREEN}✓ Copied to clipboard${NC}"
+            echo -e "${GREEN} Copied to clipboard${NC}"
             
             # Save to history
             log_ocr "video:$video" "$text"
@@ -299,7 +299,7 @@ set_language() {
     fi
     
     OCR_LANG=$lang
-    echo -e "${GREEN}✓ Language set to: $lang${NC}"
+    echo -e "${GREEN} Language set to: $lang${NC}"
 }
 
 # List available languages

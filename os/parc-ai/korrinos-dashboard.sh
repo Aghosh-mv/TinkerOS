@@ -68,7 +68,7 @@ cmd_health() {
   local net_up net_down
   net_up=$(cat /sys/class/net/*/statistics/tx_bytes 2>/dev/null | paste -sd+ | bc 2>/dev/null || echo "0")
   net_down=$(cat /sys/class/net/*/statistics/rx_bytes 2>/dev/null | paste -sd+ | bc 2>/dev/null || echo "0")
-  echo "  Network: ↑ $(numfmt --to=iec $net_up 2>/dev/null || echo ${net_up}B) | ↓ $(numfmt --to=iec $net_down 2>/dev/null || echo ${net_down}B)"
+  echo "  Network:  $(numfmt --to=iec $net_up 2>/dev/null || echo ${net_up}B) |  $(numfmt --to=iec $net_down 2>/dev/null || echo ${net_down}B)"
   echo ""
 
   # Uptime
@@ -91,10 +91,10 @@ cmd_health() {
 
   # Alerts
   local alerts=0
-  [ "$mem_pct" -gt 85 ] && echo "  ⚠ ALERT: Memory usage > 85%!" && alerts=$((alerts+1))
-  [ "$disk_pct" -gt 90 ] && echo "  ⚠ ALERT: Disk usage > 90%!" && alerts=$((alerts+1))
-  [ "${gpu_pct:-0}" -gt 90 ] 2>/dev/null && echo "  ⚠ ALERT: GPU usage > 90%!" && alerts=$((alerts+1))
-  [ "$alerts" -eq 0 ] && echo "  ✓ All systems nominal"
+  [ "$mem_pct" -gt 85 ] && echo "   ALERT: Memory usage > 85%!" && alerts=$((alerts+1))
+  [ "$disk_pct" -gt 90 ] && echo "   ALERT: Disk usage > 90%!" && alerts=$((alerts+1))
+  [ "${gpu_pct:-0}" -gt 90 ] 2>/dev/null && echo "   ALERT: GPU usage > 90%!" && alerts=$((alerts+1))
+  [ "$alerts" -eq 0 ] && echo "   All systems nominal"
 }
 
 # Real-time monitor mode
@@ -144,7 +144,7 @@ cmd_network() {
     local rx tx
     rx=$(cat "$iface/rx_bytes" 2>/dev/null || echo 0)
     tx=$(cat "$iface/tx_bytes" 2>/dev/null || echo 0)
-    echo "  ${name}: ↓ $(numfmt --to=iec $rx 2>/dev/null || echo ${rx}B) | ↑ $(numfmt --to=iec $tx 2>/dev/null || echo ${tx}B)"
+    echo "  ${name}:  $(numfmt --to=iec $rx 2>/dev/null || echo ${rx}B) |  $(numfmt --to=iec $tx 2>/dev/null || echo ${tx}B)"
   done
 }
 
@@ -198,18 +198,18 @@ cmd_alerts() {
   local disk_pct=$(df / | awk 'NR==2{print $5}' | tr -d '%')
   local load=$(cat /proc/loadavg | awk '{print $1}')
 
-  [ "$mem_pct" -gt 85 ] && echo "  ⚠ HIGH MEMORY: ${mem_pct}% used" && alerts=$((alerts+1))
-  [ "$disk_pct" -gt 90 ] && echo "  ⚠ LOW DISK: ${disk_pct}% used" && alerts=$((alerts+1))
+  [ "$mem_pct" -gt 85 ] && echo "   HIGH MEMORY: ${mem_pct}% used" && alerts=$((alerts+1))
+  [ "$disk_pct" -gt 90 ] && echo "   LOW DISK: ${disk_pct}% used" && alerts=$((alerts+1))
 
   local cores=$(nproc)
   local load_int=$(echo "$load" | cut -d. -f1)
-  [ "$load_int" -gt "$cores" ] && echo "  ⚠ HIGH LOAD: ${load} (>${cores} cores)" && alerts=$((alerts+1))
+  [ "$load_int" -gt "$cores" ] && echo "   HIGH LOAD: ${load} (>${cores} cores)" && alerts=$((alerts+1))
 
   # Check for OOM kills
   local oom=$(dmesg 2>/dev/null | grep -c "Out of memory" || echo 0)
-  [ "$oom" -gt 0 ] && echo "  ⚠ OOM KILLS: ${oom} detected" && alerts=$((alerts+1))
+  [ "$oom" -gt 0 ] && echo "   OOM KILLS: ${oom} detected" && alerts=$((alerts+1))
 
-  [ "$alerts" -eq 0 ] && echo "  ✓ No alerts — system healthy"
+  [ "$alerts" -eq 0 ] && echo "   No alerts — system healthy"
 }
 
 case "${1:-help}" in

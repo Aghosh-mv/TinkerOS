@@ -55,7 +55,7 @@ block() {
     
     echo "Blocking tracker/ad domain: $domain"
     echo "0.0.0.0 $domain" >> "$PV_DIR/hosts.block"
-    echo "  ✓ Added (activates when applied to /etc/hosts)"
+    echo "   Added (activates when applied to /etc/hosts)"
 }
 
 # Apply blocklist to /etc/hosts
@@ -70,17 +70,17 @@ apply_hosts() {
     fi
     
     # Backup /etc/hosts first
-    [ ! -f "$HOSTS_BACKUP" ] && sudo cp /etc/hosts "$HOSTS_BACKUP" && echo "  ✓ Backed up /etc/hosts"
+    [ ! -f "$HOSTS_BACKUP" ] && sudo cp /etc/hosts "$HOSTS_BACKUP" && echo "   Backed up /etc/hosts"
     
     echo "  Applying $1 block rules..."
     { cat "$HOSTS_BACKUP" 2>/dev/null; echo ""; echo "# KorrinOS Privacy Blocklist $(date +%F)"; cat "$PV_DIR/hosts.block"; } | sudo tee /etc/hosts >/dev/null
-    echo "  ✓ Applied to /etc/hosts"
+    echo "   Applied to /etc/hosts"
 }
 
 # Restore original hosts
 restore_hosts() {
     echo "Restoring original /etc/hosts..."
-    [ -f "$HOSTS_BACKUP" ] && sudo cp "$HOSTS_BACKUP" /etc/hosts && echo "  ✓ Restored" || echo "  - No backup found"
+    [ -f "$HOSTS_BACKUP" ] && sudo cp "$HOSTS_BACKUP" /etc/hosts && echo "   Restored" || echo "  - No backup found"
 }
 
 # Clear system logs and history
@@ -91,13 +91,13 @@ clear_data() {
     days=${days:-30}
     
     echo "1. Remove command history ($days days)..."
-    [ -f "$HOME/.bash_history" ] && cat /dev/null > "$HOME/.bash_history" && echo "   ✓ Cleared bash history"
+    [ -f "$HOME/.bash_history" ] && cat /dev/null > "$HOME/.bash_history" && echo "    Cleared bash history"
     
     echo "2. Clear recent files (GTK)..."
-    [ -f ~/.local/share/recently-used.xbel ] && rm -f ~/.local/share/recently-used.xbel && echo "   ✓ Cleared recent files"
+    [ -f ~/.local/share/recently-used.xbel ] && rm -f ~/.local/share/recently-used.xbel && echo "    Cleared recent files"
     
     echo "3. Old temp files..."
-    find /tmp -type f -mtime +$days -delete 2>/dev/null && echo "   ✓ Cleaned $days-day-old temp files"
+    find /tmp -type f -mtime +$days -delete 2>/dev/null && echo "    Cleaned $days-day-old temp files"
     
     echo ""
     echo "Note: Clearing browser data should be done in-browser."

@@ -207,7 +207,7 @@ if results:
         ver = app.get('version', '?')
         desc = app.get('description', '')[:60]
         rating = app.get('rating', 0)
-        stars = '★' * int(rating) + '☆' * (5 - int(rating))
+        stars = '' * int(rating) + '' * (5 - int(rating))
         print(f'  {name:25} v{ver:<8} {stars} {rating:.1f}')
         print(f'    {desc}')
         print()
@@ -254,7 +254,7 @@ if apps:
         rating = app.get('rating', 0)
         installed = app.get('installed', False)
         status = ' [installed]' if installed else ''
-        print(f'  {name:25} v{ver:<8} {rating:.1f}★{status}')
+        print(f'  {name:25} v{ver:<8} {rating:.1f}{status}')
         print(f'    {desc}')
         print()
 else:
@@ -291,7 +291,7 @@ for app in db.get('apps', []):
         print()
         rating = app.get('rating', 0)
         reviews = app.get('review_count', 0)
-        print(f\"Rating:      {'★' * int(rating)}{'☆' * (5 - int(rating))} {rating:.1f}/5.0 ({reviews} reviews)\")
+        print(f\"Rating:      {'' * int(rating)}{'' * (5 - int(rating))} {rating:.1f}/5.0 ({reviews} reviews)\")
         print()
         deps = app.get('dependencies', [])
         if deps:
@@ -667,7 +667,7 @@ for r in reversed(reviews.get('reviews', [])):
     text = r.get('text', '')
     user = r.get('user', '?')
     date = r.get('date', '?')
-    stars = '★' * rating + '☆' * (5 - rating)
+    stars = '' * rating + '' * (5 - rating)
     print(f'  {name:20} {stars} by {user} ({date})')
     if text:
         print(f'    {text}')
@@ -699,7 +699,7 @@ for app in sorted_apps[:10]:
     rating = app.get('rating', 0)
     desc = app.get('description', '')[:50]
     cat = app.get('category', '?')
-    print(f'  {name:25} {rating:.1f}★ [{cat}] v{ver}')
+    print(f'  {name:25} {rating:.1f} [{cat}] v{ver}')
     print(f'    {desc}')
     print()
 " 2>/dev/null

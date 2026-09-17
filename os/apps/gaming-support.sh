@@ -112,7 +112,7 @@ install_ge_proton() {
     if [ -f "$archive" ]; then
         cd "$ge_dir" && tar xzf "$archive"
         rm -f "$archive"
-        echo "  ✓ Installed GE-Proton to: $ge_dir"
+        echo "   Installed GE-Proton to: $ge_dir"
         echo "  Restart Steam, then select GE-Proton under Compatibility tools."
     else
         echo "  Download failed."
@@ -231,8 +231,8 @@ install_nvidia() {
     fi
     
     echo ""
-    echo "  ✓ NVIDIA driver install requested."
-    echo "  ⚠️  A reboot is REQUIRED for the driver to load. After reboot, verify: nvidia-smi"
+    echo "   NVIDIA driver install requested."
+    echo "    A reboot is REQUIRED for the driver to load. After reboot, verify: nvidia-smi"
 }
 
 enable_gaming_mode() {

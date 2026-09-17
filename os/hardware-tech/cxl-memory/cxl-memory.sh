@@ -239,7 +239,7 @@ import os, json, time
 config = json.load(open(os.path.expanduser("~/.tinker/cxl-memory/config.json")))
 
 if not config.get("enabled", False):
-    print("  ⏹️  CXL Memory Pool: OFF")
+    print("    CXL Memory Pool: OFF")
     print(f"  Run: {os.path.expanduser('~/linux-kernel/os/hardware-tech/cxl-memory/cxl-memory.sh')} on")
     exit()
 
@@ -251,7 +251,7 @@ routing = config["routing"]
 pools = config["memory_pools"]
 
 for name, pool in pools.items():
-    active = "✅" if pool.get("status") == "active" else "❌"
+    active = "" if pool.get("status") == "active" else ""
     size = pool.get("size_gb") or pool.get("total_gb", 0)
     used = pool.get("used_gb", 0)
     free = size - used if isinstance(size, (int, float)) else "?"
@@ -273,7 +273,7 @@ import os, json, subprocess, time
 config = json.load(open(os.path.expanduser("~/.tinker/cxl-memory/config.json")))
 
 if not config.get("enabled", False):
-    print("  ⏹️  CXL Memory Pool: OFF")
+    print("    CXL Memory Pool: OFF")
     exit()
 
 pools = config["memory_pools"]
@@ -362,7 +362,7 @@ import json, os
 config = json.load(open(os.path.expanduser("~/.tinker/cxl-memory/config.json")))
 config["enabled"] = True
 json.dump(config, open(os.path.expanduser("~/.tinker/cxl-memory/config.json"), "w"), indent=2)
-print("  ✅ CXL Unified Memory: ON")
+print("   CXL Unified Memory: ON")
 print("  Pool: local_ram + gpu_vram + cxl_expander + network_memory")
 print("  Swap prevention: ACTIVE")
 print("  Routing: bandwidth_aware")
@@ -376,7 +376,7 @@ import json, os
 config = json.load(open(os.path.expanduser("~/.tinker/cxl-memory/config.json")))
 config["enabled"] = False
 json.dump(config, open(os.path.expanduser("~/.tinker/cxl-memory/config.json"), "w"), indent=2)
-print("  ⏹️  CXL Unified Memory: OFF")
+print("    CXL Unified Memory: OFF")
 print("  All pools disconnected. Standard swap only.")
 PYEOF
 }

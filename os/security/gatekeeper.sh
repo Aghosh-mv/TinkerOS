@@ -39,17 +39,17 @@ verify_deb_package() {
     local package=$1
     
     if dpkg-sig --verify "$package" 2>/dev/null | grep -q "GOODSIG"; then
-        echo -e "${GREEN}✓ Package signature valid${NC}"
+        echo -e "${GREEN} Package signature valid${NC}"
         return 0
     fi
     
     local repo=$(apt-cache show "$package" 2>/dev/null | grep "Repository:" | awk '{print $2}')
     if echo "$repo" | grep -qi debian\|ubuntu; then
-        echo -e "${GREEN}✓ From trusted repository: $repo${NC}"
+        echo -e "${GREEN} From trusted repository: $repo${NC}"
         return 0
     fi
     
-    echo -e "${RED}✗ Package signature invalid or untrusted${NC}"
+    echo -e "${RED} Package signature invalid or untrusted${NC}"
     return 1
 }
 
@@ -57,7 +57,7 @@ verify_deb_package() {
 verify_appimage() {
     local appimage=$1
     
-    echo -e "${YELLOW}⚠ AppImage signature cannot be verified${NC}"
+    echo -e "${YELLOW} AppImage signature cannot be verified${NC}"
     read -p "  Do you want to run this anyway? (y/N): " confirm
     [ "$confirm" = "y" ] && return 0
     return 1
@@ -68,17 +68,17 @@ verify_binary() {
     local binary=$1
     
     if strings "$binary" 2>/dev/null | grep -qi "malware\|virus\|trojan"; then
-        echo -e "${RED}✗ Suspicious content detected!${NC}"
+        echo -e "${RED} Suspicious content detected!${NC}"
         return 1
     fi
     
     local source=$(dpkg -S "$binary" 2>/dev/null | head -1)
     if [ -n "$source" ]; then
-        echo -e "${GREEN}✓ From installed package: $source${NC}"
+        echo -e "${GREEN} From installed package: $source${NC}"
         return 0
     fi
     
-    echo -e "${YELLOW}⚠ Cannot verify binary source${NC}"
+    echo -e "${YELLOW} Cannot verify binary source${NC}"
     return 0
 }
 
@@ -105,9 +105,9 @@ gatekeeper_prompt() {
     read -p "  Choose (1-4): " choice
     
     case $choice in
-        1) echo -e "${GREEN}✓ App allowed${NC}"; log_gatekeeper "allowed" "$app_name"; return 0 ;;
+        1) echo -e "${GREEN} App allowed${NC}"; log_gatekeeper "allowed" "$app_name"; return 0 ;;
         2) show_app_details "$app_name"; gatekeeper_prompt "$app_name" "$publisher" ;;
-        3) rm -f "$app_name"; echo -e "${GREEN}✓ App deleted${NC}"; return 1 ;;
+        3) rm -f "$app_name"; echo -e "${GREEN} App deleted${NC}"; return 1 ;;
         *) echo -e "${YELLOW}Cancelled${NC}"; return 1 ;;
     esac
 }

@@ -100,7 +100,7 @@ Render frames before you need them:
 ### Unified Hardware Control Plane
 A single API that abstracts ALL hardware control:
 - **28 endpoints** covering CPU, GPU, memory, storage, display, audio, input, network, thermal, power, USB, LEDs, camera, battery
-- **4-tier permission model** (read-only → user consent → admin → root)
+- **4-tier permission model** (read-only  user consent  admin  root)
 - **Real-time monitoring** of all hardware states
 - Any application can request hardware changes through the API
 
@@ -123,7 +123,7 @@ A local-only, offline indexing engine that connects ALL your data:
 
 ### Data Shredder (Nuclear Privacy Button)
 One-click privacy wipe that scrubs your entire digital footprint:
-- **8-step shred process:** backup → randomize MAC → obfuscate HW ID → deploy dummy telemetry → clear caches → flush DNS → clear swap → truncate logs
+- **8-step shred process:** backup  randomize MAC  obfuscate HW ID  deploy dummy telemetry  clear caches  flush DNS  clear swap  truncate logs
 - **Preserves active sessions** — browsers, documents, running apps stay open
 - **Restore command** — undo everything if needed
 - **Audit logged** — every shred is recorded

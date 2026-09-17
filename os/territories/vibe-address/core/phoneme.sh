@@ -3,7 +3,7 @@
 #  core/phoneme.sh — PHONETIC CODECS (soundex · metaphone · stem)
 # ---------------------------------------------------------------------------
 #  Searchie must find "the cat thing" even when the requester garbles the
-#  word: "professor" prose, "sofah"→sofa, "downlods"→downloads.  Spelling
+#  word: "professor" prose, "sofah"sofa, "downlods"downloads.  Spelling
 #  is irrelevant — the SOUND is the key.  This module implements classical
 #  pronunciation codecs entirely in bash:
 #
@@ -15,14 +15,14 @@
 #                            digest (a curated subset of Double Metaphone's
 #                            primary pass: ~30 rewrite rules over consonant
 #                            groups + positional rules). Stronger than
-#                            Soundex for English (ph→f, kn→n, c→k/s, ...).
+#                            Soundex for English (phf, knn, ck/s, ...).
 #    * ve_phon_stem()      — a conservative Porter-flavoured suffix stripper
 #                            (ing/ies/es/ed/ly/s) that only strips when the
 #                            residual stem still has a vowel, so it never
 #                            destroys informative words.
 #    * ve_phon_like()      — code-edition distance on the encoded forms.
 #    * ve_phon_similarity()— per-token phonetic consensus over a query and
-#                            an event token stream → 0..100.
+#                            an event token stream  0..100.
 #
 #  Pure string algebra; no dictionaries, no external tools (bash built-ins
 #  only). These codecs feed matcher M8 (PHONE) in match.sh.
@@ -36,7 +36,7 @@ ve_phon_collapse() {
 }
 
 # ---- Soundex -----------------------------------------------------------------
-#  Word → one leading letter + 3 digits.  The 'code class' table is the
+#  Word  one leading letter + 3 digits.  The 'code class' table is the
 #  original US census grouping:
 #    1 = B F P V
 #    2 = C G J K Q S X Z
@@ -107,7 +107,7 @@ ve_phon_metaphone() {
       b)
         out+="P"; i=$((i+1)); continue ;;
       c)
-        # c before e/i/y → S; otherwise K; 'ch' → K(X), 'sch' → SK
+        # c before e/i/y  S; otherwise K; 'ch'  K(X), 'sch'  SK
         if [ "$three" = "sch" ]; then out+="X"; i=$((i+3)); continue; fi
         if [ "$two" = "ch" ]; then out+="X"; i=$((i+2)); continue; fi
         case "$nxt" in
@@ -122,7 +122,7 @@ ve_phon_metaphone() {
       g)
         if [ "$two" = "gn" ] && [ "$i" = 0 ]; then out+="N"; i=$((i+2)); continue; fi
         case "$nxt" in
-          e|i|y) out+="K";;   # g(e/i) softish → K family (keep single symbol)
+          e|i|y) out+="K";;   # g(e/i) softish  K family (keep single symbol)
           *)     out+="K";;
         esac
         i=$((i+1)); continue ;;
@@ -131,7 +131,7 @@ ve_phon_metaphone() {
         out+="H"; i=$((i+1)); continue ;;
       j)
         [ "$two" = "je" ] && { out+="J"; i=$((i+2)); continue; }
-        out+="T"; i=$((i+1)); continue ;;   # j in germanic → /ch/
+        out+="T"; i=$((i+1)); continue ;;   # j in germanic  /ch/
       k)
         [ "$two" = "kn" ] && [ "$i" = 0 ] && { out+="N"; i=$((i+2)); continue; }
         out+="K"; i=$((i+1)); continue ;;
@@ -163,7 +163,7 @@ ve_phon_metaphone() {
     esac
   done
 
-  # collapse doubled code runs (XXTT → XT) — auditory duplicates carry no info
+  # collapse doubled code runs (XXTT  XT) — auditory duplicates carry no info
   printf '%s\n' "$out" | ve_phon_collapse
 }
 
@@ -179,7 +179,7 @@ ve_phon_stem() {
   case "$w" in
     *ing)  stripped="${w%ing}" ;;
     *ies)  stripped="${w%ies}y" ;;
-    *eing) stripped="${w%eing}" ;;   # keep 'e' (dyeing → dye)
+    *eing) stripped="${w%eing}" ;;   # keep 'e' (dyeing  dye)
     *es)   stripped="${w%es}" ;;
     *ed)   stripped="${w%ed}" ;;
     *ly)   stripped="${w%ly}" ;;

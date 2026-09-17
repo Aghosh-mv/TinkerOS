@@ -58,7 +58,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         
         layout = QVBoxLayout(welcome)
         
-        mascot = QLabel("🦝")
+        mascot = QLabel("")
         mascot.setFont(QFont("Noto Sans", 72))
         mascot.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
@@ -183,7 +183,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         layout.addWidget(self.privacy_full)
         
         note = QLabel(
-            "🔒 KorrinOS never sells your data. All telemetry is anonymous and optional.\n"
+            " KorrinOS never sells your data. All telemetry is anonymous and optional.\n"
             "You can change this anytime in Settings > Privacy."
         )
         note.setWordWrap(True)
@@ -229,12 +229,12 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         layout = QVBoxLayout(features)
         
         feature_options = [
-            ("🧠", "Predictive Intelligence", "AI-powered system optimization"),
+            ("", "Predictive Intelligence", "AI-powered system optimization"),
             ("", "Digital Twin", "Virtual system replica for safe testing"),
-            ("🏥", "Self-Healing", "Auto-detect and fix system issues"),
+            ("", "Self-Healing", "Auto-detect and fix system issues"),
             ("", "Adaptive Power Grid", "Smart power management"),
             ("", "Game Console Mode", "Controller-friendly UI"),
-            ("📱", "Mobile Companion", "Phone as remote/second screen"),
+            ("", "Mobile Companion", "Phone as remote/second screen"),
         ]
         
         self.feature_checkboxes = {}
@@ -254,7 +254,7 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         
         layout = QVBoxLayout(ready)
         
-        mascot = QLabel("🦝")
+        mascot = QLabel("")
         mascot.setFont(QFont("Noto Sans", 48))
         mascot.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
@@ -418,7 +418,7 @@ def run_cli_onboarding():
     """Text-based onboarding for systems without GUI"""
     print("""
 ╔══════════════════════════════════════════════════════════════╗
-║                      🦝 TINKEROS SETUP                        ║
+║                       TINKEROS SETUP                        ║
 ║                  Your Computer. Your Rules.                   ║
 ╚══════════════════════════════════════════════════════════════╝
     """)
@@ -462,12 +462,12 @@ def run_cli_onboarding():
         if input(f"  Enable {feat}? (n): ").lower() == 'y':
             state.enable_features.append(feat)
     
-    print("\n✅ Setup complete! Applying settings...")
+    print("\n Setup complete! Applying settings...")
     # Apply settings (same as GUI)
     
     print(f"""
 ╔══════════════════════════════════════════════════════════════╗
-║                    🎉 TINKEROS READY!                         ║
+║                     TINKEROS READY!                         ║
 ║                                                              ║
 ║  Username: {state.username:<40} ║
 ║  Theme: {state.theme:<43} ║

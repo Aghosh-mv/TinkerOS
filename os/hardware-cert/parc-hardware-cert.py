@@ -252,7 +252,7 @@ class HardwareCertCLI:
     def search(self, query: str = ""):
         results = self.db.search(query)
         for hw in results[:20]:
-            status = "✅" if hw.certification == CertificationLevel.WORKS else "⚠️" if hw.certification == CertificationLevel.PARTIAL else "❌"
+            status = "" if hw.certification == CertificationLevel.WORKS else "" if hw.certification == CertificationLevel.PARTIAL else ""
             print(f"  {status} {hw.vendor} {hw.model} ({hw.component_type.value}) - {hw.certification.value}")
     
     def submit(self, name: str, vendor: str, model: str, ctype: str, cert: str):

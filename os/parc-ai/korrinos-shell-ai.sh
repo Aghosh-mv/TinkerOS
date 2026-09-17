@@ -18,7 +18,7 @@ explain_cmd() {
     fi
     
     # Also print to terminal
-    echo "💡 $explanation"
+    echo " $explanation"
   fi
 }
 

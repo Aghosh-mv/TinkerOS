@@ -39,7 +39,7 @@ nlctl_execute() {
     save_undo "brightness" "$old"
     korrinos-settings.sh set display.brightness "$level" 2>/dev/null
     korrinos-settings.sh apply display.brightness 2>/dev/null
-    echo "Brightness → ${level}% (undo with: undo)"
+    echo "Brightness  ${level}% (undo with: undo)"
     return 0
   fi
   
@@ -61,7 +61,7 @@ nlctl_execute() {
       local old=$(korrinos-settings.sh get audio.volume 2>/dev/null || echo "75")
       save_undo "volume" "$old"
       korrinos-settings.sh set audio.volume "$level" 2>/dev/null
-      echo "Volume → ${level}% (undo with: undo)"
+      echo "Volume  ${level}% (undo with: undo)"
     fi
     return 0
   fi
@@ -174,7 +174,7 @@ action = undo_stack.pop()
 redo_stack.append(action)
 with open('$UNDO_STACK', 'w') as f: json.dump(undo_stack, f, indent=2)
 with open('$REDO_STACK', 'w') as f: json.dump(redo_stack, f, indent=2)
-print(f'Undoing: {action[\"action\"]} → {action[\"details\"]}')
+print(f'Undoing: {action[\"action\"]}  {action[\"details\"]}')
 "
   # Execute undo based on action type
   local action_type=$(python3 -c "import json; s=json.load(open('$UNDO_STACK')); print(s[-1]['action'] if s else '')" 2>/dev/null)
@@ -205,7 +205,7 @@ action = redo_stack.pop()
 undo_stack.append(action)
 with open('$UNDO_STACK', 'w') as f: json.dump(undo_stack, f, indent=2)
 with open('$REDO_STACK', 'w') as f: json.dump(redo_stack, f, indent=2)
-print(f'Redoing: {action[\"action\"]} → {action[\"details\"]}')
+print(f'Redoing: {action[\"action\"]}  {action[\"details\"]}')
 "
 }
 

@@ -117,7 +117,7 @@ show_category_apps() {
             local desc=$(echo "$app" | cut -d: -f3)
             local installed=""
             if command -v "$name" >/dev/null 2>&1; then
-                installed=" ✓"
+                installed=" "
             fi
             echo "  $i) $name - $desc$installed"
             i=$((i + 1))
@@ -177,7 +177,7 @@ show_installed() {
     for app in "${APP_LIST[@]}"; do
         local name=$(echo "$app" | cut -d: -f1)
         if command -v "$name" >/dev/null 2>&1; then
-            echo "  ✓ $name"
+            echo "   $name"
         fi
     done
     

@@ -202,3 +202,4 @@ KorrinOS-v1.2.iso
 *.squashfs
 /casper/
 /build-korrinos/
+__pycache__/

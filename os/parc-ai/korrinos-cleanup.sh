@@ -29,7 +29,7 @@ cmd_full() {
     apt_after=$(du -sm /var/cache/apt 2>/dev/null | awk '{print $1}' || echo 0)
     local apt_freed=$((apt_before - apt_after))
     freed=$((freed + apt_freed))
-    echo "    ✓ APT: freed ${apt_freed}MB"
+    echo "     APT: freed ${apt_freed}MB"
   fi
   
   # 2. User cache
@@ -43,7 +43,7 @@ cmd_full() {
   cache_after=$(du -sm ~/.cache 2>/dev/null | awk '{print $1}' || echo 0)
   local cache_freed=$((cache_before - cache_after))
   freed=$((freed + cache_freed))
-  echo "    ✓ User cache: freed ${cache_freed}MB"
+  echo "     User cache: freed ${cache_freed}MB"
   
   # 3. Temporary files
   echo "  [3/7] Cleaning temporary files..."
@@ -55,7 +55,7 @@ cmd_full() {
   tmp_after=$(du -sm /tmp 2>/dev/null | awk '{print $1}' || echo 0)
   local tmp_freed=$((tmp_before - tmp_after))
   freed=$((freed + tmp_freed))
-  echo "    ✓ Temp files: freed ${tmp_freed}MB"
+  echo "     Temp files: freed ${tmp_freed}MB"
   
   # 4. Log files
   echo "  [4/7] Cleaning old logs..."
@@ -68,7 +68,7 @@ cmd_full() {
   log_after=$(du -sm /var/log 2>/dev/null | awk '{print $1}' || echo 0)
   local log_freed=$((log_before - log_after))
   freed=$((freed + log_freed))
-  echo "    ✓ Logs: freed ${log_freed}MB"
+  echo "     Logs: freed ${log_freed}MB"
   
   # 5. Trash
   echo "  [5/7] Emptying trash..."
@@ -79,27 +79,27 @@ cmd_full() {
   trash_after=$(du -sm ~/.local/share/Trash 2>/dev/null | awk '{print $1}' || echo 0)
   local trash_freed=$((trash_before - trash_after))
   freed=$((freed + trash_freed))
-  echo "    ✓ Trash: freed ${trash_freed}MB"
+  echo "     Trash: freed ${trash_freed}MB"
   
   # 6. Old kernels
   echo "  [6/7] Removing old kernels..."
   if command -v apt &>/dev/null; then
     sudo apt autoremove --purge -y 2>/dev/null || true
-    echo "    ✓ Old kernels removed"
+    echo "     Old kernels removed"
   fi
   
   # 7. Docker cleanup
   echo "  [7/7] Cleaning Docker..."
   if command -v docker &>/dev/null; then
     docker system prune -f 2>/dev/null || true
-    echo "    ✓ Docker pruned"
+    echo "     Docker pruned"
   fi
   
   local end_time=$(date +%s)
   local duration=$((end_time - start_time))
   
   echo ""
-  echo "  ✓ Cleanup complete!"
+  echo "   Cleanup complete!"
   echo "    Total freed: ${freed}MB"
   echo "    Duration: ${duration}s"
   
@@ -233,17 +233,17 @@ cmd_optimize() {
   # Clear font cache
   echo "  Updating font cache..."
   fc-cache -f 2>/dev/null || true
-  echo "    ✓ Font cache updated"
+  echo "     Font cache updated"
   
   # Update mandb
   echo "  Updating man pages..."
   sudo mandb -q 2>/dev/null || true
-  echo "    ✓ Man pages updated"
+  echo "     Man pages updated"
   
   # Clean systemd journals
   echo "  Cleaning systemd journals..."
   sudo journalctl --vacuum-size=100M 2>/dev/null || true
-  echo "    ✓ Journals cleaned"
+  echo "     Journals cleaned"
   
   # Optimize SSD (if applicable)
   if [ -f /sys/block/sda/queue/rotational ]; then
@@ -252,12 +252,12 @@ cmd_optimize() {
     if [ "$rotational" = "0" ]; then
       echo "  SSD detected — enabling TRIM..."
       sudo fstrim -av 2>/dev/null || true
-      echo "    ✓ TRIM executed"
+      echo "     TRIM executed"
     fi
   fi
   
   echo ""
-  echo "  ✓ System optimized"
+  echo "   System optimized"
 }
 
 # Cleanup log

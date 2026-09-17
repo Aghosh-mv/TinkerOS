@@ -33,14 +33,14 @@ check_updates() {
     if command -v apt >/dev/null 2>&1; then
         sudo apt update 2>/dev/null
         local updates=$(apt list --upgradable 2>/dev/null | grep -c "upgradable")
-        echo -e "  ${GREEN}✓${NC} System updates available: $updates"
+        echo -e "  ${GREEN}${NC} System updates available: $updates"
     elif command -v dnf >/dev/null 2>&1; then
         local updates=$(dnf check-update 2>/dev/null | grep -c "^\S")
-        echo -e "  ${GREEN}✓${NC} System updates available: $updates"
+        echo -e "  ${GREEN}${NC} System updates available: $updates"
     elif command -v pacman >/dev/null 2>&1; then
         sudo pacman -Sy 2>/dev/null
         local updates=$(pacman -Qu 2>/dev/null | wc -l)
-        echo -e "  ${GREEN}✓${NC} System updates available: $updates"
+        echo -e "  ${GREEN}${NC} System updates available: $updates"
     fi
     
     # Check for KorrinOS updates
@@ -50,11 +50,11 @@ check_updates() {
     
     # Check for driver updates
     echo -e "  Checking driver updates..."
-    echo -e "  ${GREEN}✓${NC} Driver updates checked"
+    echo -e "  ${GREEN}${NC} Driver updates checked"
     
     # Check for app updates
     echo -e "  Checking app updates..."
-    echo -e "  ${GREEN}✓${NC} App updates checked"
+    echo -e "  ${GREEN}${NC} App updates checked"
     
     echo ""
     echo -e "${GREEN}Update check complete!${NC}"
@@ -96,7 +96,7 @@ apply_updates() {
     cleanup
     
     echo ""
-    echo -e "${GREEN}✓ All updates applied!${NC}"
+    echo -e "${GREEN} All updates applied!${NC}"
     echo -e "${YELLOW}Some changes may require a reboot.${NC}"
     echo ""
 }
@@ -106,14 +106,14 @@ update_tinker_components() {
     
     # Update smart input system
     if [ -d /proc/smart_input ]; then
-        echo -e "    ${GREEN}✓${NC} Smart Input System up to date"
+        echo -e "    ${GREEN}${NC} Smart Input System up to date"
     fi
     
     # Update desktop components
-    echo -e "    ${GREEN}✓${NC} Desktop components up to date"
+    echo -e "    ${GREEN}${NC} Desktop components up to date"
     
     # Update system utilities
-    echo -e "    ${GREEN}✓${NC} System utilities up to date"
+    echo -e "    ${GREEN}${NC} System utilities up to date"
 }
 
 update_drivers() {
@@ -128,7 +128,7 @@ update_drivers() {
         sudo pacman -S --noconfirm linux-firmware 2>/dev/null
     fi
     
-    echo -e "    ${GREEN}✓${NC} Drivers updated"
+    echo -e "    ${GREEN}${NC} Drivers updated"
 }
 
 update_apps() {
@@ -144,7 +144,7 @@ update_apps() {
         sudo snap refresh 2>/dev/null
     fi
     
-    echo -e "    ${GREEN}✓${NC} Apps updated"
+    echo -e "    ${GREEN}${NC} Apps updated"
 }
 
 create_backup() {
@@ -155,7 +155,7 @@ create_backup() {
     cp -r /etc/tinker $backup_dir/ 2>/dev/null || true
     cp /etc/fstab $backup_dir/ 2>/dev/null || true
     
-    echo -e "    ${GREEN}✓${NC} Backup created at $backup_dir"
+    echo -e "    ${GREEN}${NC} Backup created at $backup_dir"
 }
 
 cleanup() {
@@ -173,7 +173,7 @@ cleanup() {
     # Clean old backups
     find /var/backup/tinker -maxdepth 1 -type d -mtime +30 -exec rm -rf {} \; 2>/dev/null || true
     
-    echo -e "    ${GREEN}✓${NC} Cleanup complete"
+    echo -e "    ${GREEN}${NC} Cleanup complete"
 }
 
 show_history() {
@@ -205,7 +205,7 @@ rollback() {
     # Restore config
     sudo cp -r $backup_dir/tinker/* /etc/tinker/ 2>/dev/null || true
     
-    echo -e "${GREEN}✓ Rollback complete!${NC}"
+    echo -e "${GREEN} Rollback complete!${NC}"
     echo -e "${YELLOW}Please reboot to apply changes.${NC}"
     echo ""
 }

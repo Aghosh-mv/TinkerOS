@@ -14,8 +14,8 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 log()  { echo -e "${BLUE}[korrinos-ai]${NC} $1"; }
-ok()   { echo -e "${GREEN}[✓]${NC} $1"; }
-fail() { echo -e "${RED}[✗]${NC} $1"; exit 1; }
+ok()   { echo -e "${GREEN}[]${NC} $1"; }
+fail() { echo -e "${RED}[]${NC} $1"; exit 1; }
 
 # Must be root for system install
 if [ "$EUID" -ne 0 ]; then

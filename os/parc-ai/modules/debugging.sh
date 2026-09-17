@@ -20,7 +20,7 @@ questions = [
     '10. If you add print/log statements before the failing line, what do you see?',
 ]
 
-print('🦆 Rubber Duck Debugging Session')
+print(' Rubber Duck Debugging Session')
 print('=' * 40)
 print()
 print(f'Problem: {problem[:200]}')

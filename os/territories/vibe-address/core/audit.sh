@@ -1,6 +1,6 @@
 # veil: audit.sh — expose engine internals for a stored envelope or a query.
-#   ve_audit_event fp    → full artifact dump (index/cms/ir/sarray/markov/lsh)
-#   ve_audit_query terms → per-relax-tier candidate ladder (L0..L6 counts)
+#   ve_audit_event fp     full artifact dump (index/cms/ir/sarray/markov/lsh)
+#   ve_audit_query terms  per-relax-tier candidate ladder (L0..L6 counts)
 
 # ---- audit a stored event fingerprint ---------------------------------------
 ve_audit_event() {

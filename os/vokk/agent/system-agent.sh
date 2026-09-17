@@ -193,7 +193,7 @@ class VoiceInput:
             import speech_recognition as sr
             r = sr.Recognizer()
             with sr.Microphone() as source:
-                print("🎤 Listening...")
+                print(" Listening...")
                 audio = r.listen(source, timeout=5)
                 text = r.recognize_whisper(audio, model="base")
                 return text
@@ -229,7 +229,7 @@ class UnifiedCanvas:
             return "No open tabs"
         lines = ["=== Unified Canvas ==="]
         for t in self.tabs:
-            marker = "→" if t == self.current else " "
+            marker = "" if t == self.current else " "
             lines.append(f"  {marker} [{t['id']}] {t['title']}")
         return "\n".join(lines)
 
@@ -294,7 +294,7 @@ def main():
                 sources=intents
             )
             
-            print(f"\n  📋 Result (Tab {tab['id']}):")
+            print(f"\n   Result (Tab {tab['id']}):")
             for line in result.split('\n')[:20]:
                 print(f"  {line}")
             
@@ -405,7 +405,7 @@ voice_handler(){
 AGENT_DIR="$HOME/.tinker/agent"
 
 listen(){
-  echo "🎤 Listening for voice command..."
+  echo " Listening for voice command..."
   # Using whisper locally (no cloud)
   python3 - << 'PYVOICE'
 import speech_recognition as sr

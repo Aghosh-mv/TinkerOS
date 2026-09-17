@@ -259,7 +259,7 @@ monitor() {
         
         # Apply if changed
         if [ "$context" != "$last_context" ]; then
-            echo "Context changed: $last_context → $context"
+            echo "Context changed: $last_context  $context"
             apply_context "$context"
             last_context="$context"
         fi

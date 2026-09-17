@@ -137,10 +137,10 @@ generate_battery_bar() {
         icon=""
     elif [ "$level" -ge 10 ]; then
         color="#ef4444"  # Red
-        icon="🪫"
+        icon=""
     else
         color="#dc2626"  # Dark red
-        icon="💀"
+        icon=""
     fi
     
     cat > "$BAT_BAR_HTML" << HTMLEOF

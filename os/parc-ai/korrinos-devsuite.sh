@@ -121,7 +121,7 @@ venv/
 dist/
 build/
 EOF
-      echo "✓ Python project created"
+      echo " Python project created"
       ;;
       
     node|js)
@@ -145,7 +145,7 @@ node_modules/
 .env
 dist/
 EOF
-      echo "✓ Node.js project created"
+      echo " Node.js project created"
       ;;
       
     go|golang)
@@ -169,7 +169,7 @@ ${name}
 *.exe
 vendor/
 EOF
-      echo "✓ Go project created"
+      echo " Go project created"
       ;;
       
     rust|rs)
@@ -191,7 +191,7 @@ EOF
 target/
 Cargo.lock
 EOF
-      echo "✓ Rust project created"
+      echo " Rust project created"
       ;;
       
     c|kernel)
@@ -223,7 +223,7 @@ module_exit(${name}_exit);
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("${name} kernel module");
 EOF
-      echo "✓ Kernel module project created"
+      echo " Kernel module project created"
       ;;
       
     *)

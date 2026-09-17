@@ -23,9 +23,9 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 log() { echo -e "${BLUE}[$(date +%H:%M:%S)]${NC} $1"; }
-success() { echo -e "${GREEN}[✓]${NC} $1"; }
+success() { echo -e "${GREEN}[]${NC} $1"; }
 warn() { echo -e "${YELLOW}[!]${NC} $1"; }
-fail() { echo -e "${RED}[✗]${NC} $1"; exit 1; }
+fail() { echo -e "${RED}[]${NC} $1"; exit 1; }
 
 # ===========================================================================
 # Step 1: Build Training Data from AI Modules
@@ -44,7 +44,7 @@ import re
 training_pairs = []
 
 # 1. Extract from NLP patterns (670+ patterns)
-nlp_file = os.environ.get('NLP_PATTERNS', 'os/vokk/modules/nlp-670-patterns.sh')
+nlp_file = os.environ.get('NLP_PATTERNS', 'os/parc-ai/modules/nlp-670-patterns.sh')
 if os.path.exists(nlp_file):
     with open(nlp_file) as f:
         content = f.read()
@@ -66,7 +66,7 @@ if os.path.exists(nlp_file):
             pass
 
 # 2. Extract from KorrinOS Q&A
-qa_file = os.environ.get('QA_FILE', 'os/vokk/model/training_data/korrinos_qa.json')
+qa_file = os.environ.get('QA_FILE', 'os/parc-ai/model/training_data/korrinos_qa.json')
 if os.path.exists(qa_file):
     with open(qa_file) as f:
         qa_data = json.load(f)
@@ -79,7 +79,7 @@ if os.path.exists(qa_file):
         })
 
 # 3. Extract from general Q&A
-general_file = os.environ.get('GENERAL_QA', 'os/vokk/model/training_data/general_qa.json')
+general_file = os.environ.get('GENERAL_QA', 'os/parc-ai/model/training_data/general_qa.json')
 if os.path.exists(general_file):
     with open(general_file) as f:
         general_data = json.load(f)
@@ -92,7 +92,7 @@ if os.path.exists(general_file):
         })
 
 # 4. Extract from conversation patterns
-conv_file = os.environ.get('CONV_FILE', 'os/vokk/model/training_data/conversation_patterns.json')
+conv_file = os.environ.get('CONV_FILE', 'os/parc-ai/model/training_data/conversation_patterns.json')
 if os.path.exists(conv_file):
     with open(conv_file) as f:
         conv_data = json.load(f)
@@ -105,7 +105,7 @@ if os.path.exists(conv_file):
         })
 
 # 5. Extract from knowledge base
-knowledge_file = os.environ.get('KNOWLEDGE_FILE', 'os/vokk/modules/knowledge-korrinos.sh')
+knowledge_file = os.environ.get('KNOWLEDGE_FILE', 'os/parc-ai/modules/knowledge-korrinos.sh')
 if os.path.exists(knowledge_file):
     with open(knowledge_file) as f:
         content = f.read()
@@ -120,7 +120,7 @@ if os.path.exists(knowledge_file):
         })
 
 # Save training data
-output_file = os.environ.get('OUTPUT_FILE', 'os/vokk/model/training_data/all_training_data.json')
+output_file = os.environ.get('OUTPUT_FILE', 'os/parc-ai/model/training_data/all_training_data.json')
 with open(output_file, 'w') as f:
     json.dump(training_pairs, f, indent=2)
 
@@ -245,9 +245,9 @@ class QADataset(Dataset):
         }
 
 # Load training data
-training_file = os.environ.get('TRAINING_DATA', 'os/vokk/model/training_data/all_training_data.json')
+training_file = os.environ.get('TRAINING_DATA', 'os/parc-ai/model/training_data/all_training_data.json')
 if not os.path.exists(training_file):
-    training_file = 'os/vokk/model/training_data/korrinos_qa.json'
+    training_file = 'os/parc-ai/model/training_data/korrinos_qa.json'
 
 with open(training_file) as f:
     training_data = json.load(f)
@@ -328,12 +328,12 @@ for epoch in range(50):
             'optimizer_state_dict': optimizer.state_dict(),
             'loss': avg_loss,
             'vocab_size': tokenizer.vocab_size,
-        }, 'os/vokk/model/checkpoints/base_model.pt')
-        tokenizer.save('os/vokk/model/checkpoints/tokenizer.json')
+        }, 'os/parc-ai/model/checkpoints/base_model.pt')
+        tokenizer.save('os/parc-ai/model/checkpoints/tokenizer.json')
 
 print(f"\nTraining complete! Best loss: {best_loss:.4f}")
 print(f"Total time: {time.time() - start_time:.1f}s")
-print(f"Model saved to: os/vokk/model/checkpoints/base_model.pt")
+print(f"Model saved to: os/parc-ai/model/checkpoints/base_model.pt")
 PYEOF
 
   success "Base model trained"
@@ -351,7 +351,7 @@ import os
 import json
 
 # Load model
-checkpoint = torch.load('os/vokk/model/checkpoints/base_model.pt', map_location='cpu')
+checkpoint = torch.load('os/parc-ai/model/checkpoints/base_model.pt', map_location='cpu')
 
 # Recreate model
 import torch.nn as nn
@@ -382,9 +382,9 @@ model.eval()
 
 # Export to ONNX
 dummy_input = torch.randint(0, checkpoint['vocab_size'], (1, 128))
-onnx_path = 'os/vokk/model/release/korrinos_ai.onnx'
+onnx_path = 'os/parc-ai/model/release/korrinos_ai.onnx'
 
-os.makedirs('os/vokk/model/release', exist_ok=True)
+os.makedirs('os/parc-ai/model/release', exist_ok=True)
 
 torch.onnx.export(
     model,
@@ -500,7 +500,7 @@ class QADataset(Dataset):
         }
 
 # Load base model
-checkpoint = torch.load('os/vokk/model/checkpoints/base_model.pt', map_location='cpu')
+checkpoint = torch.load('os/parc-ai/model/checkpoints/base_model.pt', map_location='cpu')
 
 class VOKK v4Model(nn.Module):
     def __init__(self, vocab_size=5000, d_model=256, nhead=8, num_layers=6, dim_feedforward=1024, dropout=0.1):
@@ -530,10 +530,10 @@ model = VOKK v4WithLoRA(base_model, rank=8, alpha=16)
 
 # Load tokenizer
 tokenizer = SimpleTokenizer()
-tokenizer.load('os/vokk/model/checkpoints/tokenizer.json')
+tokenizer.load('os/parc-ai/model/checkpoints/tokenizer.json')
 
 # Load training data
-with open('os/vokk/model/training_data/all_training_data.json') as f:
+with open('os/parc-ai/model/training_data/all_training_data.json') as f:
     training_data = json.load(f)
 
 dataset = QADataset(training_data, tokenizer)
@@ -583,8 +583,8 @@ for name, param in model.named_parameters():
     if param.requires_grad:
         lora_weights[name] = param.data
 
-torch.save(lora_weights, 'os/vokk/model/lora/lora_weights.pt')
-print(f"\nLoRA weights saved to: os/vokk/model/lora/lora_weights.pt")
+torch.save(lora_weights, 'os/parc-ai/model/lora/lora_weights.pt')
+print(f"\nLoRA weights saved to: os/parc-ai/model/lora/lora_weights.pt")
 print(f"Total time: {time.time() - start_time:.1f}s")
 PYEOF
 

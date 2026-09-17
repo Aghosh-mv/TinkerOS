@@ -280,7 +280,7 @@ ve_bootstrap_apps() {
 
 # ---- bind_f7: register the global Tab+F7 Searchie hotkey ---------------------
 #   1) GNOME (gsettings custom keybinding) — works on Wayland + X11
-#   2) XFCE/MATE bare X11 → xbindkeys fallback (must be autostarted once)
+#   2) XFCE/MATE bare X11  xbindkeys fallback (must be autostarted once)
 ve_connectors_bind_f7() {
   local cmd="${1:-/usr/local/bin/searchie}"
   local bound=0

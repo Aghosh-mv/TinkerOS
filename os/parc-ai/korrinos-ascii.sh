@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # korrinos-ascii.sh — ASCII Art Generator (part of VOKK v4)
-# Text → ASCII art banners
+# Text  ASCII art banners
 
 set -euo pipefail
 

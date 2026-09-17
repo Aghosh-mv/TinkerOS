@@ -168,7 +168,7 @@ class TerminalHistoryCLI:
     
     def list(self):
         for s in self.mgr.list_sessions():
-            status = "🔄" if s['restored'] else "⏳" if s['ended_at'] else "🟢"
+            status = "" if s['restored'] else "" if s['ended_at'] else ""
             print(f"  {status} {s['id']} - {s['name']} ({s['started_at'][:16]})")
     
     def restore(self, session_id: str):

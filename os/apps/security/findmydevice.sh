@@ -63,7 +63,7 @@ alert() {
     if [ -n "$DISPLAY" ]; then
         command -v zenity &>/dev/null && zenity --info --title="FIND MY DEVICE" --text="$msg
 Owner: ${owner:-unknown}" &
-        notify-send "🔔 GOOD NEWS" "A good Samaritan found your device. They see: $msg" 2>/dev/null &
+        notify-send " GOOD NEWS" "A good Samaritan found your device. They see: $msg" 2>/dev/null &
     fi
     
     # Write a prominent marker file
@@ -82,7 +82,7 @@ Owner: ${owner:-unknown}" &
         echo "  Device ID: $(cat /etc/machine-id 2>/dev/null)"
     } > "$marker"
     chmod 644 "$marker"
-    echo "  ✓ Wrote alert file: $marker"
+    echo "   Wrote alert file: $marker"
     grep -q LOG_EVENTS "$CONFIG_FILE" && echo "$(date +%s)|alert" >> "$LOG_FILE"
 }
 
@@ -106,7 +106,7 @@ set_owner() {
     local owner=${1:-}
     [ -z "$owner" ] && { echo "Usage: $0 owner <name-or-contact>"; return 1; }
     sed -i "s/^OWNER_NAME=.*/OWNER_NAME=$owner/" "$CONFIG_FILE"
-    echo "  ✓ Owner set: $owner"
+    echo "   Owner set: $owner"
 }
 
 # Show tracking history

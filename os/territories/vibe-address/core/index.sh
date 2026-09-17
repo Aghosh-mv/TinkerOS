@@ -51,7 +51,7 @@ ve_index_insert() {
     local tfile; tfile=$(ve_index_sanitize_token "$tok")
     printf '%s %s %s\n' "$fp" "$epoch" "$path" >> "$inv/$tfile"
     # token PRESENCE prefilter must be maintained incrementally — the bloom
-    # cascade is the fetch-side "absent ⇒ definitely no posting" oracle.
+    # cascade is the fetch-side "absent  definitely no posting" oracle.
     ve_bloom_tok_add "$tfile" >/dev/null 2>&1 || true
   done <<< "$alltok"
 

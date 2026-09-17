@@ -53,7 +53,7 @@ where **process/app ownership is world-scoped and cross-world access is
 denied at the syscall layer**, with per-world file/network/execution
 namespaces, plus switchable realtime optimization per world. i.e. living in
 three OSes in one, with strict world boundaries enforced by the kernel.
-Status: [I→P], the territory engine is the working seed.
+Status: [IP], the territory engine is the working seed.
 
 ---
 

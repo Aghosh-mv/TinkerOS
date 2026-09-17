@@ -312,7 +312,7 @@ cmd_ask() {
   # === TIER 1: Knowledge base (instant, always available) ===
   if [ -n "$kb_answer" ]; then
     card_open
-    card_title "🧠 ${query}"
+    card_title " ${query}"
     card_body "<div style='line-height:1.7;'>${kb_answer}</div>"
     card_secondary "Source: VOKK v4 Knowledge Base · Intent: ${intent}"
     card_close
@@ -322,7 +322,7 @@ cmd_ask() {
   # === TIER 2: Self-learned memory ===
   if [ -z "$kb_answer" ] && [ -n "$learned_answer" ]; then
     card_open
-    card_title "💡 ${query}"
+    card_title " ${query}"
     card_body "<div style='line-height:1.7;'>${learned_answer}</div>"
     card_secondary "Source: VOKK v4 Memory · Intent: ${intent}"
     card_close
@@ -405,7 +405,7 @@ print(text)
   case "$intent" in
     greeting)
       card_open
-      card_title "Hey there! 👋"
+      card_title "Hey there! "
       local greetings=(
         "Hey! I'm Tinkeria — your built-in AI. I live right here on your system and I don't need the cloud to help you out. Ask me anything, I'm ready."
         "What's up! I'm Tinkeria. I can answer questions, write code, brainstorm ideas, control your computer, and a whole lot more. What's on your mind?"
@@ -451,7 +451,7 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "create" 2>/dev/null || echo "$query")
       card_open
-      card_title "✍️ Writing: $target"
+      card_title " Writing: $target"
       local result
       result=$(ai_text_generate "$target" 2>&1 || echo "I couldn't generate that, but I can try something else.")
       card_body "$result"
@@ -473,7 +473,7 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "code" 2>/dev/null || echo "$query")
       card_open
-      card_title "💻 Code help"
+      card_title " Code help"
       # Try knowledge base for code patterns first
       local code_answer=""
       if declare -f ai_knowledge_mega_search >/dev/null 2>&1; then
@@ -511,7 +511,7 @@ print(text)
 
     translate)
       card_open
-      card_title "🌍 Translation"
+      card_title " Translation"
       card_body "Sure, I can translate that! Just tell me what language you want it in — I support Spanish, French, German, Japanese, Chinese, and more."
       card_secondary "Example: 'Translate hello world to Spanish'"
       card_close
@@ -521,7 +521,7 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "math" 2>/dev/null || echo "$query")
       card_open
-      card_title "🧮 Math"
+      card_title " Math"
       local result
       result=$(ai_math_calc "$target" 2>&1 || echo "I couldn't calculate that. Can you double-check the numbers?")
       card_body "$result"
@@ -530,7 +530,7 @@ print(text)
 
     schedule)
       card_open
-      card_title "📅 Scheduling"
+      card_title " Scheduling"
       card_body "I can help you manage your time! I can set reminders, create to-do lists, or help you plan your day. Just tell me what you need — like 'remind me to call mom at 3pm' or 'add buy groceries to my todo list'."
       card_secondary "Or use: parc-ai remind &lt;msg&gt; &lt;time&gt; · parc-ai todo add &lt;text&gt;"
       card_close
@@ -549,7 +549,7 @@ print(text)
 
     commerce)
       card_open
-      card_title "🛒 Shopping"
+      card_title " Shopping"
       card_body "I can help you track orders, make bookings, or check your wallet balance. Just tell me what you need — like 'track my order' or 'book a table for two' or 'what's my balance?'"
       card_secondary "Or use: parc-ai order &lt;item&gt; · parc-ai book &lt;type&gt; &lt;name&gt; · parc-ai wallet"
       card_close
@@ -561,13 +561,13 @@ print(text)
 
     thanks)
       card_open
-      card_title "You're welcome! 😊"
+      card_title "You're welcome! "
       card_body "Happy to help! I'm always here if you need anything else — just ask."
       card_close
       ;;
 
     *)
-      # Fallback: try knowledge base → self-learning → vibe search → web → conversational
+      # Fallback: try knowledge base  self-learning  vibe search  web  conversational
       local fallback_answer=""
 
       # Try mega knowledge base
@@ -592,7 +592,7 @@ print(text)
       file_results=$(search_local_files "$query" 2>/dev/null)
 
       card_open
-      card_title "🤔 $query"
+      card_title " $query"
 
       if [ -n "$fallback_answer" ]; then
         card_body "<div style='line-height:1.7;'>${fallback_answer}</div>"
@@ -651,7 +651,7 @@ CORE
   help                       Show this help
 
 CONVERSATION & NLU
-  ask "<text>"               NLU classifies intent → smart routing
+  ask "<text>"               NLU classifies intent  smart routing
   (intents: greeting, question, command, create, search, code, media,
    summarize, translate, math, schedule, settings, commerce, help, thanks)
 

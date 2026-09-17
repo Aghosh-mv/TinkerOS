@@ -91,7 +91,7 @@ conky.text = [[
 # ═══ WEATHER ═══
 \${voffset 12}
 \${color ${theme_yellow}}\${font Inter:Bold:size=20}24°\${font}\${color} \${color ${theme_yellow}80}Partly Cloudy\${color}
-\${color ${theme_yellow}60}💧 45%  💨 12 km/h  🌡 26°/18°\${color}
+\${color ${theme_yellow}60} 45%   12 km/h   26°/18°\${color}
 
 # ═══ CALENDAR ═══
 \${voffset 14}

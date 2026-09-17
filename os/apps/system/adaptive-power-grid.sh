@@ -186,14 +186,14 @@ detect_peaks() {
     
     # Detect if running heavy workload
     if [ $(echo "$load > $threshold" | bc 2>/dev/null) -eq 1 ]; then
-        echo "  ⚠️  HIGH DEMAND: possible performance bottleneck"
+        echo "    HIGH DEMAND: possible performance bottleneck"
     else
-        echo "  ✓ Normal demand"
+        echo "   Normal demand"
     fi
     
     # Check for build/compile processes
     if ps aux | grep -qE "make|gcc|cc1|ninja|cmake"; then
-        echo "  ⚠️  Compilation in progress"
+        echo "    Compilation in progress"
     fi
 }
 

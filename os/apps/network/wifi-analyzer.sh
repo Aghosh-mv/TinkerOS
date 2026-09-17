@@ -148,17 +148,17 @@ optimize() {
     local freq=$(iw "$iface" link 2>/dev/null | grep -oP 'freq: \d+' | grep -oP '\d+' 2>/dev/null)
     
     if [ -n "$freq" ] && [ "$freq" -lt 2500 ]; then
-        echo "  ⚠️  Connected to 2.4GHz - switch to 5GHz for better speed"
+        echo "    Connected to 2.4GHz - switch to 5GHz for better speed"
     fi
     
     # Power saving check
     local ps=$(iw "$iface" get power_save 2>/dev/null)
-    echo "$ps" | grep -qi "on" && echo "  ⚠️  Power save is ON - disable for lower latency:"
+    echo "$ps" | grep -qi "on" && echo "    Power save is ON - disable for lower latency:"
     echo "      sudo iw dev $iface set power_save off"
     
-    echo "  ✓ Ensure router antenna is positioned well"
-    echo "  ✓ Use channel 1, 6, or 11 on 2.4GHz"
-    echo "  ✓ Enable WPA3 if supported"
+    echo "   Ensure router antenna is positioned well"
+    echo "   Use channel 1, 6, or 11 on 2.4GHz"
+    echo "   Enable WPA3 if supported"
 }
 
 show_help() {

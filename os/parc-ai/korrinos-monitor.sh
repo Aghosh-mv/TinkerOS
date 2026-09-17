@@ -133,7 +133,7 @@ cmd_live() {
       local rx_rate=$(( (rx_curr - rx_prev) / 1024 ))
       local tx_rate=$(( (tx_curr - tx_prev) / 1024 ))
       echo "  Network:"
-      echo "    ↓ ${rx_rate} KB/s | ↑ ${tx_rate} KB/s"
+      echo "     ${rx_rate} KB/s |  ${tx_rate} KB/s"
       echo ""
     fi
     
@@ -159,10 +159,10 @@ cmd_live() {
       
       local cpu_int=${cpu_pct%%.*}
       if [ "${cpu_int:-0}" -gt "$alert_cpu" ] 2>/dev/null; then
-        echo "  ⚠ ALERT: CPU usage > ${alert_cpu}%!"
+        echo "   ALERT: CPU usage > ${alert_cpu}%!"
       fi
       if [ "$mem_pct" -gt "$alert_ram" ]; then
-        echo "  ⚠ ALERT: Memory usage > ${alert_ram}%!"
+        echo "   ALERT: Memory usage > ${alert_ram}%!"
       fi
     fi
     
@@ -223,7 +223,7 @@ cmd_kill() {
   local signal="${2:-TERM}"
   
   echo "Killing PID ${pid} with signal ${signal}..."
-  kill -"$signal" "$pid" 2>/dev/null && echo "  ✓ Sent ${signal} to ${pid}" || echo "  ✗ Failed to kill ${pid}"
+  kill -"$signal" "$pid" 2>/dev/null && echo "   Sent ${signal} to ${pid}" || echo "   Failed to kill ${pid}"
 }
 
 # Monitor a specific process

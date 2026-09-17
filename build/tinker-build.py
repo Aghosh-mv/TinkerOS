@@ -32,7 +32,7 @@ class TinkerOSBuilder:
         return subprocess.run(cmd, cwd=cwd or self.root, check=check, capture_output=True, text=True)
     
     def prepare_kernel(self) -> bool:
-        print("📦 Preparing kernel...")
+        print(" Preparing kernel...")
         if not (self.kernel_dir / "Makefile").exists():
             print("  Cloning Linux kernel v7.2.0-rc6...")
             self.run(["git", "clone", "--depth=1", "--branch=v7.2-rc6", 
@@ -61,7 +61,7 @@ class TinkerOSBuilder:
         return True
     
     def prepare_rootfs(self) -> Path:
-        print("📦 Preparing rootfs...")
+        print(" Preparing rootfs...")
         rootfs = self.build_dir / "rootfs"
         if rootfs.exists():
             shutil.rmtree(rootfs)
@@ -181,7 +181,7 @@ class TinkerOSBuilder:
         grub_cfg.write_text(content)
     
     def build_iso(self, rootfs: Path, output_name: str) -> Path:
-        print("🏗️  Building ISO...")
+        print("  Building ISO...")
         iso_dir = self.build_dir / "iso"
         if iso_dir.exists():
             shutil.rmtree(iso_dir)
@@ -245,7 +245,7 @@ menuentry "TinkerOS (Safe Graphics)" {
         return output_file
     
     def build(self) -> Path:
-        print(f"🚀 Building TinkerOS {self.profile}...")
+        print(f" Building TinkerOS {self.profile}...")
         
         # Prepare
         self.prepare_kernel()
@@ -281,7 +281,7 @@ menuentry "TinkerOS (Safe Graphics)" {
         output_name = f"TinkerOS-{self.profile}-{datetime.now().strftime('%Y%m%d')}-amd64.iso"
         iso_path = self.build_iso(rootfs, output_name)
         
-        print(f"\n✅ Build complete: {iso_path}")
+        print(f"\n Build complete: {iso_path}")
         print(f"   Size: {iso_path.stat().st_size / (1024**3):.2f} GB")
         
         return iso_path

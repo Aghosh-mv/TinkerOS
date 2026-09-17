@@ -5,9 +5,9 @@
 # uploads to SourceForge, and git-tags the release.
 #
 # Usage:
-#   os/release.sh            # auto-increment minor (1.2 → 1.3)
-#   os/release.sh patch      # 1.2.0 → 1.2.1
-#   os/release.sh major      # 1.x → 2.0
+#   os/release.sh            # auto-increment minor (1.2  1.3)
+#   os/release.sh patch      # 1.2.0  1.2.1
+#   os/release.sh major      # 1.x  2.0
 #   os/release.sh 2.5.0      # explicit version
 
 set -euo pipefail
@@ -61,7 +61,7 @@ bump "${1:-}"
 NEW_VER="${NEW_MAJOR}.${NEW_MINOR}"
 NEW_VER_FULL="${NEW_MAJOR}.${NEW_MINOR}.${NEW_PATCH}"
 ISO_NAME="KorrinOS-v${NEW_VER}.iso"
-echo "New version: ${NEW_VER_FULL} → ${ISO_NAME}"
+echo "New version: ${NEW_VER_FULL}  ${ISO_NAME}"
 echo ""
 
 # --- step 1: selftest gate ---

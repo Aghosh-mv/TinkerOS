@@ -51,7 +51,7 @@ list_apps() {
     echo ""
     for app in "${!APPS[@]}"; do
         if is_installed "$app"; then
-            echo -e "  ${GREEN}✓${NC} $app - ${APPS[$app]}"
+            echo -e "  ${GREEN}${NC} $app - ${APPS[$app]}"
         else
             echo -e "  ${RED}○${NC} $app - ${APPS[$app]}"
         fi
@@ -202,9 +202,9 @@ install_app() {
     esac
     
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✓ $app installed successfully!${NC}"
+        echo -e "${GREEN} $app installed successfully!${NC}"
     else
-        echo -e "${RED}✗ Failed to install $app${NC}"
+        echo -e "${RED} Failed to install $app${NC}"
         return 1
     fi
 }
@@ -223,7 +223,7 @@ uninstall_app() {
     esac
     
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✓ $app uninstalled!${NC}"
+        echo -e "${GREEN} $app uninstalled!${NC}"
     fi
 }
 
@@ -277,7 +277,7 @@ case "$1" in
         elif command -v pacman >/dev/null 2>&1; then
             sudo pacman -Syu --noconfirm
         fi
-        echo -e "${GREEN}✓ All apps updated!${NC}"
+        echo -e "${GREEN} All apps updated!${NC}"
         ;;
     help|--help|-h)
         show_help

@@ -257,12 +257,12 @@ class LifespanCharger:
                 set_charge_current(0)
                 self.paused = True
                 log(f"PAUSED: temp {temp}°C >= {self.thermal_limit}°C")
-                print(f"  ️  Paused: {temp}°C (thermal limit)")
+                print(f"    Paused: {temp}°C (thermal limit)")
             
             elif temp <= self.thermal_resume and self.paused:
                 self.paused = False
                 log(f"RESUMED: temp {temp}°C <= {self.thermal_resume}°C")
-                print(f"  ️  Resumed: {temp}°C")
+                print(f"    Resumed: {temp}°C")
             
             # ── Check alarm ramp ──
             if check_alarm_time(self.config):
@@ -313,7 +313,7 @@ config = json.load(open(os.path.expanduser("~/.tinker/lifespan-doubler/config.js
 config["schedule"]["alarm_time"] = "$time"
 config["schedule"]["enabled"] = True
 json.dump(config, open(os.path.expanduser("~/.tinker/lifespan-doubler/config.json"), "w"), indent=2)
-print(f"  ⏰ Alarm set: $time")
+print(f"   Alarm set: $time")
 print(f"  Ramp-up starts: 30 minutes before")
 print(f"  Battery will be 100% by $time")
 PYEOF
@@ -385,10 +385,10 @@ config["enabled"] = not enabled
 json.dump(config, open(os.path.expanduser("~/.tinker/lifespan-doubler/config.json"), "w"), indent=2)
 
 if config["enabled"]:
-    print("  ✅ Lifespan Doubler: ON")
+    print("   Lifespan Doubler: ON")
     print("  Trickle: 200mA, Target: 80%")
 else:
-    print("  ⏹️  Lifespan Doubler: OFF")
+    print("    Lifespan Doubler: OFF")
     print("  Normal charging restored (3000mA)")
 PYEOF
 }
@@ -401,10 +401,10 @@ case "${1:-help}" in
   health) health_report ;;
   on)
     hardware_write_gate "lifespan-doubler" "$2" || exit 1
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'),'w'),indent=2); print('  ✅ Lifespan Doubler: ON')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'),'w'),indent=2); print('   Lifespan Doubler: ON')"
     ;;
   off)
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'),'w'),indent=2); print('  ⏹️  Lifespan Doubler: OFF')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/lifespan-doubler/config.json'),'w'),indent=2); print('    Lifespan Doubler: OFF')"
     ;;
   toggle) toggle ;;
   dashboard) read_battery | python3 -m json.tool; echo ""; health_report ;;

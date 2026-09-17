@@ -392,7 +392,7 @@ conn.close()
 
 print(f"  Generated {len(alerts)} alerts:")
 for a in alerts:
-    severity_icon = '🔴' if a.get('severity') == 'critical' else '🟡' if a.get('severity') == 'warning' else 'ℹ️'
+    severity_icon = '' if a.get('severity') == 'critical' else '' if a.get('severity') == 'warning' else 'ℹ'
     if 'annual_waste' in a:
         print(f"    {severity_icon} {a['name']}: unused {a['days']} days, ${a['annual_waste']:.0f}/year wasted")
     elif a.get('type') == 'price_hike':
@@ -437,36 +437,36 @@ for cat, count, cost in c.fetchall():
 print()
 
 # Top alerts (critical first)
-print(f"  🚨 TOP ALERTS")
+print(f"   TOP ALERTS")
 c.execute("SELECT severity, message FROM alerts WHERE dismissed=0 ORDER BY CASE severity WHEN 'critical' THEN 1 WHEN 'warning' THEN 2 ELSE 3 END LIMIT 10")
 alerts = c.fetchall()
 if alerts:
     for sev, msg in alerts:
-        icon = '🔴' if sev == 'critical' else '🟡' if sev == 'warning' else 'ℹ️'
+        icon = '' if sev == 'critical' else '' if sev == 'warning' else 'ℹ'
         print(f"     {icon} {msg[:70]}")
 else:
-    print(f"     ✅ No alerts - all subscriptions look healthy!")
+    print(f"      No alerts - all subscriptions look healthy!")
 print()
 
 # Subscription list
-print(f"  📋 ALL SUBSCRIPTIONS")
+print(f"   ALL SUBSCRIPTIONS")
 c.execute("SELECT name, amount, billing_cycle, status, last_used FROM subscriptions ORDER BY amount DESC")
 for name, amount, cycle, status, last_used in c.fetchall():
     cycle = cycle or 'unknown'
-    status_icon = '✅' if status == 'active' else '❌'
+    status_icon = '' if status == 'active' else ''
     used = last_used[:10] if last_used else 'never'
     print(f"     {status_icon} {name[:40]:40s} ${amount:>7.2f}/{cycle[:7]:7s} last: {used}")
 print()
 
 # Cost optimization suggestions
-print(f"  💡 OPTIMIZATION SUGGESTIONS")
+print(f"   OPTIMIZATION SUGGESTIONS")
 c.execute("SELECT name, amount, billing_cycle FROM subscriptions WHERE status='active' AND billing_cycle='monthly' ORDER BY amount DESC LIMIT 5")
 for name, amount, cycle in c.fetchall():
     annual = amount * 12
     yearly_alt = amount * 10  # typical 2 months free
     savings = annual - yearly_alt
     if savings > 0:
-        print(f"     💰 Switch {name[:35]} to yearly: save ${savings:.0f}/year")
+        print(f"      Switch {name[:35]} to yearly: save ${savings:.0f}/year")
 
 conn.close()
 PYEOF
@@ -502,7 +502,7 @@ if not rows:
     print("  No active alerts")
 else:
     for sev, atype, msg, created in rows:
-        icon = '🔴' if sev == 'critical' else '🟡' if sev == 'warning' else 'ℹ️'
+        icon = '' if sev == 'critical' else '' if sev == 'warning' else 'ℹ'
         print(f"  {icon} [{atype}] {msg}")
 conn.close()
 PYEOF

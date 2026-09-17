@@ -12,8 +12,8 @@ ai_card_sandbox() {
   <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;display:flex;justify-content:space-between;align-items:center;">
     <span style="font-size:13px;color:#c8d7ff;"> ${title}</span>
     <div style="display:flex;gap:8px;">
-      <button onclick="var f=document.getElementById('${id}').querySelector('iframe');f.src=f.src;" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;">↻ Refresh</button>
-      <button onclick="var f=document.getElementById('${id}').querySelector('iframe');window.open('data:text/html;base64,${b64}','_blank')" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;">↗ Pop Out</button>
+      <button onclick="var f=document.getElementById('${id}').querySelector('iframe');f.src=f.src;" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;"> Refresh</button>
+      <button onclick="var f=document.getElementById('${id}').querySelector('iframe');window.open('data:text/html;base64,${b64}','_blank')" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;"> Pop Out</button>
     </div>
   </div>
   <iframe src="data:text/html;base64,${b64}" style="width:100%;height:${height}px;border:none;background:white;" sandbox="allow-scripts allow-same-origin"></iframe>
@@ -81,7 +81,7 @@ max_val = max(points.values()) if points.values() else 1
 colors = ['#6c63ff', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16']
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:600px;padding:16px;\">'
-html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\">📈 ' + title + '</div>'
+html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\"> ' + title + '</div>'
 
 if viz_type == 'bar':
     html += '<div style=\"display:flex;align-items:end;gap:8px;height:150px;padding-bottom:20px;position:relative;\">'
@@ -148,7 +148,7 @@ ai_card_countdown() {
   local id="cd_$(date +%s)_$$"
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:400px;padding:16px;text-align:center;">
-  <div style="font-size:14px;color:#c8d7ff;margin-bottom:8px;">⏰ ${title}</div>
+  <div style="font-size:14px;color:#c8d7ff;margin-bottom:8px;"> ${title}</div>
   <div id="${id}-display" style="font-size:32px;font-weight:bold;color:#6c63ff;font-family:monospace;">--:--:--</div>
   <script>
   (function(){
@@ -176,7 +176,7 @@ ai_card_pomodoro() {
   local id="pomo_$(date +%s)_$$"
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:300px;padding:16px;text-align:center;">
-  <div style="font-size:14px;color:#c8d7ff;margin-bottom:8px;">🍅 Pomodoro</div>
+  <div style="font-size:14px;color:#c8d7ff;margin-bottom:8px;"> Pomodoro</div>
   <div id="${id}-time" style="font-size:36px;font-weight:bold;color:#ef4444;font-family:monospace;">25:00</div>
   <div id="${id}-status" style="font-size:12px;color:#8b949e;margin-bottom:12px;">Focus time</div>
   <div style="display:flex;gap:8px;justify-content:center;">
@@ -186,7 +186,7 @@ ai_card_pomodoro() {
       var mins=25;var secs=0;var running=true;
       function tick(){
         if(!running)return;
-        if(secs===0){if(mins===0){st.textContent='Done! 🎉';return;}mins--;secs=59;}
+        if(secs===0){if(mins===0){st.textContent='Done! ';return;}mins--;secs=59;}
         else{secs--;}
         el.textContent=String(mins).padStart(2,'0')+':'+String(secs).padStart(2,'0');
         setTimeout(tick,1000);
@@ -204,7 +204,7 @@ ai_card_kanban() {
   local id="kan_$(date +%s)_$$"
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:650px;padding:12px;">
-  <div style="font-size:14px;font-weight:bold;color:#c8d7ff;margin-bottom:8px;">📋 Kanban Board</div>
+  <div style="font-size:14px;font-weight:bold;color:#c8d7ff;margin-bottom:8px;"> Kanban Board</div>
   <div style="display:flex;gap:8px;overflow-x:auto;" id="${id}-board">
     <div style="min-width:160px;background:#0d1117;border-radius:8px;padding:8px;" data-col="todo">
       <div style="font-size:11px;color:#8b949e;margin-bottom:6px;">TODO</div>
@@ -230,7 +230,7 @@ ai_card_clock() {
   local id="clock_$(date +%s)_$$"
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:250px;padding:16px;text-align:center;">
-  <div style="font-size:12px;color:#8b949e;margin-bottom:4px;">🕐 ${tz}</div>
+  <div style="font-size:12px;color:#8b949e;margin-bottom:4px;"> ${tz}</div>
   <div id="${id}-time" style="font-size:28px;font-weight:bold;color:#c8d7ff;font-family:monospace;">--:--:--</div>
   <div id="${id}-date" style="font-size:11px;color:#8b949e;margin-top:4px;">---</div>
   <script>

@@ -68,12 +68,12 @@ mode = sys.argv[1] if len(sys.argv) > 1 else ""
 if mode == "on":
     config["enabled"] = True
     config["gaming_mode"] = False
-    print("  ✅ Thermal Scheduler: ON")
+    print("   Thermal Scheduler: ON")
     print("  Active: silicon heat map + workload migration")
 elif mode == "off":
     config["enabled"] = False
     config["gaming_mode"] = False
-    print("  ⏹️  Thermal Scheduler: OFF")
+    print("    Thermal Scheduler: OFF")
     print("  All cores run at max, no migration, no throttle prevention")
 elif mode == "gaming":
     config["enabled"] = True
@@ -88,9 +88,9 @@ elif mode == "status":
     if gaming:
         print("   Gaming Mode")
     elif enabled:
-        print("  ✅ Full Scheduler")
+        print("   Full Scheduler")
     else:
-        print("  ⏹️  Disabled")
+        print("    Disabled")
     return
 else:
     # Auto-toggle
@@ -99,14 +99,14 @@ else:
     if gaming:
         config["gaming_mode"] = False
         config["enabled"] = False
-        print("  ⏹️  Thermal Scheduler: OFF (was gaming mode)")
+        print("    Thermal Scheduler: OFF (was gaming mode)")
     elif current:
         config["enabled"] = False
-        print("  ⏹️  Thermal Scheduler: OFF")
+        print("    Thermal Scheduler: OFF")
     else:
         config["enabled"] = True
         config["gaming_mode"] = False
-        print("  ✅ Thermal Scheduler: ON")
+        print("   Thermal Scheduler: ON")
 
 json.dump(config, open(config_path, "w"), indent=2)
 PYEOF
@@ -319,19 +319,19 @@ for i, (t, lbl) in enumerate(zip(temps, labels)):
     filled = int(ratio * bar_width)
     
     if t >= 95:
-        icon = "🔴"
+        icon = ""
         color = "\033[91m"
     elif t >= 85:
-        icon = "🟠"
+        icon = ""
         color = "\033[93m"
     elif t >= 70:
-        icon = "🟡"
+        icon = ""
         color = "\033[33m"
     elif t >= 50:
-        icon = "🟢"
+        icon = ""
         color = "\033[92m"
     else:
-        icon = "🔵"
+        icon = ""
         color = "\033[94m"
     
     reset = "\033[0m"
@@ -342,26 +342,26 @@ for i, (t, lbl) in enumerate(zip(temps, labels)):
 hotspot_threshold = 80
 hotspots = [(i, t, l) for i, (t, l) in enumerate(zip(temps, labels)) if t >= hotspot_threshold]
 if hotspots:
-    print(f"\n  ⚠️  Hotspots detected ({len(hotspots)}):")
+    print(f"\n    Hotspots detected ({len(hotspots)}):")
     for idx, t, l in hotspots:
         print(f"    [{idx}] {l}: {t:.1f}°C")
 else:
-    print(f"\n  ✅ No hotspots (all below {hotspot_threshold}°C)")
+    print(f"\n   No hotspots (all below {hotspot_threshold}°C)")
 
 # Recommendations
 print(f"\n  Recommendations:")
 if max_t >= 95:
-    print("    🔴 CRITICAL: Emergency cooling needed")
+    print("     CRITICAL: Emergency cooling needed")
     print("    Action: Migrate all heavy tasks to coolest cores")
     print("    Action: Force frequency scaling to minimum")
 elif max_t >= 85:
-    print("    🟠 THROTTLE IMMINENT: Spread heavy workloads")
+    print("     THROTTLE IMMINENT: Spread heavy workloads")
     print("    Action: Migrate tasks from hottest to coolest cores")
     print("    Action: Reduce boost frequency")
 elif max_t >= 70:
-    print("    🟡 WARM: Monitor closely, prepare migration")
+    print("     WARM: Monitor closely, prepare migration")
 else:
-    print("    🟢 COOL: No action needed, optimal performance")
+    print("     COOL: No action needed, optimal performance")
 PYEOF
 }
 
@@ -474,13 +474,13 @@ cool_cores = [(c, t) for c, t in sorted_cores if t < 60]
 print(f"  Core topology: {len(topology)} logical cores")
 print(f"  Core temperatures:")
 for c, t in sorted_cores:
-    status = "🔥" if t >= 85 else "" if t >= 70 else "❄️" if t < 50 else "✅"
+    status = "" if t >= 85 else "" if t >= 70 else "" if t < 50 else ""
     print(f"    {status} {c}: {t:.1f}°C")
 print()
 
 if hot_cores and cool_cores:
-    print(f"  🔥 Hot cores: {', '.join(f'{c}({t:.0f}°C)' for c,t in hot_cores)}")
-    print(f"  ❄️  Cool cores: {', '.join(f'{c}({t:.0f}°C)' for c,t in cool_cores)}")
+    print(f"   Hot cores: {', '.join(f'{c}({t:.0f}°C)' for c,t in hot_cores)}")
+    print(f"    Cool cores: {', '.join(f'{c}({t:.0f}°C)' for c,t in cool_cores)}")
     print()
     
     # Migrate heavy processes from hot to cool
@@ -498,7 +498,7 @@ if hot_cores and cool_cores:
     
     print(f"\n  Migrated {migrated} heavy tasks to cooler cores")
 else:
-    print("  ✅ No migration needed - thermal distribution is balanced")
+    print("   No migration needed - thermal distribution is balanced")
 PYEOF
 }
 
@@ -547,7 +547,7 @@ print(f"  Critical zone: {zones['critical_c']}°C")
 print()
 
 if max_temp >= zones["critical_c"]:
-    print("  🔴 CRITICAL - Emergency cooling!")
+    print("   CRITICAL - Emergency cooling!")
     print(f"  Action: {actions['on_critical']}")
     # Force all cores to minimum frequency
     for cpu in glob.glob("/sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor"):
@@ -559,7 +559,7 @@ if max_temp >= zones["critical_c"]:
     print("  Governor set to powersave on all cores")
 
 elif max_temp >= zones["throttle_c"]:
-    print("  🟠 THROTTLE IMMINENT - Spreading workload")
+    print("   THROTTLE IMMINENT - Spreading workload")
     print(f"  Action: {actions['on_throttle_imminent']}")
     # Reduce boost
     for cpu in glob.glob("/sys/devices/system/cpu/cpu[0-9]*/cpufreq/boost"):
@@ -571,11 +571,11 @@ elif max_temp >= zones["throttle_c"]:
     print("  Boost disabled to reduce heat")
 
 elif max_temp >= zones["warm_c"]:
-    print("  🟡 WARM - Monitoring closely")
+    print("   WARM - Monitoring closely")
     print(f"  Action: {actions['on_hotspot']}")
 
 else:
-    print("  🟢 COOL - No throttle prevention needed")
+    print("   COOL - No throttle prevention needed")
     print(f"  Headroom: {zones['throttle_c'] - max_temp:.1f}°C before throttle")
 PYEOF
 }
@@ -637,12 +637,12 @@ case "${1:-help}" in
   heatmap|heat) heatmap ;;
   migrate)
     state=$(check_enabled)
-    if [ "$state" = "DISABLED" ]; then echo "  ⏹️  Scheduler OFF. Run: $0 on"; exit 0; fi
+    if [ "$state" = "DISABLED" ]; then echo "    Scheduler OFF. Run: $0 on"; exit 0; fi
     if [ "$state" = "GAMING" ]; then echo "   Gaming mode: migration skipped (no mid-game jumps)"; exit 0; fi
     migrate ;;
   throttle|prevent)
     state=$(check_enabled)
-    if [ "$state" = "DISABLED" ]; then echo "  ⏹️  Scheduler OFF. Run: $0 on"; exit 0; fi
+    if [ "$state" = "DISABLED" ]; then echo "    Scheduler OFF. Run: $0 on"; exit 0; fi
     prevent_throttle ;;
   monitor) monitor "$2" ;;
   dashboard)

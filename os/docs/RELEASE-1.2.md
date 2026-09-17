@@ -12,7 +12,7 @@ the 3 worlds (HACK / NORMAL / GAME) and the Searchie address engine baked in.
   calculated), battery/energy/coil-whine/display hints and more.
 - **Searchie** (Tab+F7): whole-session memory engine — every file, terminal,
   email, browser and note is indexed as it happens; plain-phrase queries with a
-  7-tier relax cascade (strict → phoneme → category+time), bloom + suffix-array
+  7-tier relax cascade (strict  phoneme  category+time), bloom + suffix-array
   infix lookup, LSH near-duplicate detection, markov completion in the overlay,
   `align` integrity auditor, `timeline`, and `optimize --burn`.
 - **Three worlds**: HACK (kali-style toolkit), NORMAL (macOS-like lockdown:

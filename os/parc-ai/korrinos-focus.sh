@@ -40,7 +40,7 @@ c['enabled'] = True
 with open('$FOCUS_CONFIG', 'w') as f: json.dump(c, f, indent=2)
 "
   
-  echo "🎯 Focus mode ON for ${duration} minutes"
+  echo " Focus mode ON for ${duration} minutes"
   
   # Block notifications
   local block_notif
@@ -111,7 +111,7 @@ with open('$FOCUS_CONFIG', 'w') as f: json.dump(c, f, indent=2)
   # Kill timer
   [ -f "$FOCUS_DIR/timer.pid" ] && kill "$(cat "$FOCUS_DIR/timer.pid")" 2>/dev/null || true
   
-  echo "🎯 Focus mode OFF"
+  echo " Focus mode OFF"
 }
 
 # Toggle

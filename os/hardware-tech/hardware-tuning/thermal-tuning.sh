@@ -18,6 +18,6 @@ case "${1:-status}" in
       [ -n "$temp" ] && echo "  $t: $(echo "scale=1; $temp/1000" | bc 2>/dev/null || echo "$temp")°C"
     done
     ;;
-  curve) echo "Fan curve: 30°C→800rpm | 50°C→1500rpm | 70°C→2500rpm | 85°C→4000rpm" ;;
+  curve) echo "Fan curve: 30°C800rpm | 50°C1500rpm | 70°C2500rpm | 85°C4000rpm" ;;
   *) echo "Usage: $0 {status|curve}";;
 esac

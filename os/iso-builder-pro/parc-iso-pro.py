@@ -197,7 +197,7 @@ class ISOBuilder:
             sha256 = self._calculate_sha256(output_file)
             size = os.path.getsize(output_file) / (1024**3)
             
-            print(f"\n✅ ISO built successfully!")
+            print(f"\n ISO built successfully!")
             print(f"  File: {output_file}")
             print(f"  Size: {size:.2f} GB")
             print(f"  SHA256: {sha256}")

@@ -187,7 +187,7 @@ narrations = {
     },
     'code': {
         'friendly': [
-            f"Time to write some code! 💻",
+            f"Time to write some code! ",
             f"Let me cook up some code for you...",
             f"Writing code now!",
         ],
@@ -223,7 +223,7 @@ narrations = {
     },
     'screenshot': {
         'friendly': [
-            f"Say cheese! 📸",
+            f"Say cheese! ",
             f"Capturing the screen!",
             f"Taking a screenshot...",
         ],
@@ -276,13 +276,13 @@ text = "$text".lower()
 positive_words = ['happy', 'great', 'awesome', 'love', 'amazing', 'perfect', 'cool', 'nice',
                   'excellent', 'wonderful', 'fantastic', 'brilliant', 'superb', 'thanks',
                   'thank', 'helpful', 'good', 'best', 'beautiful', 'like', 'enjoy', 'yay']
-positive_emoji = ['😊', '😄', '😃', '🎉', '👍', '❤️', '💕', '', '🔥', '💪']
+positive_emoji = ['', '', '', '', '', '', '', '', '', '']
 
 # Negative indicators
 negative_words = ['hate', 'stupid', 'dumb', 'broken', 'wrong', 'bad', 'terrible', 'useless',
                   'crap', 'garbage', 'waste', 'angry', 'mad', 'upset', 'frustrated', 'annoying',
                   'doesn\'t work', 'not working', 'fail', 'error', 'bug', 'crash', 'suck']
-negative_emoji = ['😠', '😡', '😢', '😭', '💔', '👎', '😤', '🤬']
+negative_emoji = ['', '', '', '', '', '', '', '']
 
 # Urgent indicators
 urgent_words = ['hurry', 'quick', 'fast', 'asap', 'now', 'urgent', 'emergency', 'immediately']

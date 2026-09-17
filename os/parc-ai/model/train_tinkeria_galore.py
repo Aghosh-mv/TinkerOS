@@ -87,7 +87,7 @@ def main():
     log.info(f"Model size: {total * 4 / 1e9:.1f}GB (float32)")
 
     # GaLore optimizer with gradient low-rank projection
-    # Projects gradients to rank-128 subspace per layer → saves ~90% optimizer memory
+    # Projects gradients to rank-128 subspace per layer  saves ~90% optimizer memory
     config = GaLoreConfig(lr=LR, weight_decay=0.01, rank=GALORE_RANK, update_proj_gap=200)
     opt = GaLoreAdamW(model.parameters(), cfg=config)
 

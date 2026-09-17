@@ -25,13 +25,13 @@ detect_gpu() {
     local gpu_info=$(lspci | grep -i vga)
     
     if echo "$gpu_info" | grep -qi nvidia; then
-        echo -e "  ${GREEN}✓${NC} NVIDIA GPU detected: $(echo $gpu_info | cut -d: -f3)"
+        echo -e "  ${GREEN}${NC} NVIDIA GPU detected: $(echo $gpu_info | cut -d: -f3)"
         return 1  # NVIDIA
     elif echo "$gpu_info" | grep -qi amd; then
-        echo -e "  ${GREEN}✓${NC} AMD GPU detected: $(echo $gpu_info | cut -d: -f3)"
+        echo -e "  ${GREEN}${NC} AMD GPU detected: $(echo $gpu_info | cut -d: -f3)"
         return 2  # AMD
     elif echo "$gpu_info" | grep -qi intel; then
-        echo -e "  ${GREEN}✓${NC} Intel GPU detected: $(echo $gpu_info | cut -d: -f3)"
+        echo -e "  ${GREEN}${NC} Intel GPU detected: $(echo $gpu_info | cut -d: -f3)"
         return 3  # Intel
     else
         echo -e "  ${YELLOW}?${NC} Unknown GPU: $gpu_info"
@@ -45,13 +45,13 @@ detect_wifi() {
     local wifi_info=$(lspci | grep -i network)
     
     if echo "$wifi_info" | grep -qi intel; then
-        echo -e "  ${GREEN}✓${NC} Intel WiFi detected"
+        echo -e "  ${GREEN}${NC} Intel WiFi detected"
         return 1
     elif echo "$wifi_info" | grep -qi realtek; then
-        echo -e "  ${GREEN}✓${NC} Realtek WiFi detected"
+        echo -e "  ${GREEN}${NC} Realtek WiFi detected"
         return 2
     elif echo "$wifi_info" | grep -qi mediatek; then
-        echo -e "  ${GREEN}✓${NC} MediaTek WiFi detected"
+        echo -e "  ${GREEN}${NC} MediaTek WiFi detected"
         return 3
     else
         echo -e "  ${YELLOW}?${NC} WiFi: $wifi_info"
@@ -65,7 +65,7 @@ detect_audio() {
     local audio_info=$(lspci | grep -i audio)
     
     if [ -n "$audio_info" ]; then
-        echo -e "  ${GREEN}✓${NC} Audio device: $(echo $audio_info | cut -d: -f3)"
+        echo -e "  ${GREEN}${NC} Audio device: $(echo $audio_info | cut -d: -f3)"
         return 0
     else
         echo -e "  ${YELLOW}?${NC} No audio device detected"
@@ -77,10 +77,10 @@ detect_bluetooth() {
     echo -e "${YELLOW}Detecting Bluetooth...${NC}"
     
     if lsusb | grep -qi bluetooth; then
-        echo -e "  ${GREEN}✓${NC} Bluetooth adapter detected"
+        echo -e "  ${GREEN}${NC} Bluetooth adapter detected"
         return 0
     elif lspci | grep -qi bluetooth; then
-        echo -e "  ${GREEN}✓${NC} Bluetooth adapter detected"
+        echo -e "  ${GREEN}${NC} Bluetooth adapter detected"
         return 0
     else
         echo -e "  ${YELLOW}?${NC} No Bluetooth adapter detected"
@@ -99,7 +99,7 @@ install_nvidia_drivers() {
         sudo pacman -S --noconfirm nvidia nvidia-utils
     fi
     
-    echo -e "${GREEN}✓ NVIDIA drivers installed!${NC}"
+    echo -e "${GREEN} NVIDIA drivers installed!${NC}"
 }
 
 install_amd_drivers() {
@@ -113,7 +113,7 @@ install_amd_drivers() {
         sudo pacman -S --noconfirm mesa vulkan-radeon libva-mesa-driver
     fi
     
-    echo -e "${GREEN}✓ AMD drivers installed!${NC}"
+    echo -e "${GREEN} AMD drivers installed!${NC}"
 }
 
 install_intel_drivers() {
@@ -127,7 +127,7 @@ install_intel_drivers() {
         sudo pacman -S --noconfirm intel-media-driver vulkan-intel
     fi
     
-    echo -e "${GREEN}✓ Intel drivers installed!${NC}"
+    echo -e "${GREEN} Intel drivers installed!${NC}"
 }
 
 install_wifi_drivers() {
@@ -141,7 +141,7 @@ install_wifi_drivers() {
         sudo pacman -S --noconfirm linux-firmware
     fi
     
-    echo -e "${GREEN}✓ WiFi drivers installed!${NC}"
+    echo -e "${GREEN} WiFi drivers installed!${NC}"
 }
 
 install_bluetooth_drivers() {
@@ -155,7 +155,7 @@ install_bluetooth_drivers() {
         sudo pacman -S --noconfirm bluez bluez-utils
     fi
     
-    echo -e "${GREEN}✓ Bluetooth drivers installed!${NC}"
+    echo -e "${GREEN} Bluetooth drivers installed!${NC}"
 }
 
 install_all_drivers() {
@@ -190,7 +190,7 @@ install_all_drivers() {
     fi
     
     echo ""
-    echo -e "${GREEN}✓ All drivers installed!${NC}"
+    echo -e "${GREEN} All drivers installed!${NC}"
     echo -e "${YELLOW}Please reboot to apply changes.${NC}"
 }
 
@@ -201,27 +201,27 @@ show_status() {
     # GPU status
     echo -e "GPU:"
     if command -v nvidia-smi >/dev/null 2>&1; then
-        echo -e "  ${GREEN}✓${NC} NVIDIA drivers installed"
+        echo -e "  ${GREEN}${NC} NVIDIA drivers installed"
     elif command -v glxinfo >/dev/null 2>&1; then
-        echo -e "  ${GREEN}✓${NC} Mesa drivers installed"
+        echo -e "  ${GREEN}${NC} Mesa drivers installed"
     else
-        echo -e "  ${RED}✗${NC} No GPU drivers installed"
+        echo -e "  ${RED}${NC} No GPU drivers installed"
     fi
     
     # WiFi status
     echo -e "WiFi:"
     if ip link show wlan0 >/dev/null 2>&1; then
-        echo -e "  ${GREEN}✓${NC} WiFi interface available"
+        echo -e "  ${GREEN}${NC} WiFi interface available"
     else
-        echo -e "  ${RED}✗${NC} No WiFi interface"
+        echo -e "  ${RED}${NC} No WiFi interface"
     fi
     
     # Bluetooth status
     echo -e "Bluetooth:"
     if command -v bluetoothctl >/dev/null 2>&1; then
-        echo -e "  ${GREEN}✓${NC} Bluetooth available"
+        echo -e "  ${GREEN}${NC} Bluetooth available"
     else
-        echo -e "  ${RED}✗${NC} Bluetooth not available"
+        echo -e "  ${RED}${NC} Bluetooth not available"
     fi
     
     echo ""
@@ -270,7 +270,7 @@ case "$1" in
         elif command -v pacman >/dev/null 2>&1; then
             sudo pacman -Syu --noconfirm
         fi
-        echo -e "${GREEN}✓ Drivers updated!${NC}"
+        echo -e "${GREEN} Drivers updated!${NC}"
         ;;
     help|--help|-h)
         show_help

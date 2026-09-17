@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # korrinos-annotate.sh — Screenshot Annotator
-# Screenshot → draw arrows/text/highlights → share
+# Screenshot  draw arrows/text/highlights  share
 
 set -euo pipefail
 

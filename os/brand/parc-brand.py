@@ -93,7 +93,7 @@ class TinkerBrand:
         self.border_radius = BorderRadius()
         self.shadows = Shadows()
         self.transitions = Transitions()
-        self.mascot = "🦝"
+        self.mascot = ""
         self.name = "KorrinOS"
         self.tagline = "Your Computer. Your Rules."
         self.version = "7.2.0-rc6"

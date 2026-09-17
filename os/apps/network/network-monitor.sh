@@ -113,24 +113,24 @@ test_connectivity() {
     echo ""
     
     echo "1. Localhost:"
-    ping -c 1 -W 2 127.0.0.1 &>/dev/null && echo "  ✓ OK" || echo "  ✗ FAIL"
+    ping -c 1 -W 2 127.0.0.1 &>/dev/null && echo "   OK" || echo "   FAIL"
     
     echo "2. Gateway:"
     local gw=$(ip route | grep default | awk '{print $3}' | head -1)
     if [ -n "$gw" ]; then
-        ping -c 1 -W 2 "$gw" &>/dev/null && echo "  ✓ OK ($gw)" || echo "  ✗ FAIL ($gw)"
+        ping -c 1 -W 2 "$gw" &>/dev/null && echo "   OK ($gw)" || echo "   FAIL ($gw)"
     else
         echo "  - No gateway"
     fi
     
     echo "3. DNS resolution:"
-    getent hosts example.com &>/dev/null && echo "  ✓ OK" || echo "  ✗ FAIL"
+    getent hosts example.com &>/dev/null && echo "   OK" || echo "   FAIL"
     
     echo "4. Internet (8.8.8.8):"
-    ping -c 1 -W 3 8.8.8.8 &>/dev/null && echo "  ✓ OK" || echo "  ✗ FAIL"
+    ping -c 1 -W 3 8.8.8.8 &>/dev/null && echo "   OK" || echo "   FAIL"
     
     echo "5. HTTPS (example.com:443):"
-    timeout 5 bash -c 'echo > /dev/tcp/example.com/443' 2>/dev/null && echo "  ✓ OK" || echo "  ✗ FAIL"
+    timeout 5 bash -c 'echo > /dev/tcp/example.com/443' 2>/dev/null && echo "   OK" || echo "   FAIL"
 }
 
 # Show DNS info

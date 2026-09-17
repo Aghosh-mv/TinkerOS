@@ -136,7 +136,7 @@ except:
 
 print(f"\n  Total fan controls found: {len(fans)}")
 if not fans:
-    print(f"  ⚠️  No fan controllers found. Check: hwmon, thinkpad_acpi, dell_smm, EC")
+    print(f"    No fan controllers found. Check: hwmon, thinkpad_acpi, dell_smm, EC")
 return
 PYEOF
 }
@@ -161,7 +161,7 @@ print(f"  Sweeping 240Hz...  RESONANCE DETECTED (max blade oscillation)")
 print(f"  Sweeping 260Hz... decreasing")
 print(f"  Sweeping 300Hz... no resonance")
 print()
-print(f"  ✅ Optimal resonant frequency: {resonance}Hz")
+print(f"   Optimal resonant frequency: {resonance}Hz")
 print(f"  At this frequency, blade mass oscillation is maximized")
 print(f"  Dust particles will be flung off by centripetal force")
 PYEOF
@@ -187,7 +187,7 @@ PYEOF
        c_out="$(backend_run fan_control pulse "$f_hz" "$f_dur" 2>&1)"
        if [[ "$c_out" == *"ok=pulsed"* ]]; then
          echo "  $c_out"
-         echo "  ✅ Dislodging complete (C backend)"
+         echo "   Dislodging complete (C backend)"
          echo "  Estimated dust removed: 0.3g"
          # restore auto - let the regular flow report stats
          return 0
@@ -233,7 +233,7 @@ if not fans_found:
         fans_found = ["thinkpad"]
 
 if not fans_found:
-    print("  ⚠️  No fan controls found. Cannot dislodge dust.")
+    print("    No fan controls found. Cannot dislodge dust.")
     return
 
 print(f"  Fans controlled: {len(fans_found)}")
@@ -299,7 +299,7 @@ def sys_stdout_write(msg):
 
 print(f"\r  Shaking... {'█'*40} 100%")
 print()
-print(f"  ✅ Dislodging complete ({shake['duration_s']}s)")
+print(f"   Dislodging complete ({shake['duration_s']}s)")
 print(f"  Accumulated dust shaken loose from blades and fins")
 print()
 
@@ -370,10 +370,10 @@ print(f"  Safety limit: {safety['max_temp_c']}°C")
 print(f"  Max runtime: {safety['max_runtime_s']}s")
 
 if max_temp >= safety["max_temp_c"]:
-    print(f"  ⛔ ABORT: System too hot to shake fans")
+    print(f"   ABORT: System too hot to shake fans")
     return 1
 else:
-    print(f"  ✅ Safe to proceed")
+    print(f"   Safe to proceed")
     return 0
 PYEOF
 }
@@ -386,7 +386,7 @@ case "${1:-help}" in
     hardware_write_gate "dust-dislodger" "$2" || exit 1
     safety=$(safety_check | tail -1)
     if [[ "$safety" != *"Safe"* ]]; then
-      echo "  ⛔ Safety check failed. Aborting."
+      echo "   Safety check failed. Aborting."
       exit 1
     fi
     find_resonance

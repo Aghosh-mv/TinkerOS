@@ -128,9 +128,9 @@ except:
 json.dump(config, open(os.path.expanduser("~/.tinker/oled-shield/config.json"), "w"), indent=2)
 
 if detected:
-    print(f"\n  ✅ OLED panel detected - Burn-In Shield ACTIVE")
+    print(f"\n   OLED panel detected - Burn-In Shield ACTIVE")
 else:
-    print(f"\n  ❓ OLED status unknown - Shield running in compatibility mode")
+    print(f"\n   OLED status unknown - Shield running in compatibility mode")
     print(f"  (works on LCD too, but not needed)")
 PYEOF
 }
@@ -174,12 +174,12 @@ try:
     print(f"  Hotspot pixels (>80% bright): {hotspot_pct:.1f}%")
     
     if hotspot_pct > 20:
-        print(f"  ⚠️  HIGH WEAR RISK: {hotspot_pct:.1f}% of screen at max brightness")
+        print(f"    HIGH WEAR RISK: {hotspot_pct:.1f}% of screen at max brightness")
         print(f"  Action: compensation mask recommended")
     elif hotspot_pct > 5:
-        print(f"  🟡 MODERATE: some bright areas detected")
+        print(f"   MODERATE: some bright areas detected")
     else:
-        print(f"  ✅ LOW WEAR: evenly distributed brightness")
+        print(f"   LOW WEAR: evenly distributed brightness")
     
     # Save wear map
     wear_path = os.path.expanduser("~/.tinker/oled-shield/wear_map.npy")
@@ -276,10 +276,10 @@ for y in range(0, min(mask.shape[0], 32), 4):
 
 print()
 if comp_pct > 0:
-    print(f"  ✅ Compensation mask generated")
+    print(f"   Compensation mask generated")
     print(f"  Ready to apply on next idle period")
 else:
-    print(f"  ✅ No compensation needed - wear is balanced")
+    print(f"   No compensation needed - wear is balanced")
 PYEOF
 }
 
@@ -356,7 +356,7 @@ try:
     config["stats"]["total_compensations"] += 1
     json.dump(config, open(os.path.expanduser("~/.tinker/oled-shield/config.json"), "w"), indent=2)
     
-    print(f"  ✅ Compensation active")
+    print(f"   Compensation active")
     
 except ImportError:
     print(f"  PIL not available. Mask concept:")
@@ -407,7 +407,7 @@ try:
 except Exception as e:
     print(f"  xrandr: {e}")
 
-print(f"  ✅ Pixel shift configured")
+print(f"   Pixel shift configured")
 PYEOF
 }
 
@@ -450,10 +450,10 @@ case "${1:-help}" in
   shift) pixel_shift ;;
   on)
     hardware_write_gate "oled-shield" "$2" || exit 1
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/oled-shield/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/oled-shield/config.json'),'w'),indent=2); print('  ✅ OLED Shield: ON')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/oled-shield/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/oled-shield/config.json'),'w'),indent=2); print('   OLED Shield: ON')"
     ;;
   off)
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/oled-shield/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/oled-shield/config.json'),'w'),indent=2); print('  ⏹️  OLED Shield: OFF')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/oled-shield/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/oled-shield/config.json'),'w'),indent=2); print('    OLED Shield: OFF')"
     ;;
   status)
     python3 -c "

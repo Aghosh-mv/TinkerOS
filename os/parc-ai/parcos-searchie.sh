@@ -50,7 +50,7 @@ searchie_search() {
       --glob '!node_modules' \
       --glob '!__pycache__' \
       2>/dev/null | head -$max_results | while read -r f; do
-      echo "📄 $f"
+      echo " $f"
       rg -i --color=never -n "$query" "$f" 2>/dev/null | head -3
       echo ""
     done
@@ -60,7 +60,7 @@ searchie_search() {
       --include="*.txt" --include="*.md" --include="*.py" \
       --include="*.js" --include="*.sh" --include="*.c" \
       2>/dev/null | head -$max_results | while read -r f; do
-      echo "📄 $f"
+      echo " $f"
       grep -i -n "$query" "$f" 2>/dev/null | head -3
       echo ""
     done
@@ -122,7 +122,7 @@ searchie_natural() {
   
   # Execute search
   eval "$cmd" 2>/dev/null | head -30 | while read -r f; do
-    echo "📄 $f ($(stat -c %y "$f" 2>/dev/null | cut -d' ' -f1))"
+    echo " $f ($(stat -c %y "$f" 2>/dev/null | cut -d' ' -f1))"
   done
   
   # Also do content search
@@ -158,7 +158,7 @@ searchie_search_images() {
     2>/dev/null | head -100 | while read -r img; do
     local text=$(tesseract "$img" stdout 2>/dev/null)
     if echo "$text" | grep -qi "$query"; then
-      echo "🖼️  $img"
+      echo "  $img"
       echo "   Text: $(echo "$text" | head -1)"
       echo ""
     fi

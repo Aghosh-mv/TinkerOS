@@ -105,7 +105,7 @@ show_password_offer() {
     if command -v notify-send >/dev/null 2>&1; then
         # Create notification with actions
         notify-send -u critical -i $NOTIFY_ICON \
-            "🔐 Password Manager" \
+            " Password Manager" \
             "Password field detected on $domain\n\nWould you like to:" \
             --action="generate=Generate Strong Password" \
             --action="use_existing=Use Existing Password" \
@@ -153,7 +153,7 @@ generate_and_save() {
         $VAULT_CMD add "$domain" "$username" "$password"
         
         echo ""
-        echo -e "${GREEN}✓ Password saved securely!${NC}"
+        echo -e "${GREEN} Password saved securely!${NC}"
         echo -e "  Site: $domain"
         echo -e "  Username: $username"
         echo -e "  Password: $password"
@@ -161,7 +161,7 @@ generate_and_save() {
         
         # Copy password to clipboard
         echo "$password" | xclip -selection clipboard
-        echo -e "${GREEN}✓ Password copied to clipboard${NC}"
+        echo -e "${GREEN} Password copied to clipboard${NC}"
         
         # Show notification
         notify-send -u normal -i $NOTIFY_ICON \
@@ -197,12 +197,12 @@ use_existing() {
             # Type password
             xdotool type --delay 50 "$password"
             
-            echo -e "${GREEN}✓ Credentials filled!${NC}"
+            echo -e "${GREEN} Credentials filled!${NC}"
         fi
         
         # Copy password
         echo "$password" | xclip -selection clipboard
-        echo -e "${GREEN}✓ Password copied to clipboard${NC}"
+        echo -e "${GREEN} Password copied to clipboard${NC}"
     else
         echo -e "${YELLOW}No saved password for: $domain${NC}"
         echo "  Would you like to generate one? (y/n)"
@@ -459,7 +459,7 @@ EOF
     </style>
 </head>
 <body>
-    <h1>🔐 KorrinOS Password Manager</h1>
+    <h1> KorrinOS Password Manager</h1>
     <button class="btn btn-primary" id="generate">Generate Strong Password</button>
     <button class="btn btn-secondary" id="useExisting">Use Existing Password</button>
     <button class="btn btn-secondary" id="openManager">Open Password Manager</button>
@@ -489,7 +489,7 @@ document.getElementById('openManager').addEventListener('click', () => {
 });
 EOF
     
-    echo -e "${GREEN}✓ Browser extension created!${NC}"
+    echo -e "${GREEN} Browser extension created!${NC}"
     echo ""
     echo "Extension location: $ext_dir"
     echo ""
@@ -521,7 +521,7 @@ case "$1" in
         ;;
     stop)
         pkill -f "tinker-password-monitor" 2>/dev/null
-        echo -e "${GREEN}✓ Monitor stopped${NC}"
+        echo -e "${GREEN} Monitor stopped${NC}"
         ;;
     install-ext)
         show_header

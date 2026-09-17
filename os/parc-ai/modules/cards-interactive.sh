@@ -17,7 +17,7 @@ except:
     nodes = {'question': tree, 'options': [{'label':'Yes','outcome':'Proceed'},{'label':'No','outcome':'Rethink'}]}
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:600px;padding:16px;\">'
-html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\">🔀 ' + title + '</div>'
+html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\"> ' + title + '</div>'
 html += '<div style=\"padding:12px;background:#0d1117;border-radius:8px;margin-bottom:12px;font-size:14px;color:#c9d1d9;\">' + str(nodes.get('question', nodes.get('root', '')))[:200] + '</div>'
 html += '<div style=\"display:flex;flex-direction:column;gap:8px;\">'
 
@@ -45,13 +45,13 @@ ai_card_abtest() {
 
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:600px;padding:16px;">
-  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;">⚖️ ${title}</div>
+  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;"> ${title}</div>
   <div style="display:flex;gap:12px;">
     <div style="flex:1;padding:12px;background:#0d1117;border:2px solid #6c63ff40;border-radius:8px;">
       <div style="font-size:13px;font-weight:bold;color:#6c63ff;margin-bottom:8px;">Option A</div>
       <div style="font-size:12px;color:#c9d1d9;line-height:1.5;">${option_a}</div>
       <div style="margin-top:8px;display:flex;gap:8px;">
-        <button onclick="document.getElementById('${id}-a-votes').textContent=parseInt(document.getElementById('${id}-a-votes').textContent)+1" style="padding:4px 12px;background:#6c63ff22;color:#6c63ff;border:1px solid #6c63ff40;border-radius:4px;cursor:pointer;font-size:11px;">👍 Vote</button>
+        <button onclick="document.getElementById('${id}-a-votes').textContent=parseInt(document.getElementById('${id}-a-votes').textContent)+1" style="padding:4px 12px;background:#6c63ff22;color:#6c63ff;border:1px solid #6c63ff40;border-radius:4px;cursor:pointer;font-size:11px;"> Vote</button>
         <span style="font-size:12px;color:#8b949e;line-height:28px;" id="${id}-a-votes">0</span>
       </div>
     </div>
@@ -60,7 +60,7 @@ ai_card_abtest() {
       <div style="font-size:13px;font-weight:bold;color:#10b981;margin-bottom:8px;">Option B</div>
       <div style="font-size:12px;color:#c9d1d9;line-height:1.5;">${option_b}</div>
       <div style="margin-top:8px;display:flex;gap:8px;">
-        <button onclick="document.getElementById('${id}-b-votes').textContent=parseInt(document.getElementById('${id}-b-votes').textContent)+1" style="padding:4px 12px;background:#10b98122;color:#10b981;border:1px solid #10b98140;border-radius:4px;cursor:pointer;font-size:11px;">👍 Vote</button>
+        <button onclick="document.getElementById('${id}-b-votes').textContent=parseInt(document.getElementById('${id}-b-votes').textContent)+1" style="padding:4px 12px;background:#10b98122;color:#10b981;border:1px solid #10b98140;border-radius:4px;cursor:pointer;font-size:11px;"> Vote</button>
         <span style="font-size:12px;color:#8b949e;line-height:28px;" id="${id}-b-votes">0</span>
       </div>
     </div>
@@ -93,7 +93,7 @@ ai_card_logic() {
         try{
           var age=25;var location='NY';var active=true;
           var r=eval(input.replace(/AND/g,'&&').replace(/OR/g,'||').replace(/==/g,'=='));
-          result.innerHTML='<div style=\"padding:16px;border-radius:8px;text-align:center;font-size:18px;font-weight:bold;'+(r?'background:#10b98120;color:#10b981;':'background:#ef444420;color:#ef4444;')+'\">'+(r?'✓ PASS':'✗ FAIL')+'</div>';
+          result.innerHTML='<div style=\"padding:16px;border-radius:8px;text-align:center;font-size:18px;font-weight:bold;'+(r?'background:#10b98120;color:#10b981;':'background:#ef444420;color:#ef4444;')+'\">'+(r?' PASS':' FAIL')+'</div>';
         }catch(e){result.innerHTML='<div style=\"color:#ef4444;font-size:12px;\">Error: '+e.message+'</div>';}
       " style="padding:8px 20px;background:#6c63ff;color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;">Evaluate</button>
     </div>
@@ -110,11 +110,11 @@ ai_card_3d() {
 
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:500px;padding:0;overflow:hidden;">
-  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;">🧊 ${title}</div>
+  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;"> ${title}</div>
   <canvas id="${id}-canvas" style="width:100%;height:300px;background:#0a0a15;display:block;cursor:grab;"></canvas>
   <div style="padding:8px 12px;background:#0d1117;display:flex;gap:8px;align-items:center;">
-    <button onclick="var c=document.getElementById('${id}-canvas');c._rotX=(c._rotX||0)-10;" style="padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:11px;">↻ X</button>
-    <button onclick="var c=document.getElementById('${id}-canvas');c._rotY=(c._rotY||0)+10;" style="padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:11px;">↻ Y</button>
+    <button onclick="var c=document.getElementById('${id}-canvas');c._rotX=(c._rotX||0)-10;" style="padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:11px;"> X</button>
+    <button onclick="var c=document.getElementById('${id}-canvas');c._rotY=(c._rotY||0)+10;" style="padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:11px;"> Y</button>
     <button onclick="var c=document.getElementById('${id}-canvas');c._zoom=(c._zoom||1)*1.2;" style="padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:11px;">+</button>
     <button onclick="var c=document.getElementById('${id}-canvas');c._zoom=(c._zoom||1)/1.2;" style="padding:4px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:11px;">-</button>
     <span style="flex:1;font-size:10px;color:#8b949e;">Drag to rotate · Scroll to zoom</span>
@@ -195,7 +195,7 @@ for p in pins_str.split(';'):
         pin_list.append({'name': parts[0], 'lat': float(parts[1]), 'lng': float(parts[2]), 'note': parts[3] if len(parts)>3 else ''})
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:600px;padding:0;overflow:hidden;\">'
-html += '<div style=\"padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;\">🗺️ ' + title + '</div>'
+html += '<div style=\"padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;\"> ' + title + '</div>'
 html += '<div style=\"position:relative;height:350px;background:#0a1628;overflow:hidden;\">'
 
 # Draw a stylized map grid
@@ -245,7 +245,7 @@ ai_card_audioviz() {
 
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:500px;padding:0;overflow:hidden;">
-  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;">🎧 ${title}</div>
+  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;"> ${title}</div>
   <canvas id="${id}-canvas" style="width:100%;height:150px;background:#0a0a15;display:block;"></canvas>
   <div style="padding:8px 12px;background:#0d1117;">
     <audio id="${id}-audio" style="width:100%;" controls>

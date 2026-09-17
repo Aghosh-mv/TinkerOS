@@ -43,7 +43,7 @@ alert() {
   # === REAL INTERFERENCE ===
   # 1) Injected STALL marker at repo root that the agent MUST read each turn.
   cat > "$STALL_MARKER" <<EOF
-# 🚨 SELF-WATCHDOG STALL INJECTION — READ THIS NOW 🚨
+#  SELF-WATCHDOG STALL INJECTION — READ THIS NOW 
 Injected at: $now
 No agent work output for > ${IDLE_SECS}s (as of $(date -d "@$(newest_mtime)" '+%F %T' 2>/dev/null)).
 

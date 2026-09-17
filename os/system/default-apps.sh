@@ -59,7 +59,7 @@ install_vokk_app() {
 Type=Application
 Name=VOKK
 Comment=VOKK AI — Local Assistant
-Exec=python3 /opt/korrinos/os/tinkerai/tinker_ai_controller.py
+Exec=python3 /opt/korrinos/os/vokk/vokk_controller.py
 Icon=utilities-terminal
 Terminal=false
 Categories=Utility;AI;
@@ -68,7 +68,7 @@ EOF
     cat > /usr/local/bin/vokk << 'EOF'
 #!/bin/bash
 # Launch VOKK local app
-python3 /opt/korrinos/os/tinkerai/tinker_ai_controller.py &
+python3 /opt/korrinos/os/vokk/vokk_controller.py &
 EOF
     chmod +x /usr/local/bin/vokk
     echo "VOKK local app installed"

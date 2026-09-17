@@ -61,7 +61,7 @@ set_profile() {
       if command -v nvidia-smi &>/dev/null; then
         nvidia-smi -pl 150 2>/dev/null || true
       fi
-      echo "⚖ Balanced mode — efficiency + performance"
+      echo " Balanced mode — efficiency + performance"
       ;;
     powersave)
       # Maximum battery
@@ -125,11 +125,11 @@ cmd_battery_health() {
       echo ""
       echo "  Battery Health: ${health}%"
       if [ "$health" -lt 50 ]; then
-        echo "  ⚠ Battery degraded — consider replacement"
+        echo "   Battery degraded — consider replacement"
       elif [ "$health" -lt 80 ]; then
         echo "   Battery aging — monitor closely"
       else
-        echo "  ✓ Battery in good condition"
+        echo "   Battery in good condition"
       fi
     fi
     
@@ -171,11 +171,11 @@ cmd_thermal() {
     printf "] %d°C\n" "$temp_c"
     
     if [ "$temp_c" -gt 80 ]; then
-      echo "  ⚠ HIGH TEMPERATURE — throttling may occur"
+      echo "   HIGH TEMPERATURE — throttling may occur"
     elif [ "$temp_c" -gt 60 ]; then
       echo "   Warm — fan speed increasing"
     else
-      echo "  ✓ Temperature normal"
+      echo "   Temperature normal"
     fi
   fi
   

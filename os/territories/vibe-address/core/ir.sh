@@ -101,7 +101,7 @@ ve_ir_idf() {
     # ln(x) ~ log2(x)*0.6931 ; log2 via integer loop
     local r=$ratio_1000 lo=0
     while [ "$r" -gt 1000 ]; do r=$(( (r*10)/20 )); lo=$((lo+9)); done
-    # r in [1001..1999] -> log2 in [0..0.999]  → add fraction
+    # r in [1001..1999] -> log2 in [0..0.999]   add fraction
     local frac=$(( (r-1000) * 1000 / 1000 ))
     lo=$(( lo + frac * 693 / 1000 ))
     idf=$lo
@@ -144,7 +144,7 @@ ve_ir_score() {
 ve_ir_normalize() {
   local score="${1:-0}" qcount="${2:-1}"
   [ "$qcount" -lt 1 ] && qcount=1
-  # cap per-term contribution at 25 → perfect match ≈ 25*qcount
+  # cap per-term contribution at 25  perfect match ≈ 25*qcount
   local cap=$(( 25 * qcount ))
   [ "$cap" -eq 0 ] && cap=1
   local s=$(( score * 100 / cap )); [ "$s" -gt 100 ] && s=100

@@ -362,7 +362,7 @@ setTimeout(()=>showNotif('Welcome to KorrinOS','Your system is ready. Right-clic
 // Universe widget — multi-account notification hub
 const universeData=[
   {from:'Gmail',account:'me@gmail.com',snippet:'Your AWS bill is ready — $12.40 this month',time:'2m',type:'mail',color:'#ea4335',icon:'<path d="M2 4l6 4 6-4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V4z"/>'},
-  {from:'WhatsApp',account:'Mom',snippet:'Are you coming for dinner tonight? 🍕',time:'5m',type:'chat',color:'#25d366',icon:'<path d="M3 7a5 5 0 019-3 5 5 0 013 9c-1 2-3 3-5 4l-4 1 1-4c-2-2-3-4-4-7z"/>'},
+  {from:'WhatsApp',account:'Mom',snippet:'Are you coming for dinner tonight? ',time:'5m',type:'chat',color:'#25d366',icon:'<path d="M3 7a5 5 0 019-3 5 5 0 013 9c-1 2-3 3-5 4l-4 1 1-4c-2-2-3-4-4-7z"/>'},
   {from:'Telegram',account:'Dev Group',snippet:'Alex: Pushed the fix to main, check PR #412',time:'8m',type:'chat',color:'#0088cc',icon:'<path d="M2 8l14-5-4 14-3-5-5 2 3-6z"/>'},
   {from:'LinkedIn',account:'Notifications',snippet:'Sarah Chen viewed your profile',time:'15m',type:'social',color:'#0a66c2',icon:'<rect x="3" y="3" width="10" height="10" rx="2"/><path d="M5 7v4M5 5v.01M7 7v4M9 7v4"/>'},
   {from:'Instagram',account:'@korrinos_official',snippet:'3 new followers, 12 likes on your post',time:'22m',type:'social',color:'#e1306c',icon:'<rect x="2" y="2" width="12" height="12" rx="3"/><circle cx="8" cy="8" r="3"/><circle cx="11.5" cy="4.5" r="1"/>'},
@@ -370,7 +370,7 @@ const universeData=[
   {from:'Bank',account:'SBI Savings',snippet:'₹25,000 credited — Salary from TinkerSpace',time:'3h',type:'finance',color:'#1a6b3c',icon:'<rect x="2" y="5" width="12" height="8" rx="1.5"/><path d="M4 5V3h8v2M2 8h12"/>'},
   {from:'Roblox',account:'Friend Request',snippet:'xXGamer2009Xx wants to be your friend',time:'4h',type:'social',color:'#e74c3c',icon:'<rect x="3" y="3" width="10" height="10" rx="2"/><path d="M6 6h4M6 9h4"/>'},
   {from:'Gmail',account:'AWS',snippet:'EC2 instance i-0a3b terminated — saved $8.20',time:'5h',type:'mail',color:'#ea4335',icon:'<path d="M2 4l6 4 6-4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V4z"/>'},
-  {from:'WhatsApp',account:'Team KorrinOS',snippet:'Raj: ISO build succeeded! 3.9GB ready 🎉',time:'6h',type:'chat',color:'#25d366',icon:'<path d="M3 7a5 5 0 019-3 5 5 0 013 9c-1 2-3 3-5 4l-4 1 1-4c-2-2-3-4-4-7z"/>'},
+  {from:'WhatsApp',account:'Team KorrinOS',snippet:'Raj: ISO build succeeded! 3.9GB ready ',time:'6h',type:'chat',color:'#25d366',icon:'<path d="M3 7a5 5 0 019-3 5 5 0 013 9c-1 2-3 3-5 4l-4 1 1-4c-2-2-3-4-4-7z"/>'},
 ];
 function renderUniverse(filter){
   const list=document.getElementById('universeList');

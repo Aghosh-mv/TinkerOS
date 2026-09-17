@@ -22,7 +22,7 @@ cmd_status() {
     state=$(echo "$line" | awk '{print $2}')
     [ "$name" = "lo" ] && continue
     if [ "$state" = "UP" ]; then
-      echo "    ✓ ${name}: ${state}"
+      echo "     ${name}: ${state}"
     else
       echo "    ○ ${name}: ${state}"
     fi
@@ -157,7 +157,7 @@ cmd_dns() {
   echo "  DNS test:"
   local test_domain="google.com"
   local start_time=$(date +%s%N)
-  nslookup "$test_domain" 2>/dev/null | grep -q "Address:" && echo "    ✓ ${test_domain} resolves" || echo "    ✗ ${test_domain} FAILED"
+  nslookup "$test_domain" 2>/dev/null | grep -q "Address:" && echo "     ${test_domain} resolves" || echo "     ${test_domain} FAILED"
   local end_time=$(date +%s%N)
   local duration=$(( (end_time - start_time) / 1000000 ))
   echo "    Resolution time: ${duration}ms"

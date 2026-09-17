@@ -221,7 +221,7 @@ colors = {
 }
 color = colors.get(alert_type, colors['info'])
 
-icons = {'info': 'ℹ️', 'success': '✅', 'warning': '⚠️', 'error': '❌'}
+icons = {'info': 'ℹ', 'success': '', 'warning': '', 'error': ''}
 
 w, h = 600, 120
 img = Image.new('RGB', (w, h), (26, 30, 42))

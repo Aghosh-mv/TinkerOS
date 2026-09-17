@@ -115,7 +115,7 @@ for line in sys.stdin:
         text = d.get('text', '')[:60]
         fmt = d.get('format', 'text')
         time = d.get('time', '')[:19]
-        pinned = '📌' if d.get('pinned') else '  '
+        pinned = '' if d.get('pinned') else '  '
         print(f'{pinned} [{time}] ({fmt}) {text}')
     except: pass
 " 2>/dev/null
@@ -242,7 +242,7 @@ with open('$CLIP_PINNED') as f:
 for item in pinned:
     text = item.get('text', '')[:60]
     fmt = item.get('format', 'text')
-    print(f'  📌 ({fmt}) {text}')
+    print(f'   ({fmt}) {text}')
 if not pinned:
     print('  No pinned items')
 " 2>/dev/null

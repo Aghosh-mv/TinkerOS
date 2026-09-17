@@ -44,7 +44,7 @@ install_all() {
     
     touch "$META_MARKER"
     echo ""
-    echo "✓ Gaming mode packages installed."
+    echo " Gaming mode packages installed."
     echo "  Reboot to load the GPU driver, then launch Steam."
 }
 

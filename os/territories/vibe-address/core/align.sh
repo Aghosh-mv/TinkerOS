@@ -1,7 +1,7 @@
 # veil: align.sh — model-integrity auditor.
-#   ve_align_check            → compare each persistent artifact against the
+#   ve_align_check             compare each persistent artifact against the
 #                               event store; print OK/DRIFT per artifact.
-#   ve_align_fix              → wipe + rebuild any drifted artifact from logs.
+#   ve_align_fix               wipe + rebuild any drifted artifact from logs.
 #
 # Persistent artifacts (everything else is query-time derived):
 #   1. inverted index/fp table/time buckets (ve_index_rebuild)

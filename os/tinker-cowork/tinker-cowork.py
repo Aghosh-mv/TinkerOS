@@ -312,10 +312,10 @@ class TinkerCowork:
         
         output = []
         if response.thinking:
-            output.append(f"💭 {response.thinking}")
+            output.append(f" {response.thinking}")
         
         if response.actions:
-            output.append(f"\n📋 Proposed actions:")
+            output.append(f"\n Proposed actions:")
             for i, action in enumerate(response.actions, 1):
                 output.append(f"  {i}. {action.type}: {action.target} - {action.description}")
             
@@ -323,10 +323,10 @@ class TinkerCowork:
             # In real implementation, prompt for approval
         
         if response.explanation:
-            output.append(f"\n💡 {response.explanation}")
+            output.append(f"\n {response.explanation}")
         
         if response.follow_up:
-            output.append(f"\n🔄 Follow-up: {', '.join(response.follow_up)}")
+            output.append(f"\n Follow-up: {', '.join(response.follow_up)}")
         
         return '\n'.join(output)
 
@@ -337,7 +337,7 @@ class TinkerCoworkCLI:
     def run(self):
         print("""
 ╔══════════════════════════════════════════════════════════════╗
-║                    🦝 TinkerCowork                            ║
+║                     TinkerCowork                            ║
 ║              Native AI Pair Programmer                        ║
 ╚══════════════════════════════════════════════════════════════╝
 Type 'help' for commands, 'quit' to exit.
@@ -345,7 +345,7 @@ Type 'help' for commands, 'quit' to exit.
         
         while True:
             try:
-                user_input = input("\n🦝 > ").strip()
+                user_input = input("\n > ").strip()
                 if not user_input: continue
                 
                 if user_input.lower() in ['quit', 'exit', 'bye']:

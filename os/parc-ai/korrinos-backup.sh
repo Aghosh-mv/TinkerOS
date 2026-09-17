@@ -87,7 +87,7 @@ for p in c['exclude']:
     dir_files=$(find "$backup_path/$dir_name" -type f 2>/dev/null | wc -l || echo 0)
     total_size=$((total_size + dir_size))
     file_count=$((file_count + dir_files))
-    echo "    → ${dir_files} files, $(numfmt --to=iec $dir_size 2>/dev/null || echo ${dir_size}B)"
+    echo "     ${dir_files} files, $(numfmt --to=iec $dir_size 2>/dev/null || echo ${dir_size}B)"
   done <<< "$(echo "$includes" | tr ' ' '\n')"
   
   # Compress if enabled
@@ -109,7 +109,7 @@ for p in c['exclude']:
   echo "$(date -Iseconds) | BACKUP | ${name} | ${file_count} files | $(numfmt --to=iec $total_size 2>/dev/null || echo ${total_size}B) | ${duration}s" >> "$BACKUP_LOG"
   
   echo ""
-  echo "  ✓ Backup complete!"
+  echo "   Backup complete!"
   echo "    Files: ${file_count}"
   echo "    Size: $(numfmt --to=iec $total_size 2>/dev/null || echo ${total_size}B)"
   echo "    Duration: ${duration}s"
@@ -188,18 +188,18 @@ cmd_restore() {
     dir_name=$(basename "$dir")
     local target="${HOME}/${dir_name}"
     
-    echo "  Restoring: ${dir_name} → ${target}"
+    echo "  Restoring: ${dir_name}  ${target}"
     
     # Create target if needed
     mkdir -p "$target"
     
     # Restore with rsync
     rsync -a --progress "$dir/" "$target/" 2>/dev/null || true
-    echo "    ✓ Restored"
+    echo "     Restored"
   done
   
   echo ""
-  echo "  ✓ Restore complete!"
+  echo "   Restore complete!"
   echo "$(date -Iseconds) | RESTORE | ${backup_name}" >> "$BACKUP_LOG"
 }
 
@@ -261,7 +261,7 @@ for p in c['include']:
   done <<< "$(echo "$includes" | tr ' ' '\n')"
   
   echo ""
-  echo "  ✓ Incremental backup complete: ${changes} changed files"
+  echo "   Incremental backup complete: ${changes} changed files"
 }
 
 # Delete backup

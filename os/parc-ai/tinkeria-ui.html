@@ -355,7 +355,7 @@ pre code{ font-family:var(--font-mono); }
 .pop-item.active .pop-name{ color:var(--text-100); }
 .pop-name{ font-size:14px; font-weight:550; color:var(--text-300); display:flex; align-items:center; gap:8px; }
 .pop-desc{ font-size:12px; color:var(--text-400); }
-.pop-item.active .pop-name::after{ content:"✓"; color:var(--clay-btn); margin-left:auto; font-size:13px; }
+.pop-item.active .pop-name::after{ content:""; color:var(--clay-btn); margin-left:auto; font-size:13px; }
 .pop-divider{ height:0.5px; background:hsl(30 3% 12% / 10%); margin:4px 6px; }
 .pop-sub{ font-size:12px; font-weight:550; color:var(--text-400); padding:6px 10px 4px; }
 .pop-chev{ margin-left:auto; color:var(--text-400); font-size:11px; }
@@ -478,15 +478,15 @@ pre code{ font-family:var(--font-mono); }
               <h3>Why not just rebuild the DOM?</h3>
               <p>Directly rebuilding the whole DOM on every change is slow. So React does a lightweight comparison with a few key assumptions:</p>
               <ul>
-                <li><strong>Different types → unmount.</strong> If the element type changes (e.g. <code>&lt;div&gt;</code> becomes <code>&lt;span&gt;</code>), React tears down the subtree and rebuilds it.</li>
-                <li><strong>Same type → update in place.</strong> It keeps the same component instance and reconciles <code>props</code> down to the leaves.</li>
+                <li><strong>Different types  unmount.</strong> If the element type changes (e.g. <code>&lt;div&gt;</code> becomes <code>&lt;span&gt;</code>), React tears down the subtree and rebuilds it.</li>
+                <li><strong>Same type  update in place.</strong> It keeps the same component instance and reconciles <code>props</code> down to the leaves.</li>
                 <li><strong><code>key</code> identity</strong> lets React track items across re-renders, so list items are recycled instead of recreated.</li>
               </ul>
               <p>Here's the minimal shape of that process:</p>
 <pre><code><span class="tok-kw">function</span> <span class="tok-fn">render</span>(rootEl, nextVNode) {
   <span class="tok-var">const</span> oldVNode = rootEl._vnode;
 
-  <span class="tok-cm">// different type → replace whole subtree</span>
+  <span class="tok-cm">// different type  replace whole subtree</span>
   <span class="tok-kw">if</span> (!oldVNode || oldVNode.type !== nextVNode.type) {
     rootEl.innerHTML = <span class="tok-str">''</span>;
     oldVNode = <span class="tok-kw">null</span>;
@@ -809,13 +809,13 @@ pre code{ font-family:var(--font-mono); }
 
   const greetingEl = document.getElementById('greetingText');
   if (greetingEl) {
-    greetingEl.innerHTML = '<em>' + getGreeting() + '</em> ✳';
+    greetingEl.innerHTML = '<em>' + getGreeting() + '</em> ';
   }
 
   document.querySelectorAll('.new-chat, .nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
       if (greetingEl) {
-        greetingEl.innerHTML = '<em>' + getGreeting() + '</em> ✳';
+        greetingEl.innerHTML = '<em>' + getGreeting() + '</em> ';
       }
     });
   });

@@ -377,7 +377,7 @@ P = pending kernel C implementation.
   duress boot password + hidden encrypted container on SSD
 - [I] Intent-Driven Hardware Toggles: noted — kernel-level camera/mic power
   cut; hack mode activates hardware loopback (simulated webcam/mic input)
-- [I] Direct Kernel-to-GPU Memory Pipelines: noted — RAM disk → GPU compute
+- [I] Direct Kernel-to-GPU Memory Pipelines: noted — RAM disk  GPU compute
   for hashcat at bare-metal speeds
 - [I] Automated "Canary" Honeypots: noted — offensive-mode canaries deployed
   to target networks, tracking defender response

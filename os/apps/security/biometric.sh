@@ -58,7 +58,7 @@ enroll() {
             echo ""
             if command -v fprintd-enroll &>/dev/null; then
                 fprintd-enroll -f "$finger"
-                echo "  ✓ Enrollment complete"
+                echo "   Enrollment complete"
             else
                 echo "  fprintd-enroll not found (install fprintd)"
             fi
@@ -77,7 +77,7 @@ verify() {
     if command -v fprintd-verify &>/dev/null; then
         fprintd-verify
         local rc=$?
-        [ $rc -eq 0 ] && echo "  ✓ Fingerprint verified" || echo "  ✗ Verification failed"
+        [ $rc -eq 0 ] && echo "   Fingerprint verified" || echo "   Verification failed"
     else
         echo "  fprintd-verify not found"
     fi
@@ -104,7 +104,7 @@ clear_all() {
     [ "${ans,,}" != "y" ] && { echo "Cancelled"; return; }
     
     if command -v fprintd-delete &>/dev/null; then
-        fprintd-delete "$USER" 2>/dev/null && echo "  ✓ Removed all fingerprints"
+        fprintd-delete "$USER" 2>/dev/null && echo "   Removed all fingerprints"
     else
         echo "  fprintd-delete not found"
     fi

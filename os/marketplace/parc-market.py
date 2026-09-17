@@ -351,7 +351,7 @@ class MarketplaceCLI:
         apps = self.market.search_apps(query)
         for app in apps:
             print(f"  {app.name} v{app.version} - {app.description[:60]}...")
-            print(f"    {app.category} | ${app.price} | ⭐{app.rating} | {app.downloads} downloads")
+            print(f"    {app.category} | ${app.price} | {app.rating} | {app.downloads} downloads")
     
     def install(self, app_id: str):
         if self.market.install_app(app_id, "current-user"):

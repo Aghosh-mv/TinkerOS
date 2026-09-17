@@ -29,9 +29,9 @@ show_header() {
     echo -e "${BLUE}║         Your data. Your device. Your rules.             ║${NC}"
     echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
     echo ""
-    echo -e "  ${CYAN}✓ No cloud storage${NC}"
-    echo -e "  ${CYAN}✓ No data collection${NC}"
-    echo -e "  ${CYAN}✓ 100% local encryption${NC}"
+    echo -e "  ${CYAN} No cloud storage${NC}"
+    echo -e "  ${CYAN} No data collection${NC}"
+    echo -e "  ${CYAN} 100% local encryption${NC}"
     echo ""
 }
 
@@ -68,13 +68,13 @@ init_vault() {
         create_vault "$master_pass"
         
         echo ""
-        echo -e "  ${GREEN}✓ Vault created successfully!${NC}"
+        echo -e "  ${GREEN} Vault created successfully!${NC}"
         echo ""
         
         # Setup auto-lock
         setup_auto_lock
         
-        echo -e "  ${GREEN}✓ Ready to use!${NC}"
+        echo -e "  ${GREEN} Ready to use!${NC}"
         sleep 2
     fi
 }
@@ -163,7 +163,7 @@ decrypt_vault() {
 lock_vault() {
     if [ -f "$VAULT_DIR/vault.json" ]; then
         shred -u "$VAULT_DIR/vault.json" 2>/dev/null || rm -f "$VAULT_DIR/vault.json"
-        echo -e "${GREEN}✓ Vault locked${NC}"
+        echo -e "${GREEN} Vault locked${NC}"
     fi
     rm -f /tmp/tinker-vault-session
 }
@@ -289,7 +289,7 @@ EOF
     local master=$(cat /tmp/tinker-vault-session)
     encrypt_vault "$master"
     
-    echo -e "${GREEN}✓ Password saved securely!${NC}"
+    echo -e "${GREEN} Password saved securely!${NC}"
 }
 
 # Get password from vault
@@ -405,7 +405,7 @@ autofill_password() {
         # Type password
         xdotool type --delay 50 "$password"
         
-        echo -e "${GREEN}✓ Credentials filled!${NC}"
+        echo -e "${GREEN} Credentials filled!${NC}"
     else
         echo -e "${YELLOW}No credentials found for: $site${NC}"
         echo "Would you like to generate and save a password?"
@@ -438,7 +438,7 @@ check_password_health() {
         local strength=$(check_password_strength "$password")
         
         if [ "$strength" = "weak" ]; then
-            echo -e "  ${RED}✗${NC} $site - Weak password"
+            echo -e "  ${RED}${NC} $site - Weak password"
             weak=$((weak + 1))
         fi
         
@@ -561,7 +561,7 @@ case "$1" in
             
             # Copy to clipboard
             echo "$password" | xclip -selection clipboard 2>/dev/null
-            echo -e "${GREEN}✓ Password copied to clipboard${NC}"
+            echo -e "${GREEN} Password copied to clipboard${NC}"
         else
             echo -e "${YELLOW}No credentials found for: $2${NC}"
         fi
@@ -580,7 +580,7 @@ case "$1" in
         
         echo -e "  Generated password: ${CYAN}$password${NC}"
         echo ""
-        echo -e "  ${GREEN}✓ Copied to clipboard${NC}"
+        echo -e "  ${GREEN} Copied to clipboard${NC}"
         echo "$password" | xclip -selection clipboard 2>/dev/null
         ;;
     passphrase)
@@ -593,7 +593,7 @@ case "$1" in
         
         echo -e "  Generated passphrase: ${CYAN}$passphrase${NC}"
         echo ""
-        echo -e "  ${GREEN}✓ Copied to clipboard${NC}"
+        echo -e "  ${GREEN} Copied to clipboard${NC}"
         echo "$passphrase" | xclip -selection clipboard 2>/dev/null
         ;;
     lock)
@@ -605,7 +605,7 @@ case "$1" in
         echo -e "${YELLOW}Unlocking vault...${NC}"
         master=$(get_master_password)
         decrypt_vault "$master" >/dev/null
-        echo -e "${GREEN}✓ Vault unlocked!${NC}"
+        echo -e "${GREEN} Vault unlocked!${NC}"
         ;;
     health)
         show_header

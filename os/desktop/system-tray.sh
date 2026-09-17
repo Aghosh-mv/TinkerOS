@@ -19,7 +19,7 @@ show_battery() {
         
         echo "$icon $bat%"
     else
-        echo "🔌 AC"
+        echo " AC"
     fi
 }
 
@@ -28,12 +28,12 @@ show_wifi() {
     if command -v iwconfig >/dev/null 2>&1; then
         local wifi=$(iwconfig 2>/dev/null | grep -o "ESSID:\"[^\"]*\"" | cut -d'"' -f2)
         if [ -n "$wifi" ]; then
-            echo "📶 $wifi"
+            echo " $wifi"
         else
-            echo "📵 Disconnected"
+            echo " Disconnected"
         fi
     else
-        echo "📶"
+        echo ""
     fi
 }
 
@@ -42,12 +42,12 @@ show_bluetooth() {
     if command -v bluetoothctl >/dev/null 2>&1; then
         local bt=$(bluetoothctl show 2>/dev/null | grep "Powered" | awk '{print $2}')
         if [ "$bt" = "yes" ]; then
-            echo "🔷 On"
+            echo " On"
         else
-            echo "⬜ Off"
+            echo " Off"
         fi
     else
-        echo "🔷"
+        echo ""
     fi
 }
 
@@ -58,35 +58,35 @@ show_volume() {
         local mute=$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null | grep -o "yes\|no")
         
         if [ "$mute" = "yes" ]; then
-            echo "🔇"
+            echo ""
         else
             case $vol in
-                [0-9]|1[0-9]|2[0-9]) echo "🔈 $vol" ;;
-                [3-6][0-9]) echo "🔉 $vol" ;;
-                [7-9][0-9]|100) echo "🔊 $vol" ;;
+                [0-9]|1[0-9]|2[0-9]) echo " $vol" ;;
+                [3-6][0-9]) echo " $vol" ;;
+                [7-9][0-9]|100) echo " $vol" ;;
             esac
         fi
     else
-        echo "🔊"
+        echo ""
     fi
 }
 
 # CPU indicator
 show_cpu() {
     local cpu=$(top -bn1 | grep "Cpu(s)" | awk '{print int($2)}')
-    echo "💻 ${cpu}%"
+    echo " ${cpu}%"
 }
 
 # Memory indicator
 show_memory() {
     local mem=$(free | grep Mem | awk '{printf "%d", $3/$2 * 100}')
-    echo "🧠 ${mem}%"
+    echo " ${mem}%"
 }
 
 # Disk indicator
 show_disk() {
     local disk=$(df -h / | tail -1 | awk '{print $5}' | tr -d '%')
-    echo "💾 ${disk}%"
+    echo " ${disk}%"
 }
 
 # Show all tray items

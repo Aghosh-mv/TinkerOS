@@ -13,7 +13,7 @@ MASCOT_LOG="${HOME}/.cache/korrinos-mascot.log"
 #  EVENT SYSTEM — hooks for system events
 # ============================================================
 # When the user provides their mascot file, events trigger reactions
-# Format: EVENT_NAME → callback function
+# Format: EVENT_NAME  callback function
 
 declare -A MASCOT_HOOKS
 
@@ -21,7 +21,7 @@ register_hook() {
     local event="$1"
     local callback="$2"
     MASCOT_HOOKS["$event"]="$callback"
-    echo "[$(date '+%H:%M:%S')] Hook registered: $event → $callback" >> "$MASCOT_LOG" 2>/dev/null || true
+    echo "[$(date '+%H:%M:%S')] Hook registered: $event  $callback" >> "$MASCOT_LOG" 2>/dev/null || true
 }
 
 # Pre-registered event hooks (stubs — will activate when mascot content arrives)
@@ -154,7 +154,7 @@ case "${1:-}" in
         echo ""
         echo "Registered hooks:"
         for event in "${!MASCOT_HOOKS[@]}"; do
-            echo "  $event → ${MASCOT_HOOKS[$event]}"
+            echo "  $event  ${MASCOT_HOOKS[$event]}"
         done
         echo ""
         echo "Status: Waiting for mascot content from user"

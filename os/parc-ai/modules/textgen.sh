@@ -326,15 +326,15 @@ platform = '$platform'
 
 captions = {
     'twitter': [
-        f'🚀 {topic} — here is why it matters (thread)',
+        f' {topic} — here is why it matters (thread)',
         f'Hot take: {topic} is about to change everything. Here is what most people miss:',
         f'Just discovered something fascinating about {topic}. The implications are huge.',
         f'Stop scrolling. {topic} deserves your attention right now.',
     ],
     'instagram': [
         f' Exploring the world of {topic} and loving every moment of it  #trending',
-        f'{topic} — because life is too short for boring content 🌟',
-        f'New day, new vibes, new {topic} adventures 🎯',
+        f'{topic} — because life is too short for boring content ',
+        f'New day, new vibes, new {topic} adventures ',
     ],
     'linkedin': [
         f'After years of working with {topic}, here are the lessons I wish I knew earlier:',

@@ -172,7 +172,7 @@ markov = {}
 for (a, b), next_counts in transitions.items():
     total = sum(next_counts.values())
     probs = {nxt: cnt / total for nxt, cnt in next_counts.items()}
-    markov[f"{a}→{b}"] = probs
+    markov[f"{a}{b}"] = probs
 
 model["markov"] = markov
 with open(model_path, "w") as f:
@@ -184,7 +184,7 @@ events = [(k, v) for k, v in markov.items() if v]
 events.sort(key=lambda x: -max(x[1].values()))
 for k, probs in events[:8]:
     best = max(probs.items(), key=lambda x: x[1])
-    print(f"    {k}  →  {best[0]} ({best[1]*100:.0f}%)")
+    print(f"    {k}    {best[0]} ({best[1]*100:.0f}%)")
 PYEOF
 }
 
@@ -234,7 +234,7 @@ print()
 # Find matching transitions
 matches = []
 for key, probs in markov.items():
-    apps_key = key.split("→")
+    apps_key = key.split("")
     if apps_key[-1] == current_app or apps_key[-1] in current_app:
         for nxt, prob in probs.items():
             if prob >= config["prewarming"]["min_confidence"]:
@@ -243,7 +243,7 @@ for key, probs in markov.items():
 # Sort by probability
 matches.sort(key=lambda x: -x[1])
 
-print(f"  ✅ Predicted next apps (confidence >={config['prewarming']['min_confidence']*100:.0f}%):")
+print(f"   Predicted next apps (confidence >={config['prewarming']['min_confidence']*100:.0f}%):")
 print()
 print(f"  {'Prediction':<30s} {'Confidence':>12s} {'Pattern'}")
 print(f"  {'-'*60}")
@@ -311,7 +311,7 @@ for pred in predictions:
         pass
     
     if running:
-        print(f"  ↻ {app} already running (skip)")
+        print(f"   {app} already running (skip)")
         continue
     
     # Preload into page cache by reading binary + shared libs
@@ -329,18 +329,18 @@ for pred in predictions:
             with open(bin_path, "rb") as f:
                 chunk = f.read(1024*1024)  # Read 1MB to warm cache
             size_kb = os.path.getsize(bin_path) / 1024
-            print(f"  🔥 Pre-warmed: {app} ({size_kb:.0f}KB, conf {conf*100:.0f}%)")
+            print(f"   Pre-warmed: {app} ({size_kb:.0f}KB, conf {conf*100:.0f}%)")
         except Exception as e:
-            print(f"  ⚠️  {app}: {e}")
+            print(f"    {app}: {e}")
     else:
         # Just flag as predicted
-        print(f"  📌 Predicted: {app} (conf {conf*100:.0f}%) - launch on demand")
+        print(f"   Predicted: {app} (conf {conf*100:.0f}%) - launch on demand")
 
 # Update stats
 config["stats"]["preloads_done"] += len(predictions)
 json.dump(config, open(os.path.expanduser("~/.tinker/predictive-prewarm/config.json"), "w"), indent=2)
 
-print(f"\n  ✅ Pre-warming complete")
+print(f"\n   Pre-warming complete")
 print(f"  These apps will now launch instantly (page cache warmed)")
 PYEOF
 }
@@ -386,10 +386,10 @@ case "${1:-help}" in
   prewarm) prewarm ;;
   report) report ;;
   on)
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'),'w'),indent=2); print('  ✅ Pre-warming: ON')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'))); c['enabled']=True; json.dump(c,open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'),'w'),indent=2); print('   Pre-warming: ON')"
     ;;
   off)
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'),'w'),indent=2); print('  ⏹️  Pre-warming: OFF')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/predictive-prewarm/config.json'),'w'),indent=2); print('    Pre-warming: OFF')"
     ;;
   dashboard) collect_data; echo ""; predict; echo ""; prewarm; echo ""; report ;;
   *) echo "Usage: $0 {init|collect|learn|predict|prewarm|report|on|off|dashboard}"

@@ -37,7 +37,7 @@ create() {
     echo ""
     echo "Creating sparse image file..."
     truncate -s "${size}M" "$VAULT_DIR/$name.img"
-    echo "  ✓ Created $VAULT_DIR/$name.img"
+    echo "   Created $VAULT_DIR/$name.img"
     echo ""
     echo "Setting up loop device (requires sudo)..."
     echo "  (You must complete LUKS format + mount manually:)"

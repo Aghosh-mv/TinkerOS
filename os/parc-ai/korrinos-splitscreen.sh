@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # korrinos-splitscreen.sh — Split Screen Manager
-# Drag windows to edges → auto-snap to half/quarter
+# Drag windows to edges  auto-snap to half/quarter
 
 set -euo pipefail
 
@@ -25,7 +25,7 @@ snap_left() {
   elif command -v xdotool &>/dev/null; then
     xdotool windowsize "$win" "$((w/2))" "$h" && xdotool windowmove "$win" 0 0
   fi
-  echo "→ Left half"
+  echo " Left half"
 }
 
 # Snap window to right half
@@ -40,7 +40,7 @@ snap_right() {
   elif command -v xdotool &>/dev/null; then
     xdotool windowsize "$win" "$((w/2))" "$h" && xdotool windowmove "$win" "$((w/2))" 0
   fi
-  echo "→ Right half"
+  echo " Right half"
 }
 
 # Snap to top-left quarter
@@ -53,7 +53,7 @@ snap_topleft() {
   if command -v wmctrl &>/dev/null; then
     wmctrl -i -r "$win" -e "0,0,0,$((w/2)),$((h/2))" 2>/dev/null
   fi
-  echo "→ Top-left quarter"
+  echo " Top-left quarter"
 }
 
 # Snap to top-right quarter
@@ -66,7 +66,7 @@ snap_topright() {
   if command -v wmctrl &>/dev/null; then
     wmctrl -i -r "$win" -e "0,$((w/2)),0,$((w/2)),$((h/2))" 2>/dev/null
   fi
-  echo "→ Top-right quarter"
+  echo " Top-right quarter"
 }
 
 # Snap to bottom-left quarter
@@ -79,7 +79,7 @@ snap_bottomleft() {
   if command -v wmctrl &>/dev/null; then
     wmctrl -i -r "$win" -e "0,0,$((h/2)),$((w/2)),$((h/2))" 2>/dev/null
   fi
-  echo "→ Bottom-left quarter"
+  echo " Bottom-left quarter"
 }
 
 # Snap to bottom-right quarter
@@ -92,7 +92,7 @@ snap_bottomright() {
   if command -v wmctrl &>/dev/null; then
     wmctrl -i -r "$win" -e "0,$((w/2)),$((h/2)),$((w/2)),$((h/2))" 2>/dev/null
   fi
-  echo "→ Bottom-right quarter"
+  echo " Bottom-right quarter"
 }
 
 # Maximize
@@ -101,7 +101,7 @@ snap_maximize() {
   if command -v wmctrl &>/dev/null; then
     wmctrl -i -r "$win" -b add,maximized_vert,maximized_horz 2>/dev/null
   fi
-  echo "→ Maximized"
+  echo " Maximized"
 }
 
 # Center
@@ -115,7 +115,7 @@ snap_center() {
   if command -v wmctrl &>/dev/null; then
     wmctrl -i -r "$win" -e "0,$(( (w-ww)/2 )),$(( (h-wh)/2 )),$ww,$wh" 2>/dev/null
   fi
-  echo "→ Centered"
+  echo " Centered"
 }
 
 # List windows

@@ -22,7 +22,7 @@ tk_health_dashboard() {
   # Network
   local net_up=$(cat /sys/class/net/*/statistics/tx_bytes 2>/dev/null | paste -sd+ | bc 2>/dev/null || echo 0)
   local net_down=$(cat /sys/class/net/*/statistics/rx_bytes 2>/dev/null | paste -sd+ | bc 2>/dev/null || echo 0)
-  echo "Network: ↑$(numfmt --to=iec $net_up) ↓$(numfmt --to=iec $net_down)"
+  echo "Network: $(numfmt --to=iec $net_up) $(numfmt --to=iec $net_down)"
 
   # Temperature
   local temp=$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1)

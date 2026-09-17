@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Korlang Compiler v0.2 — Full rewrite, no shortcuts
-Compiles .kor files → C code → native binary via GCC
+Compiles .kor files  C code  native binary via GCC
 
 Features from 22 languages: C, Rust, Zig, Python, Java, JavaScript,
 PHP, C#, C++, VC++, Ruby, Go, Scala, Kotlin, TypeScript, HTML, CSS,
@@ -969,14 +969,14 @@ class Korlang:
     def to_c(self, out):
         c=self.compile()
         with open(out,'w') as f: f.write(c)
-        print(f"Korlang: {self.fn} → {out}")
+        print(f"Korlang: {self.fn}  {out}")
         return out
 
     def build(self, c_file, binary):
         r=subprocess.run(f"gcc -o {binary} {c_file} -lm -lpthread",shell=True,capture_output=True,text=True)
         if r.returncode!=0:
             print(f"GCC error:\n{r.stderr}"); return False
-        print(f"Korlang: {c_file} → {binary}"); return True
+        print(f"Korlang: {c_file}  {binary}"); return True
 
 def main():
     if len(sys.argv)<2:
@@ -995,7 +995,7 @@ def main():
     if emit_c:
         c=comp.compile()
         with open(out,'w') as f: f.write(c)
-        print(f"Korlang: {fn} → {out}")
+        print(f"Korlang: {fn}  {out}")
     else:
         c_file=out+'.c'; comp.to_c(c_file)
         if comp.build(c_file,out) and run:

@@ -472,7 +472,7 @@ import json, os
 c=json.load(open(os.path.expanduser('~/.tinker/dvfs-shaver/config.json')))
 c['enabled'] = False
 json.dump(c, open(os.path.expanduser('~/.tinker/dvfs-shaver/config.json'), 'w'), indent=2)
-print('  ⏹️  DVFS Shaver: OFF')
+print('    DVFS Shaver: OFF')
 "
     pkill -f dvfs-shaver 2>/dev/null && echo "  Daemon stopped" || echo "  Daemon not running"
     ;;

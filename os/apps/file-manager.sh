@@ -40,14 +40,14 @@ browse() {
             local ext="${item##*.}"
             
             case $ext in
-                pdf) icon="📄" ;;
-                jpg|jpeg|png|gif) icon="🖼️" ;;
+                pdf) icon="" ;;
+                jpg|jpeg|png|gif) icon="" ;;
                 mp3|wav|flac) icon="" ;;
                 mp4|mkv|avi) icon="" ;;
-                zip|tar|gz) icon="📦" ;;
+                zip|tar|gz) icon="" ;;
                 sh|bash) icon="" ;;
                 txt|md) icon="" ;;
-                *) icon="📄" ;;
+                *) icon="" ;;
             esac
             
             echo "  $icon $item ($size)"

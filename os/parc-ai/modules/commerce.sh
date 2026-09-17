@@ -202,7 +202,7 @@ ai_recomm_list() {
     [ -f "$f" ] || continue
     python3 -c "
 import json; w=json.load(open('$f'))
-stars = '★' * w['rating'] + '☆' * (5 - w['rating'])
+stars = '' * w['rating'] + '' * (5 - w['rating'])
 print(f'  {w[\"item\"]} | {w[\"category\"]} | {stars}')
 " 2>/dev/null
   done

@@ -112,7 +112,7 @@ pair_device() {
     bluetoothctl -- trust $mac
     bluetoothctl -- connect $mac
     
-    echo -e "${GREEN}✓ Device paired and connected!${NC}"
+    echo -e "${GREEN} Device paired and connected!${NC}"
 }
 
 # Connect to device
@@ -124,10 +124,10 @@ connect_device() {
     bluetoothctl -- connect $mac
     
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✓ Connected!${NC}"
+        echo -e "${GREEN} Connected!${NC}"
         log_event "connected" "$mac"
     else
-        echo -e "${RED}✗ Connection failed${NC}"
+        echo -e "${RED} Connection failed${NC}"
         log_event "connection_failed" "$mac"
     fi
 }
@@ -140,7 +140,7 @@ disconnect_device() {
     
     bluetoothctl -- disconnect $mac
     
-    echo -e "${GREEN}✓ Disconnected${NC}"
+    echo -e "${GREEN} Disconnected${NC}"
     log_event "disconnected" "$mac"
 }
 
@@ -257,7 +257,7 @@ auto_switch_audio() {
                 local bt_sink=$(pactl list sinks short | grep bluez | awk '{print $1}')
                 if [ -n "$bt_sink" ]; then
                     pactl set-default-sink $bt_sink
-                    echo -e "${GREEN}✓ Audio output switched to Bluetooth${NC}"
+                    echo -e "${GREEN} Audio output switched to Bluetooth${NC}"
                 fi
             fi
         fi

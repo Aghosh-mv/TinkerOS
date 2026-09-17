@@ -4,14 +4,14 @@
 # --- FLOWCHART CARD (node-based process map) ---
 ai_card_flowchart() {
   local nodes="$1" title="${2:-Process Flow}"
-  # nodes format: "start→Step 1→Step 2→end" or "start→decision{yes→A,no→B}→end"
+  # nodes format: "startStep 1Step 2end" or "startdecision{yesA,noB}end"
   local id="flow_$(date +%s)_$$"
 
   python3 -c "
 import re
 nodes_str = '''$nodes'''
 title = '''$title'''
-node_list = [n.strip() for n in nodes_str.split('→') if n.strip()]
+node_list = [n.strip() for n in nodes_str.split('') if n.strip()]
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:700px;padding:16px;\">'
 html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\">' + title + '</div>'
@@ -26,7 +26,7 @@ for i, node in enumerate(node_list):
         branches = [b.strip() for b in m.group(2).split(',')]
         color = colors['decision']
         html += '<div style=\"display:flex;flex-direction:column;align-items:center;\">'
-        html += '<div style=\"width:100px;padding:8px;background:' + color + '22;border:2px solid ' + color + ';border-radius:8px;text-align:center;font-size:12px;color:' + color + ';transform:rotate(0deg);\">⚖️ ' + label + '</div>'
+        html += '<div style=\"width:100px;padding:8px;background:' + color + '22;border:2px solid ' + color + ';border-radius:8px;text-align:center;font-size:12px;color:' + color + ';transform:rotate(0deg);\"> ' + label + '</div>'
         html += '<div style=\"display:flex;gap:8px;margin-top:4px;\">'
         for b in branches:
             bname = b.strip()
@@ -40,7 +40,7 @@ for i, node in enumerate(node_list):
         html += '<div style=\"width:100px;padding:8px;background:' + color + '22;border:2px solid ' + color + ';border-radius:8px;text-align:center;font-size:12px;color:' + color + ';\">' + node.strip() + '</div>'
 
     if i < len(node_list) - 1:
-        html += '<div style=\"color:#30363d;font-size:18px;\">→</div>'
+        html += '<div style=\"color:#30363d;font-size:18px;\"></div>'
 
 html += '</div></div>'
 print(html)
@@ -50,7 +50,7 @@ print(html)
 # --- STATE MACHINE CARD ---
 ai_card_statemachine() {
   local states="$1" title="${2:-State Machine}"
-  # states format: "idle→running→paused→idle, idle→stopped"
+  # states format: "idlerunningpausedidle, idlestopped"
   local id="sm_$(date +%s)_$$"
 
   python3 -c "
@@ -62,7 +62,7 @@ transitions = [t.strip() for t in states_str.split(',') if t.strip()]
 all_states = set()
 edges = []
 for t in transitions:
-    parts = [p.strip() for p in t.split('→')]
+    parts = [p.strip() for p in t.split('')]
     if len(parts) >= 2:
         for i in range(len(parts)-1):
             all_states.add(parts[i])
@@ -70,7 +70,7 @@ for t in transitions:
             edges.append((parts[i], parts[i+1]))
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:600px;padding:16px;\">'
-html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\">🔄 ' + title + '</div>'
+html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\"> ' + title + '</div>'
 html += '<div style=\"display:flex;flex-wrap:wrap;gap:8px;justify-content:center;\">'
 
 state_colors = {}
@@ -84,7 +84,7 @@ html += '</div>'
 html += '<div style=\"margin-top:12px;padding:8px;background:#0d1117;border-radius:8px;\">'
 html += '<div style=\"font-size:11px;color:#8b949e;margin-bottom:4px;\">Transitions:</div>'
 for src, dst in edges:
-    html += '<div style=\"font-size:12px;color:#c9d1d9;\">' + src + ' <span style=\"color:#6c63ff;\">→</span> ' + dst + '</div>'
+    html += '<div style=\"font-size:12px;color:#c9d1d9;\">' + src + ' <span style=\"color:#6c63ff;\"></span> ' + dst + '</div>'
 html += '</div></div>'
 print(html)
 " 2>/dev/null || echo "<div class='ai-card'>State machine error</div>"
@@ -171,7 +171,7 @@ EOHTML
     kanban)
       cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:700px;padding:16px;">
-  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;">📋 ${title}</div>
+  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;"> ${title}</div>
   <div style="display:flex;gap:12px;overflow-x:auto;">
     <div style="min-width:180px;background:#0d1117;border-radius:8px;padding:12px;">
       <div style="font-size:12px;font-weight:bold;color:#8b949e;margin-bottom:8px;">TODO (3)</div>
@@ -215,7 +215,7 @@ for i, step in enumerate(step_list):
     html += '<div style=\"font-size:10px;color:#8b949e;\">Step ' + str(i+1) + '</div>'
     html += '<div>' + step + '</div></div>'
     if i < len(step_list) - 1:
-        html += '<div style=\"color:#30363d;\">→</div>'
+        html += '<div style=\"color:#30363d;\"></div>'
 
 html += '</div></div>'
 print(html)

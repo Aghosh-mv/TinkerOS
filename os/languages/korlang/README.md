@@ -352,7 +352,7 @@ fn main() {
 ## Compilation
 
 ```
-.kor file → Lexer → Tokens → Parser → AST → CCodeGen → .c file → GCC → binary
+.kor file  Lexer  Tokens  Parser  AST  CCodeGen  .c file  GCC  binary
 ```
 
 Korlang compiles to C, then uses GCC/LLVM to produce native binaries. This means:

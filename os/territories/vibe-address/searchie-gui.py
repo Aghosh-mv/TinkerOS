@@ -157,7 +157,7 @@ class GlassPanel(QFrame):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         r = self.rect().adjusted(1, 1, -1, -1)
-        # vertical frosted gradient (deep base → lighter at top edge)
+        # vertical frosted gradient (deep base  lighter at top edge)
         grad = QLinearGradient(0, 0, 0, self.height())
         grad.setColorAt(0.00, QColor(40, 50, 74, 190))
         grad.setColorAt(0.18, QColor(30, 38, 58, 175))
@@ -524,7 +524,7 @@ def selftest():
         a = eng("ask", "the bedsheets thing")
         hits = [l for l in a.stdout.splitlines() if l.startswith("RESULT|")]
         assert hits, f"ask terse got nothing:\n{a.stdout}{a.stderr}"
-        print("  ASK     →", hits[0][:80])
+        print("  ASK     ", hits[0][:80])
 
         d = eng("delete", "bedsheets file")
         assert "REVIEW|" in d.stdout, f"delete no review:\n{d.stdout}{d.stderr}"
@@ -534,12 +534,12 @@ def selftest():
         assert items, "delete staged zero real files"
         assert all(os.path.exists(p) for
                    p in (x.split("|")[2] for x in items)), "staged path gone?"
-        print("  DELETE  → staged", len(items), "file(s), pid", pid)
+        print("  DELETE   staged", len(items), "file(s), pid", pid)
 
         c = eng("confirm", pid)
         assert c.returncode == 0, f"confirm failed: {c.stderr}"
         assert not os.path.exists(probe), "confirm did not remove the file"
-        print("  CONFIRM → file removed, memory traces purged")
+        print("  CONFIRM  file removed, memory traces purged")
         print("  SELFTEST PASS")
         return 0
     finally:

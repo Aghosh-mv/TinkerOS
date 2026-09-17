@@ -399,9 +399,9 @@ class VOKK v4:
         response = ""
         for action, result in zip(actions, results):
             if result.get("success"):
-                response += f"✅ {action['name']}: {result.get('result', 'Done')}\n"
+                response += f" {action['name']}: {result.get('result', 'Done')}\n"
             else:
-                response += f"❌ {action['name']}: {result.get('error', 'Failed')}\n"
+                response += f" {action['name']}: {result.get('error', 'Failed')}\n"
         return response.strip()
     
     def generate_llm_response(self, prompt: str) -> str:
@@ -502,11 +502,11 @@ def main():
         print("llama.cpp not found. Install with: pip install llama-cpp-python")
         print("Running in rule-based mode")
     
-    print("\n🦝 VOKK v4 Ready! Type 'help' for commands, 'quit' to exit.\n")
+    print("\n VOKK v4 Ready! Type 'help' for commands, 'quit' to exit.\n")
     
     while True:
         try:
-            user_input = input("🦝 > ").strip()
+            user_input = input(" > ").strip()
             if not user_input:
                 continue
             if user_input.lower() in ["quit", "exit", "bye"]:

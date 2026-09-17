@@ -138,9 +138,9 @@ wifi_check() {
   local trusted_file="$SEC_DIR/trusted_networks.txt"
   
   if [ -f "$trusted_file" ] && grep -q "$current" "$trusted_file" 2>/dev/null; then
-    echo "✅ $current (trusted)"
+    echo " $current (trusted)"
   else
-    echo "⚠️  $current (NOT trusted)"
+    echo "  $current (NOT trusted)"
     echo "Add to trusted: korrinos-security-apps.sh wifi-trust '$current'"
   fi
 }

@@ -24,10 +24,10 @@ for item in sorted(os.listdir(root))[:30]:
         size = f'{items} items'
     else:
         ext = os.path.splitext(item)[1].lower()
-        icons = {'.py':'🐍','.js':'📜','.md':'','.txt':'📄','.c':'','.h':'','.sh':'',
-                '.json':'📋','.yml':'📋','.yaml':'📋','.html':'','.css':'🎨','.png':'🖼️',
-                '.jpg':'🖼️','.svg':'🖼️','.pdf':'📕','.zip':'📦','.rs':'🦀','.go':'🔵'}
-        icon = icons.get(ext, '📄')
+        icons = {'.py':'','.js':'','.md':'','.txt':'','.c':'','.h':'','.sh':'',
+                '.json':'','.yml':'','.yaml':'','.html':'','.css':'','.png':'',
+                '.jpg':'','.svg':'','.pdf':'','.zip':'','.rs':'','.go':''}
+        icon = icons.get(ext, '')
         sz = os.path.getsize(path)
         size = f'{sz//1024}KB' if sz > 1024 else f'{sz}B'
 
@@ -201,8 +201,8 @@ EOHTML
     <source src="${src}" />
   </video>
   <div style="padding:8px 12px;background:#0d1117;display:flex;gap:8px;align-items:center;">
-    <button onclick="var v=document.getElementById('${id}-player');v.playbackRate=Math.max(0.25,v.playbackRate-0.25)" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;">🐢</button>
-    <button onclick="var v=document.getElementById('${id}-player');v.playbackRate=Math.min(4,v.playbackRate+0.25)" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;">🐇</button>
+    <button onclick="var v=document.getElementById('${id}-player');v.playbackRate=Math.max(0.25,v.playbackRate-0.25)" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;"></button>
+    <button onclick="var v=document.getElementById('${id}-player');v.playbackRate=Math.min(4,v.playbackRate+0.25)" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;"></button>
     <span style="flex:1;"></span>
     <span style="font-size:10px;color:#8b949e;" id="${id}-speed">1x</span>
   </div>
@@ -212,7 +212,7 @@ EOHTML
     image)
       cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:600px;padding:0;overflow:hidden;">
-  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;">🖼️ ${title}</div>
+  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;"> ${title}</div>
   <div style="padding:12px;background:#0d1117;text-align:center;">
     <img src="${src}" style="max-width:100%;max-height:400px;border-radius:8px;cursor:zoom-in;" onclick="window.open('${src}','_blank')" />
   </div>

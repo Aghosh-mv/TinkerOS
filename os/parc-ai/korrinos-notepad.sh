@@ -163,8 +163,8 @@ if not data:
     print('No reminders.')
     exit()
 for item in data:
-    check = '✓' if item['done'] else '○'
-    alarm = f'  ⏰ {item[\"alarm\"]}' if item.get('alarm') else ''
+    check = '' if item['done'] else '○'
+    alarm = f'   {item[\"alarm\"]}' if item.get('alarm') else ''
     status = ' [done]' if item['done'] else ''
     user = ' [yours]' if item.get('user_added') else ''
     delete = f'  [DEL]' if item.get('user_added') else ''

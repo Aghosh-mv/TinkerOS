@@ -72,7 +72,7 @@ learn_patterns() {
     # Sequential patterns (what comes after what)
     echo "SEQUENTIAL:" >> "$PATTERN_DB"
     awk -F'|' '{print $6}' "$ACCESS_LOG" | tail -100 | awk '{
-        if(prev != "") print prev"→"$0
+        if(prev != "") print prev""$0
         prev=$0
     }' | sort | uniq -c | sort -rn | head -20 >> "$PATTERN_DB"
     
@@ -104,9 +104,9 @@ predict_files() {
     # Check recent access (sequential)
     local last_file=$(tail -1 "$ACCESS_LOG" | awk -F'|' '{print $6}')
     if [ -n "$last_file" ]; then
-        local seq_pattern=$(grep "→" "$PATTERN_DB" | grep "$last_file" | head -1)
+        local seq_pattern=$(grep "" "$PATTERN_DB" | grep "$last_file" | head -1)
         if [ -n "$seq_pattern" ]; then
-            predictions="$predictions $(echo $seq_pattern | awk -F'→' '{print $2}')"
+            predictions="$predictions $(echo $seq_pattern | awk -F'' '{print $2}')"
         fi
     fi
     

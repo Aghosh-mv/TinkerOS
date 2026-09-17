@@ -437,7 +437,7 @@ case "$1" in
         # Record calibration audio
         arecord -f S16_LE -r 16000 -c 1 -d 10 /tmp/calibration.wav 2>/dev/null
         
-        echo -e "${GREEN}✓ Calibration complete!${NC}"
+        echo -e "${GREEN} Calibration complete!${NC}"
         ;;
     help|--help|-h)
         show_help

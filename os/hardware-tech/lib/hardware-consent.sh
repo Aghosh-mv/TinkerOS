@@ -14,7 +14,7 @@ hardware_warn() {
   local feature="$1"
   cat << EOF
 
-  ⚠️  KorrinOS HARDWARE LIABILITY WARNING
+    KorrinOS HARDWARE LIABILITY WARNING
   ──────────────────────────────────────────────────────────
   Feature : $feature
   Risk    : This operates intended hardware outside its factory
@@ -71,7 +71,7 @@ hardware_consent() {
   # --yes: developer/CI opt-in path -> logs without prompt
   if [[ "$noninter" == "--yes" ]]; then
     hardware_grant "$feature" "$(date +%s)" "$((365*86400))" "auto"
-    echo "  ✅ Consent recorded (--yes). Continuing."
+    echo "   Consent recorded (--yes). Continuing."
     return 0
   fi
 
@@ -85,10 +85,10 @@ hardware_consent() {
 
   if [[ "$answer" == "I UNDERSTAND" || "$answer" == "i understand" ]]; then
     hardware_grant "$feature" "$(date +%s)" "$((90*86400))" "interactive"
-    echo "  ✅ Consent accepted. Logged locally. Continuing."
+    echo "   Consent accepted. Logged locally. Continuing."
     return 0
   fi
-  echo "  ⛔ Consent declined. Aborting ($feature)."
+  echo "   Consent declined. Aborting ($feature)."
   return 1
 }
 
@@ -125,6 +125,6 @@ if os.path.exists(db):
     except: d={}
 d.pop('$feature',None)
 json.dump(d,open(db,'w'),indent=2)
-print('  ✅ Consent revoked for $feature')
+print('   Consent revoked for $feature')
 "
 }

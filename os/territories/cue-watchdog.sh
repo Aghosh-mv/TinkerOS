@@ -62,7 +62,7 @@ Email/time is no object while I am away. — user\n' "$now" > "$STALL_FILE"
   tty_inject            # real console/terminal interference
   notify_ui 2>/dev/null || true
   echo ""
-  echo "🛎 CUE ON  ($now) — keep building, next step now."
+  echo " CUE ON  ($now) — keep building, next step now."
   echo "   (wrote $STALL_FILE + injected into $SESSION_TTY + stamped AGENTS.md)"
   echo ""
   log "cue-on beat at $now"

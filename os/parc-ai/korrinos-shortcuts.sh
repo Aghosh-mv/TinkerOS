@@ -131,7 +131,7 @@ for cat, actions in categories.items():
     print(f'  {cat}:')
     for action in actions:
         key = action_to_key.get(action, 'not set')
-        print(f'    {key:25} → {action}')
+        print(f'    {key:25}  {action}')
     print()
 " 2>/dev/null
 }
@@ -148,7 +148,7 @@ with open('$SHORTCUTS_CONFIG') as f:
 c['shortcuts']['$key'] = '$action'
 with open('$SHORTCUTS_CONFIG', 'w') as f:
     json.dump(c, f, indent=2)
-print(f'Set: {\"$key\"} → {\"$action\"}')
+print(f'Set: {\"$key\"}  {\"$action\"}')
 "
 }
 

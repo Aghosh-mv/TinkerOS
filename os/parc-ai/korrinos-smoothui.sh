@@ -74,22 +74,22 @@ cmd_install() {
     sudo apt install -y picom 2>/dev/null || \
     sudo pacman -S picom 2>/dev/null || \
     sudo dnf install -y picom 2>/dev/null || \
-    echo "    ⚠ Could not install picom — install manually"
+    echo "     Could not install picom — install manually"
   else
-    echo "    ✓ picom already installed"
+    echo "     picom already installed"
   fi
   
   echo "  [2/5] Installing animation tools..."
   if ! command -v xdotool &>/dev/null; then
     sudo apt install -y xdotool 2>/dev/null || true
   fi
-  echo "    ✓ xdotool ready"
+  echo "     xdotool ready"
   
   echo "  [3/5] Installing gesture support..."
   if ! command -v libinput &>/dev/null; then
     sudo apt install -y libinput-tools 2>/dev/null || true
   fi
-  echo "    ✓ libinput ready"
+  echo "     libinput ready"
   
   echo "  [4/5] Configuring font rendering..."
   # Enable subpixel rendering and hinting
@@ -106,14 +106,14 @@ cmd_install() {
   </match>
 </fontconfig>
 FONTEOF
-  echo "    ✓ Font rendering configured"
+  echo "     Font rendering configured"
   
   echo "  [5/5] Generating picom config..."
   generate_picom_config
-  echo "    ✓ Picom config generated"
+  echo "     Picom config generated"
   
   echo ""
-  echo "  ✓ Smooth UI installed!"
+  echo "   Smooth UI installed!"
   echo "  Run: korrinos-smoothui.sh start"
 }
 
@@ -229,38 +229,38 @@ cmd_start() {
   
   # Start picom
   picom --config ~/.config/picom/picom.conf -b 2>/dev/null && \
-    echo "✓ Picom compositor started" || \
-    echo "⚠ Failed to start picom"
+    echo " Picom compositor started" || \
+    echo " Failed to start picom"
   
   # Enable smooth scrolling
   if [ "$(get_config 'smooth_scrolling' 'true')" = "true" ]; then
     # Configure natural scrolling
     gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true 2>/dev/null || true
     gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true 2>/dev/null || true
-    echo "✓ Natural scrolling enabled"
+    echo " Natural scrolling enabled"
   fi
   
   # Enable animations
   if [ "$(get_config 'animations_enabled' 'true')" = "true" ]; then
     gsettings set org.gnome.desktop.interface enable-animations true 2>/dev/null || true
-    echo "✓ Animations enabled"
+    echo " Animations enabled"
   fi
   
   # Configure smooth fonts
   if [ "$(get_config 'smooth_fonts' 'true')" = "true" ]; then
     gsettings set org.gnome.desktop.interface font-antialiasing 'rgba' 2>/dev/null || true
     gsettings set org.gnome.desktop.interface font-hinting 'slight' 2>/dev/null || true
-    echo "✓ Smooth font rendering enabled"
+    echo " Smooth font rendering enabled"
   fi
   
   echo ""
-  echo "✓ Smooth UI active!"
+  echo " Smooth UI active!"
 }
 
 # Stop compositor
 cmd_stop() {
   echo "Stopping Smooth UI..."
-  pkill picom 2>/dev/null && echo "✓ Picom stopped" || echo "Picom not running"
+  pkill picom 2>/dev/null && echo " Picom stopped" || echo "Picom not running"
 }
 
 # Configure gestures
@@ -272,12 +272,12 @@ cmd_gestures() {
     echo "  Gestures: Enabled"
     echo ""
     echo "  Available gestures:"
-    echo "    3-finger swipe left/right  → Switch workspace"
-    echo "    3-finger swipe up          → Mission Control (expose all)"
-    echo "    3-finger swipe down        → Show desktop"
-    echo "    4-finger pinch             → Launchpad"
-    echo "    2-finger pinch             → Zoom"
-    echo "    2-finger scroll            → Smooth scroll"
+    echo "    3-finger swipe left/right   Switch workspace"
+    echo "    3-finger swipe up           Mission Control (expose all)"
+    echo "    3-finger swipe down         Show desktop"
+    echo "    4-finger pinch              Launchpad"
+    echo "    2-finger pinch              Zoom"
+    echo "    2-finger scroll             Smooth scroll"
     echo ""
     
     # Configure touchpad
@@ -285,7 +285,7 @@ cmd_gestures() {
     gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true 2>/dev/null || true
     gsettings set org.gnome.desktop.peripherals.touchpad edge-scrolling-enabled false 2>/dev/null || true
     
-    echo "  ✓ Touchpad gestures configured"
+    echo "   Touchpad gestures configured"
   else
     echo "  Gestures: Disabled"
     echo "  Enable with: korrinos-smoothui.sh config gestures_enabled true"
@@ -301,37 +301,37 @@ cmd_window_management() {
   if [ "$(get_config 'mission_control' 'true')" = "true" ]; then
     gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']" 2>/dev/null || true
     gsettings set org.gnome.shell.keybindings toggle-overview "['<Super>space']" 2>/dev/null || true
-    echo "  ✓ Mission Control: Super+Space"
-    echo "  ✓ Show Desktop: Super+D"
+    echo "   Mission Control: Super+Space"
+    echo "   Show Desktop: Super+D"
   fi
   
   # Expose (show all windows of current app)
   if [ "$(get_config 'expose_enabled' 'true')" = "true" ]; then
     gsettings set org.gnome.desktop.wm.keybindings toggle-message-tray "['<Super>n']" 2>/dev/null || true
-    echo "  ✓ Expose: Super+N"
+    echo "   Expose: Super+N"
   fi
   
   # Launchpad
   if [ "$(get_config 'launchpad' 'true')" = "true" ]; then
     gsettings set org.gnome.shell.keybindings toggle-application-view "['<Super>a']" 2>/dev/null || true
-    echo "  ✓ Launchpad: Super+A"
+    echo "   Launchpad: Super+A"
   fi
   
   # Hot corners
   if [ "$(get_config 'hot_cornners' 'true')" = "true" ]; then
     gsettings set org.gnome.desktop.interface enable-hot-corners true 2>/dev/null || true
-    echo "  ✓ Hot corners enabled"
+    echo "   Hot corners enabled"
   fi
   
   echo ""
   echo "  Window shortcuts:"
-  echo "    Super+Left/Right  → Snap window to half"
-  echo "    Super+Up          → Maximize"
-  echo "    Super+Down        → Minimize"
-  echo "    Super+H           → Hide window"
-  echo "    Super+Q           → Close window"
-  echo "    Alt+Tab           → Switch windows"
-  echo "    Super+Tab         → Switch applications"
+  echo "    Super+Left/Right   Snap window to half"
+  echo "    Super+Up           Maximize"
+  echo "    Super+Down         Minimize"
+  echo "    Super+H            Hide window"
+  echo "    Super+Q            Close window"
+  echo "    Alt+Tab            Switch windows"
+  echo "    Super+Tab          Switch applications"
 }
 
 # Animation presets
@@ -345,18 +345,18 @@ cmd_animation() {
       # Smooth Mac-like animations
       gsettings set org.gnome.desktop.interface enable-animations true 2>/dev/null || true
       gsettings set org.gnome.shell.extensions.jupiter rollback-animation "smooth" 2>/dev/null || true
-      echo "✓ Smooth animations enabled"
+      echo " Smooth animations enabled"
       ;;
     snappy)
       # Fast, responsive animations
       gsettings set org.gnome.desktop.interface enable-animations true 2>/dev/null || true
       gsettings set org.gnome.shell.extensions.jupiter rollback-animation "snappy" 2>/dev/null || true
-      echo "✓ Snappy animations enabled"
+      echo " Snappy animations enabled"
       ;;
     none)
       # Disable animations for performance
       gsettings set org.gnome.desktop.interface enable-animations false 2>/dev/null || true
-      echo "✓ Animations disabled"
+      echo " Animations disabled"
       ;;
     *)
       echo "Available presets: smooth, snappy, none"
@@ -380,21 +380,21 @@ for k, v in c.items():
   echo ""
   echo "  Running:"
   if pgrep picom &>/dev/null; then
-    echo "    ✓ Picom compositor: running"
+    echo "     Picom compositor: running"
   else
-    echo "    ✗ Picom compositor: not running"
+    echo "     Picom compositor: not running"
   fi
   
   if gsettings get org.gnome.desktop.interface enable-animations 2>/dev/null | grep -q "true"; then
-    echo "    ✓ Animations: enabled"
+    echo "     Animations: enabled"
   else
-    echo "    ✗ Animations: disabled"
+    echo "     Animations: disabled"
   fi
   
   if gsettings get org.gnome.desktop.peripherals.touchpad natural-scroll 2>/dev/null | grep -q "true"; then
-    echo "    ✓ Natural scrolling: enabled"
+    echo "     Natural scrolling: enabled"
   else
-    echo "    ✗ Natural scrolling: disabled"
+    echo "     Natural scrolling: disabled"
   fi
 }
 

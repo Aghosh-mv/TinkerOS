@@ -14,7 +14,7 @@ try:
     prev = meta.get('previousClose', 'N/A')
     change = float(price) - float(prev) if price != 'N/A' and prev != 'N/A' else 0
     pct = (change / float(prev) * 100) if prev != 'N/A' and float(prev) > 0 else 0
-    arrow = '📈' if change >= 0 else '📉'
+    arrow = '' if change >= 0 else ''
     print(f'{arrow} {symbol}: \${price:.2f}')
     print(f'   Change: {\"+\" if change >= 0 else \"\"}\${change:.2f} ({\"+\" if pct >= 0 else \"\"}{pct:.2f}%)')
     print(f'   Previous close: \${prev}')
@@ -43,7 +43,7 @@ if key in rates:
     converted = amount * rates[key]
     print(f'{amount:.2f} {from_c} = {converted:.2f} {to_c}')
 else:
-    print(f'Rate not available for {from_c} → {to_c}')
+    print(f'Rate not available for {from_c}  {to_c}')
     print(f'Available: USD, EUR, GBP, JPY, INR, CAD, AUD')
 " 2>/dev/null || echo "Currency conversion unavailable"
 }

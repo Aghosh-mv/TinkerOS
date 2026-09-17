@@ -84,7 +84,7 @@ import json
 with open('$HOTKEY_CONFIG') as f: c = json.load(f)
 c['bindings']['$key'] = '$cmd'
 with open('$HOTKEY_CONFIG', 'w') as f: json.dump(c, f, indent=2)
-print(f'Bound: $key → $cmd')
+print(f'Bound: $key  $cmd')
 "
 }
 
@@ -122,7 +122,7 @@ with open('$HOTKEY_CONFIG') as f: c = json.load(f)
 print(f'Enabled: {c.get(\"enabled\", False)}')
 print()
 for key, cmd in c.get('bindings', {}).items():
-    print(f'  {key:20s} → {cmd}')
+    print(f'  {key:20s}  {cmd}')
 "
 }
 

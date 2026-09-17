@@ -161,9 +161,9 @@ with open('$TOGGLE_CONFIG') as f: c = json.load(f)
 for k, v in c.items():
     if isinstance(v, dict):
         enabled = v.get('enabled', True)
-        print(f'  {k:20s} → {\"ON\" if enabled else \"OFF\"}')
+        print(f'  {k:20s}  {\"ON\" if enabled else \"OFF\"}')
     else:
-        print(f'  {k:20s} → {v}')
+        print(f'  {k:20s}  {v}')
 "
 }
 

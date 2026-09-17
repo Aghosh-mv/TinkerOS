@@ -71,7 +71,7 @@ test() {
     if command -v ffmpeg &>/dev/null; then
         echo "  Frame capture:"
         ffmpeg -f v4l2 -video_size 640x480 -i "$dev" -frames:v 1 -y "$WC_DIR/test-%3d.jpg" 2>/dev/null
-        [ -f "$WC_DIR/test-001.jpg" ] && echo "    ✓ Captured test frame: $WC_DIR/test-001.jpg" || echo "    ✗ Capture failed (permission or busy)"
+        [ -f "$WC_DIR/test-001.jpg" ] && echo "     Captured test frame: $WC_DIR/test-001.jpg" || echo "     Capture failed (permission or busy)"
     else
         echo "  ffmpeg not installed (install ffmpeg)"
     fi
@@ -132,7 +132,7 @@ permissions() {
     
     echo ""
     if ! groups | grep -q video; then
-        echo "  ⚠️  User not in 'video' group. Add:"
+        echo "    User not in 'video' group. Add:"
         echo "    sudo usermod -aG video $USER"
     fi
 }

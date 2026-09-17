@@ -254,7 +254,7 @@ try:
 except:
     pass
 
-print(f"  ✅ Precision scaling applied")
+print(f"   Precision scaling applied")
 PYEOF
 }
 

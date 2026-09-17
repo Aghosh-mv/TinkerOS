@@ -52,7 +52,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
 .option .text{flex:1}
 .option .check{width:18px;height:18px;border:2px solid rgba(139,92,246,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .option.selected .check{border-color:#8b5cf6;background:#8b5cf6}
-.option.selected .check::after{content:'✓';font-size:10px;color:#fff}
+.option.selected .check::after{content:'';font-size:10px;color:#fff}
 
 /* Rating scale */
 .rating{display:flex;gap:6px}
@@ -115,41 +115,41 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     <div class="question">
       <div class="q-label"><span class="num">1</span> What's your primary use case?</div>
       <div class="options cols-2" data-q="usecase" data-multi="false">
-        <div class="option" data-val="developer"><span class="icon">💻</span><span class="text">Software Development</span><span class="check"></span></div>
+        <div class="option" data-val="developer"><span class="icon"></span><span class="text">Software Development</span><span class="check"></span></div>
         <div class="option" data-val="gaming"><span class="icon"></span><span class="text">Gaming</span><span class="check"></span></div>
-        <div class="option" data-val="creative"><span class="icon">🎨</span><span class="text">Creative Work (Video/Photo/Music)</span><span class="check"></span></div>
+        <div class="option" data-val="creative"><span class="icon"></span><span class="text">Creative Work (Video/Photo/Music)</span><span class="check"></span></div>
         <div class="option" data-val="office"><span class="icon"></span><span class="text">Office & Productivity</span><span class="check"></span></div>
         <div class="option" data-val="ai"><span class="icon"></span><span class="text">AI & Machine Learning</span><span class="check"></span></div>
         <div class="option" data-val="general"><span class="icon"></span><span class="text">General Daily Use</span><span class="check"></span></div>
         <div class="option" data-val="server"><span class="icon"></span><span class="text">Server / DevOps</span><span class="check"></span></div>
-        <div class="option" data-val="student"><span class="icon">📚</span><span class="text">Student / Learning</span><span class="check"></span></div>
+        <div class="option" data-val="student"><span class="icon"></span><span class="text">Student / Learning</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="question">
       <div class="q-label"><span class="num">2</span> What OS do you currently use?</div>
       <div class="options cols-3" data-q="current_os" data-multi="false">
-        <div class="option" data-val="windows"><span class="icon">🪟</span><span class="text">Windows</span><span class="check"></span></div>
-        <div class="option" data-val="macos"><span class="icon">🍎</span><span class="text">macOS</span><span class="check"></span></div>
-        <div class="option" data-val="linux"><span class="icon">🐧</span><span class="text">Linux</span><span class="check"></span></div>
+        <div class="option" data-val="windows"><span class="icon"></span><span class="text">Windows</span><span class="check"></span></div>
+        <div class="option" data-val="macos"><span class="icon"></span><span class="text">macOS</span><span class="check"></span></div>
+        <div class="option" data-val="linux"><span class="icon"></span><span class="text">Linux</span><span class="check"></span></div>
         <div class="option" data-val="chromeos"><span class="icon">chrome</span><span class="text">ChromeOS</span><span class="check"></span></div>
-        <div class="option" data-val="android"><span class="icon">📱</span><span class="text">Android</span><span class="check"></span></div>
-        <div class="option" data-val="other"><span class="icon">❓</span><span class="text">Other</span><span class="check"></span></div>
+        <div class="option" data-val="android"><span class="icon"></span><span class="text">Android</span><span class="check"></span></div>
+        <div class="option" data-val="other"><span class="icon"></span><span class="text">Other</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="question">
       <div class="q-label"><span class="num">3</span> How technical are you?</div>
       <div class="options cols-3" data-q="technical" data-multi="false">
-        <div class="option" data-val="beginner"><span class="icon">🌱</span><span class="text">Beginner</span><span class="check"></span></div>
+        <div class="option" data-val="beginner"><span class="icon"></span><span class="text">Beginner</span><span class="check"></span></div>
         <div class="option" data-val="intermediate"><span class="icon"></span><span class="text">Intermediate</span><span class="check"></span></div>
-        <div class="option" data-val="advanced"><span class="icon">🔥</span><span class="text">Advanced / Expert</span><span class="check"></span></div>
+        <div class="option" data-val="advanced"><span class="icon"></span><span class="text">Advanced / Expert</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="btn-row">
       <div style="flex:1"></div>
-      <button class="btn btn-primary" onclick="nextSection(1)">Next →</button>
+      <button class="btn btn-primary" onclick="nextSection(1)">Next </button>
     </div>
   </div>
 
@@ -163,28 +163,28 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
       <div class="options cols-2" data-q="musthave" data-multi="true">
         <div class="option" data-val="gpu_emu"><span class="icon"></span><span class="text">GPU Emulation (run games without GPU)</span><span class="check"></span></div>
         <div class="option" data-val="ai_assistant"><span class="icon"></span><span class="text">Built-in AI Assistant (free, local)</span><span class="check"></span></div>
-        <div class="option" data-val="privacy"><span class="icon">🔒</span><span class="text">Maximum Privacy (no telemetry)</span><span class="check"></span></div>
+        <div class="option" data-val="privacy"><span class="icon"></span><span class="text">Maximum Privacy (no telemetry)</span><span class="check"></span></div>
         <div class="option" data-val="speed"><span class="icon"></span><span class="text">Lightning Fast Boot & Performance</span><span class="check"></span></div>
-        <div class="option" data-val="compat"><span class="icon">📦</span><span class="text">Run Windows Apps (.exe)</span><span class="check"></span></div>
-        <div class="option" data-val="phone"><span class="icon">📱</span><span class="text">Phone Integration (calls, messages)</span><span class="check"></span></div>
-        <div class="option" data-val="backup"><span class="icon">💾</span><span class="text">Automatic Backup & Recovery</span><span class="check"></span></div>
-        <div class="option" data-val="voice"><span class="icon">🎙️</span><span class="text">Voice Control (hands-free OS)</span><span class="check"></span></div>
-        <div class="option" data-val="multi_lang"><span class="icon">🌍</span><span class="text">Multi-language Support</span><span class="check"></span></div>
-        <div class="option" data-val="accessibility"><span class="icon">♿</span><span class="text">Accessibility (screen reader, etc)</span><span class="check"></span></div>
-        <div class="option" data-val="app_store"><span class="icon">🛒</span><span class="text">App Store with 1000+ apps</span><span class="check"></span></div>
-        <div class="option" data-val="auto_update"><span class="icon">🔄</span><span class="text">Silent Auto-Updates</span><span class="check"></span></div>
+        <div class="option" data-val="compat"><span class="icon"></span><span class="text">Run Windows Apps (.exe)</span><span class="check"></span></div>
+        <div class="option" data-val="phone"><span class="icon"></span><span class="text">Phone Integration (calls, messages)</span><span class="check"></span></div>
+        <div class="option" data-val="backup"><span class="icon"></span><span class="text">Automatic Backup & Recovery</span><span class="check"></span></div>
+        <div class="option" data-val="voice"><span class="icon"></span><span class="text">Voice Control (hands-free OS)</span><span class="check"></span></div>
+        <div class="option" data-val="multi_lang"><span class="icon"></span><span class="text">Multi-language Support</span><span class="check"></span></div>
+        <div class="option" data-val="accessibility"><span class="icon"></span><span class="text">Accessibility (screen reader, etc)</span><span class="check"></span></div>
+        <div class="option" data-val="app_store"><span class="icon"></span><span class="text">App Store with 1000+ apps</span><span class="check"></span></div>
+        <div class="option" data-val="auto_update"><span class="icon"></span><span class="text">Silent Auto-Updates</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="question">
       <div class="q-label"><span class="num">5</span> What's your ideal OS look?</div>
       <div class="options cols-3" data-q="ui_style" data-multi="false">
-        <div class="option" data-val="glass"><span class="icon">💎</span><span class="text">Glassmorphism (blur/glass)</span><span class="check"></span></div>
-        <div class="option" data-val="flat"><span class="icon">🎨</span><span class="text">Clean Flat Design</span><span class="check"></span></div>
-        <div class="option" data-val="neon"><span class="icon">💜</span><span class="text">Neon/Cyberpunk</span><span class="check"></span></div>
-        <div class="option" data-val="minimal"><span class="icon">◻️</span><span class="text">Minimal / Distraction-free</span><span class="check"></span></div>
-        <div class="option" data-val="retro"><span class="icon">📟</span><span class="text">Retro / Nostalgic</span><span class="check"></span></div>
-        <div class="option" data-val="mac_like"><span class="icon">🍎</span><span class="text">macOS-like Polish</span><span class="check"></span></div>
+        <div class="option" data-val="glass"><span class="icon"></span><span class="text">Glassmorphism (blur/glass)</span><span class="check"></span></div>
+        <div class="option" data-val="flat"><span class="icon"></span><span class="text">Clean Flat Design</span><span class="check"></span></div>
+        <div class="option" data-val="neon"><span class="icon"></span><span class="text">Neon/Cyberpunk</span><span class="check"></span></div>
+        <div class="option" data-val="minimal"><span class="icon">◻</span><span class="text">Minimal / Distraction-free</span><span class="check"></span></div>
+        <div class="option" data-val="retro"><span class="icon"></span><span class="text">Retro / Nostalgic</span><span class="check"></span></div>
+        <div class="option" data-val="mac_like"><span class="icon"></span><span class="text">macOS-like Polish</span><span class="check"></span></div>
       </div>
     </div>
 
@@ -205,9 +205,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevSection(2)">← Back</button>
+      <button class="btn btn-secondary" onclick="prevSection(2)"> Back</button>
       <div style="flex:1"></div>
-      <button class="btn btn-primary" onclick="nextSection(2)">Next →</button>
+      <button class="btn btn-primary" onclick="nextSection(2)">Next </button>
     </div>
   </div>
 
@@ -219,34 +219,34 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     <div class="question">
       <div class="q-label"><span class="num">7</span> Biggest frustrations? (select all)</div>
       <div class="options cols-2" data-q="frustrations" data-multi="true">
-        <div class="option" data-val="slow"><span class="icon">🐌</span><span class="text">Slow / Laggy Performance</span><span class="check"></span></div>
-        <div class="option" data-val="updates"><span class="icon">⏰</span><span class="text">Forced Updates / Restart</span><span class="check"></span></div>
-        <div class="option" data-val="telemetry"><span class="icon">👁️</span><span class="text">Spying / Telemetry</span><span class="check"></span></div>
-        <div class="option" data-val="bloatware"><span class="icon">🗑️</span><span class="text">Bloatware / Pre-installed Junk</span><span class="check"></span></div>
-        <div class="option" data-val="crashes"><span class="icon">💥</span><span class="text">Crashes / Blue Screen</span><span class="check"></span></div>
-        <div class="option" data-val="confusing"><span class="icon">😵</span><span class="text">Confusing Settings</span><span class="check"></span></div>
-        <div class="option" data-val="no_compatibility"><span class="icon">❌</span><span class="text">App Compatibility Issues</span><span class="check"></span></div>
-        <div class="option" data-val="expensive"><span class="icon">💰</span><span class="text">Expensive (license, hardware)</span><span class="check"></span></div>
-        <div class="option" data-val="ugly"><span class="icon">😤</span><span class="text">Ugly / Outdated UI</span><span class="check"></span></div>
-        <div class="option" data-val="no_support"><span class="icon">🤷</span><span class="text">No Support for Old Hardware</span><span class="check"></span></div>
+        <div class="option" data-val="slow"><span class="icon"></span><span class="text">Slow / Laggy Performance</span><span class="check"></span></div>
+        <div class="option" data-val="updates"><span class="icon"></span><span class="text">Forced Updates / Restart</span><span class="check"></span></div>
+        <div class="option" data-val="telemetry"><span class="icon"></span><span class="text">Spying / Telemetry</span><span class="check"></span></div>
+        <div class="option" data-val="bloatware"><span class="icon"></span><span class="text">Bloatware / Pre-installed Junk</span><span class="check"></span></div>
+        <div class="option" data-val="crashes"><span class="icon"></span><span class="text">Crashes / Blue Screen</span><span class="check"></span></div>
+        <div class="option" data-val="confusing"><span class="icon"></span><span class="text">Confusing Settings</span><span class="check"></span></div>
+        <div class="option" data-val="no_compatibility"><span class="icon"></span><span class="text">App Compatibility Issues</span><span class="check"></span></div>
+        <div class="option" data-val="expensive"><span class="icon"></span><span class="text">Expensive (license, hardware)</span><span class="check"></span></div>
+        <div class="option" data-val="ugly"><span class="icon"></span><span class="text">Ugly / Outdated UI</span><span class="check"></span></div>
+        <div class="option" data-val="no_support"><span class="icon"></span><span class="text">No Support for Old Hardware</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="question">
       <div class="q-label"><span class="num">8</span> How much would you pay for a perfect OS?</div>
       <div class="options cols-2" data-q="willingness" data-multi="false">
-        <div class="option" data-val="free"><span class="icon">🆓</span><span class="text">Must be 100% Free</span><span class="check"></span></div>
-        <div class="option" data-val="cheap"><span class="icon">💵</span><span class="text">Up to $10 (one-time)</span><span class="check"></span></div>
-        <div class="option" data-val="medium"><span class="icon">💳</span><span class="text">$10-50 (one-time)</span><span class="check"></span></div>
-        <div class="option" data-val="premium"><span class="icon">💎</span><span class="text">$50+ (worth it if amazing)</span><span class="check"></span></div>
-        <div class="option" data-val="sub"><span class="icon">🔁</span><span class="text">Subscription OK ($5/mo)</span><span class="check"></span></div>
+        <div class="option" data-val="free"><span class="icon"></span><span class="text">Must be 100% Free</span><span class="check"></span></div>
+        <div class="option" data-val="cheap"><span class="icon"></span><span class="text">Up to $10 (one-time)</span><span class="check"></span></div>
+        <div class="option" data-val="medium"><span class="icon"></span><span class="text">$10-50 (one-time)</span><span class="check"></span></div>
+        <div class="option" data-val="premium"><span class="icon"></span><span class="text">$50+ (worth it if amazing)</span><span class="check"></span></div>
+        <div class="option" data-val="sub"><span class="icon"></span><span class="text">Subscription OK ($5/mo)</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevSection(3)">← Back</button>
+      <button class="btn btn-secondary" onclick="prevSection(3)"> Back</button>
       <div style="flex:1"></div>
-      <button class="btn btn-primary" onclick="nextSection(3)">Next →</button>
+      <button class="btn btn-primary" onclick="nextSection(3)">Next </button>
     </div>
   </div>
 
@@ -258,21 +258,21 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     <div class="question">
       <div class="q-label"><span class="num">9</span> How much RAM does your main computer have?</div>
       <div class="options cols-3" data-q="ram" data-multi="false">
-        <div class="option" data-val="2"><span class="icon">💾</span><span class="text">2-4 GB</span><span class="check"></span></div>
-        <div class="option" data-val="8"><span class="icon">💾</span><span class="text">8 GB</span><span class="check"></span></div>
-        <div class="option" data-val="16"><span class="icon">💾</span><span class="text">16 GB</span><span class="check"></span></div>
-        <div class="option" data-val="32"><span class="icon">💾</span><span class="text">32 GB</span><span class="check"></span></div>
-        <div class="option" data-val="64"><span class="icon">💾</span><span class="text">64+ GB</span><span class="check"></span></div>
+        <div class="option" data-val="2"><span class="icon"></span><span class="text">2-4 GB</span><span class="check"></span></div>
+        <div class="option" data-val="8"><span class="icon"></span><span class="text">8 GB</span><span class="check"></span></div>
+        <div class="option" data-val="16"><span class="icon"></span><span class="text">16 GB</span><span class="check"></span></div>
+        <div class="option" data-val="32"><span class="icon"></span><span class="text">32 GB</span><span class="check"></span></div>
+        <div class="option" data-val="64"><span class="icon"></span><span class="text">64+ GB</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="question">
       <div class="q-label"><span class="num">10</span> Do you have a dedicated GPU?</div>
       <div class="options cols-2" data-q="gpu" data-multi="false">
-        <div class="option" data-val="none"><span class="icon">❌</span><span class="text">No GPU (integrated only)</span><span class="check"></span></div>
-        <div class="option" data-val="low"><span class="icon">🟢</span><span class="text">Budget GPU (GTX 1050, etc)</span><span class="check"></span></div>
-        <div class="option" data-val="mid"><span class="icon">🔵</span><span class="text">Mid-range (RTX 3060, etc)</span><span class="check"></span></div>
-        <div class="option" data-val="high"><span class="icon">🟣</span><span class="text">High-end (RTX 4070+, etc)</span><span class="check"></span></div>
+        <div class="option" data-val="none"><span class="icon"></span><span class="text">No GPU (integrated only)</span><span class="check"></span></div>
+        <div class="option" data-val="low"><span class="icon"></span><span class="text">Budget GPU (GTX 1050, etc)</span><span class="check"></span></div>
+        <div class="option" data-val="mid"><span class="icon"></span><span class="text">Mid-range (RTX 3060, etc)</span><span class="check"></span></div>
+        <div class="option" data-val="high"><span class="icon"></span><span class="text">High-end (RTX 4070+, etc)</span><span class="check"></span></div>
       </div>
     </div>
 
@@ -281,15 +281,15 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
       <div class="options cols-3" data-q="pc_age" data-multi="false">
         <div class="option" data-val="new"><span class="icon"></span><span class="text">Less than 1 year</span><span class="check"></span></div>
         <div class="option" data-val="mid"><span class="icon"></span><span class="text">1-3 years</span><span class="check"></span></div>
-        <div class="option" data-val="old"><span class="icon">🏚️</span><span class="text">3-5 years</span><span class="check"></span></div>
-        <div class="option" data-val="ancient"><span class="icon">🦕</span><span class="text">5+ years</span><span class="check"></span></div>
+        <div class="option" data-val="old"><span class="icon"></span><span class="text">3-5 years</span><span class="check"></span></div>
+        <div class="option" data-val="ancient"><span class="icon"></span><span class="text">5+ years</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevSection(4)">← Back</button>
+      <button class="btn btn-secondary" onclick="prevSection(4)"> Back</button>
       <div style="flex:1"></div>
-      <button class="btn btn-primary" onclick="nextSection(4)">Next →</button>
+      <button class="btn btn-primary" onclick="nextSection(4)">Next </button>
     </div>
   </div>
 
@@ -301,13 +301,13 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     <div class="question">
       <div class="q-label"><span class="num">12</span> What would you use the built-in AI for?</div>
       <div class="options cols-2" data-q="ai_use" data-multi="true">
-        <div class="option" data-val="coding"><span class="icon">💻</span><span class="text">Writing Code</span><span class="check"></span></div>
-        <div class="option" data-val="writing"><span class="icon">✍️</span><span class="text">Writing / Email / Documents</span><span class="check"></span></div>
+        <div class="option" data-val="coding"><span class="icon"></span><span class="text">Writing Code</span><span class="check"></span></div>
+        <div class="option" data-val="writing"><span class="icon"></span><span class="text">Writing / Email / Documents</span><span class="check"></span></div>
         <div class="option" data-val="research"><span class="icon"></span><span class="text">Research & Learning</span><span class="check"></span></div>
         <div class="option" data-val="sysadmin"><span class="icon"></span><span class="text">System Administration</span><span class="check"></span></div>
-        <div class="option" data-val="creative_ai"><span class="icon">🎨</span><span class="text">Image / Music Generation</span><span class="check"></span></div>
+        <div class="option" data-val="creative_ai"><span class="icon"></span><span class="text">Image / Music Generation</span><span class="check"></span></div>
         <div class="option" data-val="chat"><span class="icon"></span><span class="text">General Chat / Companion</span><span class="check"></span></div>
-        <div class="option" data-val="translate"><span class="icon">🌍</span><span class="text">Translation</span><span class="check"></span></div>
+        <div class="option" data-val="translate"><span class="icon"></span><span class="text">Translation</span><span class="check"></span></div>
         <div class="option" data-val="data"><span class="icon"></span><span class="text">Data Analysis</span><span class="check"></span></div>
       </div>
     </div>
@@ -334,9 +334,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevSection(5)">← Back</button>
+      <button class="btn btn-secondary" onclick="prevSection(5)"> Back</button>
       <div style="flex:1"></div>
-      <button class="btn btn-primary" onclick="nextSection(5)">Next →</button>
+      <button class="btn btn-primary" onclick="nextSection(5)">Next </button>
     </div>
   </div>
 
@@ -353,19 +353,19 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     <div class="question">
       <div class="q-label"><span class="num">16</span> How did you hear about KorrinOS?</div>
       <div class="options cols-2" data-q="source" data-multi="false">
-        <div class="option" data-val="github"><span class="icon">🐙</span><span class="text">GitHub</span><span class="check"></span></div>
-        <div class="option" data-val="youtube"><span class="icon">📺</span><span class="text">YouTube</span><span class="check"></span></div>
-        <div class="option" data-val="reddit"><span class="icon">🔴</span><span class="text">Reddit</span><span class="check"></span></div>
-        <div class="option" data-val="twitter"><span class="icon">🐦</span><span class="text">Twitter / X</span><span class="check"></span></div>
-        <div class="option" data-val="friend"><span class="icon">👥</span><span class="text">Friend / Word of Mouth</span><span class="check"></span></div>
-        <div class="option" data-val="other"><span class="icon">🔗</span><span class="text">Other</span><span class="check"></span></div>
+        <div class="option" data-val="github"><span class="icon"></span><span class="text">GitHub</span><span class="check"></span></div>
+        <div class="option" data-val="youtube"><span class="icon"></span><span class="text">YouTube</span><span class="check"></span></div>
+        <div class="option" data-val="reddit"><span class="icon"></span><span class="text">Reddit</span><span class="check"></span></div>
+        <div class="option" data-val="twitter"><span class="icon"></span><span class="text">Twitter / X</span><span class="check"></span></div>
+        <div class="option" data-val="friend"><span class="icon"></span><span class="text">Friend / Word of Mouth</span><span class="check"></span></div>
+        <div class="option" data-val="other"><span class="icon"></span><span class="text">Other</span><span class="check"></span></div>
       </div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevSection(6)">← Back</button>
+      <button class="btn btn-secondary" onclick="prevSection(6)"> Back</button>
       <div style="flex:1"></div>
-      <button class="btn btn-primary" onclick="submitSurvey()">Submit Survey 🚀</button>
+      <button class="btn btn-primary" onclick="submitSurvey()">Submit Survey </button>
     </div>
   </div>
 
@@ -382,7 +382,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#08090e;color:#e2e8f0;m
     </div>
   </div>
 
-  <div class="footer">Built with 💜 by KorrinOS · <a href="https://github.com/Aghosh-mv/TinkerOS">GitHub</a></div>
+  <div class="footer">Built with  by KorrinOS · <a href="https://github.com/Aghosh-mv/TinkerOS">GitHub</a></div>
 </div>
 
 <script>

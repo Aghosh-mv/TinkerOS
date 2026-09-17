@@ -255,21 +255,21 @@ show_gestures() {
     echo -e "${YELLOW}Available Gestures:${NC}"
     echo ""
     echo "2-finger gestures:"
-    echo "  ✓ Scroll (up/down)"
-    echo "  ✓ Pinch to zoom"
+    echo "   Scroll (up/down)"
+    echo "   Pinch to zoom"
     echo ""
     echo "3-finger gestures:"
-    echo "  ↑ Swipe up: Overview"
-    echo "  ↓ Swipe down: Show desktop"
-    echo "  ← Swipe left: Previous workspace"
-    echo "  → Swipe right: Next workspace"
+    echo "   Swipe up: Overview"
+    echo "   Swipe down: Show desktop"
+    echo "   Swipe left: Previous workspace"
+    echo "   Swipe right: Next workspace"
     echo "  Tap: App launcher"
     echo ""
     echo "4-finger gestures:"
-    echo "  ↑ Swipe up: All windows"
-    echo "  ↓ Swipe down: Minimize all"
-    echo "  ← Swipe left: Mission control"
-    echo "  → Swipe right: App grid"
+    echo "   Swipe up: All windows"
+    echo "   Swipe down: Minimize all"
+    echo "   Swipe left: Mission control"
+    echo "   Swipe right: App grid"
     echo "  Tap: Terminal"
     echo ""
 }
@@ -299,7 +299,7 @@ case "$1" in
         # Start gesture daemon
         detect_gestures &
         echo $! > /tmp/tinker-gestures.pid
-        echo -e "${GREEN}✓ Gesture support enabled!${NC}"
+        echo -e "${GREEN} Gesture support enabled!${NC}"
         ;;
     disable)
         echo -e "${YELLOW}Disabling gesture support...${NC}"
@@ -307,7 +307,7 @@ case "$1" in
             kill $(cat /tmp/tinker-gestures.pid) 2>/dev/null
             rm -f /tmp/tinker-gestures.pid
         fi
-        echo -e "${GREEN}✓ Gesture support disabled!${NC}"
+        echo -e "${GREEN} Gesture support disabled!${NC}"
         ;;
     show)
         show_header

@@ -12,8 +12,8 @@ HyperDrive is a **GPU emulation layer** that intercepts rendering calls and opti
 
 ### 1. Adaptive Resolution Scaling
 - Dynamically adjusts render resolution based on GPU load
-- When FPS drops → reduce resolution (barely noticeable)
-- When FPS is good → increase resolution (sharper image)
+- When FPS drops  reduce resolution (barely noticeable)
+- When FPS is good  increase resolution (sharper image)
 - Target: smooth 60fps at highest possible resolution
 
 ### 2. Frame Prediction & Interpolation

@@ -161,7 +161,7 @@ set_performance() {
         echo on > $dev 2>/dev/null || true
     done
     
-    echo -e "${GREEN}✓ Performance mode enabled${NC}"
+    echo -e "${GREEN} Performance mode enabled${NC}"
 }
 
 set_balanced() {
@@ -190,7 +190,7 @@ set_balanced() {
         echo auto > $dev 2>/dev/null || true
     done
     
-    echo -e "${GREEN}✓ Balanced mode enabled${NC}"
+    echo -e "${GREEN} Balanced mode enabled${NC}"
 }
 
 set_power_saver() {
@@ -227,7 +227,7 @@ set_power_saver() {
         echo $dim | sudo tee /sys/class/backlight/$backlight/brightness
     fi
     
-    echo -e "${GREEN}✓ Power saver mode enabled${NC}"
+    echo -e "${GREEN} Power saver mode enabled${NC}"
 }
 
 # Auto-switch based on battery
@@ -282,7 +282,7 @@ optimize_battery_health() {
         if [ -d /sys/class/power_supply/BAT*/charge_control_start_threshold ]; then
             echo $charge_start | sudo tee /sys/class/power_supply/BAT*/charge_control_start_threshold
             echo $charge_stop | sudo tee /sys/class/power_supply/BAT*/charge_control_end_threshold
-            echo -e "${GREEN}✓ Battery charge thresholds set: $charge_start% - $charge_stop%${NC}"
+            echo -e "${GREEN} Battery charge thresholds set: $charge_start% - $charge_stop%${NC}"
         else
             echo -e "${YELLOW}Charge threshold control not available for this hardware${NC}"
         fi

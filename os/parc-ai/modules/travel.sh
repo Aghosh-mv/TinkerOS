@@ -73,21 +73,21 @@ rtype = '$type'
 
 suggestions = {
     'restaurant': [
-        {'name': 'Local Kitchen', 'rating': '4.5★', 'cuisine': 'Local/Regional', 'price': '\$\$', 'tip': 'Try the house special'},
-        {'name': 'The View', 'rating': '4.3★', 'cuisine': 'International', 'price': '\$\$\$', 'tip': 'Best for sunset dining'},
-        {'name': 'Street Bites', 'rating': '4.6★', 'cuisine': 'Street Food', 'price': '\$', 'tip': 'Cash only, worth the wait'},
+        {'name': 'Local Kitchen', 'rating': '4.5', 'cuisine': 'Local/Regional', 'price': '\$\$', 'tip': 'Try the house special'},
+        {'name': 'The View', 'rating': '4.3', 'cuisine': 'International', 'price': '\$\$\$', 'tip': 'Best for sunset dining'},
+        {'name': 'Street Bites', 'rating': '4.6', 'cuisine': 'Street Food', 'price': '\$', 'tip': 'Cash only, worth the wait'},
     ],
     'cafe': [
-        {'name': 'Bean & Brew', 'rating': '4.4★', 'type': 'Coffee Shop', 'tip': 'Great for remote work'},
-        {'name': 'Sweet Spot', 'rating': '4.2★', 'type': 'Bakery+Cafe', 'tip': 'Fresh pastries daily'},
+        {'name': 'Bean & Brew', 'rating': '4.4', 'type': 'Coffee Shop', 'tip': 'Great for remote work'},
+        {'name': 'Sweet Spot', 'rating': '4.2', 'type': 'Bakery+Cafe', 'tip': 'Fresh pastries daily'},
     ],
     'attraction': [
         {'name': 'Old Town Walk', 'duration': '2-3 hours', 'type': 'Walking Tour', 'tip': 'Go early morning'},
         {'name': 'Central Market', 'duration': '1-2 hours', 'type': 'Market/Shopping', 'tip': 'Bargain for souvenirs'},
     ],
     'hotel': [
-        {'name': 'City Center Inn', 'rating': '4.0★', 'price': '\$\$', 'tip': 'Walking distance to everything'},
-        {'name': 'Boutique Stay', 'rating': '4.7★', 'price': '\$\$\$', 'tip': 'Best value luxury option'},
+        {'name': 'City Center Inn', 'rating': '4.0', 'price': '\$\$', 'tip': 'Walking distance to everything'},
+        {'name': 'Boutique Stay', 'rating': '4.7', 'price': '\$\$\$', 'tip': 'Best value luxury option'},
     ],
 }
 

@@ -47,7 +47,7 @@ enable_filevault() {
         fi
     done
     
-    echo -e "${GREEN}✓ FileVault enabled!${NC}"
+    echo -e "${GREEN} FileVault enabled!${NC}"
     echo -e "  Encrypted backup: $backup_dir"
     log_security "filevault" "enabled"
 }
@@ -62,7 +62,7 @@ disable_filevault() {
         echo "  Decrypted backup files available at: $backup_dir"
     fi
     
-    echo -e "${GREEN}✓ FileVault disabled${NC}"
+    echo -e "${GREEN} FileVault disabled${NC}"
     log_security "filevault" "disabled"
 }
 
@@ -84,9 +84,9 @@ decrypt_file() {
         -pass pass:"$key" 2>/dev/null
     
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✓ File decrypted${NC}"
+        echo -e "${GREEN} File decrypted${NC}"
     else
-        echo -e "${RED}✗ Decryption failed${NC}"
+        echo -e "${RED} Decryption failed${NC}"
         rm -f "$file"
     fi
 }
@@ -115,7 +115,7 @@ encrypt_file() {
         -out "$file.enc" \
         -pass pass:"$key"
     
-    echo -e "${GREEN}✓ File encrypted: $file.enc${NC}"
+    echo -e "${GREEN} File encrypted: $file.enc${NC}"
 }
 
 log_security() {

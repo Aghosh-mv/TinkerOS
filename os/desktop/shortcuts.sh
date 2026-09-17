@@ -473,7 +473,7 @@ show_shortcuts() {
             key=$(echo $key | xargs)
             action=$(echo $action | xargs)
             
-            printf "%-25s → %s\n" "$key" "$action"
+            printf "%-25s  %s\n" "$key" "$action"
         done < $SHORTCUTS_CONFIG
     fi
     echo ""

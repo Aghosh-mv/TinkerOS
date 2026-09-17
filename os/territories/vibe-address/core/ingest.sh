@@ -3,7 +3,7 @@
 #  core/ingest.sh — EVENT CAPTURE PIPELINE
 # ---------------------------------------------------------------------------
 #  Central ingestion of all OS events. Every record is:
-#    normalized → hashed → deduped → tagged → inserted into
+#    normalized  hashed  deduped  tagged  inserted into
 #    the trie (tree.sh) + the inverted index (index.sh) + the temporal
 #    lattice (time.sh) + the day-log (store.sh).
 #

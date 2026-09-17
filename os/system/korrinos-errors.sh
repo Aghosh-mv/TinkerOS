@@ -205,7 +205,7 @@ friendly_error() {
     
     echo ""
     echo -e "\033[1;31m╔══════════════════════════════════════════════════════════╗\033[0m"
-    echo -e "\033[1;31m║  ⚠️  Error Detected (Exit Code: $exit_code)              ║\033[0m"
+    echo -e "\033[1;31m║    Error Detected (Exit Code: $exit_code)              ║\033[0m"
     echo -e "\033[1;31m╚══════════════════════════════════════════════════════════╝\033[0m"
     
     if [ -n "$friendly" ]; then

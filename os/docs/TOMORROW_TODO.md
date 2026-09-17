@@ -7,7 +7,7 @@
    stall-floor +10% margin, resonance-safe pulse ceiling `(max_rpm/60)/3`, trough-safe
    amplitude cap; pulse/amplitude auto-clamped to the envelope on run; vmlinux link verified.
 2. **os: kernel-GameMode hook** (`os/system/tinker-gamemode-hook.sh`): Feral GameMode
-   `[custom] start/end` → `/proc/tinker/gamemode` `on <tgid>`/`off`; gamemode-setup installs it.
+   `[custom] start/end`  `/proc/tinker/gamemode` `on <tgid>`/`off`; gamemode-setup installs it.
 3. **Searchie: `timeline` command** (per-day event counts + latest fingerprints); 53 checks.
 4. **ISO build complete + bootable**: rootfs squashfs (8.6 GB), casper vmlinuz (our bzImage,
    14.8 MB) + initrd, BIOS `isolinux.bin` (GRUB i386-pc core, initrd is baked into linux.mod
@@ -39,7 +39,7 @@
    - Brand row: logo + "TINKER AI" + subtitle + hotkey hint
    - Chat-style input field (like Searchie's search field, 20pt light weight)
    - Rich response area with cards, links, code blocks, images
-   - Expandable: small popup → side panel → full-screen app (3 modes)
+   - Expandable: small popup  side panel  full-screen app (3 modes)
    - Always-on-top frameless window, keyboard-driven (Esc to close, arrows to navigate)
    - Glass tones: GLASS_BG=(26,30,42,170), GLASS_GLOW=(200,215,255,200),
      GLASS_TXT=(240,244,255,235), GLASS_OK=(120,220,170), GLASS_WARN=(255,168,120)

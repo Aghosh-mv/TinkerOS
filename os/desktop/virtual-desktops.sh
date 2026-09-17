@@ -166,7 +166,7 @@ create_desktop() {
         wmctrl -s $total
     fi
     
-    echo -e "${GREEN}✓ Created desktop: $name${NC}"
+    echo -e "${GREEN} Created desktop: $name${NC}"
 }
 
 # Remove desktop
@@ -192,7 +192,7 @@ remove_desktop() {
         done
     fi
     
-    echo -e "${GREEN}✓ Removed desktop $desktop${NC}"
+    echo -e "${GREEN} Removed desktop $desktop${NC}"
 }
 
 # List all desktops
