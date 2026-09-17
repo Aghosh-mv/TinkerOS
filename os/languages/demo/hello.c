@@ -48,7 +48,7 @@ int main(void) {
                 counter = (counter + 1);
         }
         User user = (User){kl_str("Alice"), 30};
-        printf("%.*s\n", (int)kl_interp("User: %ld, Age: %ld", user.name, user.age).len, kl_interp("User: %ld, Age: %ld", user.name, user.age).data);
+        printf("%.*s\n", (int)kl_interp("User: %s, Age: %ld", user.name.data, user.age).len, kl_interp("User: %s, Age: %ld", user.name.data, user.age).data);
         int64_t result = add(10, 20);
         printf("%.*s\n", (int)kl_interp("10 + 20 = %ld", result).len, kl_interp("10 + 20 = %ld", result).data);
     return 0;

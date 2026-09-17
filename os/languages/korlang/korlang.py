@@ -624,7 +624,7 @@ class P:
 # ============================================================
 class CG:
     def __init__(self):
-        self.out=[]; self.ind=0; self.var_types={}  # track variable types
+        self.out=[]; self.ind=0; self.var_types={}; self.struct_defs={}  # track variable types and struct definitions
         self.types={
             'i8':'int8_t','i16':'int16_t','i32':'int32_t','i64':'int64_t',
             'u8':'uint8_t','u16':'uint16_t','u32':'uint32_t','u64':'uint64_t',
@@ -713,6 +713,8 @@ class CG:
 
     def _struct(self,n):
         name=n.val; fields=n.m.get('fields',[])
+        # Store struct definition for field type lookup
+        self.struct_defs[name]={fn_:ft for fn_,ft in fields}
         self.em(f"typedef struct {name} {{")
         self.ind+=1
         for fn_,ft in fields: self.em(f"{self.types.get(ft,ft)} {fn_};")
@@ -875,10 +877,24 @@ class CG:
                                 elif expr.endswith('.len'):
                                     fmt+='%zu'; args.append(expr)
                                 else:
-                                    # Look up object type
-                                    obj=expr.split('.')[0]
+                                    # Look up object type and field type
+                                    parts_=expr.split('.', 1)
+                                    obj=parts_[0]
+                                    field=parts_[1] if len(parts_)>1 else ''
                                     obj_type=self.var_types.get(obj,'int64_t')
-                                    if obj_type=='kl_string':
+                                    # Check if obj is a struct and look up field type
+                                    if obj_type in self.struct_defs and field in self.struct_defs[obj_type]:
+                                        field_type=self.struct_defs[obj_type][field]
+                                        c_type=self.types.get(field_type, field_type)
+                                        if c_type=='kl_string':
+                                            fmt+='%s'; args.append(expr+'.data')
+                                        elif c_type=='double' or c_type=='float':
+                                            fmt+='%g'; args.append(expr)
+                                        elif c_type=='_Bool':
+                                            fmt+='%d'; args.append(expr)
+                                        else:
+                                            fmt+='%ld'; args.append(expr)
+                                    elif obj_type=='kl_string':
                                         # Access .data for printf
                                         fmt+='%s'; args.append(expr+'.data')
                                     else:
