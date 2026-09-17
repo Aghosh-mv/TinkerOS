@@ -339,7 +339,7 @@ if not config.get("enabled", True):
     exit()
 
 if config.get("gaming_mode", False):
-    print("  🎮 Gaming mode: all tiers equal (no partitioning)")
+    print("   Gaming mode: all tiers equal (no partitioning)")
     exit()
 
 tiers = config["priority_tiers"]
@@ -531,7 +531,7 @@ case "${1:-help}" in
     python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=False; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('  ⏹️  Cache Tiering: OFF')"
     ;;
   gaming)
-    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=True; c['gaming_mode']=True; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('  🎮 Gaming Mode: all cache ways equal')"
+    python3 -c "import json,os; c=json.load(open(os.path.expanduser('~/.tinker/cache-tiering/config.json'))); c['enabled']=True; c['gaming_mode']=True; json.dump(c,open(os.path.expanduser('~/.tinker/cache-tiering/config.json'),'w'),indent=2); print('   Gaming Mode: all cache ways equal')"
     ;;
   dashboard) detect_cache; echo ""; show_tiers; echo ""; classify_processes; echo ""; apply_tiering ;;
   *) echo "Usage: $0 {init|detect|tiers|classify|apply|optimize <type>|monitor|on|off|gaming|dashboard}"

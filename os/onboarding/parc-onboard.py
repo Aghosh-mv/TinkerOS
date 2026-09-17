@@ -230,10 +230,10 @@ class OnboardingWizard(QWizard if PYQT_AVAILABLE else object):
         
         feature_options = [
             ("🧠", "Predictive Intelligence", "AI-powered system optimization"),
-            ("🤖", "Digital Twin", "Virtual system replica for safe testing"),
+            ("", "Digital Twin", "Virtual system replica for safe testing"),
             ("🏥", "Self-Healing", "Auto-detect and fix system issues"),
-            ("⚡", "Adaptive Power Grid", "Smart power management"),
-            ("🎮", "Game Console Mode", "Controller-friendly UI"),
+            ("", "Adaptive Power Grid", "Smart power management"),
+            ("", "Game Console Mode", "Controller-friendly UI"),
             ("📱", "Mobile Companion", "Phone as remote/second screen"),
         ]
         

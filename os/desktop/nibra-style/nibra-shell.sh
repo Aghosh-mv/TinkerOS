@@ -150,7 +150,7 @@ HTMLEOF
 
 build_recent_widget() {
     local HTML=""
-    local icons=("📄" "📁" "📝" "📊" "🔧")
+    local icons=("📄" "" "" "" "")
     local i=0
     while IFS='|' read -r name time; do
         [ -z "$name" ] && continue
@@ -194,16 +194,16 @@ body{background:transparent;font-family:'Segoe UI',system-ui,sans-serif;color:wh
 .controls{display:flex;gap:8px;font-size:14px;opacity:0.6}
 </style></head><body>
 <div class="w">
-  <div class="album">🎵</div>
+  <div class="album"></div>
   <div class="info"><div class="title">Now Playing</div><div class="artist">KorrinOS Radio</div></div>
-  <div class="controls"><span>⏮</span><span>⏸</span><span>⏭</span></div>
+  <div class="controls"><span></span><span></span><span></span></div>
 </div></body></html>
 HTMLEOF
 }
 
 build_continue_widget() {
     local HTML=""
-    local icons=("📁" "📝" "📊")
+    local icons=("" "" "")
     local i=0
     while IFS='|' read -r name time; do
         [ -z "$name" ] && continue
@@ -324,13 +324,13 @@ body{background:transparent;font-family:'Segoe UI',system-ui,sans-serif;color:wh
 .sidebar .user{margin-bottom:10px}
 </style></head><body>
 <div class="sidebar">
-  <div class="logo">◆</div>
+  <div class="logo"></div>
   <div class="item active"><div class="ic">🏠</div><div class="nm">Home</div></div>
   <div class="item"><div class="ic">📱</div><div class="nm">Apps</div></div>
-  <div class="item"><div class="ic">📁</div><div class="nm">Files</div></div>
-  <div class="item"><div class="ic">🌐</div><div class="nm">Browser</div></div>
-  <div class="item"><div class="ic">🤖</div><div class="nm">AI</div></div>
-  <div class="item"><div class="ic">⚙️</div><div class="nm">Settings</div></div>
+  <div class="item"><div class="ic"></div><div class="nm">Files</div></div>
+  <div class="item"><div class="ic"></div><div class="nm">Browser</div></div>
+  <div class="item"><div class="ic"></div><div class="nm">AI</div></div>
+  <div class="item"><div class="ic"></div><div class="nm">Settings</div></div>
   <div class="spacer"></div>
   <div class="user"><iframe src="user.html" style="width:60px;height:40px;border:none;background:transparent;"></iframe></div>
 </div>
@@ -342,7 +342,7 @@ body{background:transparent;font-family:'Segoe UI',system-ui,sans-serif;color:wh
   </div>
 
   <div class="search">
-    <span class="icon">✨</span>
+    <span class="icon"></span>
     <input type="text" placeholder="Ask me anything...">
     <span class="enter">→</span>
   </div>
@@ -350,19 +350,18 @@ body{background:transparent;font-family:'Segoe UI',system-ui,sans-serif;color:wh
   <div class="apps">
     <div class="label"><span>Your Apps</span><span class="all">All apps →</span></div>
     <div class="grid">
-      <div class="app"><div class="ic">🔍</div><div class="nm">VOKK v4</div></div>
-      <div class="app"><div class="ic">🌐</div><div class="nm">VOKK Web</div></div>
-      <div class="app"><div class="ic">🌐</div><div class="nm">Browser</div></div>
-      <div class="app"><div class="ic">💬</div><div class="nm">Chat</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">VOKK</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Browser</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Chat</div></div>
       <div class="app"><div class="ic">⟨/⟩</div><div class="nm">Code</div></div>
-      <div class="app"><div class="ic">📁</div><div class="nm">Files</div></div>
-      <div class="app"><div class="ic">🎵</div><div class="nm">Music</div></div>
-      <div class="app"><div class="ic">🎬</div><div class="nm">Video</div></div>
-      <div class="app"><div class="ic">📷</div><div class="nm">Photos</div></div>
-      <div class="app"><div class="ic">⚙️</div><div class="nm">Settings</div></div>
-      <div class="app"><div class="ic">🏪</div><div class="nm">Store</div></div>
-      <div class="app"><div class="ic">🎮</div><div class="nm">Games</div></div>
-      <div class="app"><div class="ic">⋯</div><div class="nm">More</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Files</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Music</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Video</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Photos</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Settings</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Store</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">Games</div></div>
+      <div class="app"><div class="ic"></div><div class="nm">More</div></div>
     </div>
   </div>
 

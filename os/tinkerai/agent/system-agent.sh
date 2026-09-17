@@ -257,7 +257,7 @@ def main():
     
     while True:
         try:
-            user_input = input("\n🤖 > ").strip()
+            user_input = input("\n > ").strip()
             
             if not user_input:
                 continue

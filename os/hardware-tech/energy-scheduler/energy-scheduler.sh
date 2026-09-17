@@ -249,11 +249,11 @@ if power_w > 0 and status == "Discharging":
         print(f"  Action: Compressing non-essential apps")
         print(f"  Action: Guaranteeing note-taking/terminal survival")
     elif minutes_left < 60:
-        print(f"  ⚡ LOW: Less than 1 hour")
+        print(f"   LOW: Less than 1 hour")
         print(f"  Action: Throttling background sync")
         print(f"  Action: Reducing indexer activity")
     elif minutes_left < 120:
-        print(f"  📊 MODERATE: 1-2 hours")
+        print(f"   MODERATE: 1-2 hours")
         print(f"  Action: Light background throttling")
 else:
     print(f"  AC power: No scheduling needed")

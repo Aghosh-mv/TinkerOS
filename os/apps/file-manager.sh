@@ -21,14 +21,14 @@ init_fm() {
 browse() {
     local dir=${1:-$HOME}
     
-    echo "📂 $dir"
+    echo " $dir"
     echo ""
     
     # Show directories first
     echo "Folders:"
     ls -1 "$dir" 2>/dev/null | while read item; do
         if [ -d "$dir/$item" ]; then
-            echo "  📁 $item"
+            echo "   $item"
         fi
     done | head -20
     
@@ -42,11 +42,11 @@ browse() {
             case $ext in
                 pdf) icon="📄" ;;
                 jpg|jpeg|png|gif) icon="🖼️" ;;
-                mp3|wav|flac) icon="🎵" ;;
-                mp4|mkv|avi) icon="🎬" ;;
+                mp3|wav|flac) icon="" ;;
+                mp4|mkv|avi) icon="" ;;
                 zip|tar|gz) icon="📦" ;;
-                sh|bash) icon="⚙️" ;;
-                txt|md) icon="📝" ;;
+                sh|bash) icon="" ;;
+                txt|md) icon="" ;;
                 *) icon="📄" ;;
             esac
             

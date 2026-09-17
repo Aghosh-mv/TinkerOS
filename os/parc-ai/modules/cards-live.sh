@@ -10,7 +10,7 @@ ai_card_sandbox() {
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:700px;padding:0;overflow:hidden;">
   <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;display:flex;justify-content:space-between;align-items:center;">
-    <span style="font-size:13px;color:#c8d7ff;">🌐 ${title}</span>
+    <span style="font-size:13px;color:#c8d7ff;"> ${title}</span>
     <div style="display:flex;gap:8px;">
       <button onclick="var f=document.getElementById('${id}').querySelector('iframe');f.src=f.src;" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;">↻ Refresh</button>
       <button onclick="var f=document.getElementById('${id}').querySelector('iframe');window.open('data:text/html;base64,${b64}','_blank')" style="padding:2px 8px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:4px;cursor:pointer;font-size:10px;">↗ Pop Out</button>
@@ -30,7 +30,7 @@ ai_card_codecell() {
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:700px;padding:0;overflow:hidden;">
   <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;display:flex;justify-content:space-between;align-items:center;">
-    <span style="font-size:13px;color:#c8d7ff;">▶ ${title}</span>
+    <span style="font-size:13px;color:#c8d7ff;"> ${title}</span>
     <span style="font-size:10px;color:#8b949e;">${lang}</span>
   </div>
   <div style="position:relative;">
@@ -42,7 +42,7 @@ ai_card_codecell() {
       fetch('data:text/plain;base64,'+btoa(code)).then(r=>r.text()).then(c=>{
         out.innerHTML='<pre style=\"margin:0;color:#c9d1d9;\">'+c+'</pre>';
       });
-    " style="position:absolute;top:4px;right:4px;padding:4px 12px;background:#10b981;color:white;border:none;border-radius:6px;cursor:pointer;font-size:11px;font-weight:bold;">▶ Run</button>
+    " style="position:absolute;top:4px;right:4px;padding:4px 12px;background:#10b981;color:white;border:none;border-radius:6px;cursor:pointer;font-size:11px;font-weight:bold;"> Run</button>
   </div>
   <div id="${id}-output" style="padding:12px;background:#111320;border-top:1px solid #21262d;min-height:40px;font-family:monospace;font-size:12px;color:#c9d1d9;">
     <span style="color:#8b949e;">Output will appear here...</span>

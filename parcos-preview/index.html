@@ -527,19 +527,19 @@
   <!-- DESKTOP ICONS -->
   <div class="desktop-icons">
     <div class="desktop-icon" onclick="openApp('files')">
-      <div class="icon">📁</div>
+      <div class="icon"></div>
       <span class="label">Files</span>
     </div>
     <div class="desktop-icon" onclick="openApp('terminal')">
-      <div class="icon">⬛</div>
+      <div class="icon"></div>
       <span class="label">Terminal</span>
     </div>
     <div class="desktop-icon" onclick="openApp('browser')">
-      <div class="icon">🌐</div>
+      <div class="icon"></div>
       <span class="label">Browser</span>
     </div>
     <div class="desktop-icon" onclick="openApp('settings')">
-      <div class="icon">⚙️</div>
+      <div class="icon"></div>
       <span class="label">Settings</span>
     </div>
   </div>
@@ -571,7 +571,7 @@
     <div class="widget" style="cursor:pointer" onclick="toggleAI()">
       <div class="widget-title">Quick Actions</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-        <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">🔍 Search</span>
+        <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px"> Search</span>
         <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">📸 Screenshot</span>
         <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">🎨 Theme</span>
         <span style="padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:6px;font-size:11px">🌙 Night</span>
@@ -582,21 +582,21 @@
   <!-- DOCK -->
   <div class="dock">
     <div class="dock-item" onclick="toggleAI()">
-      🤖
+      
       <span class="tooltip">Parc AI</span>
       <div class="dock-indicator"></div>
     </div>
     <div class="dock-divider"></div>
     <div class="dock-item" onclick="openApp('files')">
-      📁
+      
       <span class="tooltip">Files</span>
     </div>
     <div class="dock-item" onclick="openApp('terminal')">
-      ⬛
+      
       <span class="tooltip">Terminal</span>
     </div>
     <div class="dock-item" onclick="openApp('browser')">
-      🌐
+      
       <span class="tooltip">Browser</span>
     </div>
     <div class="dock-item" onclick="openApp('editor')">
@@ -604,16 +604,16 @@
       <span class="tooltip">Editor</span>
     </div>
     <div class="dock-item" onclick="openApp('settings')">
-      ⚙️
+      
       <span class="tooltip">Settings</span>
     </div>
     <div class="dock-divider"></div>
     <div class="dock-item">
-      🎵
+      
       <span class="tooltip">Music</span>
     </div>
     <div class="dock-item">
-      📷
+      
       <span class="tooltip">Camera</span>
     </div>
   </div>
@@ -621,7 +621,7 @@
   <!-- PARC AI PANEL -->
   <div class="ai-panel" id="aiPanel">
     <div class="ai-header">
-      <div class="ai-avatar">🤖</div>
+      <div class="ai-avatar"></div>
       <div>
         <div class="ai-name">Parc AI</div>
         <div class="ai-status">Parc-3B • Always here</div>
@@ -652,7 +652,7 @@
 
   <!-- NOTIFICATION -->
   <div class="notif" id="notif" style="display:none">
-    <div class="notif-icon">🤖</div>
+    <div class="notif-icon"></div>
     <div>
       <div class="notif-text">Parc AI is ready</div>
       <div class="notif-sub">Click the dock icon or press Ctrl+Space</div>
@@ -747,14 +747,14 @@ const appContent = {
     body: `
       <div style="display:flex;gap:12px;margin-bottom:16px">
         <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">⬆ Home</div>
-        <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">📂 Documents</div>
+        <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px"> Documents</div>
         <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">📥 Downloads</div>
         <div style="padding:6px 12px;background:rgba(255,255,255,0.06);border-radius:8px;font-size:12px">🖼️ Pictures</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-        ${['📁 Projects', '📁 Documents', '📁 Downloads', '📁 Pictures', '📁 Music', '📁 Videos', '📁 Desktop', '📁 .config'].map(f =>
+        ${[' Projects', ' Documents', ' Downloads', ' Pictures', ' Music', ' Videos', ' Desktop', ' .config'].map(f =>
           `<div style="padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;text-align:center;cursor:pointer;font-size:12px;border:1px solid rgba(255,255,255,0.04)">
-            <div style="font-size:28px;margin-bottom:4px">📁</div>${f.split(' ')[1]}
+            <div style="font-size:28px;margin-bottom:4px"></div>${f.split(' ')[1]}
           </div>`
         ).join('')}
       </div>`

@@ -49,7 +49,7 @@ set_profile() {
       if command -v nvidia-smi &>/dev/null; then
         nvidia-smi -pl 200 2>/dev/null || true
       fi
-      echo "⚡ Performance mode — maximum power"
+      echo " Performance mode — maximum power"
       ;;
     balanced)
       # Balanced
@@ -77,7 +77,7 @@ set_profile() {
       for iface in /sys/class/net/wl*/power_save; do
         echo 1 2>/dev/null | sudo tee "$iface" > /dev/null 2>&1 || true
       done
-      echo "🔋 Power Save mode — maximum battery life"
+      echo " Power Save mode — maximum battery life"
       ;;
     *)
       echo "Unknown profile: $profile"
@@ -127,7 +127,7 @@ cmd_battery_health() {
       if [ "$health" -lt 50 ]; then
         echo "  ⚠ Battery degraded — consider replacement"
       elif [ "$health" -lt 80 ]; then
-        echo "  ⚡ Battery aging — monitor closely"
+        echo "   Battery aging — monitor closely"
       else
         echo "  ✓ Battery in good condition"
       fi
@@ -173,7 +173,7 @@ cmd_thermal() {
     if [ "$temp_c" -gt 80 ]; then
       echo "  ⚠ HIGH TEMPERATURE — throttling may occur"
     elif [ "$temp_c" -gt 60 ]; then
-      echo "  ⚡ Warm — fan speed increasing"
+      echo "   Warm — fan speed increasing"
     else
       echo "  ✓ Temperature normal"
     fi

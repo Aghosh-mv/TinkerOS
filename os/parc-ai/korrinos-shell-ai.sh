@@ -43,7 +43,7 @@ explain_error() {
       notify-send -a "VOKK v4" -i dialog-error "Error" "$explanation" --expire-time=10000
     fi
     
-    echo "🔍 $explanation"
+    echo " $explanation"
   fi
 }
 

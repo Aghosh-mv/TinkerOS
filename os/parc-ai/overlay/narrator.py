@@ -35,7 +35,7 @@ class GlassmorphismWidget(QWidget):
         layout.setContentsMargins(16, 12, 16, 12)
         
         # Title
-        self.title = QLabel("🤖 VOKK v4")
+        self.title = QLabel(" VOKK v4")
         self.title.setFont(QFont("Ubuntu Sans", 11, QFont.Weight.Bold))
         self.title.setStyleSheet("color: rgb(200, 215, 255); background: transparent;")
         layout.addWidget(self.title)

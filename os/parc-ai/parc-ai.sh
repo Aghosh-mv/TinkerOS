@@ -360,7 +360,7 @@ print(text)
 " 2>/dev/null) || html_answer=$(echo "$answer" | sed 's/</\&lt;/g; s/\n/<br>/g')
       
       card_open
-      card_title "🤖 Tinkeria"
+      card_title " Tinkeria"
       card_body "<div style='line-height:1.7;'>${html_answer}</div>"
       card_secondary "Model: ${OLLAMA_MODEL:-llama3.1:8b} · Intent: ${intent}"
       card_close
@@ -388,7 +388,7 @@ print(text)
     fi
     if [ -n "$web_answer" ]; then
       card_open
-      card_title "🌐 ${query}"
+      card_title " ${query}"
       card_body "<div style='line-height:1.7;'>${web_answer}</div>"
       card_secondary "Source: Web Search · Intent: ${intent}"
       card_close
@@ -421,7 +421,7 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "question" 2>/dev/null || echo "$query")
       card_open
-      card_title "🔍 $query"
+      card_title " $query"
 
       # Try knowledge base first
       local kb_result=""
@@ -462,7 +462,7 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "search" 2>/dev/null || echo "$query")
       card_open
-      card_title "🌐 Searching: $target"
+      card_title " Searching: $target"
       local result
       result=$(ai_web_search "$target" 5 2>&1 || echo "Search isn't available right now.")
       card_body "Here's what I found:<br><br><pre style='white-space:pre-wrap;font-size:12pt;'>${result}</pre>"
@@ -492,7 +492,7 @@ print(text)
 
     media)
       card_open
-      card_title "🎵 Media"
+      card_title " Media"
       card_body "I can help with images, audio, and video! Just tell me what you need — like 'recognize this image' or 'read this text from a photo' or 'transcribe this audio clip'."
       card_secondary "Or use: parc-ai image &lt;path&gt; · parc-ai ocr &lt;path&gt; · parc-ai tts &lt;text&gt;"
       card_close
@@ -502,7 +502,7 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "summarize" 2>/dev/null || echo "$query")
       card_open
-      card_title "📝 Summary"
+      card_title " Summary"
       local result
       result=$(ai_text_summarize "$target" 5 2>&1 || echo "I couldn't summarize that. Try pasting the text or giving me a file path.")
       card_body "$result"
@@ -540,7 +540,7 @@ print(text)
       local target
       target=$(ai_nlu_target "$query" "settings" 2>/dev/null || echo "$query")
       card_open
-      card_title "⚙️ Settings"
+      card_title " Settings"
       local result
       result=$(ai_device_settings "$target" 2>&1 || echo "I couldn't change that setting. Can you be more specific?")
       card_body "$result"

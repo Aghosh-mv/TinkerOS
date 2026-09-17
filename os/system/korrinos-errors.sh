@@ -161,7 +161,7 @@ tinker_explain() {
     if command -v vokk &>/dev/null; then
         local explanation=$(echo "A command failed with exit code $exit_code. The command was: '$command'. Error output: $stderr. Explain what went wrong in simple English and suggest how to fix it." | vokk 2>/dev/null)
         if [ -n "$explanation" ]; then
-            echo -e "\033[1;36m🤖 VOKK v4 says:\033[0m"
+            echo -e "\033[1;36m VOKK v4 says:\033[0m"
             echo "$explanation"
             return
         fi
@@ -171,7 +171,7 @@ tinker_explain() {
     if command -v ollama &>/dev/null; then
         local explanation=$(echo "Explain this Linux error in simple terms and suggest a fix. Error code: $exit_code. Command: $command. Error: $stderr" | ollama run llama3.1:8b 2>/dev/null)
         if [ -n "$explanation" ]; then
-            echo -e "\033[1;36m🤖 VOKK v4 (Ollama) says:\033[0m"
+            echo -e "\033[1;36m VOKK v4 (Ollama) says:\033[0m"
             echo "$explanation"
             return
         fi
@@ -181,7 +181,7 @@ tinker_explain() {
     if [ -f /opt/korrinos/ai/vokk ] || [ -f /usr/local/bin/vokk ]; then
         local explanation=$(echo "Error: $exit_code — $stderr" | vokk 2>/dev/null)
         if [ -n "$explanation" ]; then
-            echo -e "\033[1;36m🤖 VOKK v4 says:\033[0m"
+            echo -e "\033[1;36m VOKK v4 says:\033[0m"
             echo "$explanation"
             return
         fi

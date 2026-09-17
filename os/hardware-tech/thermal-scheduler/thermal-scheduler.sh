@@ -78,7 +78,7 @@ elif mode == "off":
 elif mode == "gaming":
     config["enabled"] = True
     config["gaming_mode"] = True
-    print("  🎮 Gaming Mode: ON")
+    print("   Gaming Mode: ON")
     print("  Migration: DISABLED (no task jumping mid-game)")
     print("  Throttle prevention: ACTIVE (keeps boost alive)")
     print("  Hotspot cooling: PASSIVE only (monitor, don't migrate)")
@@ -86,7 +86,7 @@ elif mode == "status":
     enabled = config.get("enabled", True)
     gaming = config.get("gaming_mode", False)
     if gaming:
-        print("  🎮 Gaming Mode")
+        print("   Gaming Mode")
     elif enabled:
         print("  ✅ Full Scheduler")
     else:
@@ -474,7 +474,7 @@ cool_cores = [(c, t) for c, t in sorted_cores if t < 60]
 print(f"  Core topology: {len(topology)} logical cores")
 print(f"  Core temperatures:")
 for c, t in sorted_cores:
-    status = "🔥" if t >= 85 else "🌡️" if t >= 70 else "❄️" if t < 50 else "✅"
+    status = "🔥" if t >= 85 else "" if t >= 70 else "❄️" if t < 50 else "✅"
     print(f"    {status} {c}: {t:.1f}°C")
 print()
 
@@ -638,7 +638,7 @@ case "${1:-help}" in
   migrate)
     state=$(check_enabled)
     if [ "$state" = "DISABLED" ]; then echo "  ⏹️  Scheduler OFF. Run: $0 on"; exit 0; fi
-    if [ "$state" = "GAMING" ]; then echo "  🎮 Gaming mode: migration skipped (no mid-game jumps)"; exit 0; fi
+    if [ "$state" = "GAMING" ]; then echo "   Gaming mode: migration skipped (no mid-game jumps)"; exit 0; fi
     migrate ;;
   throttle|prevent)
     state=$(check_enabled)

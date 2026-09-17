@@ -76,7 +76,7 @@ ai_card_logic() {
 
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:500px;padding:16px;">
-  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;">⚡ ${title}</div>
+  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;"> ${title}</div>
   <div style="font-size:12px;color:#8b949e;margin-bottom:8px;">Enter a condition (e.g., "age > 21 AND location == 'NY'"):</div>
   <input id="${id}-input" value="${formula}" style="width:100%;padding:10px;background:#0d1117;border:1px solid #21262d;border-radius:6px;color:#c9d1d9;font-family:monospace;font-size:13px;outline:none;" />
   <div style="margin-top:12px;display:flex;gap:12px;">

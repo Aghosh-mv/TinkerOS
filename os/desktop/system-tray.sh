@@ -8,13 +8,13 @@ show_battery() {
         local status=$(cat /sys/class/power_supply/BAT*/status 2>/dev/null | head -1)
         
         case $bat in
-            [0-9]|[1-2][0-9]) icon="🔋" ;;
-            [3-6][0-9]) icon="🔋" ;;
-            [7-9][0-9]|100) icon="🔋" ;;
+            [0-9]|[1-2][0-9]) icon="" ;;
+            [3-6][0-9]) icon="" ;;
+            [7-9][0-9]|100) icon="" ;;
         esac
         
         if [ "$status" = "Charging" ]; then
-            icon="⚡"
+            icon=""
         fi
         
         echo "$icon $bat%"

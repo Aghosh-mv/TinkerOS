@@ -131,10 +131,10 @@ generate_battery_bar() {
     
     if [ "$level" -ge 50 ]; then
         color="#10b981"  # Green
-        icon="⚡"
+        icon=""
     elif [ "$level" -ge 20 ]; then
         color="#f59e0b"  # Yellow
-        icon="🔋"
+        icon=""
     elif [ "$level" -ge 10 ]; then
         color="#ef4444"  # Red
         icon="🪫"

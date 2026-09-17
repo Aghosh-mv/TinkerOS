@@ -281,14 +281,14 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 
 <!-- System Info -->
 <div class="card" style="margin-bottom:16px">
-  <h2><span class="icon">🖥️</span> System</h2>
+  <h2><span class="icon"></span> System</h2>
   <div id="sysinfo">Loading...</div>
 </div>
 
 <div class="grid">
   <!-- GPU / Game Mode -->
   <div class="card">
-    <h2><span class="icon">🎮</span> GPU / Game Mode</h2>
+    <h2><span class="icon"></span> GPU / Game Mode</h2>
     <div class="row">
       <button class="btn" onclick="call('gpu_boost',{enable:true})">GPU Boost ON</button>
       <button class="btn" onclick="call('gpu_boost',{enable:false})">GPU Boost OFF</button>
@@ -298,7 +298,7 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 
   <!-- Thermal -->
   <div class="card">
-    <h2><span class="icon">🌡️</span> Thermal Profile</h2>
+    <h2><span class="icon"></span> Thermal Profile</h2>
     <div class="row">
       <button class="btn" onclick="call('thermal',{profile:'cool'})">Cool</button>
       <button class="btn active" onclick="call('thermal',{profile:'balanced'})">Balanced</button>
@@ -310,7 +310,7 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 
   <!-- Battery -->
   <div class="card">
-    <h2><span class="icon">🔋</span> Battery & Power</h2>
+    <h2><span class="icon"></span> Battery & Power</h2>
     <div class="row">
       <button class="btn" onclick="call('battery_saver',{enable:true})">Battery Saver ON</button>
       <button class="btn" onclick="call('battery_saver',{enable:false})">Battery Saver OFF</button>
@@ -325,7 +325,7 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 
   <!-- OLED -->
   <div class="card">
-    <h2><span class="icon">🖥️</span> Display</h2>
+    <h2><span class="icon"></span> Display</h2>
     <div class="row">
       <button class="btn" onclick="call('oled',{enable:true})">OLED Protection ON</button>
       <button class="btn" onclick="call('oled',{enable:false})">OLED Protection OFF</button>
@@ -335,7 +335,7 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 
   <!-- Memory -->
   <div class="card">
-    <h2><span class="icon">🧹</span> Memory</h2>
+    <h2><span class="icon"></span> Memory</h2>
     <div class="row">
       <button class="btn" onclick="call('clear_cache',{})">Clear Kernel Cache</button>
     </div>
@@ -344,7 +344,7 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 
   <!-- Power -->
   <div class="card">
-    <h2><span class="icon">⚡</span> Power</h2>
+    <h2><span class="icon"></span> Power</h2>
     <div class="row">
       <button class="btn danger" onclick="if(confirm('Reboot?'))call('reboot',{})">Reboot</button>
       <button class="btn danger" onclick="if(confirm('Shutdown?'))call('poweroff',{})">Shutdown</button>
@@ -355,13 +355,13 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 
 <!-- Network -->
 <div class="card" style="margin-top:16px">
-  <h2><span class="icon">🌐</span> Network</h2>
+  <h2><span class="icon"></span> Network</h2>
   <div id="netinfo">Loading...</div>
 </div>
 
 <!-- Processes -->
 <div class="card" style="margin-top:16px">
-  <h2><span class="icon">📊</span> Top Processes</h2>
+  <h2><span class="icon"></span> Top Processes</h2>
   <div id="procs">Loading...</div>
 </div>
 

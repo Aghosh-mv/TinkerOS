@@ -332,7 +332,7 @@ captions = {
         f'Stop scrolling. {topic} deserves your attention right now.',
     ],
     'instagram': [
-        f'✨ Exploring the world of {topic} and loving every moment of it ✨ #trending',
+        f' Exploring the world of {topic} and loving every moment of it  #trending',
         f'{topic} — because life is too short for boring content 🌟',
         f'New day, new vibes, new {topic} adventures 🎯',
     ],

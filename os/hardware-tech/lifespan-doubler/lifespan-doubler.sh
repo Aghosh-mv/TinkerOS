@@ -257,12 +257,12 @@ class LifespanCharger:
                 set_charge_current(0)
                 self.paused = True
                 log(f"PAUSED: temp {temp}°C >= {self.thermal_limit}°C")
-                print(f"  ⏸️  Paused: {temp}°C (thermal limit)")
+                print(f"  ️  Paused: {temp}°C (thermal limit)")
             
             elif temp <= self.thermal_resume and self.paused:
                 self.paused = False
                 log(f"RESUMED: temp {temp}°C <= {self.thermal_resume}°C")
-                print(f"  ▶️  Resumed: {temp}°C")
+                print(f"  ️  Resumed: {temp}°C")
             
             # ── Check alarm ramp ──
             if check_alarm_time(self.config):
@@ -270,7 +270,7 @@ class LifespanCharger:
                     self.ramp_mode = True
                     set_charge_current(self.normal_ma)
                     log("RAMP MODE: alarm approaching, full charge enabled")
-                    print(f"  🔋 Ramp mode: charging to 100% for alarm")
+                    print(f"   Ramp mode: charging to 100% for alarm")
             else:
                 if self.ramp_mode:
                     self.ramp_mode = False

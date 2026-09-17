@@ -394,7 +394,7 @@ ai_tell_quote() {
 }
 
 ai_system_status() {
-  echo "📊 System Status:
+  echo " System Status:
 • Battery: $(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null || echo 'N/A')%
 • Memory: $(free -h | awk '/Mem:/ {print $3 "/" $2}')
 • Disk: $(df -h / | awk 'NR==2 {print $3 "/" $2}')

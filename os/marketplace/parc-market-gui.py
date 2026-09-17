@@ -50,12 +50,12 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         # Categories
         categories = [
             ("🏠", "Home"),
-            ("🔍", "Discover"),
-            ("🎮", "Gaming"),
+            ("", "Discover"),
+            ("", "Gaming"),
             ("💻", "Development"),
             ("🎨", "Creative"),
             ("📦", "Productivity"),
-            ("🔧", "Utilities"),
+            ("", "Utilities"),
             ("🛡️", "Security"),
             ("⭐", "Top Rated"),
             ("🆕", "New Releases"),
@@ -99,7 +99,7 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         search_layout.setContentsMargins(24, 0, 24, 0)
         
         search = QLineEdit()
-        search.setPlaceholderText("🔍  Search apps, games, tools...")
+        search.setPlaceholderText("  Search apps, games, tools...")
         search.setStyleSheet("""
             QLineEdit { background: #16161F; border: 1px solid #1E1E2E;
                 border-radius: 24px; padding: 12px 20px; color: #FFF; font-size: 14px; }
@@ -110,7 +110,7 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         content_layout.addWidget(search_bar)
         
         # Featured section
-        featured = QLabel("✨  Featured This Week")
+        featured = QLabel("  Featured This Week")
         featured.setFont(QFont("Inter", 18, QFont.Weight.Bold))
         featured.setStyleSheet("color: #FFF; padding: 24px;")
         content_layout.addWidget(featured)
@@ -129,17 +129,17 @@ class MarketplaceApp(QMainWindow if PYQT_AVAILABLE else object):
         # Sample apps
         sample_apps = [
             ("🦊", "Firefox", "Web Browser", "Mozilla", "Free", "⭐ 4.8", "productivity"),
-            ("📝", "VS Code", "Code Editor", "Microsoft", "Free", "⭐ 4.9", "development"),
-            ("🎮", "Steam", "Game Platform", "Valve", "Free", "⭐ 4.7", "gaming"),
+            ("", "VS Code", "Code Editor", "Microsoft", "Free", "⭐ 4.9", "development"),
+            ("", "Steam", "Game Platform", "Valve", "Free", "⭐ 4.7", "gaming"),
             ("🎨", "GIMP", "Image Editor", "GIMP Team", "Free", "⭐ 4.6", "creative"),
-            ("💬", "Discord", "Chat & Voice", "Discord Inc.", "Free", "⭐ 4.8", "communication"),
-            ("🎵", "Spotify", "Music Streaming", "Spotify", "Free", "⭐ 4.5", "media"),
+            ("", "Discord", "Chat & Voice", "Discord Inc.", "Free", "⭐ 4.8", "communication"),
+            ("", "Spotify", "Music Streaming", "Spotify", "Free", "⭐ 4.5", "media"),
             ("📦", "Flatseal", "Flatpak Permissions", "Flatpak", "Free", "⭐ 4.7", "utilities"),
             ("🛡️", "Bitwarden", "Password Manager", "8bit Solutions", "Free", "⭐ 4.9", "security"),
-            ("📊", "LibreOffice", "Office Suite", "TDF", "Free", "⭐ 4.6", "productivity"),
+            ("", "LibreOffice", "Office Suite", "TDF", "Free", "⭐ 4.6", "productivity"),
             ("🐳", "Docker", "Container Platform", "Docker Inc.", "Free", "⭐ 4.8", "development"),
             ("🎥", "OBS Studio", "Streaming/Recording", "OBS Project", "Free", "⭐ 4.9", "creative"),
-            ("🔧", "Stacer", "System Optimizer", "Stacer", "Free", "⭐ 4.5", "utilities"),
+            ("", "Stacer", "System Optimizer", "Stacer", "Free", "⭐ 4.5", "utilities"),
         ]
         
         for i, (icon, name, desc, dev, price, rating, cat) in enumerate(sample_apps):

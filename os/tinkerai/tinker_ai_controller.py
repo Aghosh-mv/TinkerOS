@@ -206,13 +206,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6f
     <div class="sys-panel">
       <div class="sys-grid">
         <div class="sys-card">
-          <h3>🎮 GPU / Game Mode</h3>
+          <h3> GPU / Game Mode</h3>
           <button class="sys-btn" onclick="sysCall('gpu_boost',{enable:true})">GPU Boost ON</button>
           <button class="sys-btn" onclick="sysCall('gpu_boost',{enable:false})">GPU Boost OFF</button>
           <div class="sys-msg" id="m-gpu"></div>
         </div>
         <div class="sys-card">
-          <h3>🌡️ Thermal</h3>
+          <h3> Thermal</h3>
           <button class="sys-btn" onclick="sysCall('thermal',{profile:'cool'})">Cool</button>
           <button class="sys-btn" onclick="sysCall('thermal',{profile:'balanced'})">Balanced</button>
           <button class="sys-btn" onclick="sysCall('thermal',{profile:'performance'})">Perf</button>
@@ -220,7 +220,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6f
           <div class="sys-msg" id="m-thermal"></div>
         </div>
         <div class="sys-card">
-          <h3>🔋 Battery & Power</h3>
+          <h3> Battery & Power</h3>
           <button class="sys-btn" onclick="sysCall('battery_saver',{enable:true})">Battery Saver ON</button>
           <button class="sys-btn" onclick="sysCall('battery_saver',{enable:false})">OFF</button>
           <button class="sys-btn" onclick="sysCall('energy',{profile:'powersave'})">Power Save</button>
@@ -229,18 +229,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6f
           <div class="sys-msg" id="m-battery"></div>
         </div>
         <div class="sys-card">
-          <h3>🖥️ Display</h3>
+          <h3> Display</h3>
           <button class="sys-btn" onclick="sysCall('oled',{enable:true})">OLED Protection ON</button>
           <button class="sys-btn" onclick="sysCall('oled',{enable:false})">OFF</button>
           <div class="sys-msg" id="m-oled"></div>
         </div>
         <div class="sys-card">
-          <h3>🧹 Memory</h3>
+          <h3> Memory</h3>
           <button class="sys-btn" onclick="sysCall('clear_cache',{})">Clear Kernel Cache</button>
           <div class="sys-msg" id="m-cache"></div>
         </div>
         <div class="sys-card">
-          <h3>⚡ Power</h3>
+          <h3> Power</h3>
           <button class="sys-btn danger" onclick="if(confirm('Reboot?'))sysCall('reboot',{})">Reboot</button>
           <button class="sys-btn danger" onclick="if(confirm('Shutdown?'))sysCall('poweroff',{})">Shutdown</button>
           <div class="sys-msg" id="m-power"></div>

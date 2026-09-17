@@ -12,20 +12,20 @@ root = '$root'
 title = '''$title'''
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:500px;padding:0;overflow:hidden;\">'
-html += '<div style=\"padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;\">📁 ' + title + '</div>'
+html += '<div style=\"padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;\"> ' + title + '</div>'
 html += '<div style=\"max-height:350px;overflow-y:auto;padding:4px;\">'
 
 for item in sorted(os.listdir(root))[:30]:
     path = os.path.join(root, item)
     if os.path.isdir(path):
-        icon = '📂'
+        icon = ''
         size = ''
         items = len(os.listdir(path)) if os.path.isdir(path) else 0
         size = f'{items} items'
     else:
         ext = os.path.splitext(item)[1].lower()
-        icons = {'.py':'🐍','.js':'📜','.md':'📝','.txt':'📄','.c':'⚙️','.h':'⚙️','.sh':'🔧',
-                '.json':'📋','.yml':'📋','.yaml':'📋','.html':'🌐','.css':'🎨','.png':'🖼️',
+        icons = {'.py':'🐍','.js':'📜','.md':'','.txt':'📄','.c':'','.h':'','.sh':'',
+                '.json':'📋','.yml':'📋','.yaml':'📋','.html':'','.css':'🎨','.png':'🖼️',
                 '.jpg':'🖼️','.svg':'🖼️','.pdf':'📕','.zip':'📦','.rs':'🦀','.go':'🔵'}
         icon = icons.get(ext, '📄')
         sz = os.path.getsize(path)
@@ -58,7 +58,7 @@ title = '''$title'''
 diff = list(difflib.unified_diff(old, new, lineterm='', n=1))
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:700px;padding:0;overflow:hidden;\">'
-html += '<div style=\"padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;\">📝 ' + title + '</div>'
+html += '<div style=\"padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;\"> ' + title + '</div>'
 html += '<div style=\"padding:8px;background:#0d1117;font-family:monospace;font-size:12px;overflow-x:auto;\">'
 
 added = removed = 0
@@ -91,7 +91,7 @@ ai_card_doceditor() {
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:600px;padding:0;overflow:hidden;">
   <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;display:flex;justify-content:space-between;align-items:center;">
-    <span style="font-size:13px;color:#c8d7ff;">📝 ${title}</span>
+    <span style="font-size:13px;color:#c8d7ff;"> ${title}</span>
     <div style="display:flex;gap:4px;">
       <button onclick="document.execCommand('bold')" style="padding:2px 6px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:3px;cursor:pointer;font-size:11px;font-weight:bold;">B</button>
       <button onclick="document.execCommand('italic')" style="padding:2px 6px;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:3px;cursor:pointer;font-size:11px;font-style:italic;">I</button>
@@ -155,7 +155,7 @@ ai_card_mediaplayer() {
       cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:500px;padding:0;overflow:hidden;">
   <div style="padding:12px;background:linear-gradient(135deg,#0d1117,#1a1a2e);display:flex;align-items:center;gap:12px;">
-    <div style="width:48px;height:48px;background:#6c63ff30;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;">🎵</div>
+    <div style="width:48px;height:48px;background:#6c63ff30;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;"></div>
     <div style="flex:1;">
       <div style="font-size:14px;color:#c8d7ff;">${title}</div>
       <div style="font-size:11px;color:#8b949e;">Audio</div>
@@ -196,7 +196,7 @@ EOHTML
     video)
       cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:600px;padding:0;overflow:hidden;">
-  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;">🎬 ${title}</div>
+  <div style="padding:8px 12px;background:#0d1117;border-bottom:1px solid #21262d;font-size:13px;color:#c8d7ff;"> ${title}</div>
   <video id="${id}-player" style="width:100%;max-height:400px;background:black;" controls preload="metadata">
     <source src="${src}" />
   </video>

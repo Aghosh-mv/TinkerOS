@@ -155,7 +155,7 @@ style = "$style"
 narrations = {
     'search': {
         'friendly': [
-            f"Let me dig into that for you! 🔍",
+            f"Let me dig into that for you! ",
             f"Good question! Let me look that up...",
             f"Ooh, interesting! Let me search for that...",
             f"I'm on it! Let me find that out...",
@@ -211,12 +211,12 @@ narrations = {
     },
     'play': {
         'friendly': [
-            f"Time for some tunes! 🎵",
+            f"Time for some tunes! ",
             f"Let me put something on...",
             f"Music time!",
         ],
         'excited': [
-            f"MUSIC TIME!! 🎵",
+            f"MUSIC TIME!! ",
             f"LET'S GO!! PLAYING NOW!!",
             f"TIME FOR SOME TUNES!!",
         ],
@@ -241,7 +241,7 @@ narrations = {
     },
     'creative': {
         'friendly': [
-            f"Time to get creative! ✨",
+            f"Time to get creative! ",
             f"Let me put something together...",
             f"Writing something up for you!",
         ],
@@ -276,7 +276,7 @@ text = "$text".lower()
 positive_words = ['happy', 'great', 'awesome', 'love', 'amazing', 'perfect', 'cool', 'nice',
                   'excellent', 'wonderful', 'fantastic', 'brilliant', 'superb', 'thanks',
                   'thank', 'helpful', 'good', 'best', 'beautiful', 'like', 'enjoy', 'yay']
-positive_emoji = ['😊', '😄', '😃', '🎉', '👍', '❤️', '💕', '✨', '🔥', '💪']
+positive_emoji = ['😊', '😄', '😃', '🎉', '👍', '❤️', '💕', '', '🔥', '💪']
 
 # Negative indicators
 negative_words = ['hate', 'stupid', 'dumb', 'broken', 'wrong', 'bad', 'terrible', 'useless',

@@ -249,7 +249,7 @@ class TinkeriaWindow(QMainWindow):
 
         # brand row
         brand = QHBoxLayout()
-        logo = QLabel("◆")
+        logo = QLabel("")
         logo.setObjectName("logo")
         brand.addWidget(logo)
         title = QLabel("TINKERIA")

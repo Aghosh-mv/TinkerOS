@@ -202,7 +202,7 @@ ai_show_history() {
 import json
 conv = json.load(open('$CONV_FILE'))
 for h in conv.get('history', [])[-10:]:
-    role = '🧑' if h['role'] == 'user' else '🤖'
+    role = '🧑' if h['role'] == 'user' else ''
     print(f'{role} {h[\"content\"][:100]}')
     print()
 " 2>/dev/null || echo "No history yet."

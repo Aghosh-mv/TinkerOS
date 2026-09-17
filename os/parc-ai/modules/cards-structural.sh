@@ -99,7 +99,7 @@ ai_card_mockup() {
     dashboard)
       cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:600px;padding:0;overflow:hidden;">
-  <div style="padding:12px 16px;background:#0d1117;border-bottom:1px solid #21262d;font-size:14px;font-weight:bold;color:#c8d7ff;">📊 ${title}</div>
+  <div style="padding:12px 16px;background:#0d1117;border-bottom:1px solid #21262d;font-size:14px;font-weight:bold;color:#c8d7ff;"> ${title}</div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#21262d;">
     <div style="padding:16px;background:#0d1117;text-align:center;">
       <div style="font-size:24px;font-weight:bold;color:#10b981;">1,234</div>
@@ -134,7 +134,7 @@ EOHTML
 <div class="ai-card" id="${id}" style="max-width:350px;padding:0;overflow:hidden;">
   <div style="padding:32px;background:linear-gradient(135deg,#0d1117,#1a1a2e);">
     <div style="text-align:center;margin-bottom:24px;">
-      <div style="font-size:32px;">◆</div>
+      <div style="font-size:32px;"></div>
       <div style="font-size:18px;font-weight:bold;color:#c8d7ff;margin-top:8px;">Welcome Back</div>
     </div>
     <div style="margin-bottom:12px;">
@@ -154,7 +154,7 @@ EOHTML
     form)
       cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:450px;padding:16px;">
-  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:16px;">📝 ${title}</div>
+  <div style="font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:16px;"> ${title}</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
     <div><div style="font-size:11px;color:#8b949e;margin-bottom:4px;">First Name</div><div style="padding:8px;background:#0d1117;border:1px solid #21262d;border-radius:6px;color:#c9d1d9;font-size:12px;">John</div></div>
     <div><div style="font-size:11px;color:#8b949e;margin-bottom:4px;">Last Name</div><div style="padding:8px;background:#0d1117;border:1px solid #21262d;border-radius:6px;color:#c9d1d9;font-size:12px;">Doe</div></div>
@@ -207,7 +207,7 @@ title = '''$title'''
 step_list = [s.strip() for s in steps_str.split('|') if s.strip()]
 
 html = '<div class=\"ai-card\" id=\"${id}\" style=\"max-width:700px;padding:16px;\">'
-html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\">⚡ ' + title + '</div>'
+html += '<div style=\"font-size:16px;font-weight:bold;color:#c8d7ff;margin-bottom:12px;\"> ' + title + '</div>'
 html += '<div style=\"display:flex;align-items:center;flex-wrap:wrap;gap:4px;\">'
 
 for i, step in enumerate(step_list):

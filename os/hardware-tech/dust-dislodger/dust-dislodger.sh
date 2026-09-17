@@ -157,7 +157,7 @@ print(f"  Sweeping 100Hz... no resonance")
 print(f"  Sweeping 150Hz... no resonance")
 print(f"  Sweeping 200Hz... partial resonance")
 print(f"  Sweeping 220Hz... increasing oscillation")
-print(f"  Sweeping 240Hz... ⚡ RESONANCE DETECTED (max blade oscillation)")
+print(f"  Sweeping 240Hz...  RESONANCE DETECTED (max blade oscillation)")
 print(f"  Sweeping 260Hz... decreasing")
 print(f"  Sweeping 300Hz... no resonance")
 print()
@@ -205,7 +205,7 @@ import os, glob, time, json, subprocess, re
 config = json.load(open(os.path.expanduser("~/.tinker/dust-dislodger/config.json")))
 shake = config["shake_program"]
 
-print("  ⚡ Acoustic Dust Dislodger: ACTIVE")
+print("   Acoustic Dust Dislodger: ACTIVE")
 print(f"  Program: {shake['duration_s']}s shake + frequency sweep")
 print(f"  Reverse bursts: {shake['reverse_bursts']}")
 print(f"  Sweep: {shake['freq_sweep_hz']}")

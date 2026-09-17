@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>VOKK v4</title>
 <style>
-/* ============ Design tokens (reverse-engineered from claude.ai 2026 production) ============ */
+/* ============ Design tokens (KorrinOS VOKK design tokens) ============ */
 :root{
   --bg-000:#ffffff;
   --bg-100:#f8f8f6;
@@ -227,22 +227,22 @@ body{
 .small-btn:hover{ background:var(--bg-300); color:var(--text-100); }
 .small-btn svg{ width:14px; height:14px; }
 
-.msg-claude{ max-width:100%; }
-.claude-body{
+.msg-ai{ max-width:100%; }
+.ai-body{
   font-family:var(--font-serif);
   font-size:16px; line-height:1.65; color:var(--text-100);
 }
-.claude-body p{ margin:0 0 14px; }
-.claude-body p:last-child{ margin-bottom:0; }
-.claude-body strong{ font-weight:600; }
-.claude-body h3{
+.ai-body p{ margin:0 0 14px; }
+.ai-body p:last-child{ margin-bottom:0; }
+.ai-body strong{ font-weight:600; }
+.ai-body h3{
   font-family:var(--font-serif);
   font-size:20px; font-weight:600; line-height:1.4; margin:16px 0 10px;
 }
-.claude-body ul{ margin:0 0 14px; padding-left:24px; }
-.claude-body li{ margin:4px 0; }
-.claude-body a{ color:var(--blue); text-decoration:none; }
-.claude-body a:hover{ text-decoration:underline; }
+.ai-body ul{ margin:0 0 14px; padding-left:24px; }
+.ai-body li{ margin:4px 0; }
+.ai-body a{ color:var(--blue); text-decoration:none; }
+.ai-body a:hover{ text-decoration:underline; }
 
 /* Code block — One Dark island */
 pre{
@@ -260,7 +260,7 @@ pre code{ font-family:var(--font-mono); }
 .tok-var{ color:#e06c75; }
 
 /* Inline code */
-.claude-body :not(pre) > code{
+.ai-body :not(pre) > code{
   font-family:var(--font-mono); font-size:0.85em;
   background:var(--bg-300); padding:2px 5px; border-radius:4px;
   color:var(--text-100);
@@ -373,7 +373,7 @@ pre code{ font-family:var(--font-mono); }
 [data-mode="dark"] .incognito,
 [data-mode="dark"] .chip{ border:1px solid hsl(51 16.5% 84.5% / 12%); }
 [data-mode="dark"] .bubble{ background:#30302e; }
-[data-mode="dark"] .claude-body a{ color:#74abe2; }
+[data-mode="dark"] .ai-body a{ color:#74abe2; }
 [data-mode="dark"] .chat-scroll::-webkit-scrollbar-thumb{ background:hsl(0 0% 100% / 18%); background-clip:content-box; }
 [data-mode="dark"] .chat-scroll::-webkit-scrollbar-thumb:hover{ background:hsl(0 0% 100% / 30%); background-clip:content-box; }
 </style>
@@ -472,8 +472,8 @@ pre code{ font-family:var(--font-mono); }
             </div>
           </div>
 
-          <div class="msg-claude">
-            <div class="claude-body">
+          <div class="msg-ai">
+            <div class="ai-body">
               <p>Think of React's reconciler as a <strong>diffing engine</strong>. Every time state changes, React builds a new tree of elements describing what the UI should look like, then compares it to the previous tree and figures out the <em>minimum set of DOM mutations</em> needed to match.</p>
               <h3>Why not just rebuild the DOM?</h3>
               <p>Directly rebuilding the whole DOM on every change is slow. So React does a lightweight comparison with a few key assumptions:</p>

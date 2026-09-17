@@ -161,10 +161,10 @@ ai_card_snapshot() {
     local ext="${name##*.}"
     local icon="📄"
     [[ "$ext" =~ ^(py|js|ts|c|cpp|rs|go|sh)$ ]] && icon="💻"
-    [[ "$ext" =~ ^(md|txt|doc)$ ]] && icon="📝"
+    [[ "$ext" =~ ^(md|txt|doc)$ ]] && icon=""
     [[ "$ext" =~ ^(png|jpg|gif|svg)$ ]] && icon="🖼️"
-    [[ "$ext" =~ ^(json|yaml|yml|toml)$ ]] && icon="⚙️"
-    [[ "$ext" =~ ^(html|css)$ ]] && icon="🌐"
+    [[ "$ext" =~ ^(json|yaml|yml|toml)$ ]] && icon=""
+    [[ "$ext" =~ ^(html|css)$ ]] && icon=""
 
     files_html+="<div style='display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;cursor:pointer;' onmouseover='this.style.background=\"rgba(108,99,255,0.1)\"' onmouseout='this.style.background=\"transparent\"'>"
     files_html+="<span>${icon}</span>"
@@ -184,7 +184,7 @@ EOJSON
   cat <<EOHTML
 <div class="ai-card" id="${id}" style="max-width:400px;">
   <div style="padding:12px;border-bottom:1px solid #21262d;">
-    <div style="font-size:14px;font-weight:bold;color:#c8d7ff;">📁 ${title}</div>
+    <div style="font-size:14px;font-weight:bold;color:#c8d7ff;"> ${title}</div>
     <div style="font-size:11px;color:#8b949e;">${snapshot_dir} · ${count} files · saved $(date '+%H:%M')</div>
   </div>
   <div style="max-height:300px;overflow-y:auto;padding:4px;">

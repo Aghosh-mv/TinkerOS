@@ -259,7 +259,7 @@ import sys, json
 for line in sys.stdin:
     try:
         d = json.loads(line.strip())
-        role = '🤖' if d.get('role') == 'assistant' else '👤'
+        role = '' if d.get('role') == 'assistant' else '👤'
         msg = d.get('message', '')[:80]
         time = d.get('time', '')[:19]
         print(f'{role} [{time}] {msg}')

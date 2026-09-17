@@ -421,7 +421,7 @@ c.execute("SELECT COUNT(*), SUM(amount), AVG(amount) FROM subscriptions WHERE st
 total, monthly_cost, avg_cost = c.fetchone()
 annual_cost = (monthly_cost or 0) * 12
 
-print(f"  📊 OVERVIEW")
+print(f"   OVERVIEW")
 print(f"     Active subscriptions: {total or 0}")
 print(f"     Monthly cost: ${monthly_cost or 0:.2f}")
 print(f"     Annual cost: ${annual_cost:.2f}")
@@ -429,7 +429,7 @@ print(f"     Average per sub: ${avg_cost or 0:.2f}")
 print()
 
 # Cost by category
-print(f"  📂 BY CATEGORY")
+print(f"   BY CATEGORY")
 c.execute("SELECT category, COUNT(*), SUM(amount) FROM subscriptions WHERE status='active' GROUP BY category ORDER BY SUM(amount) DESC")
 for cat, count, cost in c.fetchall():
     cat = cat or 'uncategorized'
