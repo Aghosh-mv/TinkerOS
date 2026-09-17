@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI v2.0 — The Unified AI Brain of KorrinOS
+VOKK v4 v2.0 — The Unified AI Brain of KorrinOS
 Chat + System Controller + Image Generation + Recognition + Link Opening
 Every button does something real. No placeholders.
 """
@@ -53,7 +53,7 @@ import random
 WITTY_RESPONSES = {
     "hello": ["Hey there.", "What's up.", "I'm here.", "Ready when you are."],
     "help": ["What do you need?", "Ask me anything. I can control the system, generate images, or just chat."],
-    "who": ["I'm TinkerAI. The brain of KorrinOS. I talk to the kernel directly."],
+    "who": ["I'm VOKK v4. The brain of KorrinOS. I talk to the kernel directly."],
     "what can you do": [
         "I can control your system (GPU boost, thermal, battery), generate images, recognize objects, open links, and chat. Try clicking the buttons.",
     ],
@@ -128,7 +128,7 @@ HTML = '''<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TinkerAI</title>
+<title>VOKK v4</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6f0;height:100vh;display:flex;flex-direction:column}
@@ -182,7 +182,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6f
 </head>
 <body>
 <div class="topbar">
-  <h1>TinkerAI</h1>
+  <h1>VOKK v4</h1>
   <span class="v">v2.0 — System Controller + Image Gen</span>
   <div class="tabs">
     <div class="tab active" onclick="showTab('chat')">Chat</div>
@@ -382,7 +382,7 @@ async function genGraph(type) {
 }
 
 // Welcome
-addMsg("TinkerAI v2.0 ready. I can control your system, generate images, recognize objects, and open links. Try the buttons.", 'ai');
+addMsg("VOKK v4 v2.0 ready. I can control your system, generate images, recognize objects, and open links. Try the buttons.", 'ai');
 </script>
 </body>
 </html>'''
@@ -438,7 +438,7 @@ class AIHandler(SimpleHTTPRequestHandler):
         pass
 
 if __name__ == '__main__':
-    print(f"TinkerAI v2.0 — System Controller + Image Gen + Chat")
+    print(f"VOKK v4 v2.0 — System Controller + Image Gen + Chat")
     print(f"http://localhost:{PORT}")
     server = HTTPServer(('0.0.0.0', PORT), AIHandler)
     try:

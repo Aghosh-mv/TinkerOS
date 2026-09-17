@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# ai-self-learn.sh — TinkerAI self-learning system
+# ai-self-learn.sh — VOKK v4 self-learning system
 # When it doesn't know something, it searches and learns
 
-TINKERAI_KNOWLEDGE="${TINKER_AI_HOME:-$HOME/.config/tinkerai}/knowledge.json"
-TINKERAI_LEARNING_LOG="${TINKER_AI_HOME:-$HOME/.config/tinkerai}/learning.log"
+TINKERAI_KNOWLEDGE="${TINKER_AI_HOME:-$HOME/.config/vokk}/knowledge.json"
+TINKERAI_LEARNING_LOG="${TINKER_AI_HOME:-$HOME/.config/vokk}/learning.log"
 
 # Initialize knowledge base
 ai_learn_init() {
@@ -140,7 +140,7 @@ except:
   fi
 }
 
-# Teach TinkerAI something new
+# Teach VOKK v4 something new
 ai_learn_teach() {
   local topic="$1" fact="$2"
 
@@ -154,7 +154,7 @@ ai_learn_teach() {
   echo "Got it! I'll remember that $topic is $fact."
 }
 
-# Show what TinkerAI has learned
+# Show what VOKK v4 has learned
 ai_learn_list() {
   python3 -c "
 import json

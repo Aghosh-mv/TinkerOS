@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Neural Network — Small Transformer Language Model
+VOKK v4 Neural Network — Small Transformer Language Model
 Inspired by GPT/BERT architecture but much smaller (~5-10M parameters)
 Can answer questions, generate text, and have conversations.
 """
@@ -69,7 +69,7 @@ class TransformerBlock(nn.Module):
 
 class TinkerModel(nn.Module):
     """
-    TinkerAI Transformer Language Model
+    VOKK v4 Transformer Language Model
     
     Architecture (like GPT but smaller):
     - Token embeddings + positional encoding

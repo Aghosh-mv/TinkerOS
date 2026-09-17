@@ -104,7 +104,7 @@ class Tool:
 
 class TinkerHarness:
     def __init__(self):
-        self.name = "TinkerAI"
+        self.name = "VOKK v4"
         self.rnn = None
         self.tokenizer = None
         self.embed_vecs = {}
@@ -184,7 +184,7 @@ class TinkerHarness:
         # ---- Text / conversation ----
         t.append(Tool("help", "show help and available capabilities", ["help", "what can you do", "commands", "skills", "abilities", "help me"], self._t_help))
         t.append(Tool("greeting", "respond to a greeting", ["hello", "hi", "hey", "good morning", "good evening", "how are you", "yo", "welcome"], self._t_greeting))
-        t.append(Tool("intro", "introduce TinkerAI", ["who are you", "what is your name", "introduce yourself", "what are you"], self._t_intro))
+        t.append(Tool("intro", "introduce VOKK v4", ["who are you", "what is your name", "introduce yourself", "what are you"], self._t_intro))
         t.append(Tool("joke", "tell a joke", ["joke", "funny", "make me laugh"], self._t_joke))
         t.append(Tool("thanks", "respond to thanks", ["thank", "thanks", "appreciate", "cheers"], self._t_thanks))
         t.append(Tool("bye", "say goodbye", ["bye", "goodbye", "see you", "good night", "exit", "quit"], self._t_bye))
@@ -500,10 +500,10 @@ class TinkerHarness:
         return result
 
     def _t_greeting(self, _=None):
-        return "Hello! I'm TinkerAI. I can check your system, control apps, operate the computer, or just chat. What do you need?"
+        return "Hello! I'm VOKK v4. I can check your system, control apps, operate the computer, or just chat. What do you need?"
 
     def _t_intro(self, _=None):
-        return "I'm TinkerAI, an on-device AI for KorrinOS. I run a local neural network, can control the computer, and act autonomously on your requests."
+        return "I'm VOKK v4, an on-device AI for KorrinOS. I run a local neural network, can control the computer, and act autonomously on your requests."
 
     def _t_joke(self, _=None):
         return "Why don't scientists trust atoms? Because they make up everything!"
@@ -537,7 +537,7 @@ class TinkerHarness:
     def send_query(self, query):
         import subprocess as sp
         try:
-            proc = subprocess.Popen(["python3", "/home/tinkerspace/linux-kernel/os/tinkerai/tinker_ai.py", "--serve"],
+            proc = subprocess.Popen(["python3", "/home/tinkerspace/linux-kernel/os/vokk/vokk.py", "--serve"],
                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
         except:
             return {"reply": "Communication error", "plan": "error"}

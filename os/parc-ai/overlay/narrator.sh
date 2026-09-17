@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# narrator.sh — TinkerAI narration system
+# narrator.sh — VOKK v4 narration system
 # Usage: narrator.sh "message" [duration_ms]
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

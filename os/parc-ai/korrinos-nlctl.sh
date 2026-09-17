@@ -151,7 +151,7 @@ nlctl_execute() {
     return 0
   fi
   
-  # Fallback to TinkerAI
+  # Fallback to VOKK v4
   if command -v parc-ai &>/dev/null; then
     local answer=$(parc-ai ask "System control: $query" 2>/dev/null)
     echo "$answer"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # contacts.sh — contact management
 
-TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}"
+TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/vokk}"
 CONTACTS_FILE="$TINKER_AI_HOME/contacts.json"
 [ -f "$CONTACTS_FILE" ] || echo '[]' > "$CONTACTS_FILE"
 

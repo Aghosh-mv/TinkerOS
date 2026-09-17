@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-KorrinOS Desktop - Modern UI for TinkerAI
+KorrinOS Desktop - Modern UI for VOKK v4
 =========================================
-A friendly, button-driven desktop front-end for the on-device TinkerAI agent.
+A friendly, button-driven desktop front-end for the on-device VOKK v4 agent.
 Instead of a developer terminal, this gives you a clean dark-themed window with
 quick-action buttons and a live chat, talking to the agent over a JSON pipe.
 
@@ -16,7 +16,7 @@ import sys, os, json, subprocess, threading, time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-AGENT = HERE / "tinker_ai.py"
+AGENT = HERE / "vokk.py"
 PY = sys.executable
 
 # Prefer the python that has numpy for the agent; the GUI runs under whatever
@@ -66,7 +66,7 @@ def run_gui():
     from tkinter import ttk
 
     root = tk.Tk()
-    root.title("TinkerAI")
+    root.title("VOKK v4")
     root.configure(bg=Theme.bg)
     root.geometry("560x720")
     root.minsize(480, 600)
@@ -101,7 +101,7 @@ def run_gui():
             except Exception as e:
                 reply = f"Sorry, I ran into an error: {e}"
                 plan = "error"
-            append_message(out_widget, "TinkerAI", reply, is_bot=True)
+            append_message(out_widget, "VOKK v4", reply, is_bot=True)
             status_widget.config(text=("done · plan: " + plan) if plan else "done",
                                  foreground=Theme.muted)
         threading.Thread(target=worker, daemon=True).start()
@@ -111,7 +111,7 @@ def run_gui():
     main.pack(fill="both", expand=True, padx=12, pady=12)
 
     # Header
-    tk.Label(main, text="TinkerAI", font=("Segoe UI", 16, "bold"),
+    tk.Label(main, text="VOKK v4", font=("Segoe UI", 16, "bold"),
              fg=Theme.accent, bg=Theme.bg).pack(anchor="w")
     tk.Label(main, text="on-device AI for KorrinOS", font=("Segoe UI", 9),
              fg=Theme.muted, bg=Theme.bg).pack(anchor="w", pady=(2, 12))
@@ -152,23 +152,23 @@ def run_gui():
                      insertbackground=Theme.accent, relief="flat",
                      highlightbackground=Theme.border, highlightthickness=1)
     entry.pack(side="left", fill="x", expand=True, padx=(0, 8), ipady=6, ipadx=8)
-    entry.insert(0, "Ask TinkerAI anything...")
+    entry.insert(0, "Ask VOKK v4 anything...")
     entry.config(fg=Theme.muted)
 
     def on_enter(e):
         if e["type"] == "FocusIn":
-            if entry.get() == "Ask TinkerAI anything...":
+            if entry.get() == "Ask VOKK v4 anything...":
                 entry.delete(0, "end"); entry.config(fg=Theme.text)
         elif e["type"] == "FocusOut":
             if not entry.get():
-                entry.insert(0, "Ask TinkerAI anything..."); entry.config(fg=Theme.muted)
+                entry.insert(0, "Ask VOKK v4 anything..."); entry.config(fg=Theme.muted)
 
     entry.bind("<FocusIn>", on_enter)
     entry.bind("<FocusOut>", on_enter)
 
     def do_send():
         q = entry.get().strip()
-        if not q or q == "Ask TinkerAI anything...":
+        if not q or q == "Ask VOKK v4 anything...":
             return
         append_message(out, "You", q, is_bot=False)
         entry.delete(0, "end"); entry.config(fg=Theme.text)
@@ -218,7 +218,7 @@ def run_gui():
 
 
 def run_cli_fallback():
-    print("tinkerai CLI")
+    print("vokk CLI")
     proc = subprocess.Popen([AGENT_PY, str(AGENT)], text=True)
     sys.exit(proc.wait())
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Computer Use - Desktop vision + control for KorrinOS
+VOKK v4 Computer Use - Desktop vision + control for KorrinOS
 Lets the AI see the screen and interact with applications.
 
 Dependencies (optional):

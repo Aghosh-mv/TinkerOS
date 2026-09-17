@@ -135,7 +135,7 @@ focus-exclude = [
   "class_g = 'Bar'",
   "class_g = 'korrinos-panel'",
   "class_g = 'korrinos-dock'",
-  "class_g = 'korrinos-tinkerai'"
+  "class_g = 'korrinos-vokk'"
 ];
 
 opacity-rule = [

@@ -144,7 +144,7 @@ EOF
 # Report: $topic
 
 **Date:** $(date '+%Y-%m-%d')
-**Author:** TinkerAI
+**Author:** VOKK v4
 
 ## Executive Summary
 This report provides an analysis of $topic, covering key findings, methodology, and recommendations.

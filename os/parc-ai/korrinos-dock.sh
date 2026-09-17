@@ -154,7 +154,7 @@ create_custom_dock() {
 #!/usr/bin/env bash
 # KorrinOS Custom Dock — yad-based fallback
 
-ICONS=("📁:Files:nautilus" "💻:Terminal:gnome-terminal" "🤖:Tinkeria:korrinos-tinkerai" "⚙️:Settings:gnome-settings" "🎵:Music:rhythmbox" "🌐:Browser:firefox" "🗑️:Trash:user-trash")
+ICONS=("📁:Files:nautilus" "💻:Terminal:gnome-terminal" "🤖:Tinkeria:korrinos-vokk" "⚙️:Settings:gnome-settings" "🎵:Music:rhythmbox" "🌐:Browser:firefox" "🗑️:Trash:user-trash")
 
 while true; do
   BUTTON=""

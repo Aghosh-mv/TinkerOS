@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # agent-vision.sh — computer vision: read screen, find elements, visual understanding
 
-AGENT_DIR="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}/agent"
+AGENT_DIR="${TINKER_AI_HOME:-$HOME/.config/vokk}/agent"
 mkdir -p "$AGENT_DIR/screenshots"
 
 # Take screenshot and read all text

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# NLP Training Data - 100+ intent patterns for TinkerAI
+# NLP Training Data - 100+ intent patterns for VOKK v4
 # Provides response templates, common phrases, and quality rules
 
 nlp_training_data() {
@@ -20,7 +20,7 @@ nlp_training_data() {
     },
     "identity": {
       "patterns": ["who are you", "what are you", "your name", "tell me about yourself"],
-      "responses": ["I'm TinkerAI, your built-in assistant for KorrinOS."]
+      "responses": ["I'm VOKK v4, your built-in assistant for KorrinOS."]
     },
     "capabilities": {
       "patterns": ["what can you do", "help me", "your features", "what do you know"],
@@ -97,7 +97,7 @@ nlp_common_response() {
     *"hello"*|*"hi"*|*"hey"*) echo "Hey there! What can I help with?" ;;
     *"bye"*|*"goodbye"*|*"see you"*) echo "Goodbye! Take care!" ;;
     *"thank"*) echo "You're welcome!" ;;
-    *"who are you"*|*"what are you"*) echo "I'm TinkerAI, your KorrinOS assistant." ;;
+    *"who are you"*|*"what are you"*) echo "I'm VOKK v4, your KorrinOS assistant." ;;
     *"what can you do"*) echo "I can help with text, code, productivity, web search, and system control." ;;
     *"i don't know"*|*"idk"*) echo "That's okay! I'm here to help figure it out." ;;
     *) echo "" ;; # No match, return empty for Ollama fallback

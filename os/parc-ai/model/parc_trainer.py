@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Training Pipeline — trains the neural network on Q&A data
+VOKK v4 Training Pipeline — trains the neural network on Q&A data
 Supports: pretraining on text, fine-tuning on Q&A pairs, intent classification
 """
 
@@ -64,7 +64,7 @@ class TextDataset(Dataset):
 
 
 class TinkerTrainer:
-    """Training pipeline for TinkerAI"""
+    """Training pipeline for VOKK v4"""
     
     def __init__(self, model_dir=None):
         self.model_dir = model_dir or os.path.join(os.path.dirname(__file__), 'checkpoints')
@@ -105,7 +105,7 @@ class TinkerTrainer:
         """Full training pipeline"""
         
         print(f"\n{'='*60}")
-        print(f"  TinkerAI Training Pipeline")
+        print(f"  VOKK v4 Training Pipeline")
         print(f"  Device: {self.device}")
         print(f"  Q&A pairs: {len(qa_pairs)}")
         print(f"  Epochs: {epochs}")
@@ -237,7 +237,7 @@ class TinkerTrainer:
     
     def interactive(self):
         """Interactive chat mode"""
-        print("\nTinkerAI Chat (type 'quit' to exit)")
+        print("\nVOKK v4 Chat (type 'quit' to exit)")
         print("=" * 40)
         
         while True:
@@ -250,12 +250,12 @@ class TinkerTrainer:
                 continue
             
             answer = self.generate(question)
-            print(f"\nTinkerAI: {answer}")
+            print(f"\nVOKK v4: {answer}")
 
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description='TinkerAI Trainer')
+    parser = argparse.ArgumentParser(description='VOKK v4 Trainer')
     parser.add_argument('--data', type=str, default='training_data', help='Training data directory')
     parser.add_argument('--epochs', type=int, default=20)
     parser.add_argument('--lr', type=float, default=3e-4)

@@ -1,7 +1,7 @@
 #!/bin/bash
 # KorrinOS Human Error System v1.0
 # Wraps Linux commands to show friendly error messages instead of cryptic codes
-# Integrates with TinkerAI for intelligent error explanation
+# Integrates with VOKK v4 for intelligent error explanation
 #
 # Install: source this in bashrc or add to /etc/profile.d/
 # Usage: All commands work normally — errors get human-readable explanations
@@ -157,11 +157,11 @@ tinker_explain() {
     local command="$2"
     local stderr="$3"
     
-    # Check if TinkerAI is available
-    if command -v tinkerai &>/dev/null; then
-        local explanation=$(echo "A command failed with exit code $exit_code. The command was: '$command'. Error output: $stderr. Explain what went wrong in simple English and suggest how to fix it." | tinkerai 2>/dev/null)
+    # Check if VOKK v4 is available
+    if command -v vokk &>/dev/null; then
+        local explanation=$(echo "A command failed with exit code $exit_code. The command was: '$command'. Error output: $stderr. Explain what went wrong in simple English and suggest how to fix it." | vokk 2>/dev/null)
         if [ -n "$explanation" ]; then
-            echo -e "\033[1;36m🤖 TinkerAI says:\033[0m"
+            echo -e "\033[1;36m🤖 VOKK v4 says:\033[0m"
             echo "$explanation"
             return
         fi
@@ -171,17 +171,17 @@ tinker_explain() {
     if command -v ollama &>/dev/null; then
         local explanation=$(echo "Explain this Linux error in simple terms and suggest a fix. Error code: $exit_code. Command: $command. Error: $stderr" | ollama run llama3.1:8b 2>/dev/null)
         if [ -n "$explanation" ]; then
-            echo -e "\033[1;36m🤖 TinkerAI (Ollama) says:\033[0m"
+            echo -e "\033[1;36m🤖 VOKK v4 (Ollama) says:\033[0m"
             echo "$explanation"
             return
         fi
     fi
     
     # Fallback: try local model
-    if [ -f /opt/korrinos/ai/tinkerai ] || [ -f /usr/local/bin/tinkerai ]; then
-        local explanation=$(echo "Error: $exit_code — $stderr" | tinkerai 2>/dev/null)
+    if [ -f /opt/korrinos/ai/vokk ] || [ -f /usr/local/bin/vokk ]; then
+        local explanation=$(echo "Error: $exit_code — $stderr" | vokk 2>/dev/null)
         if [ -n "$explanation" ]; then
-            echo -e "\033[1;36m🤖 TinkerAI says:\033[0m"
+            echo -e "\033[1;36m🤖 VOKK v4 says:\033[0m"
             echo "$explanation"
             return
         fi
@@ -220,7 +220,7 @@ friendly_error() {
         echo -e "\033[1;32m  How to fix it:\033[0m $fix"
     fi
     
-    # Try TinkerAI for extra explanation
+    # Try VOKK v4 for extra explanation
     tinker_explain "$exit_code" "$command" "" &
     local ai_pid=$!
     
@@ -329,7 +329,7 @@ case "${1:-}" in
         echo ""
         echo "Features:"
         echo "  • Friendly explanations for 50+ common Linux errors"
-        echo "  • AI-powered analysis via TinkerAI / Ollama"
+        echo "  • AI-powered analysis via VOKK v4 / Ollama"
         echo "  • Systemd service for persistent monitoring"
         echo "  • Automatic error trapping in scripts"
         ;;

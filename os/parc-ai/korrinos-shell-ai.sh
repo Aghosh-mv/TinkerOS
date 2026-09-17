@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # korrinos-shell-ai.sh — AI Shell Companion (small popup)
-# Explains commands before running, small TinkerAI integration
+# Explains commands before running, small VOKK v4 integration
 
 set -euo pipefail
 
@@ -14,7 +14,7 @@ explain_cmd() {
     
     # Show small popup
     if command -v notify-send &>/dev/null; then
-      notify-send -a "TinkerAI" -i terminal "$cmd" "$explanation" --expire-time=8000
+      notify-send -a "VOKK v4" -i terminal "$cmd" "$explanation" --expire-time=8000
     fi
     
     # Also print to terminal
@@ -40,7 +40,7 @@ explain_error() {
     local explanation=$(parc-ai ask "Explain this error briefly: $error" 2>/dev/null)
     
     if command -v notify-send &>/dev/null; then
-      notify-send -a "TinkerAI" -i dialog-error "Error" "$explanation" --expire-time=10000
+      notify-send -a "VOKK v4" -i dialog-error "Error" "$explanation" --expire-time=10000
     fi
     
     echo "🔍 $explanation"

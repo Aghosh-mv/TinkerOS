@@ -114,7 +114,7 @@ agent_browser_tabs() {
   wmctrl -l 2>/dev/null | grep -iE "firefox|chrome|chromium|brave" || echo "No browser windows found"
 }
 
-# Search the web — INSIDE TinkerAI (no external browser, no focus steal)
+# Search the web — INSIDE VOKK v4 (no external browser, no focus steal)
 agent_search_up() {
   local query="$1"
   if [ -z "$query" ]; then
@@ -188,7 +188,7 @@ for s in snippets[:3]:
   fi
 }
 
-# Open URL — INSIDE TinkerAI's own panel (no external browser)
+# Open URL — INSIDE VOKK v4's own panel (no external browser)
 agent_open_url() {
   local url="$1"
   if [ -z "$url" ]; then
@@ -221,7 +221,7 @@ print(text)
   echo "$content"
 }
 
-# Play music — INSIDE TinkerAI (no Spotify app needed)
+# Play music — INSIDE VOKK v4 (no Spotify app needed)
 agent_play_music() {
   local query="${1:-}"
   

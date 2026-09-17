@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # agent-system.sh — system-level control agent: execute commands, manage apps, control desktop
 
-TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}"
+TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/vokk}"
 AGENT_DIR="$TINKER_AI_HOME/agent"
 mkdir -p "$AGENT_DIR/logs" "$AGENT_DIR/screenshots" "$AGENT_DIR/schedules"
 

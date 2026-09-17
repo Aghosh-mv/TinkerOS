@@ -19,7 +19,7 @@ IFS=$'\n\t'
 
 # ---- paths ----------------------------------------------------------------
 AI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AI_CONFIG="${HOME}/.config/tinkerai"
+AI_CONFIG="${HOME}/.config/vokk"
 AI_CONNECTIONS="${AI_CONFIG}/connections"
 AI_SUBSYSTEM="${AI_CONFIG}/subsystem"
 AI_LOG="${AI_CONFIG}/ai.log"
@@ -275,7 +275,7 @@ cmd_ask() {
   if [ -z "$query" ]; then
     html_header
     card_open
-    card_title "TinkerAI"
+    card_title "VOKK v4"
     card_body "Hey! I'm Tinkeria — your built-in AI for KorrinOS. I live right here on your system, no cloud needed. I can answer questions, write code, brainstorm ideas, control your computer, and a lot more. What's on your mind?"
     card_secondary "I know 500+ topics: science, history, math, coding, philosophy, health, economics, and more. Try: 'What is quantum entanglement?' or 'Write me a Python script'"
     card_close
@@ -314,7 +314,7 @@ cmd_ask() {
     card_open
     card_title "🧠 ${query}"
     card_body "<div style='line-height:1.7;'>${kb_answer}</div>"
-    card_secondary "Source: TinkerAI Knowledge Base · Intent: ${intent}"
+    card_secondary "Source: VOKK v4 Knowledge Base · Intent: ${intent}"
     card_close
     # Still try Ollama for a richer answer below, but show KB instantly
   fi
@@ -324,7 +324,7 @@ cmd_ask() {
     card_open
     card_title "💡 ${query}"
     card_body "<div style='line-height:1.7;'>${learned_answer}</div>"
-    card_secondary "Source: TinkerAI Memory · Intent: ${intent}"
+    card_secondary "Source: VOKK v4 Memory · Intent: ${intent}"
     card_close
   fi
 
@@ -434,7 +434,7 @@ print(text)
 
       if [ -n "$kb_result" ]; then
         card_body "<div style='line-height:1.7;'>${kb_result}</div>"
-        card_secondary "Source: TinkerAI Knowledge Base"
+        card_secondary "Source: VOKK v4 Knowledge Base"
       else
         local web_results
         web_results=$(ai_web_search "$target" 3 2>/dev/null || echo "")
@@ -481,7 +481,7 @@ print(text)
       fi
       if [ -n "$code_answer" ]; then
         card_body "<div style='line-height:1.7;'>${code_answer}</div>"
-        card_secondary "Source: TinkerAI Code Knowledge"
+        card_secondary "Source: VOKK v4 Code Knowledge"
       else
         local result
         result=$(ai_code_debug "$target" 2>&1 || echo "I couldn't analyze that code. Can you paste it again?")
@@ -596,7 +596,7 @@ print(text)
 
       if [ -n "$fallback_answer" ]; then
         card_body "<div style='line-height:1.7;'>${fallback_answer}</div>"
-        card_secondary "Source: TinkerAI Knowledge · Intent: ${intent}"
+        card_secondary "Source: VOKK v4 Knowledge · Intent: ${intent}"
       elif [ -n "$vibe_results" ] || [ -n "$file_results" ]; then
         card_body "I found some things that might be related to what you're asking about:"
         if [ -n "$vibe_results" ]; then
@@ -1337,13 +1337,13 @@ case "${1:-help}" in
   dev-docker)    "$AI_DIR/korrinos-devsuite.sh" docker ;;
   dev-runtime)   "$AI_DIR/korrinos-devsuite.sh" runtime ;;
 
-  # --- tinkerai AI ---
-  ai)            shift; "$AI_DIR/korrinos-tinkerai.sh" "$@" ;;
-  ai-chat)       shift; "$AI_DIR/korrinos-tinkerai.sh" chat "$@" ;;
-  ai-persona)    shift; "$AI_DIR/korrinos-tinkerai.sh" personality "$@" ;;
-  ai-quick)      shift; "$AI_DIR/korrinos-tinkerai.sh" quick "$@" ;;
-  ai-session)    shift; "$AI_DIR/korrinos-tinkerai.sh" session "$@" ;;
-  ai-history)    shift; "$AI_DIR/korrinos-tinkerai.sh" history "$@" ;;
+  # --- vokk AI ---
+  ai)            shift; "$AI_DIR/korrinos-vokk.sh" "$@" ;;
+  ai-chat)       shift; "$AI_DIR/korrinos-vokk.sh" chat "$@" ;;
+  ai-persona)    shift; "$AI_DIR/korrinos-vokk.sh" personality "$@" ;;
+  ai-quick)      shift; "$AI_DIR/korrinos-vokk.sh" quick "$@" ;;
+  ai-session)    shift; "$AI_DIR/korrinos-vokk.sh" session "$@" ;;
+  ai-history)    shift; "$AI_DIR/korrinos-vokk.sh" history "$@" ;;
 
   # --- system monitor ---
   monitor)       shift; "$AI_DIR/korrinos-monitor.sh" "$@" ;;
@@ -1700,7 +1700,7 @@ cmd_remind() {
   local when="$2"
   local id
   id="r_$(date +%s)_$$"
-  local dir="${TINKER_AI_HOME:-$HOME/.config/tinkerai}/reminders"
+  local dir="${TINKER_AI_HOME:-$HOME/.config/vokk}/reminders"
   mkdir -p "$dir"
   cat > "$dir/$id.json" <<EOJSON
 {"id":"$id","message":"$msg","when":"$when","created":"$(date -Iseconds)","status":"pending"}
@@ -1709,7 +1709,7 @@ EOJSON
 }
 
 cmd_reminders() {
-  local dir="${TINKER_AI_HOME:-$HOME/.config/tinkerai}/reminders"
+  local dir="${TINKER_AI_HOME:-$HOME/.config/vokk}/reminders"
   mkdir -p "$dir"
   echo "=== Pending Reminders ==="
   local found=0

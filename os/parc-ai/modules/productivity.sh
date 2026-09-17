@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # productivity.sh — calendar, reminders, todos, email, document parsing
 
-TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}"
+TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/vokk}"
 PROD_DIR="$TINKER_AI_HOME/productivity"
 mkdir -p "$PROD_DIR/todos" "$PROD_DIR/reminders" "$PROD_DIR/calendar"
 

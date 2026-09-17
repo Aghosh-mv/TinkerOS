@@ -23,7 +23,7 @@ declare -A PACKAGES=(
     ["korrinos-gaming"]="korrinos-gaming: Gaming optimizations and tools"
     ["korrinos-dev"]="korrinos-dev: Development environment"
     ["korrinos-enterprise"]="korrinos-enterprise: Enterprise features"
-    ["korrinos-ai"]="korrinos-ai: Local AI assistant (TinkerAI)"
+    ["korrinos-ai"]="korrinos-ai: Local AI assistant (VOKK v4)"
     ["korrinos-cowork"]="korrinos-cowork: Native cowork AI"
     ["korrinos-control-center"]="korrinos-control-center: Unified control center"
 )
@@ -69,7 +69,7 @@ create_rpm() {
             cp -r "$OS_DIR/enterprise" "$build_dir/usr/lib/tinker/" 2>/dev/null || true
             ;;
         "korrinos-ai")
-            cp -r "$OS_DIR/tinkerai" "$build_dir/usr/lib/tinker/" 2>/dev/null || true
+            cp -r "$OS_DIR/vokk" "$build_dir/usr/lib/tinker/" 2>/dev/null || true
             ;;
         "korrinos-cowork")
             cp -r "$OS_DIR/tinker-cowork" "$build_dir/usr/lib/tinker/" 2>/dev/null || true

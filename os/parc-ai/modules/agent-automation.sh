@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # agent-automation.sh — scheduler, cron jobs, timed triggers, automation chains
 
-AGENT_DIR="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}/agent"
+AGENT_DIR="${TINKER_AI_HOME:-$HOME/.config/vokk}/agent"
 mkdir -p "$AGENT_DIR/schedules" "$AGENT_DIR/chains"
 
 # Schedule a task to run at a specific time

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # cards-visual.sh — visual asset cards, link previews, code blocks, workspace snapshots
 
-TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}"
+TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/vokk}"
 CARDS_DIR="$TINKER_AI_HOME/cards"
 mkdir -p "$CARDS_DIR/snapshots" "$CARDS_DIR/cache"
 

@@ -160,7 +160,7 @@ Turn your GPU on/off from your phone with a single tap:
 
 ---
 
-## TinkerAI
+## VOKK v4
 
 On-device AI assistant with:
 - **45+ tools** — system monitoring, file management, web search, code generation
@@ -191,7 +191,7 @@ Control Center (PyQt6 GUI)
     │   └── Unified Contextual Memory
     ├── 14 Hardware Tuning Scripts (os/hardware-tech/hardware-tuning/)
     ├── Mobile Companion Protocol (os/mobile-companion/)
-    └── TinkerAI (os/tinkerai/)
+    └── VOKK v4 (os/vokk/)
 ```
 
 ---
@@ -265,7 +265,7 @@ Safe reads, probes, and `init` run freely; only writes are gated.
 - Unified Contextual Memory: 100% local indexing
 - Hardware DNA: profiles stored locally
 - Remote API: local network only, API key auth
-- TinkerAI: on-device inference
+- VOKK v4: on-device inference
 
 ---
 

@@ -100,7 +100,7 @@ class TinkerOSBuilder:
         tinker_lib.mkdir(parents=True, exist_ok=True)
         
         for subdir in ["system", "apps", "desktop", "ai", "account", "onboarding", 
-                       "marketplace", "tinkerai", "tinker-cowork", "terminal-history",
+                       "marketplace", "vokk", "tinker-cowork", "terminal-history",
                        "tinker-cowork", "game-console", "mobile-companion", "hardware-cert",
                        "enterprise", "iso-builder-pro", "tinker-cowork"]:
             src = self.os_dir / subdir

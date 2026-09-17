@@ -425,15 +425,15 @@ WantedBy=multi-user.target
 EOF'
 
   # === TINKERAI SYSTEM CONTROLLER ===
-  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/tinkerai.service" <<EOF
+  "$SUDO" bash -c 'cat > "$ROOTFS/etc/systemd/system/vokk.service" <<EOF
 [Unit]
-Description=TinkerAI v2.0 — System Controller + Image Gen + Chat
+Description=VOKK v4 — System Controller + Image Gen + Chat
 After=graphical.target korrinos-desktop.service
 Wants=graphical.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /opt/korrinos/os/tinkerai/tinker_ai_controller.py
+ExecStart=/usr/bin/python3 /opt/korrinos/os/vokk/vokk_controller.py
 Restart=on-failure
 RestartSec=5
 
@@ -501,7 +501,7 @@ EOF'
 
   # Enable services
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-desktop.service 2>/dev/null || true
-  "$SUDO" chroot "$ROOTFS" systemctl enable tinkerai.service 2>/dev/null || true
+  "$SUDO" chroot "$ROOTFS" systemctl enable vokk.service 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-autoupdate.timer 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-backup.timer 2>/dev/null || true
   "$SUDO" chroot "$ROOTFS" systemctl enable korrinos-firewall.service 2>/dev/null || true

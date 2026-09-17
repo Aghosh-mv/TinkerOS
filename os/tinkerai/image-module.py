@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Image Module v1.0
+VOKK v4 Image Module v1.0
 - Image Generation (diffusion-based, local, no cloud)
 - Image Editing (add/remove/modify)
 - Image Recognition (vision model)
@@ -219,7 +219,7 @@ class LinkOpener:
         return {"status": "ok", "opened": len(urls), "urls": urls}
 
 # ============================================================
-#  UNIFIED API — for TinkerAI integration
+#  UNIFIED API — for VOKK v4 integration
 # ============================================================
 
 gen = ImageGenerator()
@@ -263,7 +263,7 @@ def handle_image_request(action, params):
 
 if __name__ == '__main__':
     # Quick test
-    print("TinkerAI Image Module v1.0")
+    print("VOKK v4 Image Module v1.0")
     print("Testing link extraction...")
     test = "Check out https://github.com and https://example.com for more info"
     urls = links.extract_urls(test)

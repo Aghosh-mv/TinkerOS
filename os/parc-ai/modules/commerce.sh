@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # commerce.sh — user auth, digital wallet, order tracking, booking, product recommendations
 
-TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}"
+TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/vokk}"
 COMM_DIR="$TINKER_AI_HOME/commerce"
 mkdir -p "$COMM_DIR" "$COMM_DIR/orders" "$COMM_DIR/bookings" "$COMM_DIR/wishlist"
 

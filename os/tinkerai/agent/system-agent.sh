@@ -170,12 +170,12 @@ class TaskExecutor:
         return self._ai_respond(user_input)
     
     def _ai_respond(self, query):
-        """Use OpenCode/TinkerAI for general queries"""
-        tinker_ai = os.path.expanduser("~/linux-kernel/os/tinkerai/tinker_ai.py")
-        if os.path.exists(tinker_ai):
+        """Use OpenCode/VOKK v4 for general queries"""
+        vokk = os.path.expanduser("~/linux-kernel/os/vokk/vokk.py")
+        if os.path.exists(vokk):
             try:
                 result = subprocess.run(
-                    ["python3", tinker_ai, "--query", query],
+                    ["python3", vokk, "--query", query],
                     capture_output=True, text=True, timeout=30
                 )
                 return result.stdout or "I can help with that. Try asking about specific tasks."
@@ -383,7 +383,7 @@ route(){
     
     # General
     *)
-      python3 ~/linux-kernel/os/tinkerai/tinker_ai.py --query "$query" 2>/dev/null || echo "I can help with that."
+      python3 ~/linux-kernel/os/vokk/vokk.py --query "$query" 2>/dev/null || echo "I can help with that."
       ;;
   esac
 }

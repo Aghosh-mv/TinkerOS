@@ -51,11 +51,36 @@ install_sandbox_tool() {
     echo "sandbox helper installed: /usr/lib/tinker/sandbox/tinker-sandbox"
 }
 
+install_vokk_web() {
+    echo "== VOKK Web App (vokk-project.vercel.app) =="
+    mkdir -p /usr/share/applications
+    cat > /usr/share/applications/vokk-web.desktop << 'EOF'
+[Desktop Entry]
+Type=Application
+Name=VOKK Web
+Comment=VOKK AI — Web Interface
+Exec=firefox --new-window https://vokk-project.vercel.app
+Icon=firefox
+Terminal=false
+Categories=Network;AI;
+EOF
+    # Also create a launcher script
+    mkdir -p /usr/local/bin
+    cat > /usr/local/bin/vokk-web << 'EOF'
+#!/bin/bash
+# Launch VOKK Web App
+firefox --new-window "https://vokk-project.vercel.app" &
+EOF
+    chmod +x /usr/local/bin/vokk-web
+    echo "VOKK Web app installed: vokk-project.vercel.app"
+}
+
 echo -e "${BLUE}── KorrinOS Default Apps Bundler ──${NC}"
 require_install_target
 install_github_cli
 install_vscode
 install_browser
 install_sandbox_tool
+install_vokk_web
 echo -e "${GREEN}Default apps bundled.${NC}"
-echo "  (Claude API integration is configured separately; see os/tinkerai)"
+echo "  (Claude API integration is configured separately; see os/vokk)"

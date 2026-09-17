@@ -260,7 +260,7 @@ ai_generate_response() {
       echo "Goodbye! Have a great day!"
       ;;
     identity)
-      echo "I'm TinkerAI, your personal assistant. I can help with search, music, code, math, translation, and much more!"
+      echo "I'm VOKK v4, your personal assistant. I can help with search, music, code, math, translation, and much more!"
       ;;
     capabilities)
       echo "I can help with many things:

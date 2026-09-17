@@ -2,7 +2,7 @@
 # KorrinOS Game Replay AI — analyze your gameplay to improve
 # Records a clip + sidecar telemetry (FPS, ping, inputs where available),
 # then renders a plain-text coaching report from the data using the local
-# tinkerai model if present, else heuristic analysis.
+# vokk model if present, else heuristic analysis.
 #
 # This uses local analysis only (privacy: no cloud upload).
 
@@ -46,9 +46,9 @@ analyze() {  # analyze <replay-file|dir> — produce coaching text
     echo "  Sample points: $(wc -l < "$f")"
   done
   [ "$found" = 0 ] && echo "  No telemetry found. Run 'record <sec>' first."
-  # try local tinkerai if present for a natural-language summary
+  # try local vokk if present for a natural-language summary
   local ai
-  ai=$(command -v tinker_ai || command -v tinkerai || true)
+  ai=$(command -v vokk || command -v vokk || true)
   if [ -n "$ai" ]; then
     echo "  (local AI available: $ai — run it on the replay dir for a prose review)"
   fi

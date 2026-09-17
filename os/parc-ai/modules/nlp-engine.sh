@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # nlp-engine.sh — NLP patterns, natural response generation, conversation flow
-# Makes TinkerAI talk like a real person, not a robot
+# Makes VOKK v4 talk like a real person, not a robot
 
 # Natural response templates for common intents
 nlp_respond() {
@@ -12,7 +12,7 @@ nlp_respond() {
         "Hey! What's up? How can I help?"
         "Hi there! What can I do for you?"
         "Hello! What would you like to know?"
-        "Hey! I'm TinkerAI. Ask me anything."
+        "Hey! I'm VOKK v4. Ask me anything."
         "Hi! What's on your mind?"
       )
       echo "${greetings[$((RANDOM % ${#greetings[@]}))]}"
@@ -60,13 +60,13 @@ Just ask me anything — I'm here to help!"
       echo "${responses[$((RANDOM % ${#responses[@]}))]}"
       ;;
     identity)
-      echo "I'm TinkerAI — your built-in assistant for KorrinOS. I can answer questions, help you use your computer, write things, search for info, and lots more. Think of me as your friendly tech helper!"
+      echo "I'm VOKK v4 — your built-in assistant for KorrinOS. I can answer questions, help you use your computer, write things, search for info, and lots more. Think of me as your friendly tech helper!"
       ;;
     os_help)
       local os_tips=(
         "KorrinOS has three worlds — Game Station for gaming, Hackerspace for coding, and Normal for everyday use. You can switch between them anytime."
         "You can search all your files instantly with Tab+F7 — that opens Searchie, your personal search engine."
-        "Press Ctrl+Alt+Gr to open TinkerAI anytime. Just ask me anything!"
+        "Press Ctrl+Alt+Gr to open VOKK v4 anytime. Just ask me anything!"
         "The Control Center has over 224 tools. Open it with korrinos-control-center."
         "Game Mode automatically boosts performance when you start a game. It's enabled by default in the Game Station world."
         "Your files are indexed automatically. Use Tab+F7 to search through everything."

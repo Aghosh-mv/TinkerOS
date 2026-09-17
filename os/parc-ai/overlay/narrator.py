@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Narrator — Glassmorphism overlay that narrates what TinkerAI is doing
+VOKK v4 Narrator — Glassmorphism overlay that narrates what VOKK v4 is doing
 Shows a small popup in the corner and updates in real-time
 """
 
@@ -35,7 +35,7 @@ class GlassmorphismWidget(QWidget):
         layout.setContentsMargins(16, 12, 16, 12)
         
         # Title
-        self.title = QLabel("🤖 TinkerAI")
+        self.title = QLabel("🤖 VOKK v4")
         self.title.setFont(QFont("Ubuntu Sans", 11, QFont.Weight.Bold))
         self.title.setStyleSheet("color: rgb(200, 215, 255); background: transparent;")
         layout.addWidget(self.title)
@@ -128,7 +128,7 @@ class GlassmorphismWidget(QWidget):
 
 
 class Narrator:
-    """TinkerAI Narrator — controls the overlay"""
+    """VOKK v4 Narrator — controls the overlay"""
     
     _instance = None
     _app = None

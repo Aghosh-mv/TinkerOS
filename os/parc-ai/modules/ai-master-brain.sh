@@ -3,7 +3,7 @@
 # This is the core intelligence that powers everything
 
 # Conversation context (last 10 messages)
-TINKERAI_MEMORY="/tmp/tinkerai_memory.json"
+TINKERAI_MEMORY="/tmp/vokk_memory.json"
 
 ai_memory_init() {
   [ ! -f "$TINKERAI_MEMORY" ] && echo '{"messages":[],"user_name":"","preferences":{}}' > "$TINKERAI_MEMORY"

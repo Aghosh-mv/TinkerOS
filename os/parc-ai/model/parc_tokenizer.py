@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Tokenizer — converts text to tokens and back
+VOKK v4 Tokenizer — converts text to tokens and back
 Supports both character-level and word-level tokenization
 """
 
@@ -9,7 +9,7 @@ import re
 from collections import Counter
 
 class TinkerTokenizer:
-    """Simple but effective tokenizer for TinkerAI"""
+    """Simple but effective tokenizer for VOKK v4"""
     
     SPECIAL_TOKENS = {
         '<PAD>': 0,

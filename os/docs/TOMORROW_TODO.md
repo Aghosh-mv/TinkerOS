@@ -25,14 +25,14 @@
 4. **Kernel: crash-safe gamemode reap DONE** (boost clears if the boosted process died).
 
 ## TODO for Tinker AI (Siri-like assistant)
-1. **TinkerAI: answer anything** — train/retrieve answers for any question using a local
+1. **VOKK v4: answer anything** — train/retrieve answers for any question using a local
    knowledge base + web fallback; needs a local LLM or retrieval-augmented generation (RAG)
    pipeline; not maximum depth like Claude — just correct answers 90%+ of the time.
-2. **TinkerAI: app connections** — pre-connected to all OS apps (browser, terminal, editor,
-   file manager, calendar, email, notes, media player); user can `tinker-ai connect <app>`
-   or `tinker-ai disconnect <app>`; each connection gives the AI access to that app's
+2. **VOKK v4: app connections** — pre-connected to all OS apps (browser, terminal, editor,
+   file manager, calendar, email, notes, media player); user can `vokk connect <app>`
+   or `vokk disconnect <app>`; each connection gives the AI access to that app's
    data/state/context.
-3. **TinkerAI: glassmorphism premium GUI** — like Searchie's overlay (searchie-gui.py):
+3. **VOKK v4: glassmorphism premium GUI** — like Searchie's overlay (searchie-gui.py):
    - Small popup (spotlight-style, 680px wide, top-center) or expandable side panel
    - Full glassmorphism: frosted glass, real blur, transparency (WA_TranslucentBackground),
      rounded corners (18px radius), cold edge glow, subtle shadows
@@ -45,10 +45,10 @@
      GLASS_TXT=(240,244,255,235), GLASS_OK=(120,220,170), GLASS_WARN=(255,168,120)
    - Terminal-native fallback for SSH/headless (ANSI colors + markdown)
    - Activation: `Ctrl+Alt+Gr` or voice (future)
-4. **TinkerAI: rich display** — cards (title + body + action buttons), clickable links,
+4. **VOKK v4: rich display** — cards (title + body + action buttons), clickable links,
    multiple fonts (Ubuntu Sans, Inter, monospace), sizes (12-24pt), colors (glass accent
    palette: blue/green/amber), styles (bold headers, italic quotes, code blocks with syntax
    highlighting); uses QTextBrowser or custom painted widgets for rich rendering.
-5. **TinkerAI: productivity hooks** — auto-suggest next actions, schedule reminders, draft
+5. **VOKK v4: productivity hooks** — auto-suggest next actions, schedule reminders, draft
    emails, summarize documents, generate code, brainstorm ideas; all from within the KorrinOS
    desktop.

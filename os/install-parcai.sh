@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install-tinkerai.sh — Installs TinkerAI as persistent system service
+# install-vokk.sh — Installs VOKK v4 as persistent system service
 # User cannot uninstall this — it's part of KorrinOS core
 
 set -euo pipefail
@@ -15,39 +15,39 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log() { echo -e "${GREEN}[TinkerAI]${NC} $1"; }
-warn() { echo -e "${YELLOW}[TinkerAI]${NC} $1"; }
-fail() { echo -e "${RED}[TinkerAI]${NC} $1"; exit 1; }
+log() { echo -e "${GREEN}[VOKK v4]${NC} $1"; }
+warn() { echo -e "${YELLOW}[VOKK v4]${NC} $1"; }
+fail() { echo -e "${RED}[VOKK v4]${NC} $1"; exit 1; }
 
 # Must run as root
 [ "$EUID" -ne 0 ] && fail "Must run as root (sudo)"
 
-log "Installing TinkerAI to $INSTALL_DIR..."
+log "Installing VOKK v4 to $INSTALL_DIR..."
 mkdir -p "$INSTALL_DIR" "$DATA_DIR" "$CONFIG_DIR"
 
 # Copy all AI modules
 log "Copying AI modules..."
-cp -r "$(dirname "$0")/tinker-ai" "$INSTALL_DIR/"
-chmod -R 755 "$INSTALL_DIR/tinker-ai"
+cp -r "$(dirname "$0")/vokk" "$INSTALL_DIR/"
+chmod -R 755 "$INSTALL_DIR/vokk"
 
-# Create tinker-ai command
-cat > "$BIN_DIR/tinker-ai" << 'BINSCRIPT'
+# Create vokk command
+cat > "$BIN_DIR/vokk" << 'BINSCRIPT'
 #!/usr/bin/env bash
-exec /usr/local/lib/korrinos/tinker-ai/tinker-ai.sh "$@"
+exec /usr/local/lib/korrinos/vokk/vokk.sh "$@"
 BINSCRIPT
-chmod +x "$BIN_DIR/tinker-ai"
+chmod +x "$BIN_DIR/vokk"
 
-# Create tinkerai command (short alias)
-cat > "$BIN_DIR/tinkerai" << 'BINSCRIPT'
+# Create vokk command (short alias)
+cat > "$BIN_DIR/vokk" << 'BINSCRIPT'
 #!/usr/bin/env bash
-exec /usr/local/lib/korrinos/tinker-ai/tinker-ai.sh "$@"
+exec /usr/local/lib/korrinos/vokk/vokk.sh "$@"
 BINSCRIPT
-chmod +x "$BIN_DIR/tinkerai"
+chmod +x "$BIN_DIR/vokk"
 
 # Create systemd service for background AI daemon
 cat > "$SERVICE_DIR/korrinos-ai.service" << 'SERVICE'
 [Unit]
-Description=TinkerAI Background Service
+Description=VOKK v4 Background Service
 After=network.target graphical-session.target
 Wants=graphical-session.target
 
@@ -55,7 +55,7 @@ Wants=graphical-session.target
 Type=simple
 User=tinkerspace
 Group=tinkerspace
-ExecStart=/usr/local/lib/korrinos/tinker-ai/tinker-ai-daemon.sh
+ExecStart=/usr/local/lib/korrinos/vokk/vokk-daemon.sh
 Restart=always
 RestartSec=10
 Environment=DISPLAY=:0
@@ -71,12 +71,12 @@ WantedBy=multi-user.target
 SERVICE
 
 # Create the daemon script
-cat > "$INSTALL_DIR/tinker-ai/tinker-ai-daemon.sh" << 'DAEMON'
+cat > "$INSTALL_DIR/vokk/vokk-daemon.sh" << 'DAEMON'
 #!/usr/bin/env bash
-# TinkerAI background daemon — always running, always listening
+# VOKK v4 background daemon — always running, always listening
 set -euo pipefail
 
-export AI_DIR="/usr/local/lib/korrinos/tinker-ai"
+export AI_DIR="/usr/local/lib/korrinos/vokk"
 export HOME="${HOME:-/home/tinkerspace}"
 
 # Source all modules
@@ -94,12 +94,12 @@ while true; do
     # Check for new commands via IPC pipe
     if [ -p /tmp/korrinos_ai_pipe ]; then
         read -r cmd < /tmp/korrinos_ai_pipe || true
-        [ -n "$cmd" ] && bash "$AI_DIR/tinker-ai.sh" $cmd > /tmp/korrinos_ai_output 2>/dev/null
+        [ -n "$cmd" ] && bash "$AI_DIR/vokk.sh" $cmd > /tmp/korrinos_ai_output 2>/dev/null
     fi
     sleep 1
 done
 DAEMON
-chmod +x "$INSTALL_DIR/tinker-ai/tinker-ai-daemon.sh"
+chmod +x "$INSTALL_DIR/vokk/vokk-daemon.sh"
 
 # Create IPC pipe
 mkfifo /tmp/korrinos_ai_pipe 2>/dev/null || true
@@ -117,10 +117,10 @@ chattr +i "$SERVICE_DIR/korrinos-ai.service" 2>/dev/null || true
 # Hide from package managers
 echo "korrinos-ai" >> /etc/korrinos/.protected 2>/dev/null || true
 
-log "TinkerAI installed successfully!"
-log "  Command: tinker-ai"
+log "VOKK v4 installed successfully!"
+log "  Command: vokk"
 log "  Service: korrinos-ai.service"
 log "  Location: $INSTALL_DIR"
 log ""
-log "TinkerAI is now a permanent part of this system."
+log "VOKK v4 is now a permanent part of this system."
 log "It starts automatically on boot and cannot be removed."

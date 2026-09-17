@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# korrinos-tinkerai.sh — Enhanced Tinkeria AI Assistant
+# korrinos-vokk.sh — Enhanced Tinkeria AI Assistant
 # Context-aware AI, session history, personality modes, quick prompts
 
 set -euo pipefail
 
-TINKERIA_DIR="${HOME}/.config/korrinos/tinkerai"
+TINKERIA_DIR="${HOME}/.config/korrinos/vokk"
 TINKERIA_CONFIG="$TINKERIA_DIR/config.json"
 TINKERIA_HISTORY="$TINKERIA_DIR/history.jsonl"
 TINKERIA_SESSION="$TINKERIA_DIR/session.json"
 mkdir -p "$TINKERIA_DIR"
 
 # Default config
-init_tinkerai() {
+init_vokk() {
   if [ ! -f "$TINKERIA_CONFIG" ]; then
     cat > "$TINKERIA_CONFIG" << 'DEFAULTS'
 {
@@ -134,7 +134,7 @@ cmd_personality() {
     echo "    friendly     — Warm, encouraging, supportive"
     echo "    sassy        — Witty, roast-loving attitude"
     echo ""
-    echo "  Usage: tinkerai personality <mode>"
+    echo "  Usage: vokk personality <mode>"
     return 0
   fi
   
@@ -296,10 +296,10 @@ case "${1:-help}" in
   history)       shift; cmd_history "$@" ;;
   clear)         cmd_clear ;;
   settings)      cmd_settings ;;
-  init)          init_tinkerai ;;
+  init)          init_vokk ;;
   *)
     echo "KorrinOS Tinkeria AI Assistant"
-    echo "Usage: korrinos-tinkerai.sh <command>"
+    echo "Usage: korrinos-vokk.sh <command>"
     echo ""
     echo "Commands:"
     echo "  chat <query>              Chat with Tinkeria"

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Inference Engine — runs the trained model for real-time answers
+VOKK v4 Inference Engine — runs the trained model for real-time answers
 Falls back to Ollama when the local model isn't confident enough
 """
 
@@ -132,7 +132,7 @@ class TinkerInference:
         ]
         
         print(f"\n{'='*60}")
-        print(f"  TinkerAI Benchmark")
+        print(f"  VOKK v4 Benchmark")
         print(f"  Model: {self.model.count_parameters():,} parameters")
         print(f"  Device: {self.device}")
         print(f"{'='*60}\n")
@@ -158,13 +158,13 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == 'benchmark':
         engine.benchmark()
     elif len(sys.argv) > 1 and sys.argv[1] == 'chat':
-        print("TinkerAI Neural Chat (type 'quit' to exit)")
+        print("VOKK v4 Neural Chat (type 'quit' to exit)")
         while True:
             q = input("\nYou: ").strip()
             if q.lower() in ('quit', 'exit'):
                 break
             result = engine.answer(q)
-            print(f"TinkerAI: {result['answer']}")
+            print(f"VOKK v4: {result['answer']}")
     else:
         # Single question mode
         q = ' '.join(sys.argv[1:]) or "What is KorrinOS?"

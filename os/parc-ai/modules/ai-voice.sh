@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ai-voice.sh — Voice input/output for TinkerAI
+# ai-voice.sh — Voice input/output for VOKK v4
 # Uses system tools for speech recognition and text-to-speech
 
 # Text to speech (speaks response aloud)
@@ -32,7 +32,7 @@ ai_tts() {
   
   # Try piper (if installed)
   if command -v piper &>/dev/null; then
-    echo "$text" | piper --output_file /tmp/tinkerai_speech.wav && paplay /tmp/tinkerai_speech.wav &
+    echo "$text" | piper --output_file /tmp/vokk_speech.wav && paplay /tmp/vokk_speech.wav &
     return 0
   fi
   
@@ -43,7 +43,7 @@ ai_tts() {
 # Speech to text (listens for voice input)
 ai_stt() {
   local duration="${1:-5}"
-  local output="/tmp/tinkerai_voice_$(date +%s).wav"
+  local output="/tmp/vokk_voice_$(date +%s).wav"
   
   # Try arecord
   if command -v arecord &>/dev/null; then

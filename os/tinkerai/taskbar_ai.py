@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Taskbar AI Launcher for TinkerAI
+Taskbar AI Launcher for VOKK v4
 
 This script acts as the taskbar integration point. When clicked,
 it reads the current screen context, summarizes it, and then answers
@@ -12,11 +12,11 @@ Protocol: --serve flag for communicating queries
 import os, sys, json, subprocess, time
 from pathlib import Path
 
-# Add tinkerai to path
+# Add vokk to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from tinker_ai import TinkerHarness
+from vokk import TinkerHarness
 
-HARNESS_PATH = "/home/tinkerspace/linux-kernel/os/tinkerai/tinker_ai.py"
+HARNESS_PATH = "/home/tinkerspace/linux-kernel/os/vokk/vokk.py"
 
 
 def send_query_to_harness(query):
@@ -99,7 +99,7 @@ def _collect_context():
         pass
 
     if not lines:
-        lines.append("TinkerAI is running on KorrinOS with access to system tools.")
+        lines.append("VOKK v4 is running on KorrinOS with access to system tools.")
     return "\n".join(lines)
 
 

@@ -171,5 +171,5 @@ personas = {
 import random
 p = personas.get(persona.lower(), random.choice(list(personas.values())))
 print(p)
-" 2>/dev/null || echo "I am TinkerAI — ask me anything!"
+" 2>/dev/null || echo "I am VOKK v4 — ask me anything!"
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# nlp-670-patterns.sh — 670+ intent patterns for TinkerAI
+# nlp-670-patterns.sh — 670+ intent patterns for VOKK v4
 
 nlp_670_patterns() {
 cat << 'PATTERNS'
@@ -66,14 +66,14 @@ cat << 'PATTERNS'
         "what do you do", "what's your purpose", "why were you created",
         "who made you", "what are you called", "are you a bot", "are you AI",
         "are you human", "are you a robot", "what kind of AI are you",
-        "describe yourself", "introduce yourself", "what is tinkerai",
-        "what is tinker ai", "tell me about tinkerai", "how do you work",
+        "describe yourself", "introduce yourself", "what is vokk",
+        "what is tinker ai", "tell me about vokk", "how do you work",
         "what can you do for me", "how are you different from other AIs"
       ],
       "responses": [
-        "I'm TinkerAI, your personal AI assistant built into KorrinOS. I can help with search, music, code, math, translation, creative writing, and much more!",
-        "I'm TinkerAI! Think of me as your own Siri or Gemini, but built right into your operating system.",
-        "I'm TinkerAI, your built-in assistant. I'm here to help with anything you need — search, code, music, math, you name it!"
+        "I'm VOKK v4, your personal AI assistant built into KorrinOS. I can help with search, music, code, math, translation, creative writing, and much more!",
+        "I'm VOKK v4! Think of me as your own Siri or Gemini, but built right into your operating system.",
+        "I'm VOKK v4, your built-in assistant. I'm here to help with anything you need — search, code, music, math, you name it!"
       ]
     },
     "capabilities": {

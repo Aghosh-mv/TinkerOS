@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# ai-personality.sh — TinkerAI personality system
-# Makes TinkerAI sound like a real assistant, not a terminal
+# ai-personality.sh — VOKK v4 personality system
+# Makes VOKK v4 sound like a real assistant, not a terminal
 
 # Context memory (stores last few interactions)
-TINKERAI_CONTEXT_FILE="/tmp/tinkerai_context.json"
+TINKERAI_CONTEXT_FILE="/tmp/vokk_context.json"
 TINKERAI_CONTEXT_MAX=10
 
 # Save context

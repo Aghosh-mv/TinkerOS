@@ -183,7 +183,7 @@ fn main() {
 ```kor
 fn main() {
     # Load a model
-    let model = ai.load("tinkerai.3b")
+    let model = ai.load("vokk.3b")
     
     # Create tensors
     let t = tensor([2, 3], [1.0, 2.0, 3.0, 4.0, 5.0, 6.0])

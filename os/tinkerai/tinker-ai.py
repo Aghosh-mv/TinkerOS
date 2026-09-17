@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI - Local-First AI Assistant
+VOKK v4 - Local-First AI Assistant
 Runs entirely on-device, zero cloud dependency
 """
 
@@ -283,7 +283,7 @@ class IntentClassifier:
         confidence = min(scores[best_intent] / 3.0, 1.0)
         return best_intent, confidence
 
-class TinkerAI:
+class VOKK v4:
     def __init__(self, data_dir: str = None):
         self.data_dir = Path(data_dir or os.path.expanduser("~/.tinker/ai"))
         self.data_dir.mkdir(parents=True, exist_ok=True)
@@ -406,7 +406,7 @@ class TinkerAI:
     
     def generate_llm_response(self, prompt: str) -> str:
         # Build context
-        context = "You are TinkerAI, a helpful local AI assistant for KorrinOS Linux. "
+        context = "You are VOKK v4, a helpful local AI assistant for KorrinOS Linux. "
         context += "You can control the system, install apps, optimize performance, and answer questions. "
         context += "Be concise and helpful.\n\n"
         
@@ -429,7 +429,7 @@ class TinkerAI:
         prompt_lower = prompt.lower()
         
         if any(w in prompt_lower for w in ["hello", "hi", "hey"]):
-            return "Hello! I'm TinkerAI, your local assistant. How can I help you today?"
+            return "Hello! I'm VOKK v4, your local assistant. How can I help you today?"
         
         if any(w in prompt_lower for w in ["help", "what can you do"]):
             return """I can help you with:
@@ -447,9 +447,9 @@ Just ask naturally!"""
         
         return "I understand. Let me help you with that. Could you be more specific about what you'd like me to do?"
 
-class TinkerAIServer:
-    """HTTP API server for TinkerAI"""
-    def __init__(self, ai: TinkerAI, host: str = "127.0.0.1", port: int = 8765):
+class VOKK v4Server:
+    """HTTP API server for VOKK v4"""
+    def __init__(self, ai: VOKK v4, host: str = "127.0.0.1", port: int = 8765):
         self.ai = ai
         self.host = host
         self.port = port
@@ -482,13 +482,13 @@ class TinkerAIServer:
             server = HTTPServer((self.host, self.port), AIHandler)
             server.ai = self.ai
             
-            print(f"TinkerAI API server running on http://{self.host}:{self.port}")
+            print(f"VOKK v4 API server running on http://{self.host}:{self.port}")
             server.serve_forever()
         except Exception as e:
             print(f"Server error: {e}")
 
 def main():
-    ai = TinkerAI()
+    ai = VOKK v4()
     
     # Try to load a model
     if ai.model_manager.check_llama_cpp():
@@ -502,7 +502,7 @@ def main():
         print("llama.cpp not found. Install with: pip install llama-cpp-python")
         print("Running in rule-based mode")
     
-    print("\n🦝 TinkerAI Ready! Type 'help' for commands, 'quit' to exit.\n")
+    print("\n🦝 VOKK v4 Ready! Type 'help' for commands, 'quit' to exit.\n")
     
     while True:
         try:

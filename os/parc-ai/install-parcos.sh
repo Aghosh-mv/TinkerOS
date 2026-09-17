@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install-korrinos.sh — Installs TinkerAI as a permanent system service
+# install-korrinos.sh — Installs VOKK v4 as a permanent system service
 # Files go in /usr/local/korrinos/, protected from user removal
 
 set -euo pipefail
@@ -15,15 +15,15 @@ fail() { echo -e "${RED}[✗]${NC} $1"; exit 1; }
 
 [ "$EUID" -ne 0 ] && fail "Run with sudo: sudo bash install-korrinos.sh"
 
-log "Installing TinkerAI to $INSTALL_DIR..."
+log "Installing VOKK v4 to $INSTALL_DIR..."
 
 # 1. Create protected directory structure
 mkdir -p "$INSTALL_DIR"/{bin,modules,overlay,model,config,data}
 ok "Directory structure created"
 
 # 2. Copy CLI and all modules
-cp "$SCRIPT_DIR/tinker-ai.sh" "$INSTALL_DIR/bin/tinker-ai"
-chmod +x "$INSTALL_DIR/bin/tinker-ai"
+cp "$SCRIPT_DIR/vokk.sh" "$INSTALL_DIR/bin/vokk"
+chmod +x "$INSTALL_DIR/bin/vokk"
 cp "$SCRIPT_DIR"/modules/*.sh "$INSTALL_DIR/modules/" 2>/dev/null || true
 [ -d "$SCRIPT_DIR/overlay" ] && cp -r "$SCRIPT_DIR/overlay/"* "$INSTALL_DIR/overlay/" 2>/dev/null || true
 [ -d "$SCRIPT_DIR/model" ] && cp -r "$SCRIPT_DIR/model/"* "$INSTALL_DIR/model/" 2>/dev/null || true
@@ -32,7 +32,7 @@ ok "Files copied"
 # 3. Create system command
 cat > /usr/local/bin/korrinos-ai << 'EOF'
 #!/usr/bin/env bash
-exec /usr/local/korrinos/bin/tinker-ai "$@"
+exec /usr/local/korrinos/bin/vokk "$@"
 EOF
 chmod +x /usr/local/bin/korrinos-ai
 ok "Command: korrinos-ai"
@@ -46,7 +46,7 @@ Wants=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/korrinos/bin/tinker-ai --daemon
+ExecStart=/usr/local/korrinos/bin/vokk --daemon
 Restart=always
 RestartSec=5
 Environment=DISPLAY=:1
@@ -66,21 +66,21 @@ ok "Service enabled and started"
 chown -R root:root "$INSTALL_DIR"
 chmod -R 755 "$INSTALL_DIR"
 # Make key files immutable (user cannot delete/modify)
-chattr +i "$INSTALL_DIR/bin/tinker-ai" 2>/dev/null || true
+chattr +i "$INSTALL_DIR/bin/vokk" 2>/dev/null || true
 chattr +i "$INSTALL_DIR" 2>/dev/null || true
 ok "Directory protected (immutable)"
 
 # 7. Create cron watchdog — restores service if user kills it
 cat > /usr/local/bin/korrinos-watchdog << 'WDEOF'
 #!/usr/bin/env bash
-# Restores TinkerAI if stopped
+# Restores VOKK v4 if stopped
 if ! systemctl is-active korrinos-ai &>/dev/null; then
     systemctl start korrinos-ai 2>/dev/null
 fi
 if [ ! -x /usr/local/bin/korrinos-ai ]; then
     cat > /usr/local/bin/korrinos-ai << 'EOF2'
 #!/usr/bin/env bash
-exec /usr/local/korrinos/bin/tinker-ai "$@"
+exec /usr/local/korrinos/bin/vokk "$@"
 EOF2
     chmod +x /usr/local/bin/korrinos-ai
 fi
@@ -93,7 +93,7 @@ ok "Watchdog cron installed (restores service every minute)"
 
 echo ""
 echo "============================================="
-echo -e "${GREEN}  TinkerAI installed successfully!${NC}"
+echo -e "${GREEN}  VOKK v4 installed successfully!${NC}"
 echo "============================================="
 echo ""
 echo "  Location:   $INSTALL_DIR"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# agent-narrator.sh — narration functions for TinkerAI agents
+# agent-narrator.sh — narration functions for VOKK v4 agents
 
 NARRATOR_SCRIPT="$(dirname "$0")/narrator.py"
 

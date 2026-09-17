@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Small RNN - Lightweight LSTM for KorrinOS
+VOKK v4 Small RNN - Lightweight LSTM for KorrinOS
 Runs locally with numpy only (no PyTorch/TensorFlow)
 """
 
@@ -241,7 +241,7 @@ class TinkerRNN:
 
 
 class TinkerTokenizer:
-    """Simple character-level tokenizer for TinkerAI"""
+    """Simple character-level tokenizer for VOKK v4"""
 
     def __init__(self):
         self.stoi = {}
@@ -523,7 +523,7 @@ def merge_models(model, prev_path, alpha=0.5):
 
 def main():
     import argparse
-    ap = argparse.ArgumentParser(description='Train / fine-tune the TinkerAI RNN')
+    ap = argparse.ArgumentParser(description='Train / fine-tune the VOKK v4 RNN')
     ap.add_argument('--epochs', type=int, default=100, help='base Adam epochs')
     ap.add_argument('--finetune-epochs', type=int, default=0, help='GaLore fine-tune epochs')
     ap.add_argument('--lr', type=float, default=0.003)
@@ -554,7 +554,7 @@ def main():
             print(f"Previous backup already exists: {prev_path}")
 
     print("=" * 56)
-    print("TinkerAI RNN Trainer (Adam base + GaLore fine-tune)")
+    print("VOKK v4 RNN Trainer (Adam base + GaLore fine-tune)")
     print("=" * 56)
 
     if not TINKER_TRAINING_DATA:
@@ -619,7 +619,7 @@ def main():
         print(f"  A(gen):   {tokenizer.decode(gen)}")
 
     print("\n" + "=" * 56)
-    print("Done. TinkerAI model ready.")
+    print("Done. VOKK v4 model ready.")
     print("=" * 56)
 
 

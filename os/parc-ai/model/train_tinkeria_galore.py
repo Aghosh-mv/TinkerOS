@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI 3B Full Fine-Tuning — GaLore (CPU)
+VOKK v4 3B Full Fine-Tuning — GaLore (CPU)
 Uses gradient low-rank projection for memory-efficient full parameter training.
 No LoRA. Full model updates with ~32GB RAM on CPU.
 """
@@ -12,7 +12,7 @@ from torch.utils.data import Dataset, DataLoader
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s',
-    handlers=[logging.FileHandler('/tmp/tinkerai_train.log'), logging.StreamHandler()])
+    handlers=[logging.FileHandler('/tmp/vokk_train.log'), logging.StreamHandler()])
 log = logging.getLogger(__name__)
 
 MODEL_DIR  = os.path.expanduser('~/models/phi-3.5-mini')
@@ -20,7 +20,7 @@ DATA_FILES = [
     '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/wiki_training.jsonl',
     '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/merged_all.jsonl',
 ]
-OUT_DIR    = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/tinkerai_full'
+OUT_DIR    = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/vokk_full'
 MAX_LEN    = 256
 BATCH      = 1
 GRAD_ACCUM = 4
@@ -63,7 +63,7 @@ def main():
     from galore_adamw import GaLoreAdamW, GaLoreConfig
 
     log.info("=" * 60)
-    log.info("TinkerAI 3B — Full Fine-Tuning with GaLore (CPU)")
+    log.info("VOKK v4 3B — Full Fine-Tuning with GaLore (CPU)")
     log.info("=" * 60)
 
     import psutil

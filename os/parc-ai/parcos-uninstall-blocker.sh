@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# korrinos-uninstall-blocker.sh — Prevents TinkerAI from being removed
+# korrinos-uninstall-blocker.sh — Prevents VOKK v4 from being removed
 # Runs as a cron job that checks and restores files
 
 PROTECTED_DIR="/usr/local/korrinos"
@@ -42,7 +42,7 @@ check_binary() {
   if [ ! -x /usr/local/bin/korrinos-ai ]; then
     cat > /usr/local/bin/korrinos-ai << 'WRAPPER'
 #!/usr/bin/env bash
-exec /usr/local/korrinos/bin/tinker-ai "$@"
+exec /usr/local/korrinos/bin/vokk "$@"
 WRAPPER
     chmod +x /usr/local/bin/korrinos-ai
   fi

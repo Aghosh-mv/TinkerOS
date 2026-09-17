@@ -85,7 +85,7 @@ Key commitment the user insists on (this keeps being forgotten):
   a user-space "Control Center" with 224+ tool scripts (System, Gaming,
   Hardware, Network, Customization, Security, Apps, Advanced), plus
   installer-level modules (hardware-detect, gaming-meta, gamemode-setup,
-  flatpak-support, NVIDIA/Proton), an AI subsystem (tinkerai/), and a
+  flatpak-support, NVIDIA/Proton), an AI subsystem (vokk/), and a
   hardware-tech layer (29 feature dirs + C backends).
 - Real kernel work is now well underway: `kernel/tinker/` contains 27 real
   kernel C modules (thermal_sched, gamemode, energy_sched, battery_life,

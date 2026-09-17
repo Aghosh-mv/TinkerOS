@@ -196,7 +196,7 @@ Status legend:
 - [D] software-center.sh
 - [D] system-cleaner.sh
 - [D] voice-commands.sh
-- [D] tinker-ai.sh (AI assistant)
+- [D] vokk.sh (AI assistant)
 
 ## I. Desktop category (24)
 - [D] activity-monitor.sh
@@ -257,12 +257,12 @@ P = pending kernel C implementation.
 - [K] cross-app-automation -> user-space (OS abstraction layer; kernel proc interface available)
 - [P] AI workload scheduling -- predictive AI-native scheduler (deep core-scheduler rewrite)
 
-## K. AI & Intelligence (5 + tinkerai subsystem)
+## K. AI & Intelligence (5 + vokk subsystem)
 - [D] voice-assistant.sh (os/ai)
 - [D] voice-engine.sh (os/ai)
 - [D] train.py / inference.py / generate-dataset.py (os/ai) + trained model
 - [D] predictive-intelligence.sh
-- [D] tinkerai/ subsystem: tinker_ai, tinker_search_ai, small_rnn_model,
+- [D] vokk/ subsystem: vokk, tinker_search_ai, small_rnn_model,
       computer_use, taskbar_ai, tinker_ui, data_generator, system-agent.sh
 - [P] AI-native kernel scheduler (predictive)
 

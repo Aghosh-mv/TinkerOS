@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# korrinos-ascii.sh — ASCII Art Generator (part of TinkerAI)
+# korrinos-ascii.sh — ASCII Art Generator (part of VOKK v4)
 # Text → ASCII art banners
 
 set -euo pipefail
@@ -17,7 +17,7 @@ ascii_figlet() {
   fi
 }
 
-# Generate ASCII art using TinkerAI
+# Generate ASCII art using VOKK v4
 ascii_ai() {
   local text="$1"
   local style="${2:-block}"
@@ -64,7 +64,7 @@ case "${1:-help}" in
     echo ""
     echo "Commands:"
     echo "  figlet <text> [font]   Generate with figlet"
-    echo "  ai <text> [style]      Generate with TinkerAI"
+    echo "  ai <text> [style]      Generate with VOKK v4"
     echo "  fonts                  List available fonts"
     echo "  banner <text> [width]  Generate bordered banner"
     ;;

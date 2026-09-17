@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # conversation.sh — manages conversation history, context, multi-turn
-# Stores last N turns in ~/.config/tinker-ai/conversations/
+# Stores last N turns in ~/.config/vokk/conversations/
 
-TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/tinker-ai}"
+TINKER_AI_HOME="${TINKER_AI_HOME:-$HOME/.config/vokk}"
 CONV_DIR="$TINKER_AI_HOME/conversations"
 MAX_HISTORY=50
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI 3B Training — LoRA Mode (CPU-safe)
+VOKK v4 3B Training — LoRA Mode (CPU-safe)
 Uses LoRA adapters to fine-tune Phi-3.5-mini within 16GB RAM.
 The full base model stays frozen; only adapter layers train.
 This is NOT LoRA-as-lazy — it's the practical approach for a 3B model on shared RAM.
@@ -14,7 +14,7 @@ from pathlib import Path
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s',
-    handlers=[logging.FileHandler('/tmp/tinkerai_train.log'), logging.StreamHandler()])
+    handlers=[logging.FileHandler('/tmp/vokk_train.log'), logging.StreamHandler()])
 log = logging.getLogger(__name__)
 
 MODEL_DIR  = os.path.expanduser('~/models/phi-3.5-mini')
@@ -22,7 +22,7 @@ DATA_FILES = [
     '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/wiki_training.jsonl',
     '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/merged_all.jsonl',
 ]
-OUT_DIR    = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/tinkerai_lora'
+OUT_DIR    = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/vokk_lora'
 MAX_LEN    = 256
 BATCH      = 1
 GRAD_ACCUM = 4
@@ -96,7 +96,7 @@ def main():
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     log.info("=" * 60)
-    log.info("TinkerAI 3B — LoRA Fine-Tuning (CPU)")
+    log.info("VOKK v4 3B — LoRA Fine-Tuning (CPU)")
     log.info("=" * 60)
 
     import psutil

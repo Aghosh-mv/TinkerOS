@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # korrinos-voice.sh — System Voice Notifications + Voice Commands
-# TTS for alerts, voice control via TinkerAI
+# TTS for alerts, voice control via VOKK v4
 
 set -euo pipefail
 
@@ -156,7 +156,7 @@ execute_voice_cmd() {
       speak "Screen locked"
       ;;
     *)
-      # Send to TinkerAI
+      # Send to VOKK v4
       if command -v parc-ai &>/dev/null; then
         local answer=$(parc-ai ask "$cmd" 2>/dev/null | head -1)
         speak "$answer"

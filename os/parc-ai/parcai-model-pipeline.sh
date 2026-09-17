@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# tinkerai-model-pipeline.sh — Full model pipeline
+# vokk-model-pipeline.sh — Full model pipeline
 # Step 1: Build training data from all AI modules
 # Step 2: Train base transformer model
 # Step 3: Convert to portable format
@@ -44,7 +44,7 @@ import re
 training_pairs = []
 
 # 1. Extract from NLP patterns (670+ patterns)
-nlp_file = os.environ.get('NLP_PATTERNS', 'os/tinker-ai/modules/nlp-670-patterns.sh')
+nlp_file = os.environ.get('NLP_PATTERNS', 'os/vokk/modules/nlp-670-patterns.sh')
 if os.path.exists(nlp_file):
     with open(nlp_file) as f:
         content = f.read()
@@ -66,7 +66,7 @@ if os.path.exists(nlp_file):
             pass
 
 # 2. Extract from KorrinOS Q&A
-qa_file = os.environ.get('QA_FILE', 'os/tinker-ai/model/training_data/korrinos_qa.json')
+qa_file = os.environ.get('QA_FILE', 'os/vokk/model/training_data/korrinos_qa.json')
 if os.path.exists(qa_file):
     with open(qa_file) as f:
         qa_data = json.load(f)
@@ -79,7 +79,7 @@ if os.path.exists(qa_file):
         })
 
 # 3. Extract from general Q&A
-general_file = os.environ.get('GENERAL_QA', 'os/tinker-ai/model/training_data/general_qa.json')
+general_file = os.environ.get('GENERAL_QA', 'os/vokk/model/training_data/general_qa.json')
 if os.path.exists(general_file):
     with open(general_file) as f:
         general_data = json.load(f)
@@ -92,7 +92,7 @@ if os.path.exists(general_file):
         })
 
 # 4. Extract from conversation patterns
-conv_file = os.environ.get('CONV_FILE', 'os/tinker-ai/model/training_data/conversation_patterns.json')
+conv_file = os.environ.get('CONV_FILE', 'os/vokk/model/training_data/conversation_patterns.json')
 if os.path.exists(conv_file):
     with open(conv_file) as f:
         conv_data = json.load(f)
@@ -105,7 +105,7 @@ if os.path.exists(conv_file):
         })
 
 # 5. Extract from knowledge base
-knowledge_file = os.environ.get('KNOWLEDGE_FILE', 'os/tinker-ai/modules/knowledge-korrinos.sh')
+knowledge_file = os.environ.get('KNOWLEDGE_FILE', 'os/vokk/modules/knowledge-korrinos.sh')
 if os.path.exists(knowledge_file):
     with open(knowledge_file) as f:
         content = f.read()
@@ -120,7 +120,7 @@ if os.path.exists(knowledge_file):
         })
 
 # Save training data
-output_file = os.environ.get('OUTPUT_FILE', 'os/tinker-ai/model/training_data/all_training_data.json')
+output_file = os.environ.get('OUTPUT_FILE', 'os/vokk/model/training_data/all_training_data.json')
 with open(output_file, 'w') as f:
     json.dump(training_pairs, f, indent=2)
 
@@ -165,8 +165,8 @@ import json
 import os
 import time
 
-# TinkerAI Transformer Model
-class TinkerAIModel(nn.Module):
+# VOKK v4 Transformer Model
+class VOKK v4Model(nn.Module):
     def __init__(self, vocab_size=5000, d_model=256, nhead=8, num_layers=6, dim_feedforward=1024, dropout=0.1):
         super().__init__()
         self.d_model = d_model
@@ -245,9 +245,9 @@ class QADataset(Dataset):
         }
 
 # Load training data
-training_file = os.environ.get('TRAINING_DATA', 'os/tinker-ai/model/training_data/all_training_data.json')
+training_file = os.environ.get('TRAINING_DATA', 'os/vokk/model/training_data/all_training_data.json')
 if not os.path.exists(training_file):
-    training_file = 'os/tinker-ai/model/training_data/korrinos_qa.json'
+    training_file = 'os/vokk/model/training_data/korrinos_qa.json'
 
 with open(training_file) as f:
     training_data = json.load(f)
@@ -283,7 +283,7 @@ dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"Device: {device}")
 
-model = TinkerAIModel(vocab_size=tokenizer.vocab_size).to(device)
+model = VOKK v4Model(vocab_size=tokenizer.vocab_size).to(device)
 criterion = nn.CrossEntropyLoss(ignore_index=0)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -328,12 +328,12 @@ for epoch in range(50):
             'optimizer_state_dict': optimizer.state_dict(),
             'loss': avg_loss,
             'vocab_size': tokenizer.vocab_size,
-        }, 'os/tinker-ai/model/checkpoints/base_model.pt')
-        tokenizer.save('os/tinker-ai/model/checkpoints/tokenizer.json')
+        }, 'os/vokk/model/checkpoints/base_model.pt')
+        tokenizer.save('os/vokk/model/checkpoints/tokenizer.json')
 
 print(f"\nTraining complete! Best loss: {best_loss:.4f}")
 print(f"Total time: {time.time() - start_time:.1f}s")
-print(f"Model saved to: os/tinker-ai/model/checkpoints/base_model.pt")
+print(f"Model saved to: os/vokk/model/checkpoints/base_model.pt")
 PYEOF
 
   success "Base model trained"
@@ -351,12 +351,12 @@ import os
 import json
 
 # Load model
-checkpoint = torch.load('os/tinker-ai/model/checkpoints/base_model.pt', map_location='cpu')
+checkpoint = torch.load('os/vokk/model/checkpoints/base_model.pt', map_location='cpu')
 
 # Recreate model
 import torch.nn as nn
 
-class TinkerAIModel(nn.Module):
+class VOKK v4Model(nn.Module):
     def __init__(self, vocab_size=5000, d_model=256, nhead=8, num_layers=6, dim_feedforward=1024, dropout=0.1):
         super().__init__()
         self.d_model = d_model
@@ -376,15 +376,15 @@ class TinkerAIModel(nn.Module):
         x = self.fc_out(x)
         return x
 
-model = TinkerAIModel(vocab_size=checkpoint['vocab_size'])
+model = VOKK v4Model(vocab_size=checkpoint['vocab_size'])
 model.load_state_dict(checkpoint['model_state_dict'])
 model.eval()
 
 # Export to ONNX
 dummy_input = torch.randint(0, checkpoint['vocab_size'], (1, 128))
-onnx_path = 'os/tinker-ai/model/release/korrinos_ai.onnx'
+onnx_path = 'os/vokk/model/release/korrinos_ai.onnx'
 
-os.makedirs('os/tinker-ai/model/release', exist_ok=True)
+os.makedirs('os/vokk/model/release', exist_ok=True)
 
 torch.onnx.export(
     model,
@@ -440,7 +440,7 @@ class LoRALayer(nn.Module):
         return original_out + lora_out
 
 # Model with LoRA
-class TinkerAIWithLoRA(nn.Module):
+class VOKK v4WithLoRA(nn.Module):
     def __init__(self, base_model, rank=8, alpha=16):
         super().__init__()
         self.model = base_model
@@ -500,9 +500,9 @@ class QADataset(Dataset):
         }
 
 # Load base model
-checkpoint = torch.load('os/tinker-ai/model/checkpoints/base_model.pt', map_location='cpu')
+checkpoint = torch.load('os/vokk/model/checkpoints/base_model.pt', map_location='cpu')
 
-class TinkerAIModel(nn.Module):
+class VOKK v4Model(nn.Module):
     def __init__(self, vocab_size=5000, d_model=256, nhead=8, num_layers=6, dim_feedforward=1024, dropout=0.1):
         super().__init__()
         self.d_model = d_model
@@ -522,18 +522,18 @@ class TinkerAIModel(nn.Module):
         x = self.fc_out(x)
         return x
 
-base_model = TinkerAIModel(vocab_size=checkpoint['vocab_size'])
+base_model = VOKK v4Model(vocab_size=checkpoint['vocab_size'])
 base_model.load_state_dict(checkpoint['model_state_dict'])
 
 # Add LoRA
-model = TinkerAIWithLoRA(base_model, rank=8, alpha=16)
+model = VOKK v4WithLoRA(base_model, rank=8, alpha=16)
 
 # Load tokenizer
 tokenizer = SimpleTokenizer()
-tokenizer.load('os/tinker-ai/model/checkpoints/tokenizer.json')
+tokenizer.load('os/vokk/model/checkpoints/tokenizer.json')
 
 # Load training data
-with open('os/tinker-ai/model/training_data/all_training_data.json') as f:
+with open('os/vokk/model/training_data/all_training_data.json') as f:
     training_data = json.load(f)
 
 dataset = QADataset(training_data, tokenizer)
@@ -583,8 +583,8 @@ for name, param in model.named_parameters():
     if param.requires_grad:
         lora_weights[name] = param.data
 
-torch.save(lora_weights, 'os/tinker-ai/model/lora/lora_weights.pt')
-print(f"\nLoRA weights saved to: os/tinker-ai/model/lora/lora_weights.pt")
+torch.save(lora_weights, 'os/vokk/model/lora/lora_weights.pt')
+print(f"\nLoRA weights saved to: os/vokk/model/lora/lora_weights.pt")
 print(f"Total time: {time.time() - start_time:.1f}s")
 PYEOF
 
@@ -607,10 +607,10 @@ step5_package_release() {
 
   # Create model card
   cat > "$RELEASE_DIR/MODEL_CARD.md" << 'EOF'
-# TinkerAI Model
+# VOKK v4 Model
 
 ## Overview
-- **Model Name:** TinkerAI
+- **Model Name:** VOKK v4
 - **Version:** 1.0
 - **Architecture:** Transformer (6 layers, 8 heads, 256 dim)
 - **Parameters:** ~5.9M
@@ -657,7 +657,7 @@ EOF
 # Main Pipeline
 # ===========================================================================
 main() {
-  log "TinkerAI Model Pipeline"
+  log "VOKK v4 Model Pipeline"
   log "========================"
   log ""
 

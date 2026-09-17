@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI 5B Training — LoRA Mode (CPU-safe)
+VOKK v4 5B Training — LoRA Mode (CPU-safe)
 Uses LoRA adapters to fine-tune Phi-4-mini (4.6B) within 32GB RAM.
 The full base model stays frozen; only adapter layers train.
 Keeps the same proven architecture from the 3B training — upgraded to 5B.
@@ -14,7 +14,7 @@ from pathlib import Path
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s',
-    handlers=[logging.FileHandler('/tmp/tinkerai_5b_train.log'), logging.StreamHandler()])
+    handlers=[logging.FileHandler('/tmp/vokk_5b_train.log'), logging.StreamHandler()])
 log = logging.getLogger(__name__)
 
 # Phi-4-mini = 4.6B params, closest to "5B"
@@ -22,9 +22,9 @@ MODEL_DIR  = os.path.expanduser('~/models/phi-4-mini')
 DATA_FILES = [
     '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/wiki_training.jsonl',
     '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/merged_all.jsonl',
-    '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/tinkerai_system.jsonl',
+    '/home/tinkerspace/linux-kernel/os/parc-ai/model/training_data/vokk_system.jsonl',
 ]
-OUT_DIR    = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/tinkerai_5b_lora'
+OUT_DIR    = '/home/tinkerspace/linux-kernel/os/parc-ai/model/checkpoints/vokk_5b_lora'
 MAX_LEN    = 512
 BATCH      = 1
 GRAD_ACCUM = 4
@@ -98,7 +98,7 @@ def main():
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     log.info("=" * 60)
-    log.info("TinkerAI 5B — LoRA Fine-Tuning (CPU)")
+    log.info("VOKK v4 5B — LoRA Fine-Tuning (CPU)")
     log.info("=" * 60)
 
     import psutil

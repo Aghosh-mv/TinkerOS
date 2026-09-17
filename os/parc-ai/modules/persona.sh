@@ -27,7 +27,7 @@ ai_persona_get() {
     creative|artist)
       echo "You are a creative partner. Help with brainstorming, creative writing, art ideas, and innovative thinking. Think outside the box." ;;
     *)
-      echo "You are TinkerAI, a helpful, knowledgeable assistant built into KorrinOS. Be helpful, accurate, and friendly." ;;
+      echo "You are VOKK v4, a helpful, knowledgeable assistant built into KorrinOS. Be helpful, accurate, and friendly." ;;
   esac
 }
 

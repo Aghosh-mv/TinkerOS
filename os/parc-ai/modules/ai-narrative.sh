@@ -368,7 +368,7 @@ PYEOF
 
 # Conversation memory — remembers context
 AI_CONVERSATION_MEMORY=()
-AI_CONVERSATION_MEMORY_FILE="/tmp/tinkerai_memory.json"
+AI_CONVERSATION_MEMORY_FILE="/tmp/vokk_memory.json"
 
 ai_memory_init() {
   [ ! -f "$AI_CONVERSATION_MEMORY_FILE" ] && echo '{"facts":[],"topics":[],"corrections":[]}' > "$AI_CONVERSATION_MEMORY_FILE"

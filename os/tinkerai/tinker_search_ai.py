@@ -26,13 +26,13 @@ INDEX_PATH = MODEL_DIR / "search-index.json"
 FACTS = [
     ("korrinos", "KorrinOS is a lightweight Linux distribution built for x86 tablets and convertibles. It ships a local AI assistant and on-device tools."),
     ("tinkerspace", "TinkerSpace is the project root and user workspace for the KorrinOS build."),
-    ("local ai", "TinkerAI runs entirely on-device using a small numpy LSTM (char-level). No cloud calls are made for assistant answers."),
-    ("computer use", "TinkerAI can use the computer: capture the screen, read it with OCR, and drive mouse and keyboard."),
+    ("local ai", "VOKK v4 runs entirely on-device using a small numpy LSTM (char-level). No cloud calls are made for assistant answers."),
+    ("computer use", "VOKK v4 can use the computer: capture the screen, read it with OCR, and drive mouse and keyboard."),
     ("power", "Power tools: gaming for max performance and fps, balanced for normal use, battery saver to save power."),
     ("themes", "KorrinOS supports dark and light themes - dark mode and light mode."),
     ("apps", "Install, remove and launch applications like firefox, steam, terminal and file manager."),
     ("training", "The model trains in two stages: base Adam, then GaLore low-rank fine-tune, then a merge."),
-    ("ai training", "Both TinkerAI (LSTM) and TinkerSearchAI (retrieval index) can be trained separately."),
+    ("ai training", "Both VOKK v4 (LSTM) and TinkerSearchAI (retrieval index) can be trained separately."),
     ("tinker search ai", "TinkerSearchAI is a local search assistant that retrieves and summarises knowledge to answer questions. Follow-ups re-search silently."),
 ]
 

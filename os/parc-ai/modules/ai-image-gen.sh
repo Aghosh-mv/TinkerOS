@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# ai-image-gen.sh — Image generation for TinkerAI cards and visual content
+# ai-image-gen.sh — Image generation for VOKK v4 cards and visual content
 # Uses Pillow/ImageMagick for dynamic UI cards
 
 # Generate a gradient background card
 ai_gen_gradient_card() {
   local title="$1" subtitle="$2" color1="${3:-#1a1e2e}" color2="${4:-#2d1b69}"
-  local output="${5:-/tmp/tinkerai_card_$(date +%s).png}"
+  local output="${5:-/tmp/vokk_card_$(date +%s).png}"
 
   # Strip # from colors for Python
   local c1="${color1//#/}"
@@ -48,7 +48,7 @@ PYEOF
 # Generate a code card with syntax highlighting
 ai_gen_code_card() {
   local code="$1" lang="${2:-python}"
-  local output="${3:-/tmp/tinkerai_code_$(date +%s).png}"
+  local output="${3:-/tmp/vokk_code_$(date +%s).png}"
 
   python3 << PYEOF
 from PIL import Image, ImageDraw, ImageFont
@@ -114,7 +114,7 @@ PYEOF
 # Generate a flowchart card
 ai_gen_flowchart() {
   local steps="$1" title="$2"
-  local output="${3:-/tmp/tinkerai_flow_$(date +%s).png}"
+  local output="${3:-/tmp/vokk_flow_$(date +%s).png}"
 
   python3 << PYEOF
 from PIL import Image, ImageDraw, ImageFont
@@ -159,7 +159,7 @@ PYEOF
 # Generate a data visualization card
 ai_gen_chart() {
   local data="$1" title="$2" chart_type="${3:-bar}"
-  local output="${4:-/tmp/tinkerai_chart_$(date +%s).png}"
+  local output="${4:-/tmp/vokk_chart_$(date +%s).png}"
 
   python3 << PYEOF
 from PIL import Image, ImageDraw, ImageFont
@@ -205,7 +205,7 @@ PYEOF
 # Generate a notification/alert card
 ai_gen_alert() {
   local message="$1" alert_type="${2:-info}"
-  local output="${3:-/tmp/tinkerai_alert_$(date +%s).png}"
+  local output="${3:-/tmp/vokk_alert_$(date +%s).png}"
 
   python3 << PYEOF
 from PIL import Image, ImageDraw, ImageFont
@@ -246,7 +246,7 @@ PYEOF
 # Generate a progress card
 ai_gen_progress() {
   local percent="$1" label="$2"
-  local output="${3:-/tmp/tinkerai_progress_$(date +%s).png}"
+  local output="${3:-/tmp/vokk_progress_$(date +%s).png}"
 
   python3 << PYEOF
 from PIL import Image, ImageDraw, ImageFont

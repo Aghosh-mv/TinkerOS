@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI System Controller v1.0
+VOKK v4 System Controller v1.0
 The brain of KorrinOS — UI buttons trigger REAL kernel operations.
 Every button = real system call, not a simulation.
 """
@@ -249,7 +249,7 @@ CONTROLLER_HTML = '''<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>TinkerAI System Controller</title>
+<title>VOKK v4 System Controller</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#e0e6f0;min-height:100vh;padding:20px}
@@ -276,7 +276,7 @@ h1{font-size:24px;font-weight:300;margin-bottom:8px;color:#8cb4ff}
 </style>
 </head>
 <body>
-<h1>TinkerAI System Controller</h1>
+<h1>VOKK v4 System Controller</h1>
 <div class="sub">Every button does something real. Kernel-level operations.</div>
 
 <!-- System Info -->
@@ -433,7 +433,7 @@ setInterval(refresh, 5000);
 # ============================================================
 
 if __name__ == '__main__':
-    print(f"TinkerAI System Controller v1.0")
+    print(f"VOKK v4 System Controller v1.0")
     print(f"http://localhost:{PORT}")
     server = HTTPServer(('0.0.0.0', PORT), ControllerHandler)
     try:

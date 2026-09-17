@@ -247,8 +247,8 @@ body{background:transparent;font-family:'Segoe UI',system-ui,sans-serif;color:wh
 <div class="w">
   <div class="label">Explore</div>
   <div class="heading">Build. Create. Imagine.</div>
-  <div class="sub">TinkerAI is ready when you are.</div>
-  <div class="btn">Open TinkerAI →</div>
+  <div class="sub">VOKK v4 is ready when you are.</div>
+  <div class="btn">Open VOKK v4 →</div>
 </div></body></html>
 HTMLEOF
 }
@@ -350,7 +350,8 @@ body{background:transparent;font-family:'Segoe UI',system-ui,sans-serif;color:wh
   <div class="apps">
     <div class="label"><span>Your Apps</span><span class="all">All apps →</span></div>
     <div class="grid">
-      <div class="app"><div class="ic">🔍</div><div class="nm">TinkerAI</div></div>
+      <div class="app"><div class="ic">🔍</div><div class="nm">VOKK v4</div></div>
+      <div class="app"><div class="ic">🌐</div><div class="nm">VOKK Web</div></div>
       <div class="app"><div class="ic">🌐</div><div class="nm">Browser</div></div>
       <div class="app"><div class="ic">💬</div><div class="nm">Chat</div></div>
       <div class="app"><div class="ic">⟨/⟩</div><div class="nm">Code</div></div>

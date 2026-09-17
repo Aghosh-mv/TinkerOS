@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TinkerAI Training Data Generator
+VOKK v4 Training Data Generator
 ================================
 Programmatically builds a large, varied QA corpus so the RNN learns both
 exact intent->answer mappings AND reusable language patterns (so it can
@@ -231,7 +231,7 @@ GREETINGS = [
 
 # ============ IDENTITY ============
 IDENTITY = [
-    ("I am TinkerAI, your personal assistant that runs entirely on your device.",
+    ("I am VOKK v4, your personal assistant that runs entirely on your device.",
      ["who are you", "what is your name", "introduce yourself",
       "what are you", "tell me about yourself"]),
     ("I was built by the KorrinOS team for the KorrinOS community.",
